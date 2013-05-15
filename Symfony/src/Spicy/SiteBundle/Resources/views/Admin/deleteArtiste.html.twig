@@ -1,0 +1,15 @@
+{% extends "SpicySiteBundle::layout.html.twig" %}
+
+{% block body %}
+{{ parent() }}
+    <h3>Supprimer un Artiste</h3>
+    <p>Etes vous sur de vouloir supprimer?</p>
+    <form method="post" {{ form_enctype(form) }}>
+        <a href="{{ path('spicy_admin_home_artiste') }}" class="btn">
+            <i class="icon-chevron-left"></i>
+            Retour à l'artiste
+        </a>
+        <input type="submit" value="Supprimer" class="btn btn-danger" />
+        {{ form_rest(form) }}
+    </form>
+{% endblock%}

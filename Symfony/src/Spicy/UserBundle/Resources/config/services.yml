@@ -1,0 +1,7 @@
+parameters:
+#    spicy_user.example.class: Spicy\UserBundle\Example
+
+services:
+#    spicy_user.example:
+#        class: %spicy_user.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

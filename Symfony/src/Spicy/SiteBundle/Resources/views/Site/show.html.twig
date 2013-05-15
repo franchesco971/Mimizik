@@ -1,0 +1,65 @@
+{% extends "SpicySiteBundle::layout.html.twig" %}
+{% block title %}
+{{ parent() }} : {{video.getNomArtistes}} - {{video.titre}}
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+
+    <div id="video">
+        <div>
+            
+            <h2 >
+                <span class="artisteVideo">
+                {% for artiste in video.artistes %}
+                    <a href="{{path('spicy_site_artiste',{'id':artiste.id})}}">{{artiste.libelle}}</a>    
+                    {% if loop.last %}
+
+                    {% elseif loop.first %} & {% else %} , {%endif%}
+                {% endfor %}
+                </span>
+                  - 
+                <a href="{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}">
+                    {{video.titre}}
+                </a>
+            </h2>
+            
+        </div>
+	<!--<iframe width="560" height="315" src="http://www.youtube.com/embed/<?php echo $video->url() ?>?autoplay=1" frameborder="0" allowfullscreen></iframe>-->
+	<iframe width="900" height="506" src="http://www.youtube.com/embed/{{video.url}}?autoplay=1" frameborder="0" allowfullscreen></iframe>
+	<!--<form name="n" action="post">
+		<p>
+			<label for="textfield2">Commentaire</label><br>
+			<input type="text" name="contenu" id="contenu">
+		</p>
+		<p> 
+			<input type="submit" name="Submit" value="Commenter">
+		</p>
+	</form>-->
+        <div id="fb_infos" class="fond_transparent_blanc">
+            <div class="fb-like" data-href="http://{{domaine_name}}/{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}" data-send="true" data-width="450" data-show-faces="true"></div>
+            <div class="infos">
+                <p >Artistes: 
+                    {% for artiste in video.artistes %}
+                    <a href="{{path('spicy_site_artiste',{'id':artiste.id})}}">{{artiste.libelle}}</a>    
+                    {% if loop.last %}
+
+                    {% elseif loop.first %} & {% else %} , {%endif%}
+                {% endfor %}
+                </p>
+                <p>Genres: 
+                    {#{video.getNomGenres}#}
+                    {% for genre in video.genreMusicaux %}
+                    <a href="{{ path('spicy_site_genre',{'id':genre.id,'slug':genre.slug})}}">{{genre.libelle}}</a>    
+                    {% if loop.last %}
+
+                    {% elseif loop.first %} & {% else %} , {%endif%}
+                {% endfor %}
+                </p>
+                <p>Types de video: {{video.getNomTypes}}</p>
+            </div>
+        </div>
+        
+	<div class="fb-comments fond_transparent_blanc" data-href="http://{{domaine_name}}" data-width="470" data-num-posts="2"></div>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "SpicySiteBundle::layout.html.twig" %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{asset('css/pagination.css')}}" type="text/css" />
+    {{ parent() }}
+{% endblock %}
+{% block body %}
+    {{ parent() }}
+    <div id="lastVideos" class="fond_transparent">
+        <div id="lastVideos_header">
+            <div class="floatleft">Les dernieres vidéos</div>
+            <div class="floatright">Recherche...</div>
+        </div>
+        <div class="videos">
+            {% for video in videos %}         
+                {% include "SpicySiteBundle:Site:video_mini.html.twig" %}          
+            {% endfor %}
+        </div>
+    </div>
+    <div id="videos_topVideos_news_sorties">
+        <div id="videos_news" class="floatleft">
+            <div id="videos" class="fond_transparent">
+                {{ render(controller("SpicySiteBundle:Site:indexSuite", {'page': page})) }}
+            </div>
+            <div id="news" class="fond_transparent">
+                {{ render(controller("SpicySiteBundle:Site:news"))}}
+            </div>
+        </div>
+        <div id="topVideos_sorties" class="floatleft">
+            <div id="topVideos" class="fond_transparent">
+                <h3>Top vidéos</h3>
+            </div>
+            <div id="sorties" class="fond_transparent">
+                <h3>Sorties</h3>
+            </div>
+        </div>
+    </div>
+{% endblock %}

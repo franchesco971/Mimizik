@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+    <head>
+        <title>
+           {% block title %}
+                Spicy site - Site de promotion des vidéos clips des îles
+            {% endblock %}
+        </title>
+        
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+        <meta name="Description" content="site de promotion des vidéos clips des îles"/> 
+        <!--<meta http-equiv="Content-Language" content="fr">-->
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{asset('css/style.css')}}" type="text/css" />		
+            <link rel="stylesheet" href="{{asset('css/reset.css')}}" type="text/css" />
+        {% endblock %}
+        
+    </head>
+    
+    <body>
+        <div id="page">
+            <div id="menu">
+                <div>
+                    <img id="petit_logo" src="{{asset('images/petit_logo.png')}}" border="0" alt="petit logo" />
+                </div>
+                <div class="menuTexte"><a href="{{path('spicy_site_homepage')}}">Accueil</a></div>
+                <div class="menuTexte"><a href="{{path('spicy_site_artistes')}}">Artistes</a></div>
+                <div class="menuTexte"><a href="{{path('spicy_site_genres')}}">Genre musicaux</a></div>
+                <div class="menuTexte">Contact</div>
+                <div class="menuTexte">Crédits</div>
+                <div class="menuTexte">fb - twit</div>
+            </div>
+            <div id="header">
+                <div id="gros_logo" class="floatleft"><img src="{{asset('images/gros_logo.png')}}" border="0" alt="gros logo" /></div>
+                <div id="titre_description" class="floatleft">
+                    <div id="titre"><h1>MiMizik.com <span style="color:red">(En contruction)</span></h1></div>
+                    <div id="description">
+                        <p>Bienvenue sur le site de promotion des vidéos clips des îles</p>
+                    </div>
+                </div>
+            </div>
+            <div id="body">
+            {% block body %}
+            
+            {%endblock%}
+            </div>
+        </div>
+        <div id="fb-root"></div>        
+        {% block javascripts %}
+        <script type="text/javascript">
+                (function(d, s, id) {
+                  var js, fjs = d.getElementsByTagName(s)[0];
+                  if (d.getElementById(id)) return;
+                  js = d.createElement(s); js.id = id;
+                  js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1";
+                  fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));
+        </script>
+        {% endblock %}
+    </body>
+</html>{# empty Twig template #}

@@ -1,0 +1,27 @@
+{% extends "SpicySiteBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('css/admin.css')}}" type="text/css" />
+{% endblock %}
+
+{% block body %}
+    <a href="{{path('spicy_admin_home')}}"><< admin</a>
+    <h3>Videos</h3>
+    <a href="{{path('spicy_admin_add_video')}}">Ajouter une vidéo</a>
+    {{ parent() }}
+    <table border="1" class="data">
+        <tr><th>Id</th><th>Titre</th><th>Etat</th><th colspan="2"></th></tr>
+    {% for video in videos %}
+            <tr>
+                <td>{{video.id}}</td>
+                <td>{{video.titre}}</td>
+                <td>{{video.etat}}</td>
+                <td><a href="{{path('spicy_admin_update_video', {'id': video.id})}}">Modifier</a></td>
+                <td><a href="{{path('spicy_admin_delete_video',{'id':video.id})}}">Supprimer</a></td>
+            </tr>
+    {%else%}
+            <tr colspan="5"><td>Pas de videos</td></tr>
+    {%endfor%}
+    </table>
+{%endblock%}

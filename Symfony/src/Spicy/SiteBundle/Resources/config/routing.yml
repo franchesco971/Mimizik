@@ -1,0 +1,47 @@
+spicy_site_homepage:
+    #pattern:  /index.php/{page}
+    pattern:  /{page}
+    defaults: { _controller: SpicySiteBundle:Site:index,page: 1 }
+    requirements: 
+        page: \d+
+spicy_site_video_slug:
+    pattern:  /video/{id}/{slug}
+    defaults: { _controller: SpicySiteBundle:Site:show }
+    requirements: 
+        id: \d+
+spicy_site_video:
+    pattern:  /video/{id}
+    defaults: { _controller: SpicySiteBundle:Site:show }
+    requirements: 
+        id: \d+
+        
+spicy_site_artistes:
+    pattern: /artistes/{page}
+    defaults: { _controller: SpicySiteBundle:Site:indexArtiste, page: 1 }
+    requirements: 
+        page: \d+
+spicy_site_artiste:
+    pattern: /artiste/{id}
+    defaults: { _controller: SpicySiteBundle:Site:showArtiste }
+    requirements: 
+        id: \d+
+        
+spicy_site_genres:
+    pattern: /genres/{page}
+    defaults: { _controller: SpicySiteBundle:Site:indexGenre, page: 1 }
+    requirements:
+        page: \d+
+spicy_site_genre:
+    pattern: /genre/{slug}-{id}
+    defaults: { _controller: SpicySiteBundle:Site:showGenre }
+    requirements:
+        slug: "[a-zA-Z-]+"
+        id: \d+
+        
+spicy_site_news:
+    pattern: /news
+    defaults: { _controller: SpicySiteBundle:Site:News }
+
+spicy_site_test:
+    pattern: /test
+    defaults: { _controller: SpicySiteBundle:Site:Test }    

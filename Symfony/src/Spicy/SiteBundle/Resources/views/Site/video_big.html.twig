@@ -1,0 +1,22 @@
+<div class="apercuVideo">
+    <h2><a href="{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}">
+        <div class="artisteVideo">
+        {% for artiste in video.artistes %}
+            <a href="{{path('spicy_site_artiste',{'id':artiste.id})}}">{{artiste.libelle}}</a>    
+            {% if loop.last %}
+            
+            {% elseif loop.first %}
+             &
+            {% else %}
+             ,
+            {%endif%}
+        {% else %}
+            <span>Inconnu</span>
+        {% endfor%}
+        </div>
+        <div class="titreVideo">{{video.titre}}</div>
+    </a></h2>
+    <a href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
+        <div class="imgYoutube" style="background-image:url(http://img.youtube.com/vi/{{video.url}}/0.jpg); " ></div>
+    </a>
+</div>

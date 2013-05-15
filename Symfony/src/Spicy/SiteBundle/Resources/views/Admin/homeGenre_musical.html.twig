@@ -1,0 +1,25 @@
+{% extends "SpicySiteBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('css/admin.css')}}" type="text/css" />
+{% endblock %}
+
+{% block body %}
+    <a href="{{path('spicy_admin_home')}}"><< admin</a>
+    <h3>Genre musicaux</h3>
+    <a href="{{path('spicy_admin_add_genre_musical')}}">Ajouter un genre musical</a>
+    {{ parent() }}
+    <table border="1" class="data">
+    {% for genre in genres %}
+            <tr>
+                <td>{{genre.id}}</td>
+                <td>{{genre.libelle}}</td>
+                <td><a href="{{path('spicy_admin_update_genre_musical', {'id': genre.id})}}">Modifier</a></td>
+                <td><a href="{{path('spicy_admin_delete_genre_musical',{'id':genre.id})}}">Supprimer</a></td>
+            </tr>
+    {%else%}
+            <tr colspan="4"><td>Pas de genre</td></tr>
+    {%endfor%}
+    </table>
+{%endblock%}

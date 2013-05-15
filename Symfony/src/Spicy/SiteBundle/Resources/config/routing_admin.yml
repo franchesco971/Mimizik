@@ -1,0 +1,70 @@
+spicy_admin_home:
+    pattern:  /
+    defaults: { _controller: SpicySiteBundle:Admin:index }
+spicy_admin_home_video:
+    pattern:  /video
+    defaults: { _controller: SpicySiteBundle:Admin:homeVideo }
+spicy_admin_add_video:
+    pattern:  /add_video
+    defaults: { _controller: SpicySiteBundle:Admin:addVideo }
+spicy_admin_update_video:
+    pattern:  /update_video/{id}
+    defaults: { _controller: SpicySiteBundle:Admin:updateVideo }
+    requirements:
+        id: \d+
+spicy_admin_delete_video:
+    pattern:  /delete_video/{id}
+    defaults: { _controller: SpicySiteBundle:Admin:deleteVideo }
+    requirements:
+        id: \d+   
+        
+spicy_admin_home_artiste:
+    pattern:  /artiste
+    defaults: { _controller: SpicySiteBundle:Admin:homeArtiste }
+spicy_admin_add_artiste:
+    pattern:  /add_artiste
+    defaults: { _controller: SpicySiteBundle:Admin:addArtiste }
+spicy_admin_update_artiste:
+    pattern:  /update_artiste/{id}
+    defaults: { _controller: SpicySiteBundle:Admin:updateArtiste }
+    requirements:
+        id: \d+
+spicy_admin_delete_artiste:
+    pattern:  /delete_artiste/{id}
+    defaults: { _controller: SpicySiteBundle:Admin:deleteArtiste }
+    requirements:
+        id: \d+
+        
+spicy_admin_home_type_video:
+    pattern:  /type_video
+    defaults: { _controller: SpicySiteBundle:Admin:homeType_video }
+spicy_admin_home_genre_musical:
+    pattern:  /genre_musical
+    defaults: { _controller: SpicySiteBundle:Admin:homeGenre_musical }
+spicy_admin_add_genre_musical:
+    pattern:  /add_genre_musical
+    defaults: { _controller: SpicySiteBundle:Admin:addGenre_musical }
+spicy_admin_update_genre_musical:
+    pattern:  /update_genre_musical/{id}
+    defaults: { _controller: SpicySiteBundle:Admin:updateGenre_musical }
+    requirements:
+        id: \d+
+spicy_admin_delete_genre_musical:
+    pattern:  /delete_genre_musical/{id}
+    defaults: { _controller: SpicySiteBundle:Admin:deleteGenre_musical }
+    requirements:
+        id: \d+
+
+spicy_admin_add_type_video:
+    pattern:  /add_type_video
+    defaults: { _controller: SpicySiteBundle:Admin:addType_video }
+spicy_admin_update_type_video:
+    pattern:  /update_type_video/{id}
+    defaults: { _controller: SpicySiteBundle:Admin:updateType_video }
+    requirements:
+        id: \d+
+spicy_admin_delete_type_video:
+    pattern:  /delete_type_video/{id}
+    defaults: { _controller: SpicySiteBundle:Admin:deleteType_video }
+    requirements:
+        id: \d+

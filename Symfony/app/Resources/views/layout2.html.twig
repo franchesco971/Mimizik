@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+    <head>
+        <title>
+           {% block title %}
+                Spicy site
+            {% endblock %}
+        </title>
+        
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{asset('css/style.css')}}" type="text/css" />		
+            <link rel="stylesheet" href="{{asset('css/reset.css')}}" type="text/css" />
+        {% endblock %}
+        
+    </head>
+    
+    <body>
+        <!--
+        <div id="header">
+        	<div class="page">
+				
+			</div>
+        </div>
+        -->
+	<div id="menu">
+        	<div class="page" >
+                    <div id="logo">
+                            LOGO
+                    </div>
+                    <ul class="menu" style="float:right">
+                            <li><a href="{{path('spicy_site_homepage')}}">Accueil</a></li>
+                            <li><a href="#">Categories</a>					
+                                    <ul>
+                                            <li><a href="#" class="documents">Musique</a></li>
+                                            <li><a href="#" class="messages">Humour</a></li>
+                                            <li><a href="#" class="signout">Sign Out</a></li>
+                                    </ul>					
+                            </li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="{{path('spicy_site_artistes')}}">Artistes</a></li>
+                    </ul>
+            </div>
+        </div>
+        <div id="body">
+        	<div class="page">
+				<div id="map">
+					<!--<a href="/">Accueil</a>/-->
+					
+				</div>
+        	<!--<?php if ($user->hasFlash()) echo '<p style="text-align: center;">', $user->getFlash(), '</p>'; ?>-->
+                    
+          	{% block body %}
+                {% endblock %}
+            </div>
+        </div>
+        <div id="footer">
+        	<div class="page">
+			<!--<?php if ($user->isAuthenticated()) { ?>
+                	<a href="/admin/">Admin</a>
+			<?php } ?>-->
+            </div>
+        </div>
+    </body>
+    <div id="fb-root"></div>
+    {% block javascripts %}
+    <script>
+            (function(d, s, id) {
+              var js, fjs = d.getElementsByTagName(s)[0];
+              if (d.getElementById(id)) return;
+              js = d.createElement(s); js.id = id;
+              js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1";
+              fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+    </script>
+    {% endblock %}
+</html>{# empty Twig template #}

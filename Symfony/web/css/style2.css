@@ -1,0 +1,256 @@
+/* CSS Document */
+#header
+{
+	background-color:#777;
+	height:150px;
+	
+}
+#body
+{
+	min-height:1000px;
+	font-family:Arial,sans-serif;
+	margin-top:120px;
+	overflow:hidden;
+	
+}
+#body .page
+{
+	background-color:#BBB;
+        /*background-image: url('/images/background.jpg');*/
+        background-position: 50% 0%;
+	padding:0 10px 0 10px;
+	width: 980px;
+	/*height:100%;*/
+	min-height:600px;
+	overflow:hidden;
+}
+#menu
+{
+	background: #4c4e5a;
+	background: -webkit-linear-gradient(top, #4c4e5a 0%,#2c2d33 100%);
+	background: -moz-linear-gradient(top, #4c4e5a 0%,#2c2d33 100%);
+	background: -o-linear-gradient(top, #4c4e5a 0%,#2c2d33 100%);
+	background: -ms-linear-gradient(top, #4c4e5a 0%,#2c2d33 100%);
+	background: linear-gradient(top, #4c4e5a 0%,#2c2d33 100%);
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	width:100%;
+	height:40px;
+}
+
+.page {
+    margin: auto;
+    width: 1000px;
+}
+a
+{
+	/*color:#FFFFFF;*/
+}
+.degrade { 
+background-image: -webkit-linear-gradient(right top, #0000FF 0%, #FFDD00 100%);
+background-image:    -moz-linear-gradient(top, #0000FF 0%, #0099FF 100%);
+background-image:     -ms-linear-gradient(right top, #D60F0F 0%, #FFDD00 100%);
+background-image:      -o-linear-gradient(right top, #D60F0F 0%, #FFDD00 100%);
+background-image:         linear-gradient(right top, #D60F0F 0%, #FFDD00 100%);
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#D60F0F',endColorstr='#FFDD00', GradientType=1);
+}
+
+#menu #logo
+{ background-color:#EEE; width:95px; height:40px; float:left; margin-right:400px; font-size:20px;}
+#tabvid
+{background-color:#FFFFFF; margin-top:20px; text-align:center;}
+#tabvid td
+{border-right:1px solid #0099FF;min-width:60px; padding:5px 0 5px 0;}
+#tabvid th
+{border-right:1px solid #FFFFFF; }
+
+#videos{width:100%; min-height:900px;overflow: hidden;}
+#epices{width:280px;height:800px; background-color:#DDD;  float:right;}
+.apercuVideo{ width:480px; height:400px; float:left; padding:0 5px 0 5px;}
+.apercuVideo a{ text-decoration:none;}
+.artisteVideo{color:#FFFFFF;}
+.titreVideo{}
+.miniArtisteVideo{color:#FFFFFF; font-size:18px; text-decoration:none;}
+.miniTitreVideo{font-size:18px;text-decoration:none;}
+h2 a{ text-decoration:none;}
+.miniApercuVideo{ width:220px; height:220px; float:left; padding:0 5px 0 5px;}
+.imgYoutube{ background-repeat:no-repeat;background-position:center center;width:480px;height:270px;}
+.MiniImgYoutube{ background-repeat:no-repeat;background-position:center center;width:120px;height:70px;}
+.pagination{width:100%;height:20px;clear: left; margin: 10px 0 10px 0;}
+#video{ width:900px;height:100%; margin:auto;}
+.floatleft{float:left}
+.floatright{float:right;}
+
+#fb_infos
+{
+    width: 100%;
+    min-height: 100px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+#fb_infos .infos
+{
+    width: 300px;
+    height: 100px;
+    float: left;
+    padding-left: 100px;
+}
+/****** fb -----*****/
+.fb-like
+{
+	float:left;
+        width: 470px;
+	/*width:100%;*/
+}
+.fb-comments
+{
+	/*float:left;
+	clear:left;*/
+	width:100%;
+	/*width: 470px;*/
+}
+/****** menu *******/
+.menu,
+.menu ul,
+.menu li,
+.menu a {
+	margin: 0;
+	padding: 0;
+	border: none;
+	outline: none;
+}
+
+.menu {
+	height: 40px;
+	width: 505px;
+
+	background: #4c4e5a;
+	background: -webkit-linear-gradient(top, #4c4e5a 0%,#2c2d33 100%);
+	background: -moz-linear-gradient(top, #4c4e5a 0%,#2c2d33 100%);
+	background: -o-linear-gradient(top, #4c4e5a 0%,#2c2d33 100%);
+	background: -ms-linear-gradient(top, #4c4e5a 0%,#2c2d33 100%);
+	background: linear-gradient(top, #4c4e5a 0%,#2c2d33 100%);
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.menu li {
+	position: relative;
+	list-style: none;
+	float: left;
+	display: block;
+	height: 40px;
+}
+
+
+
+.menu, .menu ul, .menu li, .menu a {
+    border: medium none;
+    margin: 0;
+    outline: medium none;
+    padding: 0;
+}
+.menu {
+    background: -moz-linear-gradient(center top , #4C4E5A 0%, #2C2D33 100%) repeat scroll 0 0 transparent;
+    border-radius: 5px 5px 5px 5px;
+    height: 40px;
+    width: 505px;
+}
+.menu li {
+    display: block;
+    /*float: left;*/
+	float:right;
+    height: 40px;
+    list-style: none outside none;
+    position: relative;
+}
+.menu li a {
+    border-left: 1px solid #393942;
+    border-right: 1px solid #4F5058;
+    color: #F3F3F3;
+    display: block;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 28px;
+    margin: 6px 0;
+    padding: 0 14px;
+    text-decoration: none;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
+    transition: color 0.2s ease-in-out 0s;
+}
+.menu li:first-child a {
+    border-left: medium none;
+}
+.menu li:last-child a {
+    border-right: medium none;
+}
+.menu li:hover > a {
+    color: #8FDE62;
+}
+.menu ul {
+    background: none repeat scroll 0 0 #1F2024;
+    border-radius: 0 0 5px 5px;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 40px;
+    transition: opacity 0.25s ease 0.1s;
+}
+.menu li:hover > ul {
+    opacity: 1;
+}
+.menu ul li {
+    height: 0;
+    overflow: hidden;
+    padding: 0;
+    transition: height 0.25s ease 0.1s;
+}
+.menu li:hover > ul li {
+    height: 36px;
+    overflow: visible;
+    padding: 0;
+}
+.menu ul li a {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: -moz-use-text-color -moz-use-text-color #353539;
+    border-image: none;
+    border-style: none none solid;
+    border-width: medium medium 1px;
+    margin: 0;
+    padding: 4px 0 4px 40px;
+    width: 100px;
+}
+.menu ul li:last-child a {
+    border: medium none;
+}
+/*.menu a.documents {
+    background: url("/edit_media/2012/201205/20120513/css3dropdownmenu/img/docs.png") no-repeat scroll 6px center transparent;
+}
+.menu a.messages {
+    background: url("/edit_media/2012/201205/20120513/css3dropdownmenu/img/bubble.png") no-repeat scroll 6px center transparent;
+}
+.menu a.signout {
+    background: url("/edit_media/2012/201205/20120513/css3dropdownmenu/img/arrow.png") no-repeat scroll 6px center transparent;
+}*/
+
+/* tableau de donnees */
+.data{
+    border: 1px #000 solid;
+}
+.data td{
+    width: 200px;
+    text-align: center;
+    padding: 5px 0 5px 0;
+}
+.data th{
+    background-color: #000;
+    color: white;
+}

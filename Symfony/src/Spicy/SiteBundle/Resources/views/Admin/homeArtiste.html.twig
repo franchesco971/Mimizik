@@ -1,0 +1,25 @@
+{% extends "SpicySiteBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('css/admin.css')}}" type="text/css" />
+{% endblock %}
+
+{% block body %}
+    <a href="{{path('spicy_admin_home')}}"><< admin</a>
+    <h3>Artistes</h3>
+    <a href="{{path('spicy_admin_add_artiste')}}">Ajouter un artiste</a>
+    {{ parent() }}
+    <table border="1" class="data">
+    {% for artiste in artistes %}
+            <tr>
+                <td>{{artiste.id}}</td>
+                <td>{{artiste.libelle}}</td>
+                <td><a href="{{path('spicy_admin_update_artiste', {'id': artiste.id})}}">Modifier</a></td>
+                <td><a href="{{path('spicy_admin_delete_artiste',{'id':artiste.id})}}">Supprimer</a></td>
+            </tr>
+    {%else%}
+            <tr colspan="4"><td>Pas d'artistes</td></tr>
+    {%endfor%}
+    </table>
+{%endblock%}

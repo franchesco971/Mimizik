@@ -1,0 +1,17 @@
+parameters:
+#    spicy_site.example.class: Spicy\SiteBundle\Example
+    nbMainVideo: 5
+    nbResultVideoIndex: 9
+    nbResultVideo: 16
+    
+    nbArtisteAffiche: 4
+    nbSuggestion: 3
+    nbGenreAffiche: 4
+
+services:
+    spicy_site.parseurXML:
+        class: Spicy\SiteBundle\ParseurXML\ParseurNews
+        arguments: ["http://guadeloupe.la1ere.fr/actu/rss"]
+#    spicy_site.example:
+#        class: %spicy_site.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
