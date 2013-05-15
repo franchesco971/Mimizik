@@ -175,6 +175,11 @@ class SiteController extends Controller
         ));
     }
     
+    public function creditsAction()
+    {
+        return $this->render('SpicySiteBundle:Site:credits.html.twig');
+    }
+    
     public function testAction()
     {
          $test=1;

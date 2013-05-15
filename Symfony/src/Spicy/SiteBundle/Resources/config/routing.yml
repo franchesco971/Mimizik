@@ -41,6 +41,9 @@ spicy_site_genre:
 spicy_site_news:
     pattern: /news
     defaults: { _controller: SpicySiteBundle:Site:News }
+spicy_site_credits:
+    pattern: /credits
+    defaults: { _controller: SpicySiteBundle:Site:Credits }
 
 spicy_site_test:
     pattern: /test
