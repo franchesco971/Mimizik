@@ -180,6 +180,11 @@ class SiteController extends Controller
         return $this->render('SpicySiteBundle:Site:credits.html.twig');
     }
     
+    public function contactAction()
+    {
+        return $this->render('SpicySiteBundle:Site:contact.html.twig');
+    }
+    
     public function testAction()
     {
          $test=1;

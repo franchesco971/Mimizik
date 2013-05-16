@@ -44,6 +44,9 @@ spicy_site_news:
 spicy_site_credits:
     pattern: /credits
     defaults: { _controller: SpicySiteBundle:Site:Credits }
+spicy_site_contact:
+    pattern: /contact
+    defaults: { _controller: SpicySiteBundle:Site:Contact }
 
 spicy_site_test:
     pattern: /test
