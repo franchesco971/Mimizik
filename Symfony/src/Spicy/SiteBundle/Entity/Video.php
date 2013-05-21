@@ -60,6 +60,13 @@ class Video
     private $slug;
     
     /**
+     * @var string
+     *
+     * @ORM\Column(name="source", type="string", length=255)
+     */
+    private $source;
+    
+    /**
     * @ORM\ManyToMany(targetEntity="Spicy\SiteBundle\Entity\Artiste")
      * @Assert\Valid()
     */
@@ -392,5 +399,34 @@ class Video
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Set source
+     *
+     * @param string $source
+     * @return Video
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
+    
+        return $this;
+    }
+
+    /**
+     * Get source
+     *
+     * @return string 
+     */
+    public function getSource()
+    {        
+        return $this->source;
+    }
+    
+    public function getTxtSource()
+    {
+        $txt='http://www.youtube.com/user/'.$this->source;
+        return $txt;
     }
 }

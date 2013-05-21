@@ -62,6 +62,7 @@
                 {% endfor %}
                 </p>
                 <p>Types de video: {{video.getNomTypes}}</p>
+                <p>Source: <a href="{{video.getTxtSource}}">{% if video.getSource %}{{video.getSource}}{% else %}Inconnu{% endif %}</a></p>
             </div>
         </div>
         

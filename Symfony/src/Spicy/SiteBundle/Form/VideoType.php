@@ -15,9 +15,7 @@ class VideoType extends AbstractType
             ->add('url','text')
             ->add('dateVideo','date')
             ->add('etat','checkbox')
-            /*->add('artistes')
-            ->add('genre_musicaux')
-            ->add('type_videos')*/
+            ->add('source','text')
             ->add('artistes', 'entity', array(
                 'class'    => 'SpicySiteBundle:Artiste',
                 'property' => 'libelle',
