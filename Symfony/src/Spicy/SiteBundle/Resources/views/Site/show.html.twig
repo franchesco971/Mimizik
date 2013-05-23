@@ -42,7 +42,7 @@
 		</p>
 	</form>-->
         <div id="fb_infos" class="fond_transparent_blanc">
-            <div class="fb-like" data-href="http://{{domaine_name}}/{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}" data-send="true" data-width="450" data-show-faces="true"></div>
+            <div class="fb-like" data-href="{{domaine_name}}{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}" data-send="true" data-width="450" data-show-faces="true"></div>
             <div class="infos">
                 <p >Artistes: 
                     {% for artiste in video.artistes %}
@@ -62,10 +62,10 @@
                 {% endfor %}
                 </p>
                 <p>Types de video: {{video.getNomTypes}}</p>
-                <p>Source: <a href="{{video.getTxtSource}}">{% if video.getSource %}{{video.getSource}}{% else %}Inconnu{% endif %}</a></p>
+                <p>Source: {% if video.getSource %}<a href="{{video.getTxtSource}}">{{video.getSource}}</a>{% else %}Inconnu{% endif %}</p>
             </div>
         </div>
         
-	<div class="fb-comments fond_transparent_blanc" data-href="http://{{domaine_name}}" data-width="470" data-num-posts="2"></div>
+	<div class="fb-comments fond_transparent_blanc" data-href="{{domaine_name}}{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}" data-width="470" data-num-posts="2"></div>
 </div>
 {% endblock %}
