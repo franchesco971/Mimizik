@@ -1,3 +1,13 @@
+# Bootstrap
+app/bootstrap*
+
+# Symfony directories
+vendor/*
+*/logs/*
+*/cache/*
+web/uploads/*
+web/bundles/*
+
 #################
 ## Eclipse
 #################
@@ -213,3 +223,4 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+/Symfony/nbproject/private/

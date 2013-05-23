@@ -42,7 +42,11 @@
 		</p>
 	</form>-->
         <div id="fb_infos" class="fond_transparent_blanc">
+<<<<<<< HEAD
             <div class="fb-like" data-href="{{domaine_name}}{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}" data-send="true" data-width="450" data-show-faces="true"></div>
+=======
+            <div class="fb-like" data-href="http://www.{{domaine_name}}{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}" data-send="true" data-width="450" data-show-faces="true"></div>
+>>>>>>> 287857d352f881914691d0cb60fac47448e12511
             <div class="infos">
                 <p >Artistes: 
                     {% for artiste in video.artistes %}
@@ -66,6 +70,10 @@
             </div>
         </div>
         
+<<<<<<< HEAD
 	<div class="fb-comments fond_transparent_blanc" data-href="{{domaine_name}}{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}" data-width="470" data-num-posts="2"></div>
+=======
+	<div class="fb-comments fond_transparent_blanc" data-href="http://www.{{domaine_name}}{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}" data-width="470" data-num-posts="2"></div>
+>>>>>>> 287857d352f881914691d0cb60fac47448e12511
 </div>
 {% endblock %}
