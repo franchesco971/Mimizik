@@ -50,4 +50,8 @@ spicy_site_contact:
 
 spicy_site_test:
     pattern: /test
-    defaults: { _controller: SpicySiteBundle:Site:Test }    
+    defaults: { _controller: SpicySiteBundle:Site:Test }
+    
+spicy_site_flux_videos:
+    pattern: /flux/videos
+    defaults: { _controller: SpicySiteBundle:Site:FluxVideos }

@@ -193,4 +193,21 @@ class SiteController extends Controller
                 
         ));
     }
+    
+    public function fluxVideosAction()
+    {
+        $videos=$this->getDoctrine()
+                ->getManager()
+                ->getRepository('SpicySiteBundle:Video')
+                ->getAvecArtistes(20);
+        
+        if ($videos == null) {
+            throw $this->createNotFoundException('Video inexistant');
+        }
+        
+        return $this->render('SpicySiteBundle:Site:fluxVideos.html.twig',array(
+            'videos'=>$videos
+                
+        ));
+    }
 }

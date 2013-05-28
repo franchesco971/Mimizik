@@ -42,11 +42,17 @@
 		</p>
 	</form>-->
         <div id="fb_infos" class="fond_transparent_blanc">
-<<<<<<< HEAD
-            <div class="fb-like" data-href="{{domaine_name}}{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}" data-send="true" data-width="450" data-show-faces="true"></div>
-=======
-            <div class="fb-like" data-href="http://www.{{domaine_name}}{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}" data-send="true" data-width="450" data-show-faces="true"></div>
->>>>>>> 287857d352f881914691d0cb60fac47448e12511
+            <div id="social" >
+                <div class="fb-like" data-href="{{website_name}}{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}" data-send="true" data-width="450" data-show-faces="true"></div>
+                <!--<g:plusone size="tall"></g:plusone>-->
+               <!-- <a title="Partager sur Facebook" 
+                   
+                   href="https://www.facebook.com/dialog/feed?app_id=458358780877780&link={{website_name}}{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}&redirect_uri=https://www.facebook.com/dialog/feed?app_id=458358780877780&link={{website_name}}{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}&display=popup&show_error=true&picture=http://img.youtube.com/vi/{{video.url}}/0.jpg&name=Mimizik.com"
+                   >
+                    <img src="{{asset('images/petit_logo.png')}}" alt="Partager sur Facebook" />
+                </a>-->
+                <!--href="https://www.facebook.com/dialog/feed?app_id=458358780877780&link={{website_name}}{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}&picture=http://img.youtube.com/vi/{{video.url}}/0.jpg&name={{video.getNomArtistes}} - {{video.titre}}&caption={{video.getNomArtistes}} - {{video.titre}}&description={{video.getNomTypes}}&redirect_uri=&display=popup&show_error=true" -->
+            </div>
             <div class="infos">
                 <p >Artistes: 
                     {% for artiste in video.artistes %}
@@ -69,11 +75,8 @@
                 <p>Source: {% if video.getSource %}<a href="{{video.getTxtSource}}">{{video.getSource}}</a>{% else %}Inconnu{% endif %}</p>
             </div>
         </div>
-        
-<<<<<<< HEAD
+
 	<div class="fb-comments fond_transparent_blanc" data-href="{{domaine_name}}{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}" data-width="470" data-num-posts="2"></div>
-=======
-	<div class="fb-comments fond_transparent_blanc" data-href="http://www.{{domaine_name}}{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}" data-width="470" data-num-posts="2"></div>
->>>>>>> 287857d352f881914691d0cb60fac47448e12511
+
 </div>
 {% endblock %}

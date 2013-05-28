@@ -16,7 +16,7 @@
         {% endblock %}
         <link rel="icon" type="image/png" href="{{asset('images/video.png')}}" />
         <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/video.ico')}}" />
-        
+        <link rel="alternate" type="application/rss+xml" title="videos" href="{{website_name}}{{path('spicy_site_flux_videos')}}" />
     </head>
     
     <body>
@@ -60,6 +60,9 @@
                   js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1";
                   fjs.parentNode.insertBefore(js, fjs);
                 }(document, 'script', 'facebook-jssdk'));
+        </script>
+        <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+            {lang: 'fr'}
         </script>
         {% endblock %}
     </body>

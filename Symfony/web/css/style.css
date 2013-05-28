@@ -199,6 +199,10 @@ h2 a{ text-decoration:none;}
     overflow: hidden;
     margin-top: 20px;
 }
+#fb_infos #social
+{
+    overflow:hidden;min-height: 100px;float: left;
+}
 #fb_infos .infos
 {
     width: 300px;
