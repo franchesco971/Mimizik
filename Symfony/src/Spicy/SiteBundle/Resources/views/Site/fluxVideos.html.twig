@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title>Mimizik - Site de promotion des vidéos clips des îles</title>
-    <updated>{{ "now"|date("m/d/Y\\TH:i:s") }}+01:00</updated>
+    <updated>{{ "now"|date("Y-m-d\\TH:i:s") }}+01:00</updated>
     <id>http://www.mimizik.com/</id>
     <author>
         <name>Franchesco971</name>
     </author>
+    <link rel = "self" href = "{{website_name}}{{path('spicy_site_flux_videos')}}" />
         
     {% for video in videos %} 
     <entry>
         <title>{{video.getNomArtistes}} - {{video.titre}}</title>
-        <updated>{{ video.dateVideo|date("m/d/Y\\TH:i:s") }}+01:00</updated>
-        <id>{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}</id>
+        <updated>{{ video.dateVideo|date("Y-m-d\\TH:i:s") }}+01:00</updated>
+        <id>{{website_name}}{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}</id>
         <link rel = "alternate" href = "{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}" />
         <content type = "xhtml">
             <div xmlns="http://www.w3.org/1999/xhtml">
-                <a href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
+                <a href="{{website_name}}{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
                     <img src="http://img.youtube.com/vi/{{video.url}}/0.jpg" alt="{{video.titre}}" />
                 </a>
             </div>
