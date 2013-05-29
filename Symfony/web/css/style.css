@@ -202,6 +202,8 @@ h2 a{ text-decoration:none;}
 #fb_infos #social
 {
     overflow:hidden;min-height: 100px;float: left;
+    width: 490px;
+    padding-left: 10px;
 }
 #fb_infos .infos
 {
@@ -214,14 +216,15 @@ h2 a{ text-decoration:none;}
 .fb-like
 {
 	float:left;
-        width: 470px;
+        /*width: 470px;*/
 	/*width:100%;*/
 }
 .fb-comments
 {
 	/*float:left;
 	clear:left;*/
-	width:100%;
+	width:890px;
+        padding-left: 10px;
 	/*width: 470px;*/
 }
 
