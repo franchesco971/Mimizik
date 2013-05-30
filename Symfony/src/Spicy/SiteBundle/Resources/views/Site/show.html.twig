@@ -1,6 +1,13 @@
 {% extends "SpicySiteBundle::layout.html.twig" %}
+
 {% block title %}
 {{ parent() }} : {{video.getNomArtistes}} - {{video.titre}}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="image_src" type="image/jpeg" href="http://img.youtube.com/vi/{{video.url}}/0.jpg" />
+    <meta property="og:image" content="http://img.youtube.com/vi/{{video.url}}/0.jpg" />
 {% endblock %}
 
 {% block body %}
