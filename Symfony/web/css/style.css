@@ -114,6 +114,10 @@ body{
    padding:0 5px 0 5px;
    min-height: 184px;  width: 180px;
 }
+.miniApercuVideo h2
+{
+    margin-top: 5px;
+}
 /*#lastVideos .videos .miniApercuVideo .miniImgYoutube*/
 .miniImgYoutube
 {
