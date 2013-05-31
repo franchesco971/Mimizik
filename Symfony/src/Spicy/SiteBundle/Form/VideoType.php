@@ -13,7 +13,7 @@ class VideoType extends AbstractType
         $builder
             ->add('titre','text')
             ->add('url','text')
-            ->add('dateVideo','date')
+            ->add('dateVideo','datetime')
             ->add('etat','checkbox')
             ->add('source','text')
             ->add('artistes', 'entity', array(
