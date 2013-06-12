@@ -48,6 +48,7 @@
 			<input type="submit" name="Submit" value="Commenter">
 		</p>
 	</form>-->
+        
         <div id="fb_infos" class="fond_transparent_blanc">
             <div id="social" >
                 <!--<div class="fb-like" data-href="{{website_name}}{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}" 
@@ -68,6 +69,9 @@
                 <!--href="https://www.facebook.com/dialog/feed?app_id=458358780877780&link={{website_name}}{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}&picture=http://img.youtube.com/vi/{{video.url}}/0.jpg&name={{video.getNomArtistes}} - {{video.titre}}&caption={{video.getNomArtistes}} - {{video.titre}}&description={{video.getNomTypes}}&redirect_uri=&display=popup&show_error=true" -->
             </div>
             <div class="infos">
+                <p>Description:
+                    {{video.description}}
+                </p><br/>
                 <p >Artistes: 
                     {% for artiste in video.artistes %}
                     <a href="{{path('spicy_site_artiste',{'id':artiste.id})}}">{{artiste.libelle}}</a>    

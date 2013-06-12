@@ -67,6 +67,14 @@ class Video
     private $source;
     
     /**
+     * @var text
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     */
+    private $description;
+    
+    
+    /**
     * @ORM\ManyToMany(targetEntity="Spicy\SiteBundle\Entity\Artiste")
      * @Assert\Valid()
     */
@@ -429,4 +437,28 @@ class Video
         $txt='http://www.youtube.com/user/'.$this->source;
         return $txt;
     }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Video
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
 }

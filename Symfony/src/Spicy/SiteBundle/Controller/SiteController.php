@@ -210,4 +210,21 @@ class SiteController extends Controller
                 
         ));
     }
+    
+    public function retroAction()
+    {
+        $video=$this->getDoctrine()
+                ->getManager()
+                ->getRepository('SpicySiteBundle:Video')
+                ->getRetro();
+        
+        if ($video == null) {
+            throw $this->createNotFoundException('Video inexistant');
+        }
+        
+        return $this->render('SpicySiteBundle:Site:retro.html.twig',array(
+            'video'=>$video
+                
+        ));
+    }
 }

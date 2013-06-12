@@ -130,6 +130,33 @@ body{
     width:180px;height:135px;
 }
 
+#topVideos .miniApercuVideo
+{
+   float:left; 
+   padding:0 5px 0 25px;
+   min-height: 184px;  width: 350px;
+}
+#topVideos .miniApercuVideo h2
+{
+    margin-top: 5px;
+}
+/*#lastVideos .videos .miniApercuVideo .miniImgYoutube*/
+#topVideos .miniApercuVideo .miniImgYoutube
+{
+    background-repeat:no-repeat;background-position:center center;
+    background-size: 180px 135px;
+    width:180px;height:100px;
+}
+#topVideos .miniApercuVideo .miniImgYoutube img
+{
+    width:180px;height:135px;
+}
+
+#topVideos .description
+{
+    padding-left: 25px;
+}
+
 #page #videos_topVideos_news_sorties
 {
     height:900px;

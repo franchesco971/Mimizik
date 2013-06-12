@@ -2,6 +2,10 @@
 
 {% block body %}
 {{ parent() }}
+    <a href="{{ path('spicy_admin_home_video') }}" class="btn">
+        <i class="icon-chevron-left"></i>
+        Retour à la video
+    </a>
     <h3>Ajouter une vidéo</h3>
     <form method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}

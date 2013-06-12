@@ -1,0 +1,8 @@
+
+<h3>Rétro de la semaine</h3>
+{% if video is defined %}
+    {% include "SpicySiteBundle:Site:video_mini.html.twig" %}
+    <div class="description">{{video.description}}</div>
+{%else%}
+    pas de resultat
+{%endif%}

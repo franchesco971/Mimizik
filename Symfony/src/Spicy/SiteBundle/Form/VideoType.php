@@ -16,6 +16,7 @@ class VideoType extends AbstractType
             ->add('dateVideo','datetime')
             ->add('etat','checkbox')
             ->add('source','text')
+            ->add('description','textarea', array('required' => false))
             ->add('artistes', 'entity', array(
                 'class'    => 'SpicySiteBundle:Artiste',
                 'property' => 'libelle',
