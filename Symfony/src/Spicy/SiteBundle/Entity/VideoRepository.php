@@ -37,8 +37,12 @@ class VideoRepository extends EntityRepository
         $qb = $this->createQueryBuilder('v')
              ->join('v.artistes', 'a')
              ->andWhere('v.etat=1')
-             ->join('v.type_videos', 't')
-                ->where("t.libelle<>'Rétro'")
+             //->join('v.genre_musicaux', 'g')
+                //->where("g.libelle<>'Rétro'")
+             ->where("v.id NOT IN (select vi.id from SpicySiteBundle:video vi 
+                    JOIN 
+                        vi.genre_musicaux ge where ge.libelle='Rétro')")
+                
             ->addOrderBy('v.dateVideo','DESC')
                 ->setFirstResult(0)
                 ->setMaxResults($nbOccurrences)
@@ -63,8 +67,10 @@ class VideoRepository extends EntityRepository
         $qb = $this->createQueryBuilder('v')
              ->join('v.artistes', 'a')
              ->andWhere('v.etat=1')
-             ->join('v.type_videos', 't')
-                ->where("t.libelle<>'Rétro'")
+             //->join('v.genre_musicaux', 'g')
+             ->where("v.id NOT IN (select vi.id from SpicySiteBundle:video vi 
+                    JOIN 
+                        vi.genre_musicaux ge where ge.libelle='Rétro')")
             ->addOrderBy('v.dateVideo','DESC')
                 //->setFirstResult($premierResultat)
                 ->setFirstResult(($page-1)*$nbOccurrences+$premierResultat)
@@ -122,7 +128,7 @@ class VideoRepository extends EntityRepository
              ->join('v.artistes', 'a')
              //->where('v.id=:id')
              //->setParameter('id', $id)
-                ->where("t.libelle='Rétro'")
+                ->where("g.libelle='Rétro'")
              ->andWhere('v.etat=1')
              //->andWhere('v.dateVideo=SELECT MAX(v.dateVideo) from Spicy\SiteBundle\Entity\Video')
              ->setMaxResults(1)
