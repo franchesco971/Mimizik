@@ -2,16 +2,18 @@
 
 {% block body %}
     {{ parent() }}
-    <h2>{{artiste.libelle}}</h2>
-    <div>
-        <p>Nom : {{artiste.libelle}}</p>
-        <p>Description : {{artiste.description}}</p>
-    </div>
-    <div>
-         {% for video in videos %}
-            {% include "SpicySiteBundle:Site:video_mini.html.twig" %} 
-         {%else%}
-            <p>Pas de vidéos de cette artiste</p>
-         {% endfor %}
+    <div id="artiste">
+        <h2>{{artiste.libelle}}</h2>
+        <div>
+            <p>Nom : {{artiste.libelle}}</p>
+            <p>Description : {{artiste.description}}</p>
+        </div>
+        <div>
+             {% for video in videos %}
+                {% include "SpicySiteBundle:Site:video_mini.html.twig" %} 
+             {%else%}
+                <p>Pas de vidéos de cette artiste</p>
+             {% endfor %}
+        </div>
     </div>
 {% endblock %}

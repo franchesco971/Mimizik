@@ -55,3 +55,6 @@ spicy_site_test:
 spicy_site_flux_videos:
     pattern: /flux/videos
     defaults: { _controller: SpicySiteBundle:Site:FluxVideos }
+spicy_site_flux_retro:
+    pattern: /flux/retro
+    defaults: { _controller: SpicySiteBundle:Site:FluxRetro }

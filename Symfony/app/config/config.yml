@@ -28,6 +28,7 @@ twig:
     globals:
         website_name: "%website_name%"
         domaine_name: "%domaine_name%"
+        email_contact: "%email_contact%"
 
 # Assetic Configuration
 assetic:

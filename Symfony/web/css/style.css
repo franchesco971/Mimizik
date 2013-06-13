@@ -273,3 +273,12 @@ h2 a{ text-decoration:none;}
     background-color: #000;
     color: white;
 }
+
+/****** genre ******/
+#body #genre,#body #artiste,#body #contact
+{
+    min-height: 400px;
+    width: 950px;
+    overflow: hidden;
+    padding-left: 50px;
+}

@@ -120,6 +120,26 @@ class VideoRepository extends EntityRepository
             ->getResult();
     }
     
+    public function getAllRetro($nbOccurrences)
+    {
+        $qb = $this->createQueryBuilder('v')
+             ->join('v.type_videos', 't')
+             ->join('v.genre_musicaux', 'g')
+             ->join('v.artistes', 'a')
+                ->where("g.libelle='Rétro'")
+             ->andWhere('v.etat=1')
+             ->setFirstResult(0)
+             ->setMaxResults($nbOccurrences)
+             ->addOrderBy('v.dateVideo','DESC')  
+             ->addSelect('a')
+                ->addSelect('t')
+                ->addSelect('g')
+             ;
+ 
+        return $qb->getQuery()->getResult();
+            
+    }
+    
     public function getRetro()
     {
         $qb = $this->createQueryBuilder('v')

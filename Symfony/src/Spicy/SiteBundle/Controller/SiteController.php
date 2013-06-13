@@ -211,6 +211,23 @@ class SiteController extends Controller
         ));
     }
     
+    public function fluxRetroAction()
+    {
+        $videos=$this->getDoctrine()
+                ->getManager()
+                ->getRepository('SpicySiteBundle:Video')
+                ->getAllRetro(20);
+        
+        if ($videos == null) {
+            throw $this->createNotFoundException('Video inexistant');
+        }
+        
+        return $this->render('SpicySiteBundle:Site:fluxRetro.html.twig',array(
+            'videos'=>$videos
+                
+        ));
+    }
+    
     public function retroAction()
     {
         $video=$this->getDoctrine()
