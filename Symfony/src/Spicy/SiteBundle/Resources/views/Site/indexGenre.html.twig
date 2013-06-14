@@ -6,29 +6,32 @@
 {% endblock %}
     
 {% block body %}
-    {{ parent() }}
-    <h1>Tes genres pr&eacute;f&eacute;r&eacute;es</h1>
     
-    <div>
-        <table border="1" class="data">
-            <tr><th>Nom</th></tr>
-        {% for genre in genres %}
-            <tr>
-                <td><a href="{{ path('spicy_site_genre',{'id':genre.id,'slug':genre.slug})}}">{{genre.libelle}}</a></td>
-                
-            </tr>
-        {%else%}
-            <tr colspan="2"><td>Pas de genres</td></tr>
-        {% endfor %}
-        </table>
-    </div>
-    <div class="pagination">
-        <ul>
-          {% for p in range(1, nombrePage) %}
-            <li{% if p == page %} class="active"{% endif %}>
-              <a href="{{ path('spicy_site_genres', {'page': p}) }}">{{ p }}</a>
-            </li>
-          {% endfor %}
-        </ul>
+        {{ parent() }}
+    <div id="genre" class="fond_transparent">
+        <h1>Tes genres pr&eacute;f&eacute;r&eacute;es</h1>
+
+        <div>
+            <table border="1" class="data">
+                <tr><th>Nom</th></tr>
+            {% for genre in genres %}
+                <tr>
+                    <td><a href="{{ path('spicy_site_genre',{'id':genre.id,'slug':genre.slug})}}">{{genre.libelle}}</a></td>
+
+                </tr>
+            {%else%}
+                <tr colspan="2"><td>Pas de genres</td></tr>
+            {% endfor %}
+            </table>
+        </div>
+        <div class="pagination">
+            <ul>
+              {% for p in range(1, nombrePage) %}
+                <li{% if p == page %} class="active"{% endif %}>
+                  <a href="{{ path('spicy_site_genres', {'page': p}) }}">{{ p }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+        </div>
     </div>
 {%endblock%}

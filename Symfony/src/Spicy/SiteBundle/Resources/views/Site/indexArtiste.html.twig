@@ -7,28 +7,30 @@
     
 {% block body %}
     {{ parent() }}
-    <h1>Tes artistes pr&eacute;f&eacute;r&eacute;es</h1>
-    
-    <div>
-        <table border="1" class="data">
-            <tr><th>Nom</th><th>Description</th></tr>
-        {% for artiste in artistes %}
-            <tr>
-                <td><a href="{{ path('spicy_site_artiste',{'id':artiste.id})}}">{{artiste.libelle}}</a></td>
-                <td>{{artiste.description| truncate(20, true, '...')}}</td>
-            </tr>
-        {%else%}
-            <tr colspan="2"><td>Pas d'artistes</td></tr>
-        {% endfor %}
-        </table>
-    </div>
-    <div class="pagination">
-        <ul>
-          {% for p in range(1, nombrePage) %}
-            <li{% if p == page %} class="active"{% endif %}>
-              <a href="{{ path('spicy_site_artistes', {'page': p}) }}">{{ p }}</a>
-            </li>
-          {% endfor %}
-        </ul>
+    <div id="artiste" class="fond_transparent">
+        <h1>Tes artistes pr&eacute;f&eacute;r&eacute;es</h1>
+
+        <div>
+            <table border="1" class="data">
+                <tr><th>Nom</th><th>Description</th></tr>
+            {% for artiste in artistes %}
+                <tr>
+                    <td><a href="{{ path('spicy_site_artiste',{'id':artiste.id})}}">{{artiste.libelle}}</a></td>
+                    <td>{{artiste.description| truncate(20, true, '...')}}</td>
+                </tr>
+            {%else%}
+                <tr colspan="2"><td>Pas d'artistes</td></tr>
+            {% endfor %}
+            </table>
+        </div>
+        <div class="pagination">
+            <ul>
+              {% for p in range(1, nombrePage) %}
+                <li{% if p == page %} class="active"{% endif %}>
+                  <a href="{{ path('spicy_site_artistes', {'page': p}) }}">{{ p }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+        </div>
     </div>
 {%endblock%}
