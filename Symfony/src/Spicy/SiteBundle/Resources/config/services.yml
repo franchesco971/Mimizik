@@ -4,9 +4,9 @@ parameters:
     nbResultVideoIndex: 9
     nbResultVideo: 16
     
-    nbArtisteAffiche: 4
+    nbArtisteAffiche: 10
     nbSuggestion: 3
-    nbGenreAffiche: 4
+    nbGenreAffiche: 10
 
 services:
     spicy_site.parseurXML:

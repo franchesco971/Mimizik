@@ -158,10 +158,14 @@ class VideoRepository extends EntityRepository
                 ->addSelect('g')
              ;
  
-        return $qb->getQuery()
-                //->getFirstResult();
-                ->getSingleResult();
+        //return $qb->getQuery()->getSingleResult();
         
-            //->getResult();
+        try {
+            $result=$qb->getQuery()->getSingleResult();
+        } catch (Doctrine\ORM\NoResultException $e) {
+            $result=null;
+        }
+        
+        return $result;
     }
 }

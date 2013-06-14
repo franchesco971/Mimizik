@@ -13,7 +13,7 @@
         <title>{{video.getNomArtistes}} - {{video.titre}}</title>
         <updated>{{ video.dateVideo|date("Y-m-d\\TH:i:s") }}+01:00</updated>
         <id>{{website_name}}{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}</id>
-        <link rel = "alternate" href = "{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}" />
+        <link rel = "alternate" href = "{{website_name}}{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}" />
         <content type = "xhtml">
             <div xmlns="http://www.w3.org/1999/xhtml">
                 <a href="{{website_name}}{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">

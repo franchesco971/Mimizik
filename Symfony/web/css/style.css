@@ -282,3 +282,8 @@ h2 a{ text-decoration:none;}
     overflow: hidden;
     padding-left: 50px;
 }
+
+.block
+{
+    display: block;
+}
