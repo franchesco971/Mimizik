@@ -1,6 +1,6 @@
 /* CSS Document */
 body{
-    background-image: url('/images/background2.jpg');
+    background-image: url('/images/background.jpg');
     background-position: 50% 0%;
     background-repeat: no-repeat;
     background-color: #000;
@@ -256,20 +256,20 @@ h2 a{ text-decoration:none;}
 #social_comments_infos
 {
     width: 900px;
-    min-height: 300px;
+    min-height: 450px;
     overflow: hidden;
     margin-top: 20px;
 }
 #social_comments_infos #social_comments
 {
     width: 500px;
-    min-height: 300px;
+    min-height: 450px;
     overflow: hidden;
     margin-top: 20px;
 }
 #social_comments_infos #social
 {
-    overflow:hidden;min-height: 100px;
+    overflow:hidden;min-height: 280px;
     width: 490px;
     padding-left: 10px;
 }
@@ -315,7 +315,7 @@ h2 a{ text-decoration:none;}
 /****** genre ******/
 #body #genre,#body #artiste,#body #contact
 {
-    min-height: 400px;
+    min-height: 200px;
     width: 950px;
     overflow: hidden;
     padding-left: 50px;
