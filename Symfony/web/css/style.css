@@ -119,6 +119,11 @@ body{
     margin-top: 5px;
     height: 66px;
 }
+
+#videos .miniApercuVideo
+{
+    padding-bottom: 10px;
+}
 /*#lastVideos .videos .miniApercuVideo .miniImgYoutube*/
 .miniImgYoutube
 {
@@ -136,6 +141,7 @@ body{
    float:left; 
    padding:0 5px 0 25px;
    min-height: 184px;  width: 350px;
+   overflow: hidden;
 }
 #topVideos .miniApercuVideo h2
 {
@@ -145,8 +151,8 @@ body{
 #topVideos .miniApercuVideo .miniImgYoutube
 {
     background-repeat:no-repeat;background-position:center center;
-    background-size: 180px 135px;
-    width:180px;height:100px;
+    background-size: 300px 225px;
+    width:300px;height:168px;
 }
 #topVideos .miniApercuVideo .miniImgYoutube img
 {
