@@ -19,7 +19,7 @@
             <h2 >
                 <span class="artisteVideo">
                 {% for artiste in video.artistes %}
-                    <a href="{{path('spicy_site_artiste',{'id':artiste.id})}}">{{artiste.libelle}}</a>    
+                    <a href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a>    
                     {% if loop.last %}
 
                     {% elseif loop.first %} & {% else %} , {%endif%}
@@ -74,7 +74,7 @@
                 </p><br/>
                 <p >Artistes: 
                     {% for artiste in video.artistes %}
-                    <a href="{{path('spicy_site_artiste',{'id':artiste.id})}}">{{artiste.libelle}}</a>    
+                    <a href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a>    
                     {% if loop.last %}
 
                     {% elseif loop.first %} & {% else %} , {%endif%}

@@ -20,6 +20,12 @@ spicy_site_artistes:
     defaults: { _controller: SpicySiteBundle:Site:indexArtiste, page: 1 }
     requirements: 
         page: \d+
+spicy_site_artiste_slug:
+    pattern: /artiste/{id}/{slug}
+    defaults: { _controller: SpicySiteBundle:Site:showArtiste }
+    requirements:
+        slug: "[a-zA-Z-]+"
+        id: \d+
 spicy_site_artiste:
     pattern: /artiste/{id}
     defaults: { _controller: SpicySiteBundle:Site:showArtiste }

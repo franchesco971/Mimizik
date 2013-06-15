@@ -3,6 +3,7 @@
 namespace Spicy\SiteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Artiste
@@ -34,6 +35,14 @@ class Artiste
      * @ORM\Column(name="description", type="text")
      */
     private $description;
+    
+    /**
+     *
+     * @var string
+     * @Gedmo\Slug(fields={"libelle"})
+     * @ORM\Column(name="slug", type="string", length=255)
+     */
+    private $slug;
 
     /**
      * @var \DateTime
@@ -123,5 +132,28 @@ class Artiste
     public function getDateArtiste()
     {
         return $this->dateArtiste;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Artiste
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

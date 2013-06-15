@@ -4,11 +4,11 @@
         {% for artiste in video.artistes %}
         
             {% if loop.last %}
-            <a href="{{path('spicy_site_artiste',{'id':artiste.id})}}">{{artiste.libelle}}</a>
+            <a href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a>
             {% elseif loop.first %}
-            <a href="{{path('spicy_site_artiste',{'id':artiste.id})}}">{{artiste.libelle}}</a> &
+            <a href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a> &
             {% else %}
-            <a href="{{path('spicy_site_artiste',{'id':artiste.id})}}">{{artiste.libelle}}</a> ,
+            <a href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a> ,
             {%endif%}
         
         {% else %}
