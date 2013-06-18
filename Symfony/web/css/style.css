@@ -81,6 +81,7 @@ body{
     height: 150px;
     font-size: 26px;
     padding: 0 100px 0 100px;
+    font-weight: normal;
 }
 #page #lastVideos
 {
@@ -99,8 +100,12 @@ body{
 }
 #page #lastVideos #lastVideos_header
 {
-    height: 20px;
+    height: 25px;
     font-weight: bold;
+}
+#page #lastVideos #lastVideos_header h2
+{
+    margin: 0;
 }
 #page #lastVideos .videos
 {

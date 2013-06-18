@@ -1,5 +1,9 @@
 {% extends "SpicySiteBundle::layout.html.twig" %}
 
+{% block title %}
+{{ parent() }} : Ici sont regroupés tous les artistes de Mimizik
+{% endblock %}
+
 {% block stylesheets %}
     <link rel="stylesheet" href="{{asset('css/pagination.css')}}" type="text/css" />
     {{ parent() }}

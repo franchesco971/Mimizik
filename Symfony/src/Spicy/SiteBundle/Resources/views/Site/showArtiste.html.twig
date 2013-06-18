@@ -1,5 +1,9 @@
 {% extends "SpicySiteBundle::layout.html.twig" %}
 
+{% block title %}
+{{ parent() }} : Retrouvez toutes les vidéos de {{artiste.libelle}}
+{% endblock %}
+
 {% block body %}
     {{ parent() }}
     <div id="artiste" class="fond_transparent">

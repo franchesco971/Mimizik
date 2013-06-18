@@ -1,4 +1,9 @@
 {% extends "SpicySiteBundle::layout.html.twig" %}
+
+{% block title %}
+    {{parent()}} - Site de promotion des vidéos clips des îles et de la guyane
+{% endblock %}
+
 {% block stylesheets %}
     <link rel="stylesheet" href="{{asset('css/pagination.css')}}" type="text/css" />
     {{ parent() }}
@@ -8,7 +13,7 @@
     {{ parent() }}
     <div id="lastVideos" class="fond_transparent">
         <div id="lastVideos_header">
-            <div class="floatleft">Les dernieres vidéos</div>
+            <div class="floatleft"><h2>Les dernieres vidéos</h2></div>
             <div class="floatright">Recherche...</div>
         </div>
         <div class="videos">

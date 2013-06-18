@@ -1,16 +1,14 @@
 <div class="miniApercuVideo">
     <h2>        
         <p class="miniArtisteVideo">
-        {% for artiste in video.artistes %}
-        
+        {% for artiste in video.artistes %}        
             {% if loop.last %}
             <a href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a>
             {% elseif loop.first %}
             <a href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a> &
             {% else %}
             <a href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a> ,
-            {%endif%}
-        
+            {%endif%}        
         {% else %}
             <p>Inconnu</p>
         {% endfor%}
@@ -20,10 +18,6 @@
         </a>
     </h2>
     <a href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
-        <!--<div class="miniImgYoutube" style="background-image:url(http://img.youtube.com/vi/{{video.url}}/2.jpg); " ></div>-->
         <p class="miniImgYoutube" style="background-image:url(http://img.youtube.com/vi/{{video.url}}/0.jpg)"></p>
-        <!--<div class="miniImgYoutube" >
-            <img src="http://img.youtube.com/vi/{{video.url}}/0.jpg" border="0" />
-        </div>-->
     </a>
 </div>

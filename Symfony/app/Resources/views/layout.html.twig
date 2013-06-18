@@ -3,12 +3,12 @@
     <head>
         <title>
            {% block title %}
-                Mimizik - Site de promotion des vidéos clips des îles
+                Mimizik - Site de promotion des vidéos clips des îles et de la guyane, tout mizik la!
             {% endblock %}
         </title>
         
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-        <meta name="Description" content="site de promotion des vidéos clips des îles"/> 
+        <meta name="Description" content="Mimizik est un site de promotion des vidéos clips des îles et de la guyane de tous genres musicaux avec la vidéo rétro de la semaine..."/> 
         <!--<meta http-equiv="Content-Language" content="fr">-->
         {% block stylesheets %}
             <link rel="stylesheet" href="{{asset('css/style.css')}}" type="text/css" />		
@@ -31,12 +31,7 @@
                 <div class="menuTexte"><a href="{{path('spicy_site_contact')}}">Contact</a></div>
                 <div class="menuTexte"><a href="{{path('spicy_site_credits')}}">Crédits</a></div>
                 <div class="menuTexte">
-                    <p>Sur facebook</p>
-                    <!--<div class="fb-like" data-href="http://www.videos.besaba.com" data-send="false" data-layout="button_count" 
-                         data-width="100" data-show-faces="false" data-font="trebuchet ms"></div>-->
-                    <!--<div class="fb-follow" data-href="https://www.facebook.com/mimizikcom" data-layout="button_count" data-show-faces="false" data-width="450"></div>
-                    </div>-->
-                    
+                    <p>Sur facebook</p>                    
                     <div class="fb-like" data-href="https://www.facebook.com/mimizikcom" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-font="arial"></div>
                     
                  </div>   
@@ -44,10 +39,12 @@
             <div id="header">
                 <div id="gros_logo" class="floatleft"><img src="{{asset('images/gros_logo.png')}}" border="0" alt="gros logo" /></div>
                 <div id="titre_description" class="floatleft">
-                    <div id="titre"><h1>MiMizik.com <span style="color:red">(Beta 1)</span></h1></div>
-                    <div id="description">
-                        <p>Bienvenue sur le site de promotion des vidéos clips des îles</p>
-                    </div>
+                    <h1>
+                        <div id="titre">MiMizik.com <span style="color:red">(Beta 1)</span></div>
+                        <div id="description">
+                            <p>Bienvenue sur le site de promotion des vidéos clips des îles</p>
+                        </div>
+                    </h1>
                 </div>
             </div>
             <div id="body">
@@ -89,4 +86,4 @@
        </script>
         {% endblock %}
     </body>
-</html>{# empty Twig template #}
+</html>

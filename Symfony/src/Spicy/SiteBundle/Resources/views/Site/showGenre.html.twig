@@ -1,5 +1,9 @@
 {% extends "SpicySiteBundle::layout.html.twig" %}
 
+{% block title %}
+{{ parent() }} : Toutes vos vidéos {{genre.libelle}}
+{% endblock %}
+
 {% block body %}
     {{ parent() }}
     <div id="genre" class="fond_transparent">
