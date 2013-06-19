@@ -24,7 +24,7 @@ spicy_site_artiste_slug:
     pattern: /artiste/{id}/{slug}
     defaults: { _controller: SpicySiteBundle:Site:showArtiste }
     requirements:
-        slug: "[a-zA-Z-_]+"
+        slug: "[a-zA-Z0-9-_]+"
         id: \d+
 spicy_site_artiste:
     pattern: /artiste/{id}

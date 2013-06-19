@@ -3,3 +3,5 @@
 
 User-agent: *
 Disallow: /admin/
+
+sitemap: http://www.mimizik.com/flux/videos

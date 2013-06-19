@@ -11,20 +11,22 @@
         
     {% for video in videos %} 
     <entry>
-        <title>{{video.getNomArtistes}} - {{video.titre}}</title>
+        <title type="text">{{video.getNomArtistes}} - {{video.titre}}</title>
         <updated>{{ video.dateVideo|date("Y-m-d\\TH:i:s") }}+01:00</updated>
         <id>{{website_name}}{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}</id>
         <link rel = "alternate" type="text/html" href = "{{website_name}}{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}" />
-        <url>{{website_name}}{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}</url>
-        <content type = "xhtml" src="{{website_name}}{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
+        <summary type="xhtml">
             <div xmlns="http://www.w3.org/1999/xhtml">
                 <a href="{{website_name}}{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
                     <img src="http://img.youtube.com/vi/{{video.url}}/0.jpg" alt="{{video.titre}}" />
                 </a>
                 <p>{{video.description}}</p>
             </div>
-        </content>
-        <author>franchesco971</author>
+        </summary>
+        
+        <author>
+            <name>Franchesco971</name>
+        </author>
     </entry>
     {% endfor %}
 </feed>
