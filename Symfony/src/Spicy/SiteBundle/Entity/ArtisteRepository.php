@@ -24,4 +24,16 @@ class ArtisteRepository extends EntityRepository
         $query=$qb->getQuery();
         return new Paginator($query);
     }
+    
+    public function getFlux()
+    {
+        $qb = $this->createQueryBuilder('a')
+                //->setFirstResult(0)
+                //->setMaxResults($nbOccurences)
+                ->orderBy('a.libelle')
+                ->addOrderBy('a.dateArtiste');
+        
+        $query=$qb->getQuery()->getResult();
+        return $query;
+    }
 }

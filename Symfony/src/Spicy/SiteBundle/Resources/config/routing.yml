@@ -64,3 +64,9 @@ spicy_site_flux_videos:
 spicy_site_flux_retro:
     pattern: /flux/retro
     defaults: { _controller: SpicySiteBundle:Site:FluxRetro }
+spicy_site_flux_artistes:
+    pattern: /flux/artistes
+    defaults: { _controller: SpicySiteBundle:Site:FluxArtistes }
+spicy_site_flux_index:
+    pattern: /flux/index
+    defaults: { _controller: SpicySiteBundle:Site:FluxIndex }

@@ -199,7 +199,7 @@ class SiteController extends Controller
         $videos=$this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
-                ->getAvecArtistes(20);
+                ->getAvecArtistes(30);
         
         if ($videos == null) {
             throw $this->createNotFoundException('Video inexistant');
@@ -216,7 +216,7 @@ class SiteController extends Controller
         $videos=$this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
-                ->getAllRetro(20);
+                ->getAllRetro(50);
         
         if ($videos == null) {
             throw $this->createNotFoundException('Video inexistant');
@@ -243,5 +243,26 @@ class SiteController extends Controller
             'video'=>$video
                 
         ));
+    }
+    
+    public function fluxArtistesAction()
+    {
+        $artistes=$this->getDoctrine()
+                ->getManager()
+                ->getRepository('SpicySiteBundle:Artiste')
+                ->getFlux();
+        
+        if ($artistes == null) {
+            throw $this->createNotFoundException('Artiste inexistant');
+        }
+        
+        return $this->render('SpicySiteBundle:Site:fluxArtistes.html.twig',array(
+            'artistes'=>$artistes                
+        ));
+    }
+    
+    public function fluxIndexAction()
+    {        
+        return $this->render('SpicySiteBundle:Site:fluxIndex.html.twig');
     }
 }
