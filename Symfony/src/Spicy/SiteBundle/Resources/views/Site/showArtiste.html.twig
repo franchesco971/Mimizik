@@ -1,7 +1,11 @@
 {% extends "SpicySiteBundle::layout.html.twig" %}
 
 {% block title %}
-{{ parent() }} : Retrouvez toutes les vidéos de {{artiste.libelle}}
+{{ parent() }} : Retrouvez toute la musique et les vidéos clip de {{artiste.libelle}}
+{% endblock %}
+
+{% block meta_description %}
+    <meta name="Description" content="Mimizik te propose toute la musique et les vidéos clip de {{artiste.libelle}}. {{artiste.description}}"/> 
 {% endblock %}
 
 {% block body %}

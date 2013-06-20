@@ -4,6 +4,10 @@
 {{ parent() }} : Ici sont regroupés tous les genres musicaux
 {% endblock %}
 
+{% block meta_description %}
+    <meta name="Description" content="Mimizik regroupe tous les genre musicaux des antilles, de la caraïbes et de la guyane."/> 
+{% endblock %}
+
 {% block stylesheets %}
     <link rel="stylesheet" href="{{asset('css/pagination.css')}}" type="text/css" />
     {{ parent() }}

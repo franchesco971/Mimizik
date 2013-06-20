@@ -3,12 +3,14 @@
     <head>
         <title>
            {% block title %}
-                Mimizik - Site de promotion des vidéos clips des îles et de la guyane, tout mizik la!
+                Mimizik - Toutes les vidéos clip et la musique des antilles, de la caraïbes et de la guyane. Tout mizik la!
             {% endblock %}
         </title>
         
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-        <meta name="Description" content="Mimizik est un site de promotion des vidéos clips des îles et de la guyane de tous genres musicaux avec la vidéo rétro de la semaine..."/> 
+        {% block meta_description %}
+        <meta name="Description" content="Mimizik est un site promotion de la musique des artistes et des vidéos clip des antilles, de la caraïbes et de la guyane. Il y a tous genres musicaux (zouk, dancehall, hip-hop...) et la vidéo rétro de la semaine..."/> 
+        {% endblock %}
         <!--<meta http-equiv="Content-Language" content="fr">-->
         {% block stylesheets %}
             <link rel="stylesheet" href="{{asset('css/style.css')}}" type="text/css" />		
@@ -40,9 +42,12 @@
                 <div id="gros_logo" class="floatleft"><img src="{{asset('images/gros_logo.png')}}" border="0" alt="gros logo" /></div>
                 <div id="titre_description" class="floatleft">
                     <h1>
-                        <div id="titre">MiMizik.com <span style="color:red">(Beta 1)</span></div>
+                        <div id="titre">MiMizik.com <span style="color:red;font-weight: 400;">(Beta 1)</span></div>
                         <div id="description">
-                            <p>Bienvenue sur le site de promotion des vidéos clips des îles</p>
+                            <p>
+                                La promotion de la musique des artistes et des vidéos clip des antilles, de la caraïbes et de la guyane.<br/>
+                                Pou mizik la monté pli o! Zouk, Dancehall, reggae, hip-hop....
+                            </p>
                         </div>
                     </h1>
                 </div>
