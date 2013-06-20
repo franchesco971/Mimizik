@@ -2,13 +2,14 @@
     <h2>        
         <p class="miniArtisteVideo">
         {% for artiste in video.artistes %}        
-            {% if loop.last %}
             <a href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a>
-            {% elseif loop.first %}
-            <a href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a> &
-            {% else %}
-            <a href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a> ,
-            {%endif%}        
+            {% if loop.length==2 and loop.first %}
+             &
+            {% elseif loop.length>2 and loop.first %}
+             ,
+            {% elseif loop.last==false %}
+             &
+            {%endif%}
         {% else %}
             <p>Inconnu</p>
         {% endfor%}

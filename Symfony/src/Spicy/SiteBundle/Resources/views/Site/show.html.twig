@@ -20,9 +20,13 @@
                 <span class="artisteVideo">
                 {% for artiste in video.artistes %}
                     <a href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a>    
-                    {% if loop.last %}
-
-                    {% elseif loop.first %} & {% else %} , {%endif%}
+                    {% if loop.length==2 and loop.first %}
+                    &
+                   {% elseif loop.length>2 and loop.first %}
+                    ,
+                   {% elseif loop.last==false %}
+                    &
+                   {%endif%}
                 {% endfor %}
                 </span>
                   - 
