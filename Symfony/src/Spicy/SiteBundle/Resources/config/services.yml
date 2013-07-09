@@ -5,7 +5,7 @@ parameters:
     nbResultVideo: 16
     
     nbArtisteAffiche: 10
-    nbSuggestion: 12
+    nbSuggestion: 10
     nbGenreAffiche: 10
 
 services:
