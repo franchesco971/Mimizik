@@ -4,6 +4,10 @@
 {{ parent() }} : Vous regardez le video clip {{video.getNomArtistes}} - {{video.titre}}
 {% endblock %}
 
+{% block meta_description %}
+    <meta name="Description" content="{{video.getNomArtistes}} - {{video.titre}} : {{video.description}}"/> 
+{% endblock %}
+
 {% block stylesheets %}
     {{ parent() }}
     <link rel="image_src" type="image/jpeg" href="http://img.youtube.com/vi/{{video.url}}/0.jpg" />
