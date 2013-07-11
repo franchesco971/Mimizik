@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block meta_description %}
-    <meta name="Description" content="{{video.getNomArtistes}} - {{video.titre}} : {{video.description}}"/> 
+    <meta name="Description" content="Vidéo clip {{video.getNomArtistes}} - {{video.titre}} : {{video.description}}"/> 
 {% endblock %}
 
 {% block stylesheets %}
@@ -26,11 +26,11 @@
                     <a href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a>    
                     {% if loop.length==2 and loop.first %}
                     &
-                   {% elseif loop.length>2 and loop.first %}
+                    {% elseif loop.length>2 and loop.revindex>2 %}
                     ,
-                   {% elseif loop.last==false %}
+                    {% elseif loop.last==false %}
                     &
-                   {%endif%}
+                    {%endif%}
                 {% endfor %}
                 </span>
                   - 

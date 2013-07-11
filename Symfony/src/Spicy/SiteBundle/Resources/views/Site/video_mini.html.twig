@@ -8,12 +8,12 @@
                 
                 {%set nbletter=nbletter+artiste.libelle|length%}
                 
-                {% if loop.length==2 and loop.first and nbletter<20 %}
-                 &
-                {% elseif loop.length>2 and loop.first and nbletter<20  %}
-                 ,
-                {% elseif loop.last==false and nbletter<20  %}
-                 &
+                {% if loop.length==2 and loop.first and nbletter<20%}
+                &
+                {% elseif loop.length>2 and loop.revindex>2 and nbletter<20%}
+                ,
+                {% elseif loop.last==false and nbletter<20%}
+                &
                 {%endif%}
             {%endif%}
             
