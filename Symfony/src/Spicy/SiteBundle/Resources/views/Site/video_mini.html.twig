@@ -1,15 +1,22 @@
 <div class="miniApercuVideo">
-    <h2>        
+    <h2>     
         <p class="miniArtisteVideo">
-        {% for artiste in video.artistes %}        
-            <a href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a>
-            {% if loop.length==2 and loop.first %}
-             &
-            {% elseif loop.length>2 and loop.first %}
-             ,
-            {% elseif loop.last==false %}
-             &
+        {% set nbletter=0%}
+        {% for artiste in video.artistes %} 
+            {% if nbletter<20 %}
+                <a href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a>
+                
+                {%set nbletter=nbletter+artiste.libelle|length%}
+                
+                {% if loop.length==2 and loop.first and nbletter<20 %}
+                 &
+                {% elseif loop.length>2 and loop.first and nbletter<20  %}
+                 ,
+                {% elseif loop.last==false and nbletter<20  %}
+                 &
+                {%endif%}
             {%endif%}
+            
         {% else %}
             <p>Inconnu</p>
         {% endfor%}
