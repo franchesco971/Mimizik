@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{asset('css/pagination.css')}}" type="text/css" />
     {{ parent() }}
     <meta name="google-site-verification" content="sGYi5z6Hzfo88twISFPkyXzxAQG6JmyphW0UITV9uic" />
+    <link rel="stylesheet" href="{{asset('css/smartpaginator.css')}}" type="text/css" />
 {% endblock %}
 {% block body %}
     {{ parent() }}
@@ -41,3 +42,25 @@
         </div>
     </div>
 {% endblock %}
+    
+{% block javascripts %}
+    {{parent()}}
+    
+    <script type="text/javascript">
+        $('#red').smartpaginator({ totalrecords: {{videos|length-5}}, 
+                                      recordsperpage: 9,
+                                      theme: 'black',
+                                      next: 'Suiv.', 
+                                      prev: 'Préc.', 
+                                      first: 'Début', 
+                                      last: 'Fin',
+                                      go:'Go',
+                                      length: 5,
+                                      url:{{ path('spicy_site_homepage') }},
+                                      onchange: function(newPage) {
+                                            $('#r').html('Page # ' + newPage);
+                                        }
+            });
+    </script>
+    
+{% endblock%}

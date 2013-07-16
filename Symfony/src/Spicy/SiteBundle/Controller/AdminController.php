@@ -28,19 +28,24 @@ class AdminController extends Controller
         ));
     }
     
-    public function homeVideoAction()
+    public function homeVideoAction($page)
     {
-       $videos = $this->getDoctrine()
+        $nbArtisteAffiche=$this->container->getParameter('nbArtisteAffiche');
+        
+        $videos=$this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
-                ->findAll();
-       
-       /*if ($genres == null) {
-            throw $this->createNotFoundException('Genres inexistant');
-          }*/
-       
-       return $this->render('SpicySiteBundle:Admin:homeVideo.html.twig',array(
-            'videos'=>$videos
+                ->getAll($page,$nbArtisteAffiche);
+        
+        //if($artistes == null) 
+        if($videos == null) {
+            throw $this->createNotFoundException('Video inexistant');
+        }
+               
+        return $this->render('SpicySiteBundle:Admin:homeVideo.html.twig',array(
+            'videos'=>$videos,
+            'nombrePage'=>ceil((count($videos))/ $nbArtisteAffiche),
+            'page'=>$page
         ));
     }
     
@@ -128,19 +133,33 @@ class AdminController extends Controller
         ));
     }
     
-    public function homeArtisteAction()
+    public function homeArtisteAction($page)
     {
-       $artistes = $this->getDoctrine()
+       /*$artistes = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Artiste')
                 ->findAll();
        
-       /*if ($genres == null) {
-            throw $this->createNotFoundException('Genres inexistant');
-          }*/
-       
        return $this->render('SpicySiteBundle:Admin:homeArtiste.html.twig',array(
             'artistes'=>$artistes
+        ));*/
+        
+        $nbArtisteAffiche=$this->container->getParameter('nbArtisteAffiche');
+        
+        $artistes=$this->getDoctrine()
+                ->getManager()
+                ->getRepository('SpicySiteBundle:Artiste')
+                ->getAll($page,$nbArtisteAffiche);
+        
+        //if($artistes == null) 
+        if($artistes == null) {
+            throw $this->createNotFoundException('Artiste inexistant');
+        }
+               
+        return $this->render('SpicySiteBundle:Admin:homeArtiste.html.twig',array(
+            'artistes'=>$artistes,
+            'nombrePage'=>ceil((count($artistes))/ $nbArtisteAffiche),
+            'page'=>$page
         ));
     }
     

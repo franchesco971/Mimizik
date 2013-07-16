@@ -3,6 +3,7 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{asset('css/admin.css')}}" type="text/css" />
+    <link rel="stylesheet" href="{{asset('css/smartpaginator.css')}}" type="text/css" />
 {% endblock %}
 
 {% block body %}
@@ -22,4 +23,29 @@
             <tr colspan="4"><td>Pas d'artistes</td></tr>
     {%endfor%}
     </table>
+    
+    <div id="red"></div>
+       
 {%endblock%}
+    
+{% block javascripts %}
+    {{parent()}}
+    
+    <script type="text/javascript">
+        $('#red').smartpaginator({ totalrecords: {{artistes|length}}, 
+                                      recordsperpage: 10,
+                                      theme: 'black',
+                                      next: 'Suiv.', 
+                                      prev: 'Préc.', 
+                                      first: 'Début', 
+                                      last: 'Fin',
+                                      go:'Go',
+                                      length: 5,
+                                      url:'{{ path('spicy_admin_home_artiste') }}/',
+                                      onchange: function(newPage) {
+                                            $('#r').html('Page # ' + newPage);
+                                        }
+            });
+    </script>
+    
+{% endblock%}

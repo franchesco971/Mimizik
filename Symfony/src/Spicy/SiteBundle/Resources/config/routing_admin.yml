@@ -2,8 +2,10 @@ spicy_admin_home:
     pattern:  /
     defaults: { _controller: SpicySiteBundle:Admin:index }
 spicy_admin_home_video:
-    pattern:  /video
-    defaults: { _controller: SpicySiteBundle:Admin:homeVideo }
+    pattern:  /video/{page}
+    defaults: { _controller: SpicySiteBundle:Admin:homeVideo,page: 1 }
+    requirements: 
+        page: \d+
 spicy_admin_add_video:
     pattern:  /add_video
     defaults: { _controller: SpicySiteBundle:Admin:addVideo }
@@ -19,8 +21,10 @@ spicy_admin_delete_video:
         id: \d+   
         
 spicy_admin_home_artiste:
-    pattern:  /artiste
-    defaults: { _controller: SpicySiteBundle:Admin:homeArtiste }
+    pattern:  /artiste/{page}
+    defaults: { _controller: SpicySiteBundle:Admin:homeArtiste,page: 1 }
+    requirements: 
+        page: \d+
 spicy_admin_add_artiste:
     pattern:  /add_artiste
     defaults: { _controller: SpicySiteBundle:Admin:addArtiste }

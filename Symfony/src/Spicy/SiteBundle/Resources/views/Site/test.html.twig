@@ -4,5 +4,40 @@
     <link rel="stylesheet" href="{{asset('css/reset.css')}}" type="text/css" />
 {% endblock %}
 {% block body %}
- alala
+    
+    
+    <div id="red-contents" class="contents" style="border: solid 1px #F82723;">
+    <div style="height: 65px; text-align: center; font-size: 2em; padding-top: 40px;
+                color: #F82723" id="r">
+                Page # 1
+            </div>
+    <div id="red"></div>
+        </div>
+    
+    <div id="videos" class="fond_transparent">
+        <div id="loading">aaaa</div>
+                {{ render(controller("SpicySiteBundle:Site:indexSuite", {'page': 1})) }}
+            </div>
 {%endblock%}
+
+{% block javascripts %}
+    {{parent()}}
+    
+    <script type="text/javascript">
+        $('#red').smartpaginator({ totalrecords: 100, 
+                                      recordsperpage: 10,
+                                      theme: 'black',
+                                      next: 'Suiv.', 
+                                      prev: 'Préc.', 
+                                      first: 'Début', 
+                                      last: 'Fin',
+                                      go:'Go',
+                                      length: 8,
+                                      onchange: function(newPage) {
+                                            $('#r').html('Page # ' + newPage);
+                                        }
+            });
+    </script>
+    
+
+    {% endblock%}

@@ -168,4 +168,16 @@ class VideoRepository extends EntityRepository
         
         return $result;
     }
+    
+    public function getAll($page,$nbOccurences)
+    {
+        $qb = $this->createQueryBuilder('v')
+                ->setFirstResult(($page-1)*$nbOccurences)
+                ->setMaxResults($nbOccurences)
+                ->orderBy('v.titre')
+                ->addOrderBy('v.dateVideo');
+        
+        $query=$qb->getQuery();
+        return new Paginator($query);
+    }
 }
