@@ -57,7 +57,7 @@
                                       go:'Go',
                                       length: 5,
                                       initval: {{page}},
-                                      url:{{ path('spicy_site_homepage') }},
+                                      url:'{{ path('spicy_site_homepage') }}',
                                       onchange: function(newPage) {
                                             $('#r').html('Page # ' + newPage);
                                         }
