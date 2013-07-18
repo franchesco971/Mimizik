@@ -1,17 +1,9 @@
 <h3>Les autres vidéos</h3>
+<div id="miniApercuVideos">
 {% for video in autresVideos %}
     {% include "SpicySiteBundle:Site:video_mini.html.twig" %}    
 {%endfor%}
-<!--<div class="pagination">
-    <ul>
-      {% for p in range(1, nombrePage) %}
-        <li{% if p == page %} class="active"{% endif %}>
-          <a href="{{ path('spicy_site_homepage', {'page': p}) }}">{{ p }}</a>
-        </li>
-      {% endfor %}
-    </ul>
 </div>
--->
-<div class="pagination">
-    <div id="red"></div>
+<div id="Pagination" >
+   
 </div>

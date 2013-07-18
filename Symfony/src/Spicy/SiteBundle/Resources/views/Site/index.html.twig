@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="{{asset('css/pagination.css')}}" type="text/css" />
     {{ parent() }}
     <meta name="google-site-verification" content="sGYi5z6Hzfo88twISFPkyXzxAQG6JmyphW0UITV9uic" />
-    <link rel="stylesheet" href="{{asset('css/smartpaginator.css')}}" type="text/css" />
 {% endblock %}
 {% block body %}
     {{ parent() }}
@@ -47,21 +46,26 @@
     {{parent()}}
     
     <script type="text/javascript">
-        $('#red').smartpaginator({ totalrecords: {{videos|length-5}}, 
-                                      recordsperpage: 9,
-                                      theme: 'black',
-                                      next: 'Suiv.', 
-                                      prev: 'Préc.', 
-                                      first: 'Début', 
-                                      last: 'Fin',
-                                      go:'Go',
-                                      length: 5,
-                                      initval: {{page}},
-                                      url:'{{ path('spicy_site_homepage') }}',
-                                      onchange: function(newPage) {
-                                            $('#r').html('Page # ' + newPage);
-                                        }
+        function initPagination() {
+            // count entries inside the hidden content
+            //var num_entries = jQuery('#hiddenresult div.result').length;
+            var num_entries = {{videos|length-5}}
+            // Create content inside pagination element
+            $("#Pagination").pagination(num_entries, {
+                //callback: pageselectCallback,
+                items_per_page:10, // Show only one item per page
+                link_to:"{{ path('spicy_site_homepage')}}__id__",
+                current_page:{{page-1}},
+                prev_text:"Prèc.",
+                next_text:"Suiv.",
+                callback:function(){}
             });
+         }
+
+        // When document is ready, initialize pagination
+        $(document).ready(function(){      
+            initPagination();
+        });
     </script>
     
 {% endblock%}

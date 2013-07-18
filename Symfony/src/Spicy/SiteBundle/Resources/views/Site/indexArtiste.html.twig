@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{asset('css/smartpaginator.css')}}" type="text/css" />
+    <link rel="stylesheet" href="{{asset('css/pagination.css')}}" type="text/css" />
     {{ parent() }}
 {% endblock %}
     
@@ -40,8 +40,8 @@
               {% endfor %}
             </ul>
         </div>-->
-        <div class="pagination">
-            <div id="red"></div>
+        <div id="Pagination">
+            
         </div>
     </div>
 {%endblock%}
@@ -50,21 +50,26 @@
     {{parent()}}
     
     <script type="text/javascript">
-        $('#red').smartpaginator({ totalrecords: {{artistes|length}}, 
-                                      recordsperpage: 10,
-                                      theme: 'black',
-                                      next: 'Suiv.', 
-                                      prev: 'Préc.', 
-                                      first: 'Début', 
-                                      last: 'Fin',
-                                      go:'Go',
-                                      length: 5,
-                                      initval: {{page}},
-                                      url:'{{ path('spicy_site_artistes') }}/',
-                                      onchange: function(newPage) {
-                                            $('#r').html('Page # ' + newPage);
-                                        }
+        function initPagination() {
+            // count entries inside the hidden content
+            //var num_entries = jQuery('#hiddenresult div.result').length;
+            var num_entries = {{artistes|length-5}}
+            // Create content inside pagination element
+            $("#Pagination").pagination(num_entries, {
+                //callback: pageselectCallback,
+                items_per_page:10, // Show only one item per page
+                link_to:"{{ path('spicy_site_artistes')}}/__id__",
+                current_page:{{page-1}},
+                prev_text:"Prèc.",
+                next_text:"Suiv.",
+                callback:function(){}
             });
+         }
+
+        // When document is ready, initialize pagination
+        $(document).ready(function(){      
+            initPagination();
+        });
     </script>
     
 {% endblock%}

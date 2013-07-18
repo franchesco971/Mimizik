@@ -114,6 +114,13 @@ body{
     padding-left: 10px;
 }
 /*#page #lastVideos .videos .miniApercuVideo*/
+#videos #miniApercuVideos
+{
+    overflow: hidden;
+    min-height: 640px;
+    width: 595px;
+}
+
 .miniApercuVideo
 {
    float:left; 
