@@ -1,4 +1,5 @@
-<h3>News</h3>
+<h3 class="arrondi_haut">News</h3>
+<div>
 {% for new in news %}
     <p>{{new.date|date("Y-m-d H:i:s")}} - <a href="{{new.url}}">{{new.titre}}</p></a>
     <p></p>
@@ -6,4 +7,4 @@
 {%else%}
     pas de resultat
 {%endfor%}
-
+</div>
