@@ -20,8 +20,8 @@ body{
 }
 #page #menu
 {
-    height: 70px;
-    width: 700px;
+    height: 50px;
+    width: 800px;
     margin: auto;
     /*padding: 0 150px 0 150px;*/
 }
@@ -34,59 +34,97 @@ body{
 }
 #page #menu div
 {
-    height: 73px;
-    width: 100px;
+    height: 50px;
+    width: 200px;
     /*float: left;*/
     display: table-cell;
     vertical-align: middle;
     /*line-height: 17px;*/
     text-align: center;
 }
-#page #menu #petit_logo
-{
-    width: 70px;height: 70px;
-}
+/**** HEADER ****/
 #page #header
 {
-    height: 300px;
+    height: 550px;
+}
+#page #header #network
+{
+    position: fixed;
+    right:100px; top:100px;
 }
 #page #header #gros_logo
 {
-    width:200px;height: 200px;
-    padding: 50px 0 50px 100px;
-}
-#page #header #gros_logo img
-{
-    width:200px;
-    height: 200px;
+    margin: auto;
+    width: 308px;height: 300px;
+    
 }
 #page #header #titre_description
 {
-    width: 700px;height: 300px;
+    width: 1000px;height: 220px;
+    clear: left;
 }
 #page #header #titre_description #titre
 {
-    height: 50px;
-    padding: 100px 0 0 100px;
+    height: 100px;width: 452px; margin: auto;
+}
+#page #header #titre_description #titre div
+{
+    float: left;
 }
 #page #header #titre_description #titre h1
 {
     font-size: 40px;
+    width: 380px; height: 100px;
+    float: left;
     margin: 0;
-    font-family: "Berlin Sans FB Demi"
+    padding: 0;
+    
 }
 
 #page #header #titre_description #description
 {
-    height: 150px;
+    height: 120px;width: 600px;
+    margin: auto;
     font-size: 26px;
-    padding: 0 40px 0 100px;
     font-weight: normal;
+    text-align: center;
 }
+/***** RECHERCHE *****/
+#page #recherche
+{
+    min-height: 20px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+.gsc-control-cse
+{
+    padding: 0px;
+}
+/***** VIDEO *****/
 #page #lastVideos
 {
-    height: 280px;
-    padding-left: 5px;
+    height: 250px;
+}
+.arrondi{
+    border-radius: 10px;
+    /*border: 5px white ridge;*/
+    border-color: white;
+    border-style: ridge;
+    border-bottom-width: 5px;
+    border-top-width: 2px;
+    border-left-width: 2px;
+    border-right-width: 5px;
+    -moz-border-bottom-colors: #aaa #aaa #aaa #FFFFFF #FFFFFF #FFFFFF;
+    /*-moz-border-top-colors: #FFFFFF #FFFFFF #FFFFFF #aaa #aaa #aaa;
+    -moz-border-left-colors: #FFFFFF #FFFFFF #FFFFFF #aaa #aaa #aaa;*/
+    -moz-border-top-colors: #FFFFFF;
+    -moz-border-left-colors: #FFFFFF;
+    -moz-border-right-colors: #aaa #aaa #aaa #FFFFFF #FFFFFF #FFFFFF;
+}
+.arrondi_haut
+{
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
 }
 .fond_transparent
 {
@@ -96,12 +134,13 @@ body{
 .fond_transparent_blanc
 {
     background-image: url(/images/fond_blanc.png);
-    background-repeat: repeat-y;
+    background-repeat: repeat;
 }
 #page #lastVideos #lastVideos_header
 {
     height: 25px;
-    font-weight: bold;
+    font-weight: bold; 
+    background-color: white; border-radius: 10px 10px 0 0;
 }
 #page #lastVideos #lastVideos_header h2
 {
@@ -109,9 +148,9 @@ body{
 }
 #page #lastVideos .videos
 {
-    height: 250px;
+    height: 230px;
     margin: auto;
-    padding-left: 10px;
+    padding-left: 15px;
 }
 /*#page #lastVideos .videos .miniApercuVideo*/
 #videos #miniApercuVideos
@@ -148,12 +187,15 @@ body{
 {
     width:180px;height:135px;
 }
-
+#topVideos p
+{
+   padding:0 5px 0 10px; font-size: 18px;
+}
 #topVideos .miniApercuVideo
 {
-   float:left; 
-   padding:0 5px 0 25px;
-   min-height: 184px;  width: 350px;
+   
+   padding:0 5px 0 10px;
+   min-height: 184px;  width: 355px;
    overflow: hidden;
 }
 #topVideos .miniApercuVideo h2
@@ -175,17 +217,20 @@ body{
 #topVideos .description
 {
     padding-left: 25px;
+    height: 10px;
 }
 
 #page #videos_topVideos_news_sorties
 {
-    height:900px;
+    min-height:900px;
     padding-top: 10px;
+    overflow: hidden;
 }
 
 #page #videos_topVideos_news_sorties #videos_news
 {
-     height: 900px;width: 600px;
+     min-height: 900px;width: 600px;
+     overflow: hidden;
 }
 
 #page #videos_topVideos_news_sorties #topVideos_sorties
@@ -196,29 +241,37 @@ body{
 
 #page #videos_topVideos_news_sorties #videos_news #videos
 {
-    width: 595px;
+    width: 588px;
     min-height: 600px;
     overflow: hidden;
     margin: 0 0 10px 0;
+}
+
+#page #videos_topVideos_news_sorties #videos_news #videos div
+{
     padding: 0 0 0 5px;
 }
 
 #page #videos_topVideos_news_sorties #videos_news #news
 {
-    width: 595px;height: 200px;
+    width: 588px;height: 200px;
     margin: 10px 0 10px 0;
+}
+
+#page #videos_topVideos_news_sorties #videos_news #news div
+{
     padding: 0 0 0  5px;
 }
 
 #page #videos_topVideos_news_sorties #topVideos_sorties #topVideos
 {
-    width: 380px;height: 400px;
+    width: 373px;height: 400px;
     margin: 0 0px 10px 0;
 }
 
 #page #videos_topVideos_news_sorties #topVideos_sorties #sorties
 {
-    width: 380px;height: 400px;
+    width: 373px;height: 400px;
     margin: 10px 0px 10px 0;
 }
 
@@ -237,6 +290,8 @@ a:visited, a:active,a
 .miniArtisteVideo a:hover{color:#FFFFFF; font-size:18px; text-decoration:underline;}
 .miniTitreVideo{font-size:18px;text-decoration:none;}
 h2 a{ text-decoration:none;}
+h2,h3{padding-left: 10px;}
+h3{padding-left: 5px;padding-top: 5px;background-color: white;margin-top: 0;}
 /*.miniApercuVideo{ width:220px; height:220px; float:left; padding:0 5px 0 5px;}
 .imgYoutube{ background-repeat:no-repeat;background-position:center center;width:480px;height:270px;}
 .MiniImgYoutube{ background-repeat:no-repeat;background-position:center center;width:120px;height:70px;}*/
@@ -244,6 +299,8 @@ h2 a{ text-decoration:none;}
 #video{ width:900px;height:100%; margin:auto;}
 .floatleft{float:left}
 .floatright{float:right;}
+b{font-weight: bold}
+.loading{background-image: url(/images/loading.gif);display: none; width: 16px; height: 16px;}
 
 #fb_infos
 {
@@ -326,7 +383,7 @@ h2 a{ text-decoration:none;}
 }
 
 /****** genre ******/
-#body #genre,#body #artiste,#body #contact
+#body #contact
 {
     min-height: 200px;
     width: 950px;
@@ -338,3 +395,61 @@ h2 a{ text-decoration:none;}
 {
     display: block;
 }
+
+/***** artiste *****/
+#artiste, #genre
+{
+    padding-left: 10px;
+}
+
+#artiste #liste, #genre #liste
+{
+    width: 243px;
+    margin-right: 40px;
+    min-height: 500px;
+    overflow: hidden;
+}
+
+#artiste #liste .txt, #genre #liste .txt 
+{
+    padding-left: 10px;
+}
+
+#artiste #liste select, #genre #liste select
+{
+    margin-left: 30px;
+    width:130px;
+}
+
+#artiste #infos_pub
+{
+    width: 700px;
+    min-height: 500px;
+    overflow: hidden;
+}
+
+#infos_pub #pub
+{
+    /*width: 700px;
+    height: 100px;*/
+}
+
+#infos_pub #infos
+{
+    width: 673px;
+    min-height: 400px;
+    overflow: hidden;
+    padding: 0 10px 20px 10px;
+}
+
+#infos_pub #infos div
+{
+    padding-left: 10px;
+}
+#infos_pub #infos .sous-titre
+{
+    font-size: 18px;
+    font-weight: bold;
+    padding: 20px 0 5px 0;
+}
+

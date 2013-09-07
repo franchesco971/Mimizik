@@ -11,17 +11,25 @@
 {% block body %}
     {{ parent() }}
     <div id="genre" class="fond_transparent">
-        <h2>{{genre.libelle}}</h2>
-        <div>
-            <p>Nom : {{genre.libelle}}</p>
-
+        <div id="liste" class="floatleft arrondi fond_transparent_blanc" >
+            <h3>Artistes dans ce genre</h3>
         </div>
-        <div>
-             {% for video in videos %}
-                {% include "SpicySiteBundle:Site:video_mini.html.twig" %} 
-             {%else%}
-                <p>Pas de vidéos de cette artiste</p>
-             {% endfor %}
+        <div id="infos_pub" class="floatleft">
+            <div id="pub"></div>
+            <div id="infos" class="arrondi fond_transparent_blanc">
+                <h2>{{genre.libelle}}</h2>
+                <div>
+                    <p>Nom : {{genre.libelle}}</p>
+
+                </div>
+                <div>
+                     {% for video in videos %}
+                        {% include "SpicySiteBundle:Site:video_mini.html.twig" %} 
+                     {%else%}
+                        <p>Pas de vidéos de cette artiste</p>
+                     {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

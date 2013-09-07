@@ -23,35 +23,51 @@
     
     <body>
         <div id="page">
-            <div id="menu">
-                <div id="petit_logo_div">
-                    <img id="petit_logo" src="{{asset('images/petit_logo.png')}}" border="0" alt="petit logo" />
+            <div id="header">
+                <div id="gros_logo" >
+                    <img src="{{asset('images/groslogo.png')}}" border="0" alt="gros logo mimizik" />
                 </div>
+                <div id="titre_description" class="floatleft">                   
+                    <div id="titre">
+                        <h1><img id="petit_logo" src="{{asset('images/petitlogo.png')}}" border="0" alt="mizik" />
+                        <img id="titre_img" src="{{asset('images/nomsite.png')}}" border="0" alt="mimizik.com" />
+                        </h1>
+                    </div>
+                    <div id="description">
+                        <p>
+                            La promotion de la musique des artistes et des vidéos clip des antilles, de la caraïbes et de la guyane.<br/>
+                            Pou mizik la monté pli o! Zouk, Dancehall, reggae, hip-hop....
+                        </p>
+                    </div>                    
+                </div>
+                <div id="network">
+                    <p style="color: white">Facebook</p>
+                    <div class="fb-like" data-href="https://www.facebook.com/mimizikcom" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-font="arial"></div>
+                </div>
+            </div>
+            <div id="menu">
+                
                 <div class="menuTexte"><a href="{{path('spicy_site_homepage')}}">Accueil</a></div>
                 <div class="menuTexte"><a href="{{path('spicy_site_artistes')}}">Artistes</a></div>
                 <div class="menuTexte"><a href="{{path('spicy_site_genres')}}">Genre musicaux</a></div>
-                <div class="menuTexte"><a href="{{path('spicy_site_contact')}}">Contact</a></div>
-                <div class="menuTexte"><a href="{{path('spicy_site_credits')}}">Crédits</a></div>
-                <div class="menuTexte">
-                    <p>Sur facebook</p>                    
-                    <div class="fb-like" data-href="https://www.facebook.com/mimizikcom" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-font="arial"></div>
-                    
-                 </div>   
+                <div class="menuTexte"><a href="{{path('spicy_site_contact')}}">Contact</a></div>  
             </div>
-            <div id="header">
-                <div id="gros_logo" class="floatleft"><img src="{{asset('images/gros_logo.png')}}" border="0" alt="gros logo" /></div>
-                <div id="titre_description" class="floatleft">
-                    <h1>
-                        <div id="titre">MiMizik.com <span style="color:red;font-weight: 400;">(Beta 1)</span></div>
-                        <div id="description">
-                            <p>
-                                La promotion de la musique des artistes et des vidéos clip des antilles, de la caraïbes et de la guyane.<br/>
-                                Pou mizik la monté pli o! Zouk, Dancehall, reggae, hip-hop....
-                            </p>
-                        </div>
-                    </h1>
-                </div>
+            <div id="recherche">
+                <script>
+                (function() {
+                  var cx = '002998674673804737708:kp1nwfez6i8';
+                  var gcse = document.createElement('script');
+                  gcse.type = 'text/javascript';
+                  gcse.async = true;
+                  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                      '//www.google.com/cse/cse.js?cx=' + cx;
+                  var s = document.getElementsByTagName('script')[0];
+                  s.parentNode.insertBefore(gcse, s);
+                })();
+              </script>
+              <gcse:search></gcse:search>
             </div>
+            
             <div id="body">
             {% block body %}
             
@@ -91,6 +107,17 @@
        </script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
         <script type="text/javascript" src="{{asset('js/jquery.pagination.js')}}" ></script>
+        <!-- analytics -->
+        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-42850691-1', 'mimizik.com');
+            ga('send', 'pageview');
+
+          </script>
         {% endblock %}
     </body>
 </html>

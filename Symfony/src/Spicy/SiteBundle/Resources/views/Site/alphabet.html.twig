@@ -1,0 +1,8 @@
+<div id="alphabet">
+{% for lettre in range('A','Z')%}
+    <p>-<a href="{{lettre}}">{{lettre}}</a></p>
+{% endfor %}
+</div>
+<script type="text/javascript">
+    initAlphabet();
+</script>

@@ -11,10 +11,9 @@
 {% endblock %}
 {% block body %}
     {{ parent() }}
-    <div id="lastVideos" class="fond_transparent">
+    <div id="lastVideos" class="arrondi fond_transparent_blanc">
         <div id="lastVideos_header">
             <div class="floatleft"><h2>Les dernieres vidéos</h2></div>
-            <div class="floatright">Recherche...</div>
         </div>
         <div class="videos">
             {% for video in videos %}         
@@ -24,22 +23,23 @@
     </div>
     <div id="videos_topVideos_news_sorties">
         <div id="videos_news" class="floatleft">
-            <div id="videos" class="fond_transparent">
+            <div id="videos" class="arrondi fond_transparent_blanc">
                 {{ render(controller("SpicySiteBundle:Site:indexSuite", {'page': page})) }}
             </div>
-            <div id="news" class="fond_transparent">
+            <div id="news" class="arrondi fond_transparent_blanc">
                 {{ render(controller("SpicySiteBundle:Site:news"))}}
             </div>
         </div>
         <div id="topVideos_sorties" class="floatleft">
-            <div id="topVideos" class="fond_transparent">
+            <div id="topVideos" class="arrondi fond_transparent_blanc">
                 {{ render(controller("SpicySiteBundle:Site:retro"))}}
             </div>
-            <div id="sorties" class="fond_transparent">
-                <h3>Pub</h3>
+            <div id="sorties" class="arrondi fond_transparent_blanc">
+                <h3 class="arrondi_haut">Pub</h3>
             </div>
         </div>
     </div>
+    <div id="classement"></div>
 {% endblock %}
     
 {% block javascripts %}
@@ -58,6 +58,7 @@
                 current_page:{{page-1}},
                 prev_text:"Prèc.",
                 next_text:"Suiv.",
+                num_edge_entries:2,
                 callback:function(){}
             });
          }

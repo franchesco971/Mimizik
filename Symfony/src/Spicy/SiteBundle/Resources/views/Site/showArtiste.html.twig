@@ -7,21 +7,112 @@
 {% block meta_description %}
     <meta name="Description" content="Mimizik te propose toute la musique et les vidéos clip de {{artiste.libelle}}. {{artiste.description}}"/> 
 {% endblock %}
+    
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{asset('css/pagination.css')}}" type="text/css" />
+    {{ parent() }}
+{% endblock %}
 
 {% block body %}
     {{ parent() }}
     <div id="artiste" class="fond_transparent">
-        <h2>{{artiste.libelle}}</h2>
-        <div>
-            <p>Nom : {{artiste.libelle}}</p>
-            <p>Description : {{artiste.description}}</p>
+        <div id="liste" class="floatleft arrondi fond_transparent_blanc" >
+            <h3>Liste des artistes</h3>
+            <div class="loading"></div>
+       
+            <div id="resultat">
+                {#% include "SpicySiteBundle:Site:listArtiste.html.twig" %#}
+                {% include "SpicySiteBundle:Site:alphabet.html.twig" %}
+            </div>
+            
         </div>
-        <div>
-             {% for video in videos %}
-                {% include "SpicySiteBundle:Site:video_mini.html.twig" %} 
-             {%else%}
-                <p>Pas de vidéos de cette artiste</p>
-             {% endfor %}
+        <div id="infos_pub" class="floatleft">
+            <div id="pub"></div>
+            <div id="infos" class="arrondi fond_transparent_blanc">
+                <h2>{{artiste.libelle}}</h2>
+                <div>
+                    <p><b>Nom :</b> {{artiste.libelle}}</p>
+                    <p><b>Description :</b> {{artiste.description}}</p>
+                </div>
+                <div>
+                    <p class="sous-titre">Les derniers clips de {{artiste.libelle}}</p>
+                     {% for video in videos %}
+                        {% include "SpicySiteBundle:Site:video_mini.html.twig" %} 
+                     {%else%}
+                        <p>Pas de vidéos de cette artiste</p>
+                     {% endfor %}
+                </div>
+            </div>
         </div>
+        
     </div>
+{% endblock %}
+    
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+
+        // When document is ready, initialize pagination
+        $(document).ready(function(){      
+            /*initPagination();
+            initListArtiste();*/
+            initAlphabet();
+        });
+    </script>
+    <script type="text/javascript">
+        function retourAlpha()
+        {
+            $.ajax({
+                type: "POST",
+                url: "{{ path('spicy_site_alphabet')}}",
+                cache: false,
+                success: function(data){
+                   $('#resultat').html(data);
+                }
+            });
+        }
+        function initListArtiste() {    
+           $(".loading").hide();
+           $(document).ready(function(){ 
+               $(".pagination>a").click(function(){
+                   $(".loading").show();
+                   var page = $(this).attr("href");
+                   var DATA = 'page=' + page;
+                   $.ajax({
+                       type: "POST",
+                       url: "{{ path('spicy_site_liste_artiste')}}",
+                       data: DATA,
+                       cache: false,
+                       success: function(data){
+                          $('#resultat').html(data);
+                          $(".loading").hide();
+                       }
+                   });
+                   return false;
+               });
+           });
+       }
+       
+       function initAlphabet() {    
+           $(".loading").hide();
+           $(document).ready(function(){ 
+               $("#alphabet>p>a").click(function(){
+                   $(".loading").show();
+                   var lettre = $(this).attr("href");
+                   var DATA = 'lettre=' + lettre;
+                   $.ajax({
+                       type: "POST",
+                       url: "{{ path('spicy_site_liste_alpha')}}",
+                       data: DATA,
+                       cache: false,
+                       success: function(data){
+                          $('#resultat').html(data);
+                          $(".loading").hide();
+                       }
+                   });
+                   return false;
+               });
+           });
+       }
+   </script>
 {% endblock %}

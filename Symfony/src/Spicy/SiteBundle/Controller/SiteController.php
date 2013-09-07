@@ -8,6 +8,7 @@ use Spicy\SiteBundle\Entity\Video;
 use Spicy\SiteBundle\Entity\TypeVideo;
 use Spicy\SiteBundle\Entity\GenreMusical;
 use Spicy\SiteBundle\Form\TypeVideoType;
+use Symfony\Component\HttpFoundation\Request;
 
 class SiteController extends Controller
 {
@@ -102,6 +103,17 @@ class SiteController extends Controller
                 ->getRepository('SpicySiteBundle:Artiste')
                 ->find($id);
         
+        $nbArtisteAffiche=$this->container->getParameter('nbArtisteAffiche');
+
+        $artistes=$this->getDoctrine()
+                ->getManager()
+                ->getRepository('SpicySiteBundle:Artiste')
+                ->getAll(1,$nbArtisteAffiche);
+
+        if($artistes == null) {
+            throw $this->createNotFoundException('Artiste inexistant');
+        }
+        
         $videos=$this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
@@ -114,7 +126,8 @@ class SiteController extends Controller
         
         return $this->render('SpicySiteBundle:Site:showArtiste.html.twig',array(
             'videos'=>$videos,
-            'artiste'=>$artiste    
+            'artiste'=>$artiste,
+            'artistes'=>$artistes
         ));
     }
     
@@ -264,5 +277,67 @@ class SiteController extends Controller
     public function fluxIndexAction()
     {        
         return $this->render('SpicySiteBundle:Site:fluxIndex.html.twig');
+    }
+    
+    public function listArtisteAction()
+    {
+        $request = $this->container->get('request');
+        $page=1;
+        
+        if($request->isXmlHttpRequest())
+        {   
+            $page=$request->request->get("page");
+            
+            $nbArtisteAffiche=$this->container->getParameter('nbArtisteAffiche');
+
+            $artistes=$this->getDoctrine()
+                    ->getManager()
+                    ->getRepository('SpicySiteBundle:Artiste')
+                    ->getAll($page,$nbArtisteAffiche);
+
+            if($artistes == null) {
+                throw $this->createNotFoundException('Artiste inexistant');
+            }
+  
+            /*return $this->render('SpicySiteBundle:Site:listArtiste.html.twig',array(
+                'news'=>$news
+
+            ));*/
+            return $this->render('SpicySiteBundle:Site:listArtiste.html.twig',array(
+                'artistes'=>$artistes                
+            ));
+        }
+        else {
+            return $this->render('SpicySiteBundle:Site:listArtiste.html.twig');
+        }
+    }
+    
+    public function listAlphaAction()
+    {
+        $request = $this->container->get('request');
+        $page=1;
+        
+        if($request->isXmlHttpRequest())
+        {   
+            $lettre=$request->request->get("lettre");
+
+            $artistes=$this->getDoctrine()
+                    ->getManager()
+                    ->getRepository('SpicySiteBundle:Artiste')
+                    ->getAlpha($lettre);
+  
+            return $this->render('SpicySiteBundle:Site:listArtiste.html.twig',array(
+                'artistes'=>$artistes                
+            ));
+        }
+        else {
+            return $this->render('SpicySiteBundle:Site:listArtiste.html.twig');
+        }
+    }
+    
+    public function alphabetAction()
+    {
+        
+        return $this->render('SpicySiteBundle:Site:alphabet.html.twig');
     }
 }

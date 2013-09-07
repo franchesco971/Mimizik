@@ -36,4 +36,16 @@ class ArtisteRepository extends EntityRepository
         $query=$qb->getQuery()->getResult();
         return $query;
     }
+    
+    public function getAlpha($txt)
+    {
+        $qb = $this->createQueryBuilder('a')
+                ->where('a.libelle LIKE :txt')
+                ->orderBy('a.libelle')
+                ->addOrderBy('a.dateArtiste')
+                ->setParameter('txt', $txt.'%');
+        
+        $query=$qb->getQuery()->getResult();
+        return $query;
+    }
 }
