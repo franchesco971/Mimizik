@@ -57,6 +57,8 @@ class SiteController extends Controller
     
     public function showAction($id)
     {
+        $txtGenre='';
+        
         $video=$this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
@@ -67,9 +69,23 @@ class SiteController extends Controller
             throw $this->createNotFoundException('Video inexistant');
         }
         
+        $genres=$video->getGenreMusicaux();
+        $nbGenres=  count($genres);
+        $i=0;
+        foreach ($genres as $genre) {
+            $txtGenre=$txtGenre.$genre->getId();
+            if($i+1<$nbGenres){$txtGenre=$txtGenre.',';}
+            $i++;
+        }
+        
+        $suggestions=$this->getDoctrine()
+                ->getManager()
+                ->getRepository('SpicySiteBundle:Video')
+                ->getSuggestions($txtGenre,$video->getId());
+        
         return $this->render('SpicySiteBundle:Site:show.html.twig',array(
-            'video'=>$video
-                
+            'lavideo'=>$video,
+            'suggestions'=>$suggestions    
         ));
     }
     

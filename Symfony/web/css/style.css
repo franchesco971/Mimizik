@@ -254,7 +254,8 @@ body{
 
 #page #videos_topVideos_news_sorties #videos_news #news
 {
-    width: 588px;height: 200px;
+    width: 588px;min-height: 200px;
+    overflow: hidden;
     margin: 10px 0 10px 0;
 }
 
@@ -329,26 +330,59 @@ b{font-weight: bold}
     min-height: 450px;
     overflow: hidden;
     margin-top: 20px;
+    padding-top: 20px;
 }
 #social_comments_infos #social_comments
 {
-    width: 500px;
+    width: 400px;
     min-height: 450px;
     overflow: hidden;
-    margin-top: 20px;
 }
 #social_comments_infos #social
 {
-    overflow:hidden;min-height: 280px;
+    overflow:hidden;min-height: 250px;
+    width: 400px;
+}
+#social_comments_infos #infos_suggestions
+{
     width: 490px;
     padding-left: 10px;
+    min-height: 200px;
+    overflow: hidden;
 }
+
 #social_comments_infos #infos
 {
-    width: 300px;
-    height: 300px;
-    float: left;
-    padding-left: 100px;
+    width: 400px;
+    min-height: 150px;
+    overflow: hidden;
+}
+
+#social_comments_infos #infos a
+{
+    font-size: 18px;
+    text-decoration: underline;
+}
+#social_comments_infos #infos .titre
+{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#social_comments_infos #suggestions
+{
+    width: 490px;
+    height: 425px;
+    
+}
+#social_comments_infos #suggestions .grostitre
+{
+    background-color: white;  
+}
+
+#social_comments_infos #suggestions div
+{
+    padding-left: 50px;
 }
 
 /****** fb -----*****/
@@ -362,9 +396,9 @@ b{font-weight: bold}
 {
 	/*float:left;
 	clear:left;*/
-	width:500px;
-        padding-left: 10px;
-	/*width: 470px;*/
+	width:400px;
+        /*padding-left: 10px;
+	width: 470px;*/
 }
 
 

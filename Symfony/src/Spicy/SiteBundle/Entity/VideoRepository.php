@@ -4,6 +4,7 @@ namespace Spicy\SiteBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Spicy\SiteBundle\Entity\Video;
 
 /**
  * VideoRepository
@@ -179,5 +180,30 @@ class VideoRepository extends EntityRepository
         
         $query=$qb->getQuery();
         return new Paginator($query);
+    }
+    
+    public function getSuggestions($idList,$id)
+    {        
+        /*$query=  $this->_em->createQuery("SELECT v
+            FROM Spicy\SiteBundle\Entity\Video v
+            INNER join Spicy\SiteBundle\Entity\GenreMusical on id=video_id
+            where genremusical_id IN :list
+            ORDER BY rand()
+            LIMIT 0 , 30");*/
+        
+        $sql=$this->createQueryBuilder('v')
+                ->join('v.genre_musicaux', 'g')
+                ->where('g.id in (:list)')
+                ->andWhere('v.id <> :id')
+                ->orderBy('v.dateVideo','DESC')
+                ->setFirstResult(0)
+                ->setMaxResults(4);
+                
+        //$query->setParameter('list', $idList);
+        $sql->setParameter('list', $idList);
+        $sql->setParameter('id', $id);
+        $query=$sql->getQuery();
+        $result=$query->getResult();
+        return $result;
     }
 }
