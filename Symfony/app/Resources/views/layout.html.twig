@@ -24,11 +24,13 @@
     <body>
         <div id="page">
             <div id="header">
+                {% block logo %}
                 <div id="gros_logo" >
                     <a href="{{path('spicy_site_homepage')}}">
                     <img src="{{asset('images/groslogo.png')}}" border="0" alt="gros logo mimizik" />
                     </a>
                 </div>
+               {% endblock %}
                 <div id="titre_description" class="floatleft">                   
                     <div id="titre">
                         <h1><a href="{{path('spicy_site_homepage')}}">
@@ -112,16 +114,16 @@
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
         <script type="text/javascript" src="{{asset('js/jquery.pagination.js')}}" ></script>
         <!-- analytics -->
-        <script type="text/javascript">
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-            ga('create', 'UA-42850691-1', 'mimizik.com');
-            ga('send', 'pageview');
+        ga('create', 'UA-42850691-1', 'mimizik.com');
+        ga('send', 'pageview');
 
-          </script>
+      </script>
         {% endblock %}
     </body>
 </html>

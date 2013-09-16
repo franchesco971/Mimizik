@@ -45,7 +45,8 @@ body{
 /**** HEADER ****/
 #page #header
 {
-    height: 550px;
+    min-height: 250px;
+    overflow: hidden;
 }
 #page #header #network
 {
@@ -331,6 +332,8 @@ b{font-weight: bold}
     overflow: hidden;
     margin-top: 20px;
     padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
 }
 #social_comments_infos #social_comments
 {
@@ -420,9 +423,13 @@ b{font-weight: bold}
 #body #contact
 {
     min-height: 200px;
-    width: 950px;
+    width: 900px;
     overflow: hidden;
-    padding-left: 50px;
+    padding: 50px 50px 50px 50px;
+}
+#body #contact a
+{
+    text-decoration: underline;
 }
 
 .block
