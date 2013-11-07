@@ -4,14 +4,14 @@ parameters:
     nbResultVideoIndex: 9
     nbResultVideo: 16
     
-    nbArtisteAffiche: 10
+    nbArtisteAffiche: 20
     nbSuggestion: 10
     nbGenreAffiche: 10
 
 services:
     spicy_site.parseurXML:
         class: Spicy\SiteBundle\ParseurXML\ParseurNews
-        arguments: ["http://guadeloupe.la1ere.fr/actu/rss"]
+        arguments: ["http://www.reggaefrance.com/news.xml"]
 #    spicy_site.example:
 #        class: %spicy_site.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]

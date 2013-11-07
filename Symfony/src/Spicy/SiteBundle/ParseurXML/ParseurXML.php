@@ -160,9 +160,11 @@ class ParseurXML
 
         $enfants_niv1 = $noeud->childNodes; // Les enfants du nœud traité
 
-        foreach($enfants_niv1 as $enfant) // Pour chaque enfant, on vérifie…
+        //foreach($enfants_niv1 as $enfant) // Pour chaque enfant, on vérifie…
+        /*for($i=1;$i<=10;$i++)
         {
-                if($enfant->hasChildNodes() == true) // …s'il a lui-même des enfants
+            $enfant=$enfants_niv1[$i];  
+            if($enfant->hasChildNodes() == true) // …s'il a lui-même des enfants
                 {
                         $accumulation .= $this->parsage_enfant($enfant); // Dans ce cas, on revient sur parsage_enfant
                 }
@@ -170,7 +172,7 @@ class ParseurXML
                 {
                         $accumulation .= $this->parsage_normal($enfant); // On parse comme un nœud normal
                 }
-        }
+        }*/
         return $this->parsage_normal($noeud, $accumulation);
     }
 }

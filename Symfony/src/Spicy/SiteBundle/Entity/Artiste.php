@@ -37,6 +37,13 @@ class Artiste
     private $description;
     
     /**
+     * @var string
+     *
+     * @ORM\Column(name="tag_facebook", type="string", length=255, nullable=true)
+     */
+    private $tag_facebook;
+    
+    /**
      *
      * @var string
      * @Gedmo\Slug(fields={"libelle"})
@@ -155,5 +162,28 @@ class Artiste
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Set tag_facebook
+     *
+     * @param string $tagFacebook
+     * @return Artiste
+     */
+    public function setTagFacebook($tagFacebook)
+    {
+        $this->tag_facebook = $tagFacebook;
+    
+        return $this;
+    }
+
+    /**
+     * Get tag_facebook
+     *
+     * @return string 
+     */
+    public function getTagFacebook()
+    {
+        return $this->tag_facebook;
     }
 }

@@ -1,4 +1,4 @@
-{% extends "SpicySiteBundle::layout.html.twig" %}
+{% extends "SpicySiteBundle::layout_admin.html.twig" %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -35,7 +35,7 @@
         function initPagination() {
             // count entries inside the hidden content
             //var num_entries = jQuery('#hiddenresult div.result').length;
-            var num_entries = {{artistes|length-5}}
+            var num_entries = {{artistes|length}}
             // Create content inside pagination element
             $("#Pagination").pagination(num_entries, {
                 //callback: pageselectCallback,

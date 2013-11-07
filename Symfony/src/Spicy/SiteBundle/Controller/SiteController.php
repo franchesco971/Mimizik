@@ -119,7 +119,20 @@ class SiteController extends Controller
                 ->getRepository('SpicySiteBundle:Artiste')
                 ->find($id);
         
-        $nbArtisteAffiche=$this->container->getParameter('nbArtisteAffiche');
+        if($artiste == null) {
+            throw $this->createNotFoundException('Artiste inexistant');
+        }
+        
+        /*$genres=$this->getDoctrine()
+                ->getManager()
+                ->getRepository('SpicySiteBundle:GenreMusical')
+                ->getGenresByArtiste($id);
+        
+        if($genres == null) {
+            throw $this->createNotFoundException('Genres inexistant');
+        }*/
+        
+        /*$nbArtisteAffiche=$this->container->getParameter('nbArtisteAffiche');
 
         $artistes=$this->getDoctrine()
                 ->getManager()
@@ -128,7 +141,7 @@ class SiteController extends Controller
 
         if($artistes == null) {
             throw $this->createNotFoundException('Artiste inexistant');
-        }
+        }*/
         
         $videos=$this->getDoctrine()
                 ->getManager()
@@ -140,10 +153,53 @@ class SiteController extends Controller
             throw $this->createNotFoundException('Video inexistant');
         }
         
+        $tabGenres=array();
+        $tabIdGenres=array();
+        foreach ($videos as $video) {
+            $genres=  $video->getGenreMusicaux();
+            foreach ($genres as $genre) 
+            {
+                if(!in_array($genre, $tabGenres))
+                {
+                    $tabGenres[]=$genre;
+                    $tabIdGenres[]=$genre->getId();
+                }
+            }
+        }
+        
+        $suggestions=$this->getDoctrine()
+                ->getManager()
+                ->getRepository('SpicySiteBundle:Video')
+                ->getSuggestionsArtistes($tabIdGenres);
+        
+        if($suggestions == null) {
+            throw $this->createNotFoundException('Suggestion inexistant');
+        }
+        
+        $tabArtistes=array();
+        
+        /*$suggestions=$this->getDoctrine()
+                ->getManager()
+                ->getRepository('SpicySiteBundle:Video')
+                ->getAvecArtistes(6);*/
+        
+        foreach ($suggestions as $suggestion)
+        {
+            foreach ($suggestion->getArtistes() as $sArtiste)
+            {
+                if(!in_array($sArtiste, $tabArtistes) && $sArtiste->getId()!=$id)
+                {
+                    $tabArtistes[]=$sArtiste;
+                    
+                }            
+            }
+        }
+        
         return $this->render('SpicySiteBundle:Site:showArtiste.html.twig',array(
             'videos'=>$videos,
             'artiste'=>$artiste,
-            'artistes'=>$artistes
+            'genres'=>$tabGenres,
+            'suggestions'=>$tabArtistes
         ));
     }
     
@@ -355,5 +411,55 @@ class SiteController extends Controller
     {
         
         return $this->render('SpicySiteBundle:Site:alphabet.html.twig');
+    }
+    
+    public function TopMoisAction()
+    {
+        $row = 1;
+        $tab=array();
+        
+        if (($handle = fopen("csv/test4.csv", "r")) !== FALSE) 
+        {
+            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) 
+            {
+                $num = count($data);
+                
+                for ($c=0; $c < $num; $c++) 
+                {   
+                    if(preg_match('/^\/video/', $data[$c]))
+                    {
+                        list($rien,$debut,$id,$reste)=  explode('/',$data[$c] );
+                        $video=$this->getDoctrine()
+                            ->getManager()
+                            ->getRepository('SpicySiteBundle:Video')
+                            ->getOneAvecArtistes($id);
+                        
+                        $nbVues=$data[$c+1];
+                        $txt[]=array($video,$nbVues);
+                    }
+                }
+            }
+            fclose($handle);
+        }
+        
+        return $this->render('SpicySiteBundle:Site:topMois.html.twig',array(
+            'txt'=>$txt
+        ));
+    }
+    
+    public function GenresAction() 
+    {
+        $genres=$this->getDoctrine()
+                ->getManager()
+                ->getRepository('SpicySiteBundle:GenreMusical')
+                ->getAllGenres();
+        
+        if ($genres == null) {
+            throw $this->createNotFoundException('Genres inexistant');
+        }
+        
+        return $this->render('SpicySiteBundle:Site:genresMenu.html.twig',array(
+            'genres'=>$genres                
+        ));
     }
 }

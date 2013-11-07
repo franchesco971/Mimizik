@@ -14,7 +14,7 @@
         <!--<meta http-equiv="Content-Language" content="fr">-->
         {% block stylesheets %}
             <link rel="stylesheet" href="{{asset('css/style.css')}}" type="text/css" />		
-            <link rel="stylesheet" href="{{asset('css/reset.css')}}" type="text/css" />
+            <link rel="stylesheet" href="{{asset('css/style2.css')}}" type="text/css" />
         {% endblock %}
         <link rel="icon" type="image/png" href="{{asset('images/video.png')}}" />
         <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/video.ico')}}" />
@@ -22,108 +22,84 @@
     </head>
     
     <body>
-        <div id="page">
-            <div id="header">
-                {% block logo %}
-                <div id="gros_logo" >
-                    <a href="{{path('spicy_site_homepage')}}">
-                    <img src="{{asset('images/groslogo.png')}}" border="0" alt="gros logo mimizik" />
-                    </a>
-                </div>
-               {% endblock %}
-                <div id="titre_description" class="floatleft">                   
-                    <div id="titre">
-                        <h1><a href="{{path('spicy_site_homepage')}}">
-                                <img id="petit_logo" src="{{asset('images/petitlogo.png')}}" border="0" alt="mizik" />
-                                <img id="titre_img" src="{{asset('images/nomsite.png')}}" border="0" alt="mimizik.com" />
-                            </a>
-                        </h1>
+        <div class="header">
+            <div class="supheader wrapper">
+                <div class="container">
+                    <div class="logo">
+                        <span>Mimizik</span>
+                    </div><!--/ logo-->
+                    <!--<div class="user-links">
+                            <div class="button-container">
+                                    <a class="button small dark login-link" href="#"><span>Sign In</span></a>
+                            </div>		
+                    </div>--><!--/ user links-->	
+                    <div class="social-links">
+                        <a title="Facebook" class="facebook" href="https://www.facebook.com/mimizikcom" target="_blank"></a>								
+                        <a title="Youtube" class="youtube" href="https://www.youtube.com/user/mimizikcom" target="_blank"></a>
+                        <a title="Twitter" class="twitter" href="https://twitter.com/mimizikcom" target="_blank"></a>
+                        <a title="Flux" class="rss" href="http://www.mimizik.com/flux/videos" target="_blank"></a>
+                    </div><!--/ social links-->				
+                    <div class="clear"></div>
+                </div>			
+            </div>
+            <div id="menu" class="subheader">
+                <div class="container" >
+                    <div class="menu" >
+                        <ul id="menu-main-menu" class="menu">
+                            <li><a href="{{path('spicy_site_homepage')}}">Accueil</a></li>
+                            <li><a href="{{path('spicy_site_artistes')}}">Artistes</a></li>
+                            <li>
+                                <a href="{{path('spicy_site_genres')}}">Genre musicaux</a>
+                                {{ render(controller("SpicySiteBundle:Site:genres"))}}
+                            </li>
+                            <li><a href="{{path('spicy_site_contact')}}">Contact</a></li>
+                        </ul>
                     </div>
-                    <div id="description">
-                        <p>
-                            La promotion de la musique des artistes et des vidéos clip des antilles, de la caraïbes et de la guyane.<br/>
-                            Pou mizik la monté pli o! Zouk, Dancehall, reggae, hip-hop....
-                        </p>
-                    </div>                    
                 </div>
-                <div id="network">
-                    <p style="color: white">Facebook</p>
-                    <div class="fb-like" data-href="https://www.facebook.com/mimizikcom" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-font="arial"></div>
-                </div>
-            </div>
-            <div id="menu">
-                
-                <div class="menuTexte"><a href="{{path('spicy_site_homepage')}}">Accueil</a></div>
-                <div class="menuTexte"><a href="{{path('spicy_site_artistes')}}">Artistes</a></div>
-                <div class="menuTexte"><a href="{{path('spicy_site_genres')}}">Genre musicaux</a></div>
-                <div class="menuTexte"><a href="{{path('spicy_site_contact')}}">Contact</a></div>  
-            </div>
-            <div id="recherche">
-                <script>
-                (function() {
-                  var cx = '002998674673804737708:kp1nwfez6i8';
-                  var gcse = document.createElement('script');
-                  gcse.type = 'text/javascript';
-                  gcse.async = true;
-                  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
-                      '//www.google.com/cse/cse.js?cx=' + cx;
-                  var s = document.getElementsByTagName('script')[0];
-                  s.parentNode.insertBefore(gcse, s);
-                })();
-              </script>
-              <gcse:search></gcse:search>
-            </div>
-            
-            <div id="body">
-            {% block body %}
-            
-            {%endblock%}
             </div>
         </div>
-        <div id="fb-root"></div>        
-        {% block javascripts %}
-        <script type="text/javascript">
-                (function(d, s, id) {
-                  var js, fjs = d.getElementsByTagName(s)[0];
-                  if (d.getElementById(id)) return;
-                  js = d.createElement(s); js.id = id;
-                  js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1";
-                  fjs.parentNode.insertBefore(js, fjs);
-                }(document, 'script', 'facebook-jssdk'));
-        </script>
-        <script type="text/javascript">
-            window.___gcfg = {lang: 'fr'};
-
-            (function() {
-              var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-              po.src = 'https://apis.google.com/js/plusone.js';
-              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-            })();
-        </script>
-        <script>
-            !function(d,s,id){
-                var js,fjs=d.getElementsByTagName(s)[0];
-                if(!d.getElementById(id))
-                {js=d.createElement(s);
-                    js.id=id;js.src="https://platform.twitter.com/widgets.js";
-                    fjs.parentNode.insertBefore(js,fjs);
-                }            
-            }
-            (document,"script","twitter-wjs");
-       </script>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+        <div id="body">
+                    
+          	{% block body %}
+                {% endblock %}
+        </div>
+        <div class="footer wrapper">
+            <div class="background">
+                <div class="container">				
+                    <div class="menu">
+                        <ul id="menu-footer-menu" class="menu">
+                            <li><a href="{{path('spicy_site_homepage')}}">Accueil</a></li>
+                            <li><a href="{{path('spicy_site_artistes')}}">Artistes</a></li>
+                            <li><a href="{{path('spicy_site_genres')}}">Genre musicaux</a></li>
+                            <li><a href="{{path('spicy_site_contact')}}">Contact</a></li>
+                        </ul>
+                    </div>				
+                    <div class="copyright">Mimizik &copy; 2013</div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+	</div>
+    
+    <div id="fb-root"></div>
+    {% block javascripts %}
+    
+        <script type="text/javascript" src="{{asset('js/jquery-1.10.2.min.js')}}" ></script>
+        <script type="text/javascript" src="{{asset('js/jquery.fadeSlider.js')}}" ></script>
+        <script type="text/javascript" src="{{asset('js/jquery.hoverIntent.min.js')}}" ></script>
+        <script type="text/javascript" src="{{asset('js/jquery.custom.js')}}" ></script>
         <script type="text/javascript" src="{{asset('js/jquery.pagination.js')}}" ></script>
         <!-- analytics -->
         <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-        ga('create', 'UA-42850691-1', 'mimizik.com');
-        ga('send', 'pageview');
+            ga('create', 'UA-42850691-1', 'mimizik.com');
+            ga('send', 'pageview');
 
-      </script>
-        {% endblock %}
+          </script>
+    {% endblock %}
+    
     </body>
 </html>

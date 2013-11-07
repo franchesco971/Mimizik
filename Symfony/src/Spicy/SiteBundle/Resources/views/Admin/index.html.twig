@@ -1,9 +1,9 @@
 {% extends "SpicySiteBundle::layout_admin.html.twig" %}
 
-{% block body %}
-    {{ parent() }}
-    <p><a href="{{path('spicy_admin_home_video')}}">Vidéo</a></p>
-    <p><a href="{{path('spicy_admin_home_artiste')}}">Artiste</a></p>
-    <p><a href="{{path('spicy_admin_home_genre_musical')}}">Genre musical</a></p>
-    <p><a href="{{path('spicy_admin_home_type_video')}}">Type de video</a></p>
+{% block body %}   
+            {{ parent() }}
+            <p><a href="{{path('spicy_admin_home_video')}}">Vidéo</a></p>
+            <p><a href="{{path('spicy_admin_home_artiste')}}">Artiste</a></p>
+            <p><a href="{{path('spicy_admin_home_genre_musical')}}">Genre musical</a></p>
+            <p><a href="{{path('spicy_admin_home_type_video')}}">Type de video</a></p>
 {%endblock%}

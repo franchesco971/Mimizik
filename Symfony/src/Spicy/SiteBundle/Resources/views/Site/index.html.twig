@@ -5,47 +5,121 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{asset('css/pagination.css')}}" type="text/css" />
     {{ parent() }}
     <meta name="google-site-verification" content="sGYi5z6Hzfo88twISFPkyXzxAQG6JmyphW0UITV9uic" />
 {% endblock %}
 {% block body %}
     {{ parent() }}
-    <div id="lastVideos" class="arrondi fond_transparent_blanc">
-        <div id="lastVideos_header">
-            <div class="floatleft"><h2>Les dernieres vidéos</h2></div>
+    <div id="lastVideos" class="ribbon-slider-container">
+        <div class="ribbon-slider">
+            <ul >
+                {% for video in videos %}
+                    {% include "SpicySiteBundle:Site:video_slider.html.twig" %}        
+                {% endfor %}
+            </ul>
+            <input type="hidden" class="slider-pause" value="10" />
+            <input type="hidden" class="slider-speed" value="300" />
         </div>
-        <div class="videos">
-            {% for video in videos %}         
-                {% include "SpicySiteBundle:Site:video_mini.html.twig" %}          
-            {% endfor %}
+        <a class="arrow arrow-left" href="#"></a>
+        <a class="arrow arrow-right" href="#"></a>
+    </div>
+    
+    <div id="recherche" class="">
+        <div class="page" >
+            <script>
+                (function() {
+                  var cx = '002998674673804737708:kp1nwfez6i8';
+                  var gcse = document.createElement('script');
+                  gcse.type = 'text/javascript';
+                  gcse.async = true;
+                  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                      '//www.google.com/cse/cse.js?cx=' + cx;
+                  var s = document.getElementsByTagName('script')[0];
+                  s.parentNode.insertBefore(gcse, s);
+                })();
+            </script>
+            <gcse:search></gcse:search>
         </div>
     </div>
-    <div id="videos_topVideos_news_sorties">
-        <div id="videos_news" class="floatleft">
-            <div id="videos" class="arrondi fond_transparent_blanc">
-                {{ render(controller("SpicySiteBundle:Site:indexSuite", {'page': page})) }}
-            </div>
-            <div id="news" class="arrondi fond_transparent_blanc">
-                {{ render(controller("SpicySiteBundle:Site:news"))}}
-            </div>
-        </div>
-        <div id="topVideos_sorties" class="floatleft">
-            <div id="topVideos" class="arrondi fond_transparent_blanc">
-                {{ render(controller("SpicySiteBundle:Site:retro"))}}
-            </div>
-            <div id="sorties" class="arrondi fond_transparent_blanc">
-                <h3 class="arrondi_haut">Pub</h3>
+    <div class="container" id="main_container" >
+        <div class="column" style="width:650px">
+            <div class="content-block">
+                <div class="block-title"><span>Vidéos récentes</span>
+                </div>
+                <div class="block-content">
+                    <div class="featured-blog">
+                        {{ render(controller("SpicySiteBundle:Site:indexSuite", {'page': page})) }}                        
+                    </div>
+                </div>    
             </div>
         </div>
+        <div class="column" style="width:310px">
+            <div class="content-block">
+                <div class="block-title">
+                    <span>Rétro de la semaine</span>
+                </div>
+                <div class="block-content">
+                    {{ render(controller("SpicySiteBundle:Site:retro"))}}
+                </div>
+            </div>
+                
+            <div class="content-block widget widget-social">
+                <div class="block-title"><span>Social</span></div>
+                <div class="block-content">		
+                    <div class="social-widget tabs-container">
+                        <div class="tabs">
+                            <ul>					
+                                <li class="current"><a href="#" title="Facebook" class="facebook"></a></li>
+                                <li><a href="#" title="Twitter" class="twitter"></a></li>
+                                <li><a href="#" title="YouTube" class="youtube"></a></li>
+                                <!--<li><a href="#" title="SoundCloud" class="soundcloud"></a></li>-->
+                            </ul>
+                        </div>	
+                        <div class="clear"></div>
+                        <div class="panes">
+                            <div class="pane facebook" style="display: block;">
+                                <div id="fb-root"></div>
+                                    <script>(function(d, s, id) {
+                                      var js, fjs = d.getElementsByTagName(s)[0];
+                                      if (d.getElementById(id)) return;
+                                      js = d.createElement(s); js.id = id;
+                                      js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1";
+                                      fjs.parentNode.insertBefore(js, fjs);
+                                    }(document, 'script', 'facebook-jssdk'));</script>
+                                <div class="fb-like-box" data-href="http://www.facebook.com/mimizikcom" data-width="260" data-height="The pixel height of the plugin" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="true"></div>
+                            </div>
+                            <div id="widget-tweets" class="pane twitter">
+                               <a class="twitter-timeline" height="300"  href="https://twitter.com/mimizikcom"  data-widget-id="389191778881912833">Tweets de @mimizikcom</a>
+
+
+                            </div>
+                            <div class="pane youtube">
+                                    <iframe style="overflow: hidden; height: 105px; width: 100%; border: 0;" src="http://www.youtube.com/subscribe_widget?p=mimizikcom" id="fr"></iframe>
+                            </div>
+                            <!--<div class="pane soundcloud">
+                                <iframe height="166" src="http://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F10584288"></iframe>					
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
     </div>
-    <div id="classement"></div>
 {% endblock %}
     
 {% block javascripts %}
     {{parent()}}
-    
     <script type="text/javascript">
+        /*function initSlider(){
+            $(".ribbon-slider-container").ribbonSlider({
+                speed: 1,
+                pause: 10,
+                handlePlayer: true,
+                showControls: true
+            });
+        }*/
+        
         function initPagination() {
             // count entries inside the hidden content
             //var num_entries = jQuery('#hiddenresult div.result').length;
@@ -63,11 +137,49 @@
                 callback:function(){}
             });
          }
-
-        // When document is ready, initialize pagination
-        $(document).ready(function(){      
+        
+        //Social Widget
+	if($('.social-widget').length) {
+		if($('.social-widget .pane.twitter').length) {
+			$.getJSON('http://api.twitter.com/1/statuses/user_timeline/'+$('.pane.twitter input.twitter-username').val()+'.json?count='+parseInt($('.pane.twitter input.tweets-number').val())+'&callback=?', function(tweets) {
+				$('.social-widget .pane.twitter').html(loadTweets(tweets));
+			});
+		}
+	}
+	
+	//Tabs
+	if($('.tabs-container').length) {	
+		$('.tabs-container').each(function() {
+			
+			var tabs=$(this);
+		
+			//show first pane
+			tabs.find('.panes .pane:first-child').show();
+			tabs.find('.tabs li:first-child').addClass('current');
+			
+			tabs.find('.tabs li').click(function() {
+				//set active state to tab
+				tabs.find('.tabs li').removeClass('current');
+				$(this).addClass('current');
+				
+				//show current tab
+				tabs.find('.pane').hide();
+				tabs.find('.pane:eq('+$(this).index()+')').show();			
+			});
+		});		
+		$('.tabs-container .tabs a').click(function() {
+			$(this).parent().trigger('click');
+			return false;
+		});
+	}
+        
+        $(document).ready(function(){ 
+            //initSlider();
             initPagination();
         });
     </script>
-    
+    <script type="text/javascript" src="{{asset('js/jquery.mousewheel.min.js')}}" ></script>
+    <script type="text/javascript" src="{{asset('js/jquery.ribbonSlider.js')}}" ></script>
+    <!--<script type="text/javascript" src="{{asset('js/jquery.custom.js')}}" ></script>-->
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 {% endblock%}

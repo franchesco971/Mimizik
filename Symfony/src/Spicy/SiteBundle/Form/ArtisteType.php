@@ -13,6 +13,7 @@ class ArtisteType extends AbstractType
         $builder
             ->add('libelle','text')
             ->add('description','textarea')
+            ->add('tag_facebook','text', array('required' => false))
             ->add('dateArtiste','datetime')
             
         ;

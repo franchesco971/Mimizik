@@ -24,4 +24,25 @@ class GenreMusicalRepository extends EntityRepository
         $query=$qb->getQuery();
         return new Paginator($query);
     }
+    
+    public function getAllGenres()
+    {
+        $qb = $this->createQueryBuilder('g')
+                ->orderBy('g.libelle');
+        
+        $query=$qb->getQuery()->getResult();
+        return $query;
+    }
+    
+    public function getGenresByArtiste($idArtiste) 
+    {
+        //$em=  $$this->getDoctrine()->getEntityManager();
+        $q= $this->_em->createQuery(
+            'SELECT g
+            FROM SpicySiteBundle:GenreMusical g JOIN g.SpicySiteBundle:Video v'
+        );
+        
+        $query=$q->getResult();
+        return $query;
+    } 
 }

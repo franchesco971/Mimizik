@@ -1,9 +1,6 @@
-<h3 class="arrondi_haut">Les autres vidéos</h3>
-<div id="miniApercuVideos">
-{% for video in autresVideos %}
-    {% include "SpicySiteBundle:Site:video_mini.html.twig" %}    
-{%endfor%}
-</div>
+{% for video in autresVideos %}         
+    {% include "SpicySiteBundle:Site:video_post.html.twig" %}          
+{% endfor %}
 <div id="Pagination" >
    
 </div>

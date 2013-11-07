@@ -15,36 +15,64 @@
 
 {% block body %}
     {{ parent() }}
-    <div id="artiste" class="fond_transparent">
-        <div id="liste" class="floatleft arrondi fond_transparent_blanc" >
-            <h3>Liste des artistes</h3>
-            <div class="loading"></div>
-       
-            <div id="resultat">
-                {#% include "SpicySiteBundle:Site:listArtiste.html.twig" %#}
-                {% include "SpicySiteBundle:Site:alphabet.html.twig" %}
-            </div>
-            
+    
+    <div class="page-title wrapper">
+        <div class="container">
+            <span>Artiste</span>
+            <div class="clear"></div>
         </div>
-        <div id="infos_pub" class="floatleft">
-            <div id="pub"></div>
-            <div id="infos" class="arrondi fond_transparent_blanc">
-                <h2>{{artiste.libelle}}</h2>
+    </div>
+    <div class="content wrapper">
+        <div class="container">
+            <div class="two-third column">
                 <div>
-                    <p><b>Nom :</b> {{artiste.libelle}}</p>
-                    <p><b>Description :</b> {{artiste.description}}</p>
+                    <div class="un-tier column-perso">
+                        <div class="block-content-perso">
+                            <img src="https://graph.facebook.com/{{artiste.tagFacebook}}/picture?type=large" alt="{{artiste.libelle}} sur mimizik.com" />
+                            <h4 class="release-title">{{artiste.libelle}}</h4>
+                        </div>
+                    </div>
+                    <div class="un-demi column last">
+                        <div class="content-block">
+                            <div class="block-title"><span>Description</span></div>
+                            <div class="block-content">{{artiste.description}}</div>
+                            <div class="block-content">Tags :
+                                {% for genre in genres %}
+                                    <a href="{{ path('spicy_site_genre',{'id':genre.id,'slug':genre.slug})}}">{{genre.libelle}} </a>
+                                 {%else%}
+                                    <p>Pas de genres de cette artiste</p>
+                                 {% endfor %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <p class="sous-titre">Les derniers clips de {{artiste.libelle}}</p>
-                     {% for video in videos %}
-                        {% include "SpicySiteBundle:Site:video_mini.html.twig" %} 
-                     {%else%}
-                        <p>Pas de vidéos de cette artiste</p>
-                     {% endfor %}
+                <div class="content-block">
+                    <div class="block-title"><span>Vidéos</span></div>
+                    <div class="block-content">
+                        <div class="featured-blog">
+                        {% for video in videos %}
+                            {% include "SpicySiteBundle:Site:video_post.html.twig" %} 
+                         {%else%}
+                            <p>Pas de vidéos de cette artiste</p>
+                         {% endfor %}
+                            <div id="Pagination" ></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="one-third column last">
+                <div class="content-block">
+                    <div class="block-title"><span>Suggestions</span></div>
+                    <div class="block-content">
+                        {% for sArtiste in suggestions %}
+                            {% include "SpicySiteBundle:Site:artiste_post.html.twig" %} 
+                         {%else%}
+                            <p>Pas de suggestions</p>
+                         {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
-        
     </div>
 {% endblock %}
     

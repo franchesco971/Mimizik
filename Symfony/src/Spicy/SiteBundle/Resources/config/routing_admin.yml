@@ -72,3 +72,7 @@ spicy_admin_delete_type_video:
     defaults: { _controller: SpicySiteBundle:Admin:deleteType_video }
     requirements:
         id: \d+
+        
+spicy_admin_csv:
+    pattern: /csv
+    defaults: { _controller: SpicySiteBundle:Admin:csv }

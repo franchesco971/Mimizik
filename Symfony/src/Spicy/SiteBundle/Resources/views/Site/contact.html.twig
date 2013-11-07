@@ -10,18 +10,27 @@
 
 {% block body %}
     {{ parent() }}
-    <div id="contact" class="fond_transparent_blanc">
-        <h2>Contact</h2>
-        <p>Pour tous renseignements, promotions et montage vidéo veuillez nous contacter:</p><br/>
-        <p>Developpeur : <a href="mailto:{{email_contact}}">Franchesco971 ({{email_contact}})</a></p>
-        <p>Graphisme : peach vivi</p>
-        <br/>
-        <h3>Liens</h3>
-        <p>facebook: <a href="http://www.facebook.com/mimizikcom">mimizikcom</a></p>
-        <p>youtube: <a href="https://www.youtube.com/user/mimizikcom">mimizikcom</a></p>
-        <p>S'abonner aux flux des vidéos: <a href="http://www.mimizik.com/flux/videos">flux</a></p>
+    <div class="page-title wrapper">
+        <div class="container">
+            <span><h2>Contact</h2></span>
+            <div class="clear"></div>
+        </div>
     </div>
-    <div>
+    <div class="container" id="main_container" >
+        <div class="content-block">
+            <div class="block-content">
+                <p>Pour tous renseignements, promotions et montage vidéo veuillez nous contacter:</p><br/>
+                <p>Developpeur : <a href="mailto:{{email_contact}}">Franchesco971 ({{email_contact}})</a></p>
+                <p>Graphisme : <a href="mailto:{{email_contact}}">Peach vivi</a></p>
+                <br/>
+                <h3>Liens</h3>
+                <p>Facebook: <a href="https://www.facebook.com/mimizikcom" target="_blank">mimizikcom</a></p>
+                <p>Twitter : <a href="https://twitter.com/mimizikcom" target="_blank">mimizikcom</a></p>
+                <p>Youtube: <a href="https://www.youtube.com/user/mimizikcom" target="_blank">mimizikcom</a></p>
+                <p>S'abonner aux flux des vidéos: <a href="http://www.mimizik.com/flux/videos" target="_blank">flux</a></p>
+            </div>
+        </div>
+    
         
     </div>
 {%endblock%}

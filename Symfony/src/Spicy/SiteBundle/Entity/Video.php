@@ -92,6 +92,7 @@ class Video
     */
     private $type_videos;
     
+    
     /**
      * Constructor
      */
@@ -460,5 +461,6 @@ class Video
     {
         return $this->description;
     }
+
 
 }

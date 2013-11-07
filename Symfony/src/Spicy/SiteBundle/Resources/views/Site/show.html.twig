@@ -12,83 +12,162 @@
     {{ parent() }}
     <link rel="image_src" type="image/jpeg" href="http://img.youtube.com/vi/{{lavideo.url}}/0.jpg" />
     <meta property="og:image" content="http://img.youtube.com/vi/{{lavideo.url}}/0.jpg" />
-{% endblock %}
-
+{% endblock %}  
+    
 {% block body %}
     {{ parent() }}
-
-    <div id="video">
-        <div>
-            
-            <h2 >
-                <span class="artisteVideo">
-                {% for artiste in lavideo.artistes %}
-                    <a href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a>    
-                    {% if loop.length==2 and loop.first %}
-                    &
-                    {% elseif loop.length>2 and loop.revindex>2 %}
-                    ,
-                    {% elseif loop.last==false %}
-                    &
-                    {%endif%}
-                {% endfor %}
-                </span>
-                  - 
-                <a href="{{path('spicy_site_video_slug',{'id':lavideo.id,'slug':lavideo.slug})}}">
-                    {{lavideo.titre}}
-                </a>
-            </h2>
-            
+    
+    <div class="page-title wrapper">
+        <div class="container">
+            <span>Vid&eacuteo</span>
+            <div class="clear"></div>
         </div>
-
-	<iframe width="900" height="506" src="http://www.youtube.com/embed/{{lavideo.url}}?autoplay=1" frameborder="0" allowfullscreen></iframe>
-
-        <div id="social_comments_infos" class="fond_transparent_blanc">
-            <div id="infos_suggestions" class="floatleft">
-                <div id="infos" >
-                    <p><b class="titre">Description:</b><br/>
-                        {{lavideo.description}}
-                    </p><br/>
-                    <p ><b class="titre">Artistes: </b>
+    </div>
+    <div class="content wrapper">
+        <div class="container">
+            <div class="content-block">
+                <div class="block-title">
+                    <span >
+                        <span class="artisteVideo">
                         {% for artiste in lavideo.artistes %}
-                        <a href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a>    
-                        {% if loop.last %}
-
-                        {% elseif loop.first %} & {% else %} , {%endif%}
-                    {% endfor %}
-                    </p>
-                    <p><b class="titre">Genres: </b>
-                        {#{video.getNomGenres}#}
-                        {% for genre in lavideo.genreMusicaux %}
-                        <a href="{{ path('spicy_site_genre',{'id':genre.id,'slug':genre.slug})}}">{{genre.libelle}}</a>    
-                        {% if loop.last %}
-
-                        {% elseif loop.first %} & {% else %} , {%endif%}
-                    {% endfor %}
-                    </p>
-                    <p><b class="titre">Types de video:</b> {{lavideo.getNomTypes}}</p>
-                    <p><b class="titre">Source:</b> {% if lavideo.getSource %}<a href="{{lavideo.getTxtSource}}">{{lavideo.getSource}}</a>{% else %}Inconnu{% endif %}</p>
+                            <a href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a>    
+                            {% if loop.length==2 and loop.first %}
+                            &
+                            {% elseif loop.length>2 and loop.revindex>2 %}
+                            ,
+                            {% elseif loop.last==false %}
+                            &
+                            {%endif%}
+                        {% endfor %}
+                        </span>
+                          - 
+                            {{lavideo.titre}}
+                    </span>
                 </div>
-                <div id="suggestions">
-                    <h2 class="grostitre">Nous vous suggérons ces vidéos:</h3>
-                    {% for video in suggestions %}         
-                        {% include "SpicySiteBundle:Site:video_mini.html.twig" %}          
-                    {% endfor %}
+                <div class="block-content">
+                    <iframe width="900" height="506" src="http://www.youtube.com/embed/{{lavideo.url}}?autoplay=1" frameborder="0" allowfullscreen></iframe>
                 </div>
             </div>
-            <div id="social_comments" class="floatleft">
-                <div id="social" >
-                    <div class="fb-like" data-href="{{website_name}}{{path('spicy_site_video_slug',{'id':lavideo.id,'slug':lavideo.slug})}}" data-send="true" data-layout="box_count" 
-                         data-width="400" data-show-faces="true"></div>
-                    <div class="g-plusone" data-size="tall" data-href="{{website_name}}{{path('spicy_site_video_slug',{'id':lavideo.id,'slug':lavideo.slug})}}">
+            <div class="two-third column">
+                <div class="content-block">
+                    <div class="block-title"><span>Description</span></div>
+                    <div class="block-content">
+                        <p>{{lavideo.description}}</p>
+                        <p ><b class="titre">Artistes: </b>
+                            {% for artiste in lavideo.artistes %}
+                            <a href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a>    
+                            {% if loop.last %}
+
+                            {% elseif loop.first %} & {% else %} , {%endif%}
+                        {% endfor %}
+                        </p>
+                        <p><b class="titre">Genres: </b>
+                            {% for genre in lavideo.genreMusicaux %}
+                            <a href="{{ path('spicy_site_genre',{'id':genre.id,'slug':genre.slug})}}">{{genre.libelle}}</a>    
+                            {% if loop.last %}
+
+                            {% elseif loop.first %} & {% else %} , {%endif%}
+                        {% endfor %}
+                        </p>
+                        <p><b class="titre">Types de video:</b> {{lavideo.getNomTypes}}</p>
+                        <p><b class="titre">Source:</b> 
+                            {% if lavideo.getSource %}
+                                <a href="{{lavideo.getTxtSource}}">{{lavideo.getSource}}</a>
+                            {% else %}Inconnu{% endif %}
+                        </p>
                     </div>
-                    <a href="https://twitter.com/share" class="twitter-share-button" 
-                       data-url="{{website_name}}{{path('spicy_site_video_slug',{'id':lavideo.id,'slug':lavideo.slug})}}" 
-                       data-via="your_screen_name" data-lang="en" data-related="anywhereTheJavascriptAPI" data-count="vertical">Tweet</a>
                 </div>
-                <div class="fb-comments fond_transparent_blanc" data-href="{{domaine_name}}{{path('spicy_site_video_slug',{'id':lavideo.id,'slug':lavideo.slug})}}" data-width="400" data-num-posts="2"></div>
+                <div class="content-block">
+                    <div class="block-title"><span>Commentaires</span></div>
+                    <div class="block-content">
+                        <div class="fb-comments" 
+                             data-href="{{domaine_name}}{{path('spicy_site_video_slug',{'id':lavideo.id,'slug':lavideo.slug})}}" 
+                             data-width="580" data-num-posts="3"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="one-third column last">
+                <div class="content-block">
+                    <div class="block-title"><span>Social</span></div>
+                    <div class="block-content">
+                        <div class="fb-like floatleft" data-href="{{website_name}}{{path('spicy_site_video_slug',{'id':lavideo.id,'slug':lavideo.slug})}}" data-send="true" data-layout="box_count" 
+                         data-width="400" data-show-faces="true"></div>
+                        <div class="g-plusone" data-size="tall" data-href="{{website_name}}{{path('spicy_site_video_slug',{'id':lavideo.id,'slug':lavideo.slug})}}">
+                        </div>
+                        <a href="https://twitter.com/share" class="twitter-share-button floatleft" 
+                           data-url="{{website_name}}{{path('spicy_site_video_slug',{'id':lavideo.id,'slug':lavideo.slug})}}" 
+                           data-via="mimizik" data-lang="fr"  data-count="vertical">Tweet</a>
+                    </div>
+                </div>
+                <div class="content-block">
+                    <div class="block-title"><span>Suggestions</span></div>
+                    <div class="block-content">
+                        <div class="fade-slider">
+                            <ul>
+                                {% for video in suggestions %}
+                                    {% include "SpicySiteBundle:Site:video_post_slider.html.twig" %}
+                                {% endfor %}
+                            </ul>
+                            <div class="arrow arrow-left"></div>
+                            <div class="arrow arrow-right"></div>
+                            <input type="hidden" class="slider-pause" value="1" />
+                            <input type="hidden" class="slider-speed" value="6000" />
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-block">
+                    <div class="block-content"></div>
+                </div>
             </div>
             
         </div>
-</div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    
+    {{parent()}}
+    <script type="text/javascript">
+                (function(d, s, id) {
+                  var js, fjs = d.getElementsByTagName(s)[0];
+                  if (d.getElementById(id)) return;
+                  js = d.createElement(s); js.id = id;
+                  js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1";
+                  fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));
+        </script>
+        <script type="text/javascript">
+            window.___gcfg = {lang: 'fr'};
+
+            (function() {
+              var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+              po.src = 'https://apis.google.com/js/plusone.js';
+              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+            })();
+        </script>
+        <script>
+            !function(d,s,id){
+                var js,fjs=d.getElementsByTagName(s)[0];
+                if(!d.getElementById(id))
+                {js=d.createElement(s);
+                    js.id=id;js.src="https://platform.twitter.com/widgets.js";
+                    fjs.parentNode.insertBefore(js,fjs);
+                }            
+            }
+            (document,"script","twitter-wjs");
+       </script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+        <!-- analytics -->
+        <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-42850691-1', 'mimizik.com');
+        ga('send', 'pageview');
+
+      </script>
+      
 {% endblock %}

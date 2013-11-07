@@ -1,4 +1,4 @@
-{% extends "::layout.html.twig" %}
+{% extends "::layout2.html.twig" %}
 
 {% block title %}
  {{ parent() }}
@@ -8,10 +8,13 @@
     <link rel="stylesheet" href="{{asset('css/admin.css')}}" type="text/css" />
     {{ parent() }}
 {% endblock %}
-  
+
 {% block body %}
+    
     {# On affiche tous les messages flash dont le nom est « info » #}
       {% for message in app.session.flashbag.get('info') %}
         <p>{{ message }}</p>
       {% endfor %}
+        
+       
 {% endblock %}

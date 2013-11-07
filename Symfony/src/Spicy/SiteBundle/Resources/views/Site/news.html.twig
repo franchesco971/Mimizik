@@ -1,7 +1,7 @@
 <h3 class="arrondi_haut">News</h3>
 <div>
-{% for new in news %}
-    <p>{{new.date|date("Y-m-d H:i:s")}} - <a href="{{new.url}}">{{new.titre}}</p></a>
+{% for new in news|slice(0, 10) %}
+    <p>{{new.date|date("Y-m-d H:i:s")}} - <a href="{{new.url}}">{{new.titre}}</a></p>
     <p></p>
 
 {%else%}

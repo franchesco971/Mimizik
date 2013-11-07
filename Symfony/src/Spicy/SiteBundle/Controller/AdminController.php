@@ -456,4 +456,64 @@ class AdminController extends Controller
             'genre'=>$genre_musical
         ));
     }
+    
+    public function csvAction() 
+    {
+        
+        $row = 1;
+        $tab=array();
+        $tablo[]='/video/3/test,5';
+        $tablo[]='/video/3/test,5';
+        //$tablo[]=5;
+        /*$tablo[]='/video/6/test';
+        //$tablo[]=6;
+        $tablo[]='/video/7/test';
+        //$tablo[]=7;
+        $tablo[]='/video/9/test';
+        //$tablo[]=8;
+        $tablo[]='/video/10/test';
+        //$tablo[]=9;
+        
+        $tablo[]='/video/11/test';
+        //$tablo[]=10;
+        $tablo[]='/video/6/test';
+        //$tablo[]=11;
+        $tablo[]='/video/7/test';
+        //$tablo[]=12;
+        $tablo[]='/video/9/test';
+        //$tablo[]=13;*/
+        
+        if (($handle = fopen("csv/test4.csv", "r")) !== FALSE) {
+            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                $num = count($data);
+                //$txt=$txt."<p> $num champs à la ligne $row: <br /></p>\n";
+                //$txt=array();
+                
+                for ($c=0; $c < $num; $c++) {
+                //for ($c=0; $c < 1; $c++) {    
+                    if(preg_match('/^\/video/', $data[$c]))
+                    {
+                        list($rien,$debut,$id,$reste)=  explode('/',$data[$c] );
+                        //list($rien,$debut,$id,$reste)=  explode('/',$tablo[$c] );
+                        $video=$this->getDoctrine()
+                            ->getManager()
+                            ->getRepository('SpicySiteBundle:Video')
+                            ->getOneAvecArtistes($id);
+                        
+                        $nbVues=$data[$c+1];
+                        //$nbVues=$tablo[$c+1];
+                        $txt[]=array($video,$nbVues);
+                    }
+                    //$txt[]=$data[$c];
+                }
+                //$tab[$row]=$txt;
+                //$row++;
+            }
+            fclose($handle);
+        }
+        
+        return $this->render('SpicySiteBundle:Admin:csv.html.twig',array(
+            'txt'=>$txt
+        ));
+    }
 }

@@ -1,10 +1,12 @@
-
-<h3 class="arrondi_haut">Rétro de la semaine</h3>
-<p>Chaque semaines retrouvez la vidéo rétro de la semaine. 
+<h5>Chaque semaines retrouvez la vidéo rétro de la semaine. 
     Par rétro on entend un titre qui n'est pas récent. Cette video peur être de tous genres.
-</p><br/>
+</h5><br/>
 {% if video is defined %}
-    {% include "SpicySiteBundle:Site:video_mini.html.twig" %}
+    <div class="image" >
+        <a href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
+            <img alt="" src="http://img.youtube.com/vi/{{video.url}}/0.jpg" width="240" height="135" />
+        </a>
+    </div>
     <div class="description">{{video.description}}</div>
 {%else%}
     pas de resultat

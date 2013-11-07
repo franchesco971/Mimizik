@@ -48,4 +48,10 @@ class ArtisteRepository extends EntityRepository
         $query=$qb->getQuery()->getResult();
         return $query;
     }
+    
+    public function getArtistesByGenre($param) {
+        
+    }
+    
+    
 }

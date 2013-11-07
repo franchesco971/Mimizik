@@ -15,35 +15,40 @@
     
 {% block body %}
     {{ parent() }}
-    <div id="artiste" class="fond_transparent">
-        <h1>Tes artistes pr&eacute;f&eacute;r&eacute;s</h1>
-
-        <div>
-            <table border="1" class="data">
-                <tr><th>Nom</th><th>Description</th></tr>
-            {% for artiste in artistes %}
-                <tr>
-                    <td><a href="{{ path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a></td>
-                    <td>{{artiste.description| truncate(20, true, '...')}}</td>
-                </tr>
-            {%else%}
-                <tr colspan="2"><td>Pas d'artistes</td></tr>
-            {% endfor %}
-            </table>
-        </div>
-        <!--<div class="pagination">
-            <ul>
-              {% for p in range(1, nombrePage) %}
-                <li{% if p == page %} class="active"{% endif %}>
-                  <a href="{{ path('spicy_site_artistes', {'page': p}) }}">{{ p }}</a>
-                </li>
-              {% endfor %}
-            </ul>
-        </div>-->
-        <div id="Pagination">
-            
+    <div class="page-title wrapper">
+        <div class="container">
+            <span>Tes artistes pr&eacute;f&eacute;r&eacute;s</span>
+            <div class="clear"></div>
         </div>
     </div>
+    <div class="content wrapper">
+        <div class="container">
+            <div class="two-third column">
+                <div class="content-block">
+                    <div class="block-content">
+                        <table>
+                            {% for artiste in artistes %}
+                                <tr>
+                                    <td><a href="{{ path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a></td>
+                                    <td>{{artiste.description| truncate(20, true, '...')}}</td>
+                                </tr>
+                            {%else%}
+                            <tr colspan="2"><td>Pas d'artistes</td></tr>
+                            {% endfor %}
+                        </table>
+                        <div id="Pagination">          
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="one-third column last">
+                <div class="content-block">
+                    <div class="block-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>        
+    
 {%endblock%}
     
 {% block javascripts %}
