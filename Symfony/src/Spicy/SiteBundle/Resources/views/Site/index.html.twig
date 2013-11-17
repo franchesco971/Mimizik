@@ -26,7 +26,7 @@
     
     <div id="recherche" class="">
         <div class="page" >
-            <script>
+            <script type="text/javascript">
                 (function() {
                   var cx = '002998674673804737708:kp1nwfez6i8';
                   var gcse = document.createElement('script');
@@ -54,14 +54,7 @@
             </div>
         </div>
         <div class="column" style="width:310px">
-            <div class="content-block">
-                <div class="block-title">
-                    <span>Rétro de la semaine</span>
-                </div>
-                <div class="block-content">
-                    {{ render(controller("SpicySiteBundle:Site:retro"))}}
-                </div>
-            </div>
+            
                 
             <div class="content-block widget widget-social">
                 <div class="block-title"><span>Social</span></div>
@@ -78,8 +71,7 @@
                         <div class="clear"></div>
                         <div class="panes">
                             <div class="pane facebook" style="display: block;">
-                                <div id="fb-root"></div>
-                                    <script>(function(d, s, id) {
+                                <script type="text/javascript">(function(d, s, id) {
                                       var js, fjs = d.getElementsByTagName(s)[0];
                                       if (d.getElementById(id)) return;
                                       js = d.createElement(s); js.id = id;
@@ -101,6 +93,15 @@
                             </div>-->
                         </div>
                     </div>
+                </div>
+            </div>
+            
+            <div class="content-block">
+                <div class="block-title">
+                    <span>Rétro de la semaine</span>
+                </div>
+                <div class="block-content">
+                    {{ render(controller("SpicySiteBundle:Site:retro"))}}
                 </div>
             </div>
         </div>
@@ -181,5 +182,5 @@
     <script type="text/javascript" src="{{asset('js/jquery.mousewheel.min.js')}}" ></script>
     <script type="text/javascript" src="{{asset('js/jquery.ribbonSlider.js')}}" ></script>
     <!--<script type="text/javascript" src="{{asset('js/jquery.custom.js')}}" ></script>-->
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    <script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 {% endblock%}

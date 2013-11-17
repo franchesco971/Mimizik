@@ -1,6 +1,6 @@
 <li class="slide-480">
     <a href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
-        <img src="http://img.youtube.com/vi/{{video.url}}/0.jpg" border="0"  />
+        <img src="http://img.youtube.com/vi/{{video.url}}/0.jpg" alt="{{video.titre}}"  />
     </a>
     <div class="ribbon-caption">
         <a class="ribbon-caption-title" href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
@@ -13,11 +13,11 @@
                         {%set nbletter=nbletter+artiste.libelle|length%}
 
                         {% if loop.length==2 and loop.first and nbletter<20%}
-                        &
+                        &amp;
                         {% elseif loop.length>2 and loop.revindex>2 and nbletter<20%}
                         ,
                         {% elseif loop.last==false and nbletter<20%}
-                        &
+                        &amp;
                         {%endif%}
                     {%endif%}
 

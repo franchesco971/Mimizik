@@ -1,7 +1,7 @@
 <div class="post">
     <div class="image floatleft" >
         <a href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
-            <img alt="" src="http://img.youtube.com/vi/{{video.url}}/0.jpg" width="240" height="180" alt="{{video.titre}} mimizik" />
+            <img src="http://img.youtube.com/vi/{{video.url}}/0.jpg" width="240" height="180" alt="{{video.titre}} mimizik" />
         </a>
     </div>
     <div class="floatleft infos_video">
@@ -14,11 +14,11 @@
                 {%set nbletter=nbletter+artiste.libelle|length%}
                 
                 {% if loop.length==2 and loop.first and nbletter<20%}
-                &
+                &amp;
                 {% elseif loop.length>2 and loop.revindex>2 and nbletter<20%}
                 ,
                 {% elseif loop.last==false and nbletter<20%}
-                &
+                &amp;
                 {%endif%}
             {%endif%}
             
