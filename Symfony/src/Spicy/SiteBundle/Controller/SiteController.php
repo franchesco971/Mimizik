@@ -226,7 +226,7 @@ class SiteController extends Controller
     
     public function showGenreAction(GenreMusical $genre)
     {
-        $nbSuggestion=$this->container->getParameter('nbSuggestion');
+        $nbSuggestion=$this->container->getParameter('nbVideosGenreAffiche');
         
         /*$artiste=$this->getDoctrine()
                 ->getManager()
