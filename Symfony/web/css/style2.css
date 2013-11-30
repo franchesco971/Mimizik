@@ -134,6 +134,10 @@ a, h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover, .rele
     margin-right: 10px;
 }
 
+.artiste_post
+{
+    position: relative;width: 100%; height: 130px;margin-bottom: 10px;overflow:hidden;
+}
 .artiste_post_libelle
 {
     position:absolute;left:0;bottom:10px;
