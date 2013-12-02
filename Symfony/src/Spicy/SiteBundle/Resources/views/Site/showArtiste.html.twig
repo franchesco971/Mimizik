@@ -35,7 +35,7 @@
                     <div class="un-demi column last">
                         <div class="content-block">
                             <div class="block-title"><span>Description</span></div>
-                            <div class="block-content">{{artiste.description}}</div>
+                            <div class="block-content">{{artiste.description|nl2br}}</div>
                             <div class="block-content">Tags :
                                 {% for genre in genres %}
                                     <a href="{{ path('spicy_site_genre',{'id':genre.id,'slug':genre.slug})}}">{{genre.libelle}} </a>

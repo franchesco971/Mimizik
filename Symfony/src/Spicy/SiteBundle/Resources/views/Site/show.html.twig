@@ -52,7 +52,7 @@
                 <div class="content-block">
                     <div class="block-title"><span>Description</span></div>
                     <div class="block-content">
-                        <p>{{lavideo.description}}</p>
+                        <p>{{lavideo.description|nl2br}}</p>
                         <p ><b class="titre">Artistes: </b>
                             {% for artiste in lavideo.artistes %}
                             <a href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a>    
