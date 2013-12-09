@@ -2621,7 +2621,7 @@ input[type="button"],
 .artist-thumbnail,
 .video-thumbnail,
 .content-block {
-	behavior:url(wp-content/themes/replay/framework/extensions/pie/PIE.php);
+	behavior:url(/pie/PIE.php);
 }
 
 .ie8 .page-title .button-container {
