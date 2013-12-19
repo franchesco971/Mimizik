@@ -53,9 +53,7 @@
                 </div>    
             </div>
         </div>
-        <div class="column" style="width:310px">
-            
-                
+        <div class="column" style="width:310px">          
             <div class="content-block widget widget-social">
                 <div class="block-title"><span>Social</span></div>
                 <div class="block-content">		
@@ -65,7 +63,6 @@
                                 <li class="current"><a href="#" title="Facebook" class="facebook"></a></li>
                                 <li><a href="#" title="Twitter" class="twitter"></a></li>
                                 <li><a href="#" title="YouTube" class="youtube"></a></li>
-                                <!--<li><a href="#" title="SoundCloud" class="soundcloud"></a></li>-->
                             </ul>
                         </div>	
                         <div class="clear"></div>
@@ -88,9 +85,6 @@
                             <div class="pane youtube">
                                     <iframe style="overflow: hidden; height: 105px; width: 100%; border: 0;" src="http://www.youtube.com/subscribe_widget?p=mimizikcom" id="fr"></iframe>
                             </div>
-                            <!--<div class="pane soundcloud">
-                                <iframe height="166" src="http://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F10584288"></iframe>					
-                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -104,6 +98,12 @@
                     {{ render(controller("SpicySiteBundle:Site:retro"))}}
                 </div>
             </div>
+                
+            <div class="content-block">
+                <div class="block-content">
+                    {% include "SpicySiteBundle:Site:encart_droit_banstex.html.twig" %}
+                </div>
+            </div>
         </div>
         
     </div>
@@ -112,14 +112,6 @@
 {% block javascripts %}
     {{parent()}}
     <script type="text/javascript">
-        /*function initSlider(){
-            $(".ribbon-slider-container").ribbonSlider({
-                speed: 1,
-                pause: 10,
-                handlePlayer: true,
-                showControls: true
-            });
-        }*/
         
         function initPagination() {
             // count entries inside the hidden content
@@ -181,6 +173,5 @@
     </script>
     <script type="text/javascript" src="{{asset('js/jquery.mousewheel.min.js')}}" ></script>
     <script type="text/javascript" src="{{asset('js/jquery.ribbonSlider.js')}}" ></script>
-    <!--<script type="text/javascript" src="{{asset('js/jquery.custom.js')}}" ></script>-->
     <script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 {% endblock%}
