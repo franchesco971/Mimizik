@@ -228,15 +228,9 @@ class SiteController extends Controller
     {
         $nbSuggestion=$this->container->getParameter('nbVideosGenreAffiche');
         
-        /*$artiste=$this->getDoctrine()
-                ->getManager()
-                ->getRepository('SpicySiteBundle:Genre')
-                ->find($id);*/
-        
         $videos=$this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
-                //->getOneAvecArtistes($id);
                 ->getByGenre($genre->getId(),$nbSuggestion);
         
          if ($videos == null) {

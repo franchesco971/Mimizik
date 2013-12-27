@@ -112,13 +112,15 @@ class VideoRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('v')
              ->join('v.genre_musicaux', 'g')
+             ->join('v.artistes', 'a')
                 ->where('g.id=:id')
                 ->setParameter('id', $id)
              ->andWhere('v.etat=1')
                 ->addOrderBy('v.dateVideo','DESC')
                 ->setFirstResult(0)
                 ->setMaxResults($nbOccurrences)
-             ->addSelect('g');
+             ->addSelect('g')
+            ->addSelect('a');
         
         return $qb->getQuery()
             ->getResult();

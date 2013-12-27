@@ -2,6 +2,9 @@
 
 {% block title %}
     {{parent()}} - Toutes les vidéos clip et la musique des antilles, de la caraïbes et de la guyane. Tout mizik la!
+    {% if page>1 %}
+      Page {{page}}
+    {% endif %}
 {% endblock %}
 
 {% block stylesheets %}
