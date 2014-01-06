@@ -38,8 +38,8 @@ spicy_site_genres:
     requirements:
         page: \d+
 spicy_site_genre:
-    pattern: /genre/{slug}-{id}
-    defaults: { _controller: SpicySiteBundle:Site:showGenre }
+    pattern: /genre/{id}/{page}/{slug}
+    defaults: { _controller: SpicySiteBundle:Site:showGenre, page: 1 }
     requirements:
         slug: "[a-zA-Z-]+"
         id: \d+
@@ -52,7 +52,7 @@ spicy_site_credits:
     defaults: { _controller: SpicySiteBundle:Site:Credits }
 spicy_site_contact:
     pattern: /contact
-    defaults: { _controller: SpicySiteBundle:Site:Contact }
+    defaults: { _controller: SpicySiteBundle:Site:contact }
 
 spicy_site_test:
     pattern: /test
@@ -60,16 +60,16 @@ spicy_site_test:
     
 spicy_site_flux_videos:
     pattern: /flux/videos
-    defaults: { _controller: SpicySiteBundle:Site:FluxVideos }
+    defaults: { _controller: SpicySiteBundle:Site:fluxVideos }
 spicy_site_flux_retro:
     pattern: /flux/retro
-    defaults: { _controller: SpicySiteBundle:Site:FluxRetro }
+    defaults: { _controller: SpicySiteBundle:Site:fluxRetro }
 spicy_site_flux_artistes:
     pattern: /flux/artistes
-    defaults: { _controller: SpicySiteBundle:Site:FluxArtistes }
+    defaults: { _controller: SpicySiteBundle:Site:fluxArtistes }
 spicy_site_flux_index:
     pattern: /flux/index
-    defaults: { _controller: SpicySiteBundle:Site:FluxIndex }
+    defaults: { _controller: SpicySiteBundle:Site:fluxIndex }
     
 spicy_site_liste_artiste:
     pattern: /list_artiste
@@ -80,3 +80,6 @@ spicy_site_liste_alpha:
 spicy_site_alphabet:
     pattern: /alphabet
     defaults: { _controller: SpicySiteBundle:Site:alphabet }
+spicy_site_redirect_youtube:
+    pattern: /user/mimizikcom
+    defaults: { _controller: SpicySiteBundle:Site:redirectYoutube }

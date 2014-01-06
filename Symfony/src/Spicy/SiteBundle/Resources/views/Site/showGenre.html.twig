@@ -40,6 +40,33 @@
             </div>
         </div>
     </div>
-    
-    
+       
 {% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+    
+    <script type="text/javascript">
+        function initPagination() {
+            var num_entries = {{videos|length}}
+            // Create content inside pagination element
+            $("#Pagination").pagination(num_entries, {
+                //callback: pageselectCallback,
+                items_per_page:20, // Show only one item per page
+                link_to:"{{ path('spicy_site_genre',{'id':genre.id,'slug':genre.slug,'page':'__id__'})}}",
+                current_page:{{page-1}},
+                prev_text:"Prèc.",
+                next_text:"Suiv.",
+                num_edge_entries:2,
+                num_display_entries:8,
+                callback:function(){}
+            });
+         }
+
+        // When document is ready, initialize pagination
+        $(document).ready(function(){      
+            initPagination();
+        });
+    </script>
+    
+{% endblock%}

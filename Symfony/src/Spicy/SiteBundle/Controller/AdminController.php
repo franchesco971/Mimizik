@@ -18,14 +18,7 @@ class AdminController extends Controller
 {
     public function indexAction()
     {
-        $video=new Video;
-        $video->setTitre('une video');
-        $video->setUrl('nIGSG0PZzjA');
-
-        
-        return $this->render('SpicySiteBundle:Admin:index.html.twig',array(
-            'video'=>$video
-        ));
+        return $this->render('SpicySiteBundle:Admin:index.html.twig');
     }
     
     public function homeVideoAction($page)
@@ -37,7 +30,6 @@ class AdminController extends Controller
                 ->getRepository('SpicySiteBundle:Video')
                 ->getAll($page,$nbArtisteAffiche);
         
-        //if($artistes == null) 
         if($videos == null) {
             throw $this->createNotFoundException('Video inexistant');
         }
@@ -134,24 +126,14 @@ class AdminController extends Controller
     }
     
     public function homeArtisteAction($page)
-    {
-       /*$artistes = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('SpicySiteBundle:Artiste')
-                ->findAll();
-       
-       return $this->render('SpicySiteBundle:Admin:homeArtiste.html.twig',array(
-            'artistes'=>$artistes
-        ));*/
-        
+    {        
         $nbArtisteAffiche=$this->container->getParameter('nbArtisteAffiche');
         
         $artistes=$this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Artiste')
                 ->getAll($page,$nbArtisteAffiche);
-        
-        //if($artistes == null) 
+         
         if($artistes == null) {
             throw $this->createNotFoundException('Artiste inexistant');
         }

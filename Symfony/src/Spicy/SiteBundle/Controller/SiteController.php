@@ -123,30 +123,9 @@ class SiteController extends Controller
             throw $this->createNotFoundException('Artiste inexistant');
         }
         
-        /*$genres=$this->getDoctrine()
-                ->getManager()
-                ->getRepository('SpicySiteBundle:GenreMusical')
-                ->getGenresByArtiste($id);
-        
-        if($genres == null) {
-            throw $this->createNotFoundException('Genres inexistant');
-        }*/
-        
-        /*$nbArtisteAffiche=$this->container->getParameter('nbArtisteAffiche');
-
-        $artistes=$this->getDoctrine()
-                ->getManager()
-                ->getRepository('SpicySiteBundle:Artiste')
-                ->getAll(1,$nbArtisteAffiche);
-
-        if($artistes == null) {
-            throw $this->createNotFoundException('Artiste inexistant');
-        }*/
-        
         $videos=$this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
-                //->getOneAvecArtistes($id);
                 ->getByArtiste($id,$nbSuggestion);
         
          if ($videos == null) {
@@ -212,7 +191,6 @@ class SiteController extends Controller
                 ->getRepository('SpicySiteBundle:GenreMusical')
                 ->getAll($page,$nbGenreAffiche);
         
-        //if($artistes == null) 
         if($genres == null) {
             throw $this->createNotFoundException('Genre inexistant');
         }
@@ -224,14 +202,14 @@ class SiteController extends Controller
         ));
     }
     
-    public function showGenreAction(GenreMusical $genre)
+    public function showGenreAction(GenreMusical $genre,$page)
     {
         $nbSuggestion=$this->container->getParameter('nbVideosGenreAffiche');
         
         $videos=$this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
-                ->getByGenre($genre->getId(),$nbSuggestion);
+                ->getByGenre($genre->getId(),$nbSuggestion,$page);
         
          if ($videos == null) {
             throw $this->createNotFoundException('Video inexistant');
@@ -239,7 +217,9 @@ class SiteController extends Controller
         
         return $this->render('SpicySiteBundle:Site:showGenre.html.twig',array(
             'videos'=>$videos,
-            'genre'=>$genre    
+            'genre'=>$genre,
+            'nombrePage'=>ceil((count($videos))/ $nbSuggestion),
+            'page'=>$page
         ));
     }
     
@@ -364,11 +344,7 @@ class SiteController extends Controller
             if($artistes == null) {
                 throw $this->createNotFoundException('Artiste inexistant');
             }
-  
-            /*return $this->render('SpicySiteBundle:Site:listArtiste.html.twig',array(
-                'news'=>$news
-
-            ));*/
+            
             return $this->render('SpicySiteBundle:Site:listArtiste.html.twig',array(
                 'artistes'=>$artistes                
             ));
@@ -441,7 +417,7 @@ class SiteController extends Controller
         ));
     }
     
-    public function GenresAction() 
+    public function genresAction() 
     {
         $genres=$this->getDoctrine()
                 ->getManager()
@@ -455,5 +431,10 @@ class SiteController extends Controller
         return $this->render('SpicySiteBundle:Site:genresMenu.html.twig',array(
             'genres'=>$genres                
         ));
+    }
+    
+    public function redirectYoutubeAction()
+    {
+       return $this->redirect('http://www.youtube.com/user/mimizikcom');
     }
 }

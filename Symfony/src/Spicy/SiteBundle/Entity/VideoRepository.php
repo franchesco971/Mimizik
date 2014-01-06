@@ -14,7 +14,7 @@ use Spicy\SiteBundle\Entity\Video;
  */
 class VideoRepository extends EntityRepository
 {
-    private $retro=6;
+    private $retro=2;
     
     public function getOneAvecArtistes($id)
     {
@@ -32,7 +32,6 @@ class VideoRepository extends EntityRepository
  
         return $qb->getQuery()
                 ->getSingleResult();
-            //->getResult();
     }
     
     public function getAvecArtistes($nbOccurrences)
@@ -71,25 +70,17 @@ class VideoRepository extends EntityRepository
         $qb = $this->createQueryBuilder('v')
              ->join('v.artistes', 'a')
              ->andWhere('v.etat=1')
-             //->join('v.genre_musicaux', 'g')
              ->where("v.id NOT IN (select vi.id from SpicySiteBundle:video vi 
                     JOIN 
                         vi.genre_musicaux ge where ge.id=".$this->retro.")")
             ->addOrderBy('v.dateVideo','DESC')
-                //->setFirstResult($premierResultat)
                 ->setFirstResult(($page-1)*$nbOccurrences+$premierResultat)
                 ->setMaxResults($nbOccurrences)
                 ->addSelect('a');
-                
-                //->setMaxResults($nbOccurrences*3)          
- 
-        /*return $qb->getQuery()
-            ->getResult();*/
-        
+    
         $query=$qb->getQuery();
-        //$result=$query->getResult();
         
-         return new Paginator($query);
+        return new Paginator($query);
     }
     
     public function getByArtiste($id,$nbOccurrences)
@@ -108,8 +99,13 @@ class VideoRepository extends EntityRepository
             ->getResult();
     }
     
-    public function getByGenre($id,$nbOccurrences)
+    public function getByGenre($id,$nbOccurrences,$page)
     {
+        if( $page < 1 )
+        {
+            throw $this->createNotFoundException('Page inexistante (page = '.$page.')');
+        }
+        
         $qb = $this->createQueryBuilder('v')
              ->join('v.genre_musicaux', 'g')
              ->join('v.artistes', 'a')
@@ -117,13 +113,13 @@ class VideoRepository extends EntityRepository
                 ->setParameter('id', $id)
              ->andWhere('v.etat=1')
                 ->addOrderBy('v.dateVideo','DESC')
-                ->setFirstResult(0)
+                ->setFirstResult(($page-1)*$nbOccurrences)
                 ->setMaxResults($nbOccurrences)
              ->addSelect('g')
             ->addSelect('a');
-        
-        return $qb->getQuery()
-            ->getResult();
+                
+        $query=$qb->getQuery();
+        return new Paginator($query);
     }
     
     public function getAllRetro($nbOccurrences)
