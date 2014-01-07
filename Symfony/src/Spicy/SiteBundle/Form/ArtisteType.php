@@ -14,6 +14,8 @@ class ArtisteType extends AbstractType
             ->add('libelle','text')
             ->add('description','textarea')
             ->add('tag_facebook','text', array('required' => false))
+            ->add('tag_twitter','text', array('required' => false))
+            ->add('hashtags','text', array('required' => false))
             ->add('dateArtiste','datetime')
             
         ;

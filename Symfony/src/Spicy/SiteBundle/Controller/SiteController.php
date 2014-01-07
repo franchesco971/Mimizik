@@ -251,41 +251,7 @@ class SiteController extends Controller
             'test'=>$test
                 
         ));
-    }
-    
-    public function fluxVideosAction()
-    {
-        $videos=$this->getDoctrine()
-                ->getManager()
-                ->getRepository('SpicySiteBundle:Video')
-                ->getAvecArtistes(30);
-        
-        if ($videos == null) {
-            throw $this->createNotFoundException('Video inexistant');
-        }
-        
-        return $this->render('SpicySiteBundle:Site:fluxVideos.html.twig',array(
-            'videos'=>$videos
-                
-        ));
-    }
-    
-    public function fluxRetroAction()
-    {
-        $videos=$this->getDoctrine()
-                ->getManager()
-                ->getRepository('SpicySiteBundle:Video')
-                ->getAllRetro(50);
-        
-        if ($videos == null) {
-            throw $this->createNotFoundException('Video inexistant');
-        }
-        
-        return $this->render('SpicySiteBundle:Site:fluxRetro.html.twig',array(
-            'videos'=>$videos
-                
-        ));
-    }
+    }        
     
     public function retroAction()
     {
@@ -302,28 +268,7 @@ class SiteController extends Controller
             'video'=>$video
                 
         ));
-    }
-    
-    public function fluxArtistesAction()
-    {
-        $artistes=$this->getDoctrine()
-                ->getManager()
-                ->getRepository('SpicySiteBundle:Artiste')
-                ->getFlux();
-        
-        if ($artistes == null) {
-            throw $this->createNotFoundException('Artiste inexistant');
-        }
-        
-        return $this->render('SpicySiteBundle:Site:fluxArtistes.html.twig',array(
-            'artistes'=>$artistes                
-        ));
-    }
-    
-    public function fluxIndexAction()
-    {        
-        return $this->render('SpicySiteBundle:Site:fluxIndex.html.twig');
-    }
+    }       
     
     public function listArtisteAction()
     {

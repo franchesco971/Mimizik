@@ -44,6 +44,20 @@ class Artiste
     private $tag_facebook;
     
     /**
+     * @var string
+     *
+     * @ORM\Column(name="tag_twitter", type="string", length=255, nullable=true)
+     */
+    private $tag_twitter;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="hashtags", type="string", length=255, nullable=true)
+     */
+    private $hashtags;
+    
+    /**
      *
      * @var string
      * @Gedmo\Slug(fields={"libelle"})
@@ -185,5 +199,51 @@ class Artiste
     public function getTagFacebook()
     {
         return $this->tag_facebook;
+    }
+
+    /**
+     * Set tag_twitter
+     *
+     * @param string $tagTwitter
+     * @return Artiste
+     */
+    public function setTagTwitter($tagTwitter)
+    {
+        $this->tag_twitter = $tagTwitter;
+    
+        return $this;
+    }
+
+    /**
+     * Get tag_twitter
+     *
+     * @return string 
+     */
+    public function getTagTwitter()
+    {
+        return $this->tag_twitter;
+    }
+
+    /**
+     * Set hashtags
+     *
+     * @param string $hashtags
+     * @return Artiste
+     */
+    public function setHashtags($hashtags)
+    {
+        $this->hashtags = $hashtags;
+    
+        return $this;
+    }
+
+    /**
+     * Get hashtags
+     *
+     * @return string 
+     */
+    public function getHashtags()
+    {
+        return $this->hashtags;
     }
 }

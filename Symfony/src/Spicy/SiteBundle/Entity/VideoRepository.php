@@ -14,7 +14,7 @@ use Spicy\SiteBundle\Entity\Video;
  */
 class VideoRepository extends EntityRepository
 {
-    private $retro=2;
+    private $retro=2;//2 en prod, 6 en dev
     
     public function getOneAvecArtistes($id)
     {
@@ -39,8 +39,6 @@ class VideoRepository extends EntityRepository
         $qb = $this->createQueryBuilder('v')
              ->join('v.artistes', 'a')
              ->andWhere('v.etat=1')
-             //->join('v.genre_musicaux', 'g')
-                //->where("g.libelle<>'Rétro'")
              ->where("v.id NOT IN (select vi.id from SpicySiteBundle:video vi 
                     JOIN 
                         vi.genre_musicaux ge 
@@ -50,12 +48,8 @@ class VideoRepository extends EntityRepository
                 ->setFirstResult(0)
                 ->setMaxResults($nbOccurrences)
              ->addSelect('a');
- 
-        /*return $qb->getQuery()
-            ->getResult();*/
         
         $query=$qb->getQuery();
-        //$result=$query->getResult();
         
         return new Paginator($query);
     }
@@ -128,7 +122,6 @@ class VideoRepository extends EntityRepository
              ->join('v.type_videos', 't')
              ->join('v.genre_musicaux', 'g')
              ->join('v.artistes', 'a')
-             //->where("g.libelle='Rétro'")
              ->where("g.id=".$this->retro)
              ->andWhere('v.etat=1')
              ->setFirstResult(0)
@@ -149,28 +142,19 @@ class VideoRepository extends EntityRepository
              ->join('v.type_videos', 't')
              ->join('v.genre_musicaux', 'g')
              ->join('v.artistes', 'a')
-             //->where('v.id=:id')
-             //->setParameter('id', $id)
-             //->where("g.libelle='Rétro'")
                 ->where("g.id=".$this->retro)
              ->andWhere('v.etat=1')
              ->andWhere("v.dateVideo in (select max(vi.dateVideo) from SpicySiteBundle:video vi 
                         JOIN vi.genre_musicaux ge 
                         where ge.id=".$this->retro.")")
-             //->from('(SELECT MAX(v.dateVideo) from Spicy\SiteBundle\Entity\Video)', 'v')
-             //->setMaxResults(5)
              ->addOrderBy('v.dateVideo','DESC')  
              ->addSelect('a')
                 ->addSelect('t')
                 ->addSelect('g')
              ;
- 
-        //return $qb->getQuery()->getSingleResult();
         
         try {
             $result=$qb->getQuery()->getSingleResult();
-            //$query=$qb->getQuery();
-            //$result=$query->getResult();
         } catch (Doctrine\ORM\NoResultException $e) {
             $result=null;
         }
@@ -207,7 +191,6 @@ class VideoRepository extends EntityRepository
                 ->setFirstResult(0)
                 ->setMaxResults(4);
                 
-        //$query->setParameter('list', $idList);
         $sql->setParameter('list', $idList);
         $sql->setParameter('id', $id);
         $query=$sql->getQuery();
@@ -216,20 +199,16 @@ class VideoRepository extends EntityRepository
     }
     
     public function getSuggestionsArtistes($idList)
-    {
-        
+    {        
         $qb=$this->createQueryBuilder('v')
                 ->join('v.artistes', 'a')
                 ->join('v.genre_musicaux', 'g')
                 ->where('g.id in ('.implode(',', $idList).')')
-                //->andWhere('v.id=6')
                 ->andWhere('v.etat=1')
                 
                 ->setFirstResult(0)
                 ->setMaxResults(20)
                 ->addSelect('a');
-                
-       //$qb->setParameter('liste', implode(',', $idList));
         
         return $qb->getQuery()->getResult();
     }

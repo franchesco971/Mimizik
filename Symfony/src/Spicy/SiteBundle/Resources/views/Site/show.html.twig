@@ -75,6 +75,7 @@
                                 <a href="{{lavideo.getTxtSource}}">{{lavideo.getSource}}</a>
                             {% else %}Inconnu{% endif %}
                         </p>
+                        <p><b class="titre">Tags:</b> {{lavideo.hashtags}}</p>
                     </div>
                 </div>
                 <div class="content-block">
@@ -83,6 +84,11 @@
                         <div class="fb-comments" 
                              data-href="{{domaine_name}}{{path('spicy_site_video_slug',{'id':lavideo.id,'slug':lavideo.slug})}}" 
                              data-width="580" data-num-posts="3"></div>
+                    </div>
+                </div>
+                <div class="content-block">
+                    <div class="block-content" id="encart_droit">
+                        {% include "SpicySiteBundle:Ads:468x60_banstex.html.twig" %}
                     </div>
                 </div>
             </div>

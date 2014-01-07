@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Spicy\UserBundle\SpicyUserBundle(),
+            new Spicy\FluxBundle\SpicyFluxBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

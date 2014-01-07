@@ -58,19 +58,6 @@ spicy_site_test:
     pattern: /test
     defaults: { _controller: SpicySiteBundle:Site:Test }
     
-spicy_site_flux_videos:
-    pattern: /flux/videos
-    defaults: { _controller: SpicySiteBundle:Site:fluxVideos }
-spicy_site_flux_retro:
-    pattern: /flux/retro
-    defaults: { _controller: SpicySiteBundle:Site:fluxRetro }
-spicy_site_flux_artistes:
-    pattern: /flux/artistes
-    defaults: { _controller: SpicySiteBundle:Site:fluxArtistes }
-spicy_site_flux_index:
-    pattern: /flux/index
-    defaults: { _controller: SpicySiteBundle:Site:fluxIndex }
-    
 spicy_site_liste_artiste:
     pattern: /list_artiste
     defaults: { _controller: SpicySiteBundle:Site:listArtiste }

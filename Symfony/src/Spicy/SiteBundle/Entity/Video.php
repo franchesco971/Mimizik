@@ -462,5 +462,41 @@ class Video
         return $this->description;
     }
 
-
+    public function getHashtags()
+    {
+        $hashtags=$txtHashtag='';
+        foreach ($this->artistes as $artiste) {
+            $hashtags=$hashtags.$artiste->getHashtags();
+        }
+        
+        if($hashtags!='')
+        {
+            $tabHashtags=explode(";", $hashtags);
+            
+            foreach ($tabHashtags as $hashtag) {
+                $txtHashtag=$txtHashtag.'#'.$hashtag.' ';
+            }
+        }
+        
+        return $txtHashtag;
+    }
+    
+    public function getTagTwitter()
+    {
+        $tags=$txTtag='';
+        foreach ($this->artistes as $artiste) {
+            $tags=$tags.$artiste->getTagTwitter();
+        }
+        
+        if($tags!='')
+        {
+            $tabTags=explode(";", $tags);
+            
+            foreach ($tabTags as $tag) {
+                $txTtag=$txTtag.'@'.$tag.' ';
+            }
+        }
+        
+        return $txTtag;
+    }
 }

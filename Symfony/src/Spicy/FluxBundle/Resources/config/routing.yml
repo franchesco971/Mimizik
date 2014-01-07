@@ -1,0 +1,18 @@
+spicy_site_flux_videos:
+    pattern: /videos
+    defaults: { _controller: SpicyFluxBundle:Flux:fluxVideos }
+spicy_site_flux_videos_twitter:
+    pattern: /videos_twitter
+    defaults: { _controller: SpicyFluxBundle:Flux:fluxVideosTwitter }
+spicy_site_flux_retro:
+    pattern: /retro
+    defaults: { _controller: SpicyFluxBundle:Flux:fluxRetro }
+spicy_site_flux_retro_twitter:
+    pattern: /retro_twitter
+    defaults: { _controller: SpicyFluxBundle:Flux:fluxRetroTwitter }
+spicy_site_flux_artistes:
+    pattern: /artistes
+    defaults: { _controller: SpicyFluxBundle:Flux:fluxArtistes }
+spicy_site_flux_index:
+    pattern: /index
+    defaults: { _controller: SpicyFluxBundle:Flux:fluxIndex }
