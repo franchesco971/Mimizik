@@ -169,3 +169,9 @@ a, h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover, .rele
 {
     background: url("/images/player_bottom_bg.png") repeat-x scroll 0 bottom #333333;
 }*/
+#banstex468x60
+{
+    margin: auto;
+    width: 468px;
+    padding-bottom: 20px;
+}
