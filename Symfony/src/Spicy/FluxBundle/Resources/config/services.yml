@@ -2,6 +2,5 @@ parameters:
 #    spicy_flux.example.class: Spicy\FluxBundle\Example
 
 services:
-#    spicy_flux.example:
-#        class: %spicy_flux.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    mimizik.twitter:
+        class: Spicy\FluxBundle\Services\Twitter

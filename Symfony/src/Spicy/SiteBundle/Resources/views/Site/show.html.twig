@@ -45,7 +45,13 @@
                     </span>
                 </div>
                 <div class="block-content">
-                    <iframe width="900" height="506" src="http://www.youtube.com/embed/{{lavideo.url}}?autoplay=1" frameborder="0" allowfullscreen></iframe>
+                    {% set autoplay=1 %}
+                    {% for typevideo in lavideo.TypeVideos %}
+                        {% if typevideo.id==4 %}
+                            {% set autoplay=0 %}
+                        {%endif%}
+                    {% endfor %}
+                    <iframe width="900" height="506" src="http://www.youtube.com/embed/{{lavideo.url}}?autoplay={{autoplay}}" frameborder="0" allowfullscreen></iframe>
                 </div>
             </div>
             <div class="two-third column">

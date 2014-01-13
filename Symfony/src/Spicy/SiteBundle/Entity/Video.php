@@ -466,32 +466,49 @@ class Video
     {
         $hashtags=$txtHashtag='';
         foreach ($this->artistes as $artiste) {
-            $hashtags=$hashtags.$artiste->getHashtags();
+            if($hashtags=='')
+            {
+                $hashtags=$hashtags.$artiste->getHashtags();
+            }
+            elseif($artiste->getHashtags()!='')
+            {
+                $hashtags=$hashtags.';'.$artiste->getHashtags();
+            }
         }
         
         if($hashtags!='')
         {
             $tabHashtags=explode(";", $hashtags);
-            
-            foreach ($tabHashtags as $hashtag) {
-                $txtHashtag=$txtHashtag.'#'.$hashtag.' ';
+            $tabHashtags=array_unique($tabHashtags);
+            foreach ($tabHashtags as $hashtag) 
+            {               
+                    $txtHashtag=$txtHashtag.'#'.$hashtag.' ';                
             }
+            
         }
         
         return $txtHashtag;
+        //return $hashtags;
     }
     
     public function getTagTwitter()
     {
         $tags=$txTtag='';
         foreach ($this->artistes as $artiste) {
-            $tags=$tags.$artiste->getTagTwitter();
+            if($tags=='')
+            {
+                $tags=$tags.$artiste->getTagTwitter();
+            }
+            elseif($artiste->getTagTwitter()!='')
+            {
+                $tags=$tags.';'.$artiste->getTagTwitter();
+            }
         }
         
         if($tags!='')
         {
             $tabTags=explode(";", $tags);
-            
+            $tabTags=array_unique($tabTags);
             foreach ($tabTags as $tag) {
                 $txTtag=$txTtag.'@'.$tag.' ';
             }

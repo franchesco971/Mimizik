@@ -37,7 +37,7 @@ class FluxController extends Controller
         if ($videos == null) {
             throw $this->createNotFoundException('Video inexistant');
         }
-        
+                
         return $this->render('SpicyFluxBundle:Flux:fluxVideos.html.twig',array(
             'videos'=>$videos                
         ));
@@ -54,9 +54,13 @@ class FluxController extends Controller
             throw $this->createNotFoundException('Video inexistant');
         }
         
+        $twitterService = $this->container->get('mimizik.twitter');
+        $arrayDescriptions=$twitterService->twitterType($videos);
+        
+        
         return $this->render('SpicyFluxBundle:Flux:videosTwitter.html.twig',array(
-            'videos'=>$videos
-                
+            'videos'=>$videos,
+            'descriptions'=>$arrayDescriptions
         ));
     }
     
@@ -71,7 +75,7 @@ class FluxController extends Controller
             throw $this->createNotFoundException('Video inexistant');
         }
         
-        return $this->render('SpicyFluxBundle:Flux:fluxRetro.html.twig',array(
+        return $this->render('SpicyFluxBundle:Flux:fluxVideos.html.twig',array(
             'videos'=>$videos                
         ));
     }
@@ -87,8 +91,12 @@ class FluxController extends Controller
             throw $this->createNotFoundException('Video inexistant');
         }
         
-        return $this->render('SpicyFluxBundle:Flux:retroTwitter.html.twig',array(
-            'videos'=>$videos                
+        $twitterService = $this->container->get('mimizik.twitter');
+        $arrayDescriptions=$twitterService->twitterType($videos);
+        
+        return $this->render('SpicyFluxBundle:Flux:videosTwitter.html.twig',array(
+            'videos'=>$videos,
+            'descriptions'=>$arrayDescriptions
         ));
     }
 }
