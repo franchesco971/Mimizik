@@ -63,7 +63,6 @@ class SiteController extends Controller
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
                 ->getOneAvecArtistes($id);
-                //->find($id);
         
          if ($video == null) {
             throw $this->createNotFoundException('Video inexistant');
@@ -83,9 +82,13 @@ class SiteController extends Controller
                 ->getRepository('SpicySiteBundle:Video')
                 ->getSuggestions($txtGenre,$video->getId());
         
+        $socialService = $this->container->get('mimizik.social');
+        $tags=$socialService->getHashtags($video);
+        
         return $this->render('SpicySiteBundle:Site:show.html.twig',array(
             'lavideo'=>$video,
-            'suggestions'=>$suggestions    
+            'suggestions'=>$suggestions,
+            'tags'=>$tags
         ));
     }
     
@@ -157,11 +160,6 @@ class SiteController extends Controller
         
         $tabArtistes=array();
         
-        /*$suggestions=$this->getDoctrine()
-                ->getManager()
-                ->getRepository('SpicySiteBundle:Video')
-                ->getAvecArtistes(6);*/
-        
         foreach ($suggestions as $suggestion)
         {
             foreach ($suggestion->getArtistes() as $sArtiste)
@@ -174,7 +172,13 @@ class SiteController extends Controller
             }
         }
         
+        $socialService = $this->container->get('mimizik.social');
+        $fbLink=$socialService->getFacebookLink($artiste);
+        $twitterLinks=$socialService->getArrayTwitterLink($artiste);
+        
         return $this->render('SpicySiteBundle:Site:showArtiste.html.twig',array(
+            'fbLink'=>$fbLink,
+            'twitterLinks'=>$twitterLinks,
             'videos'=>$videos,
             'artiste'=>$artiste,
             'genres'=>$tabGenres,
@@ -204,6 +208,11 @@ class SiteController extends Controller
     
     public function showGenreAction(GenreMusical $genre,$page)
     {
+        if($page=='__id__')
+        {
+            return $this->redirect($this->generateUrl('spicy_site_genre',array('id'=>$genre->getId(),'page'=>1,'slug'=>$genre->getSlug())));
+        }
+        
         $nbSuggestion=$this->container->getParameter('nbVideosGenreAffiche');
         
         $videos=$this->getDoctrine()

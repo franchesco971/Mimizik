@@ -1,26 +1,29 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" xmlns:og="http://ogp.me/ns#">
     <head>
-        <title>
-           {% block title %}
-                Mimizik - Toutes les vidéos clip et la musique des antilles, de la caraïbes et de la guyane. Tout mizik la!
-            {% endblock %}
-        </title>
+        <title>{% block title %}Mimizik - Toutes les vidéos clip et la musique des antilles, de la caraïbes et de la guyane. Tout mizik la!{% endblock %}</title>
         
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
         {% block meta_description %}
-        <meta name="Description" content="Mimizik est un site promotion de la musique des artistes et des vidéos clip des antilles, de la caraïbes et de la guyane. Il y a tous genres musicaux (zouk, dancehall, hip-hop...) et la vidéo rétro de la semaine..."/> 
+            <meta name="Description" content="Mimizik est un site promotion de la musique des artistes et des vidéos clip des antilles, de la caraïbes et de la guyane. Il y a tous genres musicaux (zouk, dancehall, hip-hop...) et la vidéo rétro de la semaine..." />
+            <meta property="og:title" content="Mimizik" />
+            <meta property="og:type" content="website" />
+            <meta property="og:image" content="{{asset('images/logo.png')}}" />
+            <meta property="og:url" content="{{website_name}}" />
         {% endblock %}
         <!--<meta http-equiv="Content-Language" content="fr">-->
         {% block stylesheets %}
-            <link rel="stylesheet" href="{{asset('css/style.css')}}" type="text/css" />		
-            <link rel="stylesheet" href="{{asset('css/style2.css')}}" type="text/css" />
+            {% stylesheets filter='cssrewrite,?yui_css'
+                'css/style.css'
+                'css/style2.css' %}
+                <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+            {% endstylesheets %}
         {% endblock %}
         <link rel="icon" type="image/png" href="{{asset('images/video.png')}}" />
         <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/icone.gif')}}" />
         <link rel="alternate" type="application/rss+xml" title="videos" href="{{website_name}}{{path('spicy_site_flux_videos')}}" />
         <!-- analytics -->
-        <script>
+        <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -28,7 +31,6 @@
 
             ga('create', 'UA-42850691-1', 'mimizik.com');
             ga('send', 'pageview');
-
         </script>
     </head>
     
@@ -38,16 +40,13 @@
                 <div class="container">
                     <div class="logo">
                         <img src="{{asset('images/logo100rouge.png')}}"  alt="Logo mimizik" />
-                    </div><!--/ logo-->
-                    <!--<div class="user-links">
-                            <div class="button-container">
-                                    <a class="button small dark login-link" href="#"><span>Sign In</span></a>
-                            </div>		
-                    </div>--><!--/ user links-->	
+                        <h1 style="display:none">Mimizik</h1>
+                    </div>	
                     <div class="social-links">
                         <a title="Facebook" class="facebook" href="https://www.facebook.com/mimizikcom" target="_blank"></a>								
                         <a title="Youtube" class="youtube" href="https://www.youtube.com/user/mimizikcom" target="_blank"></a>
                         <a title="Twitter" class="twitter" href="https://twitter.com/mimizikcom" target="_blank"></a>
+                        <a title="Google+" class="google" href="https://plus.google.com/+Mimizik" target="_blank"></a>
                         <a title="Flux" class="rss" href="http://www.mimizik.com/flux/videos" target="_blank"></a>
                     </div><!--/ social links-->				
                     <div class="clear"></div>
@@ -57,13 +56,13 @@
                 <div class="container" >
                     <div class="menu" >
                         <ul id="menu-main-menu" class="menu">
-                            <li><a href="{{path('spicy_site_homepage')}}">Accueil</a></li>
-                            <li><a href="{{path('spicy_site_artistes')}}">Artistes</a></li>
+                            <li><a title="Accueil Mimizik" href="{{path('spicy_site_homepage')}}">Accueil</a></li>
+                            <li><a title="Liste des artistes" href="{{path('spicy_site_artistes')}}">Artistes</a></li>
                             <li>
                                 <a>Genres musicaux</a>
                                 {{ render(controller("SpicySiteBundle:Site:genres"))}}
                             </li>
-                            <li><a href="{{path('spicy_site_contact')}}">Contact</a></li>
+                            <li><a title="Contact" href="{{path('spicy_site_contact')}}">Contact</a></li>
                         </ul>
                     </div>
                 </div>
@@ -79,10 +78,10 @@
                 <div class="container">				
                     <div class="menu">
                         <ul id="menu-footer-menu" class="menu">
-                            <li><a href="{{path('spicy_site_homepage')}}">Accueil</a></li>
-                            <li><a href="{{path('spicy_site_artistes')}}">Artistes</a></li>
-                            <li><a href="{{path('spicy_site_genres')}}">Genre musicaux</a></li>
-                            <li><a href="{{path('spicy_site_contact')}}">Contact</a></li>
+                            <li><a title="Accueil Mimizik" href="{{path('spicy_site_homepage')}}">Accueil</a></li>
+                            <li><a title="Liste des artistes" href="{{path('spicy_site_artistes')}}">Artistes</a></li>
+                            <li><a title="Genres musicaux" href="{{path('spicy_site_genres')}}">Genres musicaux</a></li>
+                            <li><a title="Contact" href="{{path('spicy_site_contact')}}">Contact</a></li>
                         </ul>
                     </div>				
                     <div class="copyright">Mimizik &copy; 2013</div>
@@ -93,13 +92,14 @@
     
     <div id="fb-root"></div>
     {% block javascripts %}
-    
-        <script type="text/javascript" src="{{asset('js/jquery-1.10.2.min.js')}}" ></script>
-        <script type="text/javascript" src="{{asset('js/jquery.fadeSlider.js')}}" ></script>
-        <script type="text/javascript" src="{{asset('js/jquery.hoverIntent.min.js')}}" ></script>
-        <script type="text/javascript" src="{{asset('js/jquery.custom.js')}}" ></script>
-        <script type="text/javascript" src="{{asset('js/jquery.pagination.js')}}" ></script>
-        
+        {% javascripts  filter='?yui_js'
+            'js/jquery-1.10.2.min.js'
+            'js/jquery.fadeSlider.js'
+            'js/jquery.hoverIntent.min.js'
+            'js/jquery.custom.js'
+            'js/jquery.pagination.js' %}
+            <script type="text/javascript" src="{{ asset_url }}" ></script>
+        {% endjavascripts %}        
     {% endblock %}
     </body>
 </html>

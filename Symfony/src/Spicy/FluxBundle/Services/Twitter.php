@@ -73,6 +73,15 @@ class Twitter
             }
         }
         
+        if($tags=='')
+        {
+            $tags=$tags.$video->getTagsTwitter();
+        }
+        elseif($video->getTagsTwitter()!='')
+        {
+            $tags=$tags.';'.$video->getTagsTwitter();
+        }
+        
         if($tags!='')
         {
             $tabTags=explode(";", $tags);
@@ -93,7 +102,6 @@ class Twitter
                 $nbTypeTwitterTag=$nbTypeTwitterTag+strlen($twitterTag);
                 $description=$description.'@'.$twitterTag.' ';
             }
-            
         }
         
         return $description;
@@ -101,6 +109,7 @@ class Twitter
     
     public function getDescriptionHashtag($video,$nbTitreTypes,$description) {
         $nbTypeHashtag=0;
+        
         if(strlen($description.' #clip #mimizik ')<140-13)
         {
             $description=$description.' #clip #mimizik ';

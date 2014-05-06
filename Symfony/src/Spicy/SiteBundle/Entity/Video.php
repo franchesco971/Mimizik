@@ -73,6 +73,20 @@ class Video
      */
     private $description;
     
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tags_fb", type="string", length=255, nullable=true)
+     */
+    private $tags_fb;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tags_twitter", type="string", length=255, nullable=true)
+     */
+    private $tags_twitter;
+    
     
     /**
     * @ORM\ManyToMany(targetEntity="Spicy\SiteBundle\Entity\Artiste")
@@ -462,58 +476,50 @@ class Video
         return $this->description;
     }
 
-    public function getHashtags()
+
+    /**
+     * Set tags_fb
+     *
+     * @param string $tagsFb
+     * @return Video
+     */
+    public function setTagsFb($tagsFb)
     {
-        $hashtags=$txtHashtag='';
-        foreach ($this->artistes as $artiste) {
-            if($hashtags=='')
-            {
-                $hashtags=$hashtags.$artiste->getHashtags();
-            }
-            elseif($artiste->getHashtags()!='')
-            {
-                $hashtags=$hashtags.';'.$artiste->getHashtags();
-            }
-        }
-        
-        if($hashtags!='')
-        {
-            $tabHashtags=explode(";", $hashtags);
-            $tabHashtags=array_unique($tabHashtags);
-            foreach ($tabHashtags as $hashtag) 
-            {               
-                    $txtHashtag=$txtHashtag.'#'.$hashtag.' ';                
-            }
-            
-        }
-        
-        return $txtHashtag;
-        //return $hashtags;
-    }
+        $this->tags_fb = $tagsFb;
     
-    public function getTagTwitter()
+        return $this;
+    }
+
+    /**
+     * Get tags_fb
+     *
+     * @return string 
+     */
+    public function getTagsFb()
     {
-        $tags=$txTtag='';
-        foreach ($this->artistes as $artiste) {
-            if($tags=='')
-            {
-                $tags=$tags.$artiste->getTagTwitter();
-            }
-            elseif($artiste->getTagTwitter()!='')
-            {
-                $tags=$tags.';'.$artiste->getTagTwitter();
-            }
-        }
-        
-        if($tags!='')
-        {
-            $tabTags=explode(";", $tags);
-            $tabTags=array_unique($tabTags);
-            foreach ($tabTags as $tag) {
-                $txTtag=$txTtag.'@'.$tag.' ';
-            }
-        }
-        
-        return $txTtag;
+        return $this->tags_fb;
+    }
+
+    /**
+     * Set tags_twitter
+     *
+     * @param string $tagsTwitter
+     * @return Video
+     */
+    public function setTagsTwitter($tagsTwitter)
+    {
+        $this->tags_twitter = $tagsTwitter;
+    
+        return $this;
+    }
+
+    /**
+     * Get tags_twitter
+     *
+     * @return string 
+     */
+    public function getTagsTwitter()
+    {
+        return $this->tags_twitter;
     }
 }

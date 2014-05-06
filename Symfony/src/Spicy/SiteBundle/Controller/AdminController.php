@@ -23,12 +23,12 @@ class AdminController extends Controller
     
     public function homeVideoAction($page)
     {
-        $nbArtisteAffiche=$this->container->getParameter('nbArtisteAffiche');
+        $nbVideoAfficheAdmin=$this->container->getParameter('nbVideoAfficheAdmin');
         
         $videos=$this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
-                ->getAll($page,$nbArtisteAffiche);
+                ->getAll($page,$nbVideoAfficheAdmin);
         
         if($videos == null) {
             throw $this->createNotFoundException('Video inexistant');
@@ -36,7 +36,7 @@ class AdminController extends Controller
                
         return $this->render('SpicySiteBundle:Admin:homeVideo.html.twig',array(
             'videos'=>$videos,
-            'nombrePage'=>ceil((count($videos))/ $nbArtisteAffiche),
+            'nombrePage'=>ceil((count($videos))/ $nbVideoAfficheAdmin),
             'page'=>$page
         ));
     }
@@ -127,7 +127,7 @@ class AdminController extends Controller
     
     public function homeArtisteAction($page)
     {        
-        $nbArtisteAffiche=$this->container->getParameter('nbArtisteAffiche');
+        $nbArtisteAffiche=$this->container->getParameter('nbArtisteAfficheAdmin');
         
         $artistes=$this->getDoctrine()
                 ->getManager()
@@ -306,16 +306,6 @@ class AdminController extends Controller
     
     public function deleteType_videoAction(TypeVideo $type_video)
     {
-        /*$type_video=$this->getDoctrine()
-                ->getManager()
-                ->getRepository('SpicySiteBundle:TypeVideo')
-                ->find($id);
-        
-        if ($type_video == null) {
-            throw $this->createNotFoundException('Type inexistant');
-        }
-        
-        $form= $this->createForm(new TypeVideoType,$type_video);*/
         $form = $this->createFormBuilder()->getForm();
         
         $request = $this->get('request');

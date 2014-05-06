@@ -2,3 +2,5 @@ parameters:
     domaine_name: www.mimizik.com
     website_name: http://www.mimizik.com
     email_contact: mimizikcom@gmail.com
+    nbArtisteAfficheAdmin: 30
+    nbVideoAfficheAdmin: 30

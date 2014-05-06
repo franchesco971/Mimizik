@@ -9,6 +9,9 @@ php_flag magic_quotes_gpc Off
     #    RewriteBase /
     #</IfModule>
     
+    RewriteCond %{HTTP_HOST} ^mimizik.com$
+    RewriteRule ^(.*) http://www.mimizik.com/$1 [QSA,L,R=301]
+
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^(.*)$ app.php [QSA,L]
 </IfModule>

@@ -16,6 +16,8 @@ class VideoType extends AbstractType
             ->add('dateVideo','datetime')
             ->add('etat','checkbox')
             ->add('source','text')
+            ->add('tags_fb','text', array('required' => false))
+            ->add('tags_twitter','text', array('required' => false))
             ->add('description','textarea', array('required' => false))
             ->add('artistes', 'entity', array(
                 'class'    => 'SpicySiteBundle:Artiste',

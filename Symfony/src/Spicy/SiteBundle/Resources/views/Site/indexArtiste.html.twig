@@ -9,7 +9,10 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{asset('css/pagination.css')}}" type="text/css" />
+    {% stylesheets filter='cssrewrite,?yui_css'
+        'css/pagination.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
     {{ parent() }}
 {% endblock %}
     

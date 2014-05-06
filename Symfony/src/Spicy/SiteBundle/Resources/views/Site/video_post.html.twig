@@ -9,7 +9,7 @@
         {% set nbletter=0%}
         {% for artiste in video.artistes %} 
             {% if nbletter<20 %}
-                <a href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a>
+                <a title="{{artiste.libelle}}" href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a>
                 
                 {%set nbletter=nbletter+artiste.libelle|length%}
                 
@@ -27,7 +27,7 @@
         {% endfor%}
         </h3>
         <h4 class="titre">
-            <a href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
+            <a title="{{video.getNomArtistes}} - {{video.titre}}" href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
                 {{video.titre}}
             </a>
         </h4>
@@ -35,7 +35,7 @@
             {{video.description| truncate(40, true, '...')}}
         </p>
         <p class="bouton">
-            <a class="button small" href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
+            <a title="{{video.getNomArtistes}} - {{video.titre}}" class="button small" href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
             <span>Plus d'infos</span>
             </a>
         </p>

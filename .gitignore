@@ -224,3 +224,7 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 /Symfony/nbproject/private/
+/Symfony/vendor/
+/Symfony/app/cache/
+/Symfony/app/logs/
+/nbproject/

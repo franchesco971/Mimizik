@@ -1,9 +1,9 @@
 <li class="slide-480">
-    <a href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
-        <img src="http://img.youtube.com/vi/{{video.url}}/0.jpg" alt="{{video.titre}}"  />
+    <a title="{{video.getNomArtistes}} - {{video.titre}}" href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
+        <img src="http://img.youtube.com/vi/{{video.url}}/0.jpg" alt="{{video.getNomArtistes}} - {{video.titre}}"  />
     </a>
     <div class="ribbon-caption">
-        <a class="ribbon-caption-title" href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
+        <a title="{{video.getNomArtistes}} - {{video.titre}}" class="ribbon-caption-title" href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
             <span>
                 {% set nbletter=0%}
                 {% for artiste in video.artistes %} 

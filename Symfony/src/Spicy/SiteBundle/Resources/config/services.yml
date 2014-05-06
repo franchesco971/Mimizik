@@ -13,6 +13,8 @@ services:
     spicy_site.parseurXML:
         class: Spicy\SiteBundle\ParseurXML\ParseurNews
         arguments: ["http://www.reggaefrance.com/news.xml"]
+    mimizik.social:
+        class: Spicy\SiteBundle\Services\Social
 #    spicy_site.example:
 #        class: %spicy_site.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]

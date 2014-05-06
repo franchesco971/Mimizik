@@ -4,11 +4,11 @@
 {% if video is defined %}
     
     <div class="image_retro" >
-        <a href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
-            <img alt="" src="http://img.youtube.com/vi/{{video.url}}/0.jpg" width="240" height="135" />
+        <a title="{{video.getNomArtistes}} - {{video.titre}}" href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
+            <img alt="{{video.getNomArtistes}} - {{video.titre}}" src="http://img.youtube.com/vi/{{video.url}}/0.jpg" width="240" height="135" />
         </a>
         <div class="ribbon-caption">
-            <a class="ribbon-caption-title" href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
+            <a title="{{video.getNomArtistes}} - {{video.titre}}" class="ribbon-caption-title" href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
                 <span>
                     {% set nbletter=0%}
                     {% for artiste in video.artistes %} 

@@ -2,8 +2,8 @@
     <a href="{{path('spicy_site_artiste_slug',{'id':sArtiste.id,"slug":sArtiste.slug})}}">
         <img src="https://graph.facebook.com/{{sArtiste.tagFacebook}}/picture?type=large" alt="{{sArtiste.libelle}} sur mimizik.com" />
     </a>
-    <div style="" class="artiste_post_libelle">
-        <a class="ribbon-caption-title" href="{{path('spicy_site_artiste_slug',{'id':sArtiste.id,"slug":sArtiste.slug})}}">
+    <div class="artiste_post_libelle">
+        <a title="{{sArtiste.libelle}}" class="ribbon-caption-title" href="{{path('spicy_site_artiste_slug',{'id':sArtiste.id,"slug":sArtiste.slug})}}">
             <span>{{sArtiste.libelle}}</span>
             <span class="ribbon-caption-background"></span>
         </a>

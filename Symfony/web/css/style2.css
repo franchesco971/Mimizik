@@ -175,3 +175,24 @@ a, h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover, .rele
     width: 468px;
     padding-bottom: 20px;
 }
+.social-links-description {
+    float: left;
+    overflow: hidden;
+    padding: 3px 0 1px;
+}
+.social-links-description a {
+    background: url("/images/social_icons.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    display: block;
+    float: right;
+    height: 25px;
+    margin-left: 10px;
+    width: 24px;
+}
+.social-links-description a.twitter { background-position: -306px 0; }
+.block-title h1,.block-title h2{line-height:1em;word-spacing:0px;font-size:1.3em;margin-bottom: 0px;}
+.block-title h1 a,.block-title h2 a{color: #EE3450;}
+.content-block .block-title > h1,.content-block .block-title > h2 {
+    float: left;
+    padding: 1em 16px 0.7em;
+    white-space: nowrap;
+}
