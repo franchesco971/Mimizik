@@ -387,8 +387,17 @@ class SiteController extends Controller
         ));
     }
     
-    public function redirectYoutubeAction()
+    public function redirectYoutubeAction($url=null,$plus=null)
     {
-       return $this->redirect('http://www.youtube.com/user/mimizikcom');
+        if($url==null)
+        {
+            $url='https://www.youtube.com/user/mimizikcom';
+        }
+        else
+        {
+            $url='https://www.youtube.com/channel/'.$url.'/'.$plus;
+        }
+       
+        return $this->redirect($url);
     }
 }

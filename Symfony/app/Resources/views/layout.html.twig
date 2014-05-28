@@ -15,7 +15,8 @@
         {% block stylesheets %}
             {% stylesheets filter='cssrewrite,?yui_css'
                 'css/style.css'
-                'css/style2.css' %}
+                'css/style2.css'
+                'css/reveal.css' %}
                 <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
             {% endstylesheets %}
         {% endblock %}
@@ -92,12 +93,13 @@
     
     <div id="fb-root"></div>
     {% block javascripts %}
+        <script type="text/javascript" src="{{asset('js/jquery-1.4.4.min.js')}}" ></script>
         {% javascripts  filter='?yui_js'
-            'js/jquery-1.10.2.min.js'
             'js/jquery.fadeSlider.js'
             'js/jquery.hoverIntent.min.js'
             'js/jquery.custom.js'
-            'js/jquery.pagination.js' %}
+            'js/jquery.pagination.js'
+            'js/jquery.reveal.js' %}
             <script type="text/javascript" src="{{ asset_url }}" ></script>
         {% endjavascripts %}        
     {% endblock %}

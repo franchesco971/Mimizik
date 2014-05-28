@@ -1,36 +1,16 @@
 /* CSS Document */
 
-#body
-{
-	min-height:1000px;
-	font-family:Arial,sans-serif;
-	overflow:hidden;
-	
-}
-#header
-{
-	background-color:#777;
-	height:150px;
-	
-}
-#menu{
-    height: 40px;
-}
+#body{	min-height:1000px;font-family:Arial,sans-serif;	overflow:hidden;}
+#header{background-color:#777;	height:150px;}
+#menu{height: 40px;}
 
 #lastVideos
 {
     
 }
-#recherche{
-    background-color: white;
-}
-.ribbon-slider {
-    margin-top: 45px !important;
-}
-#lastVideos ul
-{
-     margin-bottom: -54px; margin-top: -48px;
-}
+#recherche{background-color: white;}
+.ribbon-slider {margin-top: 45px !important;}
+#lastVideos ul{margin-bottom: -54px; margin-top: -48px;}
 #container{
     
 }
@@ -43,24 +23,12 @@
     margin-top: 20px;
 }
 
-.page{
-    width:1000px;
-    margin: auto;
-}
+.page{width:1000px;margin: auto;}
 
-.post .image
-{
-    overflow: hidden;width: 240px;height: 157px; margin-top: -23px;
-}
-.post .infos_video
-{
-    padding-left: 10px;
-}
+.post .image{overflow: hidden;width: 240px;height: 157px; margin-top: -23px;}
+.post .infos_video{    padding-left: 10px;}
 
-.post .infos_video .artistes,.post .infos_video .titre,.post .infos_video .description,.post .infos_video .bouton
-{
-    margin-bottom: 8px;
-}
+.post .infos_video .artistes,.post .infos_video .titre,.post .infos_video .description,.post .infos_video .bouton{    margin-bottom: 8px;}
 
 .floatleft{float:left}
 .floatright{float:right;}
@@ -180,3 +148,12 @@ a, h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover, .rele
     padding: 1em 16px 0.7em;
     white-space: nowrap;
 }
+
+/***** home *****/
+#espace_pub_home{width: 1000px; max-height: 80px;}
+
+/***** contact *****/
+
+.contact .modal_apercu{width: 1000px; left:25%; overflow: hidden;margin: auto;}
+.contact .block-content li{list-style-type:square}
+

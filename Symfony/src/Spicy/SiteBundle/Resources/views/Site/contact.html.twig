@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block body %}
-    
+<div class="contact">   
     {{ parent() }}
     <div class="page-title wrapper">
         <div class="container">
@@ -57,11 +57,15 @@
                     <ul>
                         <li>Publicité avant montage video top  </li>
                         <li>Publicité dans video top </li>
-                        <li>Habillage home( 1600~ x1500) 300px sur les cotés + 1000px au centre + eventuellement 300px en haut x 1000px de long mini  <a href="#">&curvearrowright; aperçu</a></li>
-                        <li>Bannière en haut home (1000x60~)   <a href="#">&curvearrowright; aperçu</a></li>
-                        <li>Encart droit home (270x300~)  <a href="#">&curvearrowright; aperçu</a></li>
-                        <li>Couverture page fb et twitter  <a href="#">&curvearrowright; aperçu</a></li>
-                        <li>Mise en avant fb et twitter  <a href="#">&curvearrowright; aperçu</a></li>
+                        <li>
+                            Habillage home<br/>
+                            ( 1600~ x1500) 300px sur les cotés + 1000px au centre + &eacute;ventuellement 300px en haut x 1000px de long mini  
+                            <a href="#" data-reveal-id="modal_home">&curvearrowright; aperçu</a>
+                        </li>
+                        <li>Bannière en haut home (1000x80~) <a href="#" data-reveal-id="modal_haut">&curvearrowright; aperçu</a></li>
+                        <li>Encart droit home (270x300~) </li>
+                        <li>Couverture page fb et twitter </li>
+                        <li>Mise en avant fb et twitter </li>
                     </ul>
                 </div>
             </div>
@@ -70,7 +74,7 @@
             <div class="content-block">
                 <div class="block-content">
                     <p>Pour tous renseignements, promotions et montage vidéo veuillez nous contacter:</p><br/>
-                    <p>Developpeur/Administrateur : <a href="mailto:{{email_contact}}">Franchesco971 ({{email_contact}})</a></p>
+                    <p>Developpeur/Administrateur : <br/><a href="mailto:{{email_contact}}">Franchesco971 ({{email_contact}})</a></p>
                     <p>Graphisme : <a href="mailto:{{email_contact}}">Peach vivi</a></p>
                     <br/>
                     <h3>Liens</h3>
@@ -82,4 +86,17 @@
             </div>
         </div>
     </div>
+    
+    <div id="modal_home" class="reveal-modal modal_apercu">
+        <h1>Aperçu Habillage home</h1>
+        <p><img src="{{asset('images/contact/testbackground3.png')}}"  alt="habillage home" /></p>
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+    
+    <div id="modal_haut" class="reveal-modal modal_apercu">
+        <h1>Aperçu Habillage haut</h1>
+        <p><img src="{{asset('images/contact/bg_haut.png')}}"  alt="habillage haut" /></p>
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+</div>
 {%endblock%}

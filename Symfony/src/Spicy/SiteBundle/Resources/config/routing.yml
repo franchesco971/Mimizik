@@ -1,5 +1,4 @@
 spicy_site_homepage:
-    #pattern:  /index.php/{page}
     pattern:  /{page}
     defaults: { _controller: SpicySiteBundle:Site:index,page: 1 }
     requirements: 
@@ -73,6 +72,13 @@ spicy_site_liste_alpha:
 spicy_site_alphabet:
     pattern: /alphabet
     defaults: { _controller: SpicySiteBundle:Site:alphabet }
+    
 spicy_site_redirect_youtube:
     pattern: /user/mimizikcom
+    defaults: { _controller: SpicySiteBundle:Site:redirectYoutube }
+mimizik_site_redirect_youtube:
+    pattern: /channel/{url}
+    defaults: { _controller: SpicySiteBundle:Site:redirectYoutube }
+mimizik_site_redirect_youtube_videos:
+    pattern: /channel/{url}/{plus}
     defaults: { _controller: SpicySiteBundle:Site:redirectYoutube }
