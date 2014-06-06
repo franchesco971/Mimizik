@@ -66,7 +66,7 @@
             <div class="two-third column">
                 <div class="content-block">
                     <div class="block-title"><span>Description</span></div>
-                    <div class="block-content">
+                    <div class="block-content">                        
                         <p>{{lavideo.description|nl2br}}</p>
                         <p ><b class="titre">Artistes: </b>
                             {% for artiste in lavideo.artistes %}
@@ -91,6 +91,7 @@
                             {% else %}Inconnu{% endif %}
                         </p>
                         <p><b class="titre">Tags:</b> {{tags}}</p>
+                        <p><b class="titre">Date : </b>{{lavideo.dateVideo|date('m/d/y')}}</p>
                     </div>
                 </div>
                 <div class="content-block">
