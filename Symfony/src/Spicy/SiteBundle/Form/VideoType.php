@@ -14,7 +14,9 @@ class VideoType extends AbstractType
             ->add('titre','text')
             ->add('url','text')
             ->add('dateVideo','datetime')
-            ->add('etat','checkbox')
+            ->add('etat','checkbox',array(
+                'required'=>false
+            ))
             ->add('source','text')
             ->add('tags_fb','text', array('required' => false))
             ->add('tags_twitter','text', array('required' => false))
