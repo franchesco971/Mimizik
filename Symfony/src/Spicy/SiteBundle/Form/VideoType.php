@@ -17,6 +17,10 @@ class VideoType extends AbstractType
             ->add('etat','checkbox',array(
                 'required'=>false
             ))
+            ->add('onTop','checkbox',array(
+                'required'=>false,
+                'label'=>'On top'
+            ))
             ->add('source','text')
             ->add('tags_fb','text', array('required' => false))
             ->add('tags_twitter','text', array('required' => false))

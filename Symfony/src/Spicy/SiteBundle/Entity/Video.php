@@ -52,6 +52,13 @@ class Video
     private $etat;
     
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="on_top", type="boolean")
+     */
+    private $onTop;
+    
+    /**
      *
      * @var string
      * @Gedmo\Slug(fields={"titre"})
@@ -521,5 +528,28 @@ class Video
     public function getTagsTwitter()
     {
         return $this->tags_twitter;
+    }
+
+    /**
+     * Set onTop
+     *
+     * @param boolean $onTop
+     * @return Video
+     */
+    public function setOnTop($onTop)
+    {
+        $this->onTop = $onTop;
+    
+        return $this;
+    }
+
+    /**
+     * Get onTop
+     *
+     * @return boolean 
+     */
+    public function getOnTop()
+    {
+        return $this->onTop;
     }
 }

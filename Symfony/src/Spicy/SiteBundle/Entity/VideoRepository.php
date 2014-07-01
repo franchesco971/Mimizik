@@ -54,6 +54,26 @@ class VideoRepository extends EntityRepository
         return new Paginator($query);
     }
     
+    public function getTopAvecArtistes($nbOccurrences)
+    {
+        $qb = $this->createQueryBuilder('v')
+             ->join('v.artistes', 'a')
+             
+             ->where("v.id NOT IN (select vi.id from SpicySiteBundle:video vi 
+                    JOIN 
+                        vi.genre_musicaux ge 
+                        where ge.id=".$this->retro.")")
+                ->andWhere('v.etat=1')   
+                ->addOrderBy('v.dateVideo','DESC')
+                ->setFirstResult(0)
+                ->setMaxResults($nbOccurrences)
+             ->addSelect('a');
+        
+        $query=$qb->getQuery();
+        
+        return new Paginator($query);
+    }
+    
     public function getSuiteAvecArtistes($page,$premierResultat,$nbOccurrences)
     {
         if( $page < 1 )
