@@ -149,6 +149,10 @@ a, h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover, .rele
     white-space: nowrap;
 }
 
+/***** général *****/
+.column .content-block #encart_droit{padding:1.5em 0px;}
+
+
 /***** home *****/
 #espace_pub_home{width: 1000px; max-height: 80px;}
 
