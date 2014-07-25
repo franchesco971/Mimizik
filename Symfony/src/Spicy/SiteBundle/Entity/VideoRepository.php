@@ -34,27 +34,33 @@ class VideoRepository extends EntityRepository
                 ->getSingleResult();
     }
     
-    public function getAvecArtistes($nbOccurrences)
+    public function getAvecArtistes($nbOccurrences,$top=false)
     {
         $qb = $this->createQueryBuilder('v')
-             ->join('v.artistes', 'a')
-             ->andWhere('v.etat=1')
-             ->where("v.id NOT IN (select vi.id from SpicySiteBundle:video vi 
-                    JOIN 
-                        vi.genre_musicaux ge 
-                        where ge.id=".$this->retro.")")
-                
-            ->addOrderBy('v.dateVideo','DESC')
-                ->setFirstResult(0)
-                ->setMaxResults($nbOccurrences)
-             ->addSelect('a');
+            ->join('v.artistes', 'a')
+            ->join('v.genre_musicaux', 'g')
+            ->where('g.id<> :id_retro')
+            ->setParameter('id_retro', $this->retro)
+            ->andWhere('v.etat=1')           
+            ->setFirstResult(0)
+            ->setMaxResults($nbOccurrences)
+            ->addSelect('a');
+        
+        if($top)
+        {
+            $qb->orderBy('v.onTop','DESC')->addOrderBy('v.dateVideo','DESC');
+        }
+        else
+        {
+            $qb->orderBy('v.dateVideo','DESC');
+        }
         
         $query=$qb->getQuery();
         
         return new Paginator($query);
     }
     
-    public function getSuiteAvecArtistes($page,$premierResultat,$nbOccurrences)
+    public function getSuiteAvecArtistes($page,$premierResultat,$nbOccurrences,$videoIdsList)
     {
         if( $page < 1 )
         {
@@ -62,19 +68,22 @@ class VideoRepository extends EntityRepository
         }
         
         $qb = $this->createQueryBuilder('v')
-             ->join('v.artistes', 'a')
+             ->join('v.artistes', 'a')  
+             ->join('v.genre_musicaux', 'g')
+             ->where('g.id<> :id_retro')
+             ->setParameter('id_retro', $this->retro)
              ->andWhere('v.etat=1')
-             ->where("v.id NOT IN (select vi.id from SpicySiteBundle:video vi 
-                    JOIN 
-                        vi.genre_musicaux ge where ge.id=".$this->retro.")")
-            ->addOrderBy('v.dateVideo','DESC')
-                ->setFirstResult(($page-1)*$nbOccurrences+$premierResultat)
-                ->setMaxResults($nbOccurrences)
-                ->addSelect('a');
-    
+             ->andWhere('v.id NOT IN (:list)')
+            ->setParameter('list', $videoIdsList)
+            ->setFirstResult(($page-1)*$nbOccurrences)
+            ->setMaxResults($nbOccurrences)
+            ->addSelect('a')
+            ->orderBy('v.dateVideo','DESC')
+            ;
         $query=$qb->getQuery();
         
         return new Paginator($query);
+        //return $query->getResult();
     }
     
     public function getByArtiste($id,$nbOccurrences)
@@ -185,7 +194,7 @@ class VideoRepository extends EntityRepository
         
         $sql=$this->createQueryBuilder('v')
                 ->join('v.genre_musicaux', 'g')
-                ->where('g.id in (:list)')
+                ->where('g.id IN (:list)')
                 ->andWhere('v.id <> :id')
                 ->orderBy('v.dateVideo','DESC')
                 ->setFirstResult(0)

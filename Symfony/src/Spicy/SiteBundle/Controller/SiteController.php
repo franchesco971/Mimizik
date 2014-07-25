@@ -17,7 +17,8 @@ class SiteController extends Controller
         $videos=$this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
-                ->getAvecArtistes($this->container->getParameter('nbMainVideo'));
+                ->getAvecArtistes($this->container->getParameter('nbMainVideo'),true);
+        
         
         if ($videos == null) {
             throw $this->createNotFoundException('Video inexistant');
@@ -29,10 +30,13 @@ class SiteController extends Controller
         ));
     }
     
-    public function indexSuiteAction($page)
+    public function indexSuiteAction($page,$topVideos)
     {
         $nbResultVideoIndex=$this->container->getParameter('nbResultVideoIndex');
         $nbMainVideo=$this->container->getParameter('nbMainVideo');
+        
+        $toolsManager = $this->container->get('mimizik.tools');
+        $videoIdsList=$toolsManager->getListId($topVideos);
         
         $videos=$this->getDoctrine()
                 ->getManager()
@@ -40,7 +44,8 @@ class SiteController extends Controller
                 ->getSuiteAvecArtistes(
                         $page,
                         $nbMainVideo,
-                        $nbResultVideoIndex
+                        $nbResultVideoIndex,
+                        $videoIdsList
                 );
         
         if ($videos == null) {
@@ -49,7 +54,6 @@ class SiteController extends Controller
         
         return $this->render('SpicySiteBundle:Site:indexSuite.html.twig',array(
             'autresVideos'=>$videos,
-            //'nombrePage'=>ceil(count($videos)/ $nbResultVideoIndex),
             'nombrePage'=>ceil((count($videos)-$nbMainVideo)/ $nbResultVideoIndex),
             'page'=>$page
         ));
@@ -57,6 +61,8 @@ class SiteController extends Controller
     
     public function showAction($id)
     {
+        $toolsManager = $this->container->get('mimizik.tools');
+        
         $txtGenre='';
         
         $video=$this->getDoctrine()
@@ -69,18 +75,12 @@ class SiteController extends Controller
         }
         
         $genres=$video->getGenreMusicaux();
-        $nbGenres=  count($genres);
-        $i=0;
-        foreach ($genres as $genre) {
-            $txtGenre=$txtGenre.$genre->getId();
-            if($i+1<$nbGenres){$txtGenre=$txtGenre.',';}
-            $i++;
-        }
+        $genreIdsList=$toolsManager->getListId($genres);
         
         $suggestions=$this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
-                ->getSuggestions($txtGenre,$video->getId());
+                ->getSuggestions($genreIdsList,$video->getId());
         
         $socialService = $this->container->get('mimizik.social');
         $tags=$socialService->getHashtags($video);
