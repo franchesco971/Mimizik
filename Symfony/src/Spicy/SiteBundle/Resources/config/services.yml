@@ -15,6 +15,8 @@ services:
         arguments: ["http://www.reggaefrance.com/news.xml"]
     mimizik.social:
         class: Spicy\SiteBundle\Services\Social
+    mimizik.tools:
+        class: Spicy\SiteBundle\Services\Tools
 #    spicy_site.example:
 #        class: %spicy_site.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
