@@ -76,6 +76,9 @@ spicy_site_alphabet:
 spicy_site_redirect_youtube:
     pattern: /user/mimizikcom
     defaults: { _controller: SpicySiteBundle:Site:redirectYoutube }
+mimizik_redirect_youtube_videos:
+    pattern: /user/mimizikcom/{videos}
+    defaults: { _controller: SpicySiteBundle:Site:redirectYoutube }
 mimizik_site_redirect_youtube:
     pattern: /channel/{url}
     defaults: { _controller: SpicySiteBundle:Site:redirectYoutube }
