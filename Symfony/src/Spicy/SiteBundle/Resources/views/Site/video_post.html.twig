@@ -34,6 +34,7 @@
         <p class="description">
             {{video.description| truncate(40, true, '...')}}
         </p>
+        <p class="date">{{video.dateVideo|date('d/m/y')}}</p>
         <p class="bouton">
             <a title="{{video.getNomArtistes}} - {{video.titre}}" class="button small" href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
             <span>Plus d'infos</span>
