@@ -18,8 +18,7 @@ class SiteController extends Controller
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
                 ->getAvecArtistes($this->container->getParameter('nbMainVideo'),true);
-        
-        
+                
         if ($videos == null) {
             throw $this->createNotFoundException('Video inexistant');
         }

@@ -1,0 +1,9 @@
+mimizik_tag_homepage:
+    pattern:  /
+    defaults: { _controller: SpicyTagBundle:Tag:index }
+
+mimizik_tag_show:
+    pattern:  /{tag}
+    defaults: { _controller: SpicyTagBundle:Tag:show }
+    requirements:
+        tag: "[a-zA-Z0-9-_]+"
