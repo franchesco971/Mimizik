@@ -3,6 +3,7 @@
 namespace Spicy\SiteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -26,6 +27,7 @@ class Artiste
      * @var string
      *
      * @ORM\Column(name="libelle", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $libelle;
 
@@ -33,6 +35,7 @@ class Artiste
      * @var string
      *
      * @ORM\Column(name="description", type="text")
+     * 
      */
     private $description;
     
@@ -51,10 +54,9 @@ class Artiste
     private $tag_twitter;
     
     /**
-     * @var string
-     *
-     * @ORM\Column(name="hashtags", type="string", length=255, nullable=true)
-     */
+    * @ORM\ManyToMany(targetEntity="Spicy\TagBundle\Entity\Hashtag")
+     * @Assert\Valid()
+    */
     private $hashtags;
     
     /**
