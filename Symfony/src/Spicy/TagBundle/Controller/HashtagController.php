@@ -61,6 +61,28 @@ class HashtagController extends Controller
             'form'   => $form->createView(),
         );
     }
+    
+    public function create_modalAction(Request $request)
+    {
+        $entity  = new Hashtag();
+        $form = $this->createForm(new HashtagType(), $entity);
+        $form->bind($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('spicy_admin_add_artiste'));
+        }
+        
+        $this->get('session')->getFlashBag()->add(
+            'notice',
+            'Erreur dans la creation du tag'
+        );
+        
+        return $this->redirect($this->generateUrl('spicy_admin_add_artiste'));
+    }
 
     /**
      * Displays a form to create a new Hashtag entity.
@@ -78,6 +100,17 @@ class HashtagController extends Controller
             'entity' => $entity,
             'form'   => $form->createView(),
         );
+    }
+    
+    public function new_modalAction()
+    {
+        $entity = new Hashtag();
+        $form   = $this->createForm(new HashtagType(), $entity);
+
+        return $this->render('SpicyTagBundle:Hashtag:new_modal.html.twig',array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
     }
 
     /**

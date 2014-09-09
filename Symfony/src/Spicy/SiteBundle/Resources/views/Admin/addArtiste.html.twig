@@ -1,10 +1,83 @@
 {% extends "SpicySiteBundle::layout_admin.html.twig" %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{asset('css/reveal.css')}}" type="text/css" />
+    {{ parent() }}
+{% endblock %}
+
 {% block body %}
 {{ parent() }}
+    {% for message in app.session.flashbag.get('notice') %}
+        <p>{{ message }}</p>
+    {% endfor %}
+
     <h3>Ajouter un artiste</h3>
     <form method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
+        {{ form_errors(form) }}
+        <div>
+            {{ form_label(form.libelle) }}
+            {{ form_errors(form.libelle) }}
+            {{ form_widget(form.libelle) }}
+        </div>
+        
+        <div>
+            {{ form_label(form.description) }}
+            {{ form_errors(form.description) }}
+            {{ form_widget(form.description) }}
+        </div>
+        
+        <div>
+            {{ form_label(form.tag_facebook) }}
+            {{ form_errors(form.tag_facebook) }}
+            {{ form_widget(form.tag_facebook) }}
+        </div>
+        
+        <div>
+            {{ form_label(form.tag_twitter) }}
+            {{ form_errors(form.tag_twitter) }}
+            {{ form_widget(form.tag_twitter) }}
+        </div>
+        
+        <div>
+            {{ form_label(form.hashtags) }}
+            {{ form_errors(form.hashtags) }}
+            {{ form_widget(form.hashtags) }}
+            <a href="#" data-reveal-id="modal_hashtag" id="modal_new_hashtag">Cr&eacute;e un hashtag</a>
+            <div class="loading"></div
+        </div>
+        
+        <div>
+            {{ form_label(form.dateArtiste) }}
+            {{ form_errors(form.dateArtiste) }}
+            {{ form_widget(form.dateArtiste) }}
+        </div>
         <input type="submit" class="btn btn-primary" />
     </form>
+            
+    <div id="modal_hashtag" class="reveal-modal">
+        <div class="content"></div>
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
 {% endblock%}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{asset('js/jquery-1.4.4.min.js')}}" ></script>
+    <script type="text/javascript" src="{{asset('js/jquery.reveal.js')}}" ></script>
+    <script type="text/javascript">
+        $(".loading").hide();
+        $("#modal_new_hashtag").click(function(){ 
+            $(".loading").show();
+            $.ajax({
+                type: "POST",
+                url: "{{ path('admin_hashtag_new_modal')}}",
+                cache: false,
+                success: function(data){
+                   $('#modal_hashtag .content').html(data);
+                   $('#modal_hashtag').reveal();
+                   $(".loading").hide();
+                }
+            });    
+            return false;
+        });
+    </script>
+{% endblock %}

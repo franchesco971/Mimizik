@@ -5,11 +5,14 @@ namespace Spicy\TagBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 /**
  * Hashtag
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Spicy\TagBundle\Entity\HashtagRepository")
+ * @UniqueEntity(fields={"libelle"}, message="Un Hashtag existe déjà avec ce libelle.")
  */
 class Hashtag
 {
@@ -25,7 +28,7 @@ class Hashtag
     /**
      * @var string
      *
-     * @ORM\Column(name="libelle", type="string", length=255)
+     * @ORM\Column(name="libelle", type="string", length=255, unique=true)
      * @Assert\NotBlank()
      */
     private $libelle;
