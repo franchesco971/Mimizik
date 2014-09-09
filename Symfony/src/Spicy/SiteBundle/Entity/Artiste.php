@@ -54,7 +54,7 @@ class Artiste
     private $tag_twitter;
     
     /**
-    * @ORM\ManyToMany(targetEntity="Spicy\TagBundle\Entity\Hashtag")
+     * @ORM\ManyToMany(targetEntity="Spicy\TagBundle\Entity\Hashtag")
      * @Assert\Valid()
     */
     private $hashtags;
