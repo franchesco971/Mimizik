@@ -76,3 +76,28 @@ spicy_admin_delete_type_video:
 spicy_admin_csv:
     pattern: /csv
     defaults: { _controller: SpicySiteBundle:Admin:csv }
+
+    
+admin_hashtag:
+    pattern:  /hashtags
+    defaults: { _controller: SpicyTagBundle:Hashtag:index }
+    
+admin_hashtag_new:  
+    pattern:  /hashtag/new
+    defaults: { _controller: SpicyTagBundle:Hashtag:new }
+    
+admin_hashtag_create:  
+    pattern:  /hashtag/create
+    defaults: { _controller: SpicyTagBundle:Hashtag:create }
+    
+admin_hashtag_edit:
+    pattern:  /hashtag/edit/{id}
+    defaults: { _controller: SpicyTagBundle:Hashtag:edit }
+    requirements:
+        id: \d+
+  
+admin_hashtag_delete:
+    pattern:  /hashtag/delete/{id}
+    defaults: { _controller: SpicyTagBundle:Hashtag:delete }
+    requirements:
+        id: \d+
