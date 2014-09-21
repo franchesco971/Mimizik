@@ -200,7 +200,8 @@ class AdminController extends Controller
         }
         
         return $this->render('SpicySiteBundle:Admin:updateArtiste.html.twig',array(
-            'form'=>$form->createView()
+            'form'=>$form->createView(),
+            'idArtiste'=>$id
         ));
     }
     

@@ -90,9 +90,21 @@ admin_hashtag_new_modal:
     pattern:  /hashtag/new_modal
     defaults: { _controller: SpicyTagBundle:Hashtag:new_modal }
     
+admin_hashtag_new_modal_update:  
+    pattern:  /hashtag/new_modal_update/{id}
+    defaults: { _controller: SpicyTagBundle:Hashtag:new_modal_update }
+    requirements:
+        id: \d+
+    
 admin_hashtag_create_modal:  
     pattern:  /hashtag/create_modal
     defaults: { _controller: SpicyTagBundle:Hashtag:create_modal }
+    
+admin_hashtag_create_modal_update:  
+    pattern:  /hashtag/create_modal_update/{id}
+    defaults: { _controller: SpicyTagBundle:Hashtag:create_modal_update }
+    requirements:
+        id: \d+
     
 admin_hashtag_create:  
     pattern:  /hashtag/create

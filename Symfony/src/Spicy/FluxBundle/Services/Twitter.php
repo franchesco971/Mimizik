@@ -13,7 +13,6 @@ class Twitter
         
     }
 
-
     public function twitterType($videos) 
     {
         $description='';
@@ -39,15 +38,20 @@ class Twitter
     public function getArrayHashtags(Video $video) {
         $hashtags=$txtHashtag='';
         $tabHashtags=array();
-        foreach ($video->getArtistes() as $artiste) {
-            if($hashtags=='')
-            {
-                $hashtags=$hashtags.$artiste->getHashtags();
+        foreach ($video->getArtistes() as $artiste) 
+        {            
+            foreach ($artiste->getHashtags() as $hashtag) 
+            {                
+                if($hashtags=='')
+                {
+                    $hashtags=$hashtags.$hashtag->getLibelle();
+                }
+                else
+                {
+                    $hashtags=$hashtags.';'.$hashtag->getLibelle();
+                }
             }
-            elseif($artiste->getHashtags()!='')
-            {
-                $hashtags=$hashtags.';'.$artiste->getHashtags();
-            }
+                        
         }
         
         if($hashtags!='')
@@ -107,7 +111,8 @@ class Twitter
         return $description;
     }
     
-    public function getDescriptionHashtag($video,$nbTitreTypes,$description) {
+    public function getDescriptionHashtag($video,$nbTitreTypes,$description) 
+    {
         $nbTypeHashtag=0;
         
         if(strlen($description.' #clip #mimizik ')<140-13)
