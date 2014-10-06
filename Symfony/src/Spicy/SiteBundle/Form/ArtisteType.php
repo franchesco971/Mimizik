@@ -18,7 +18,7 @@ class ArtisteType extends AbstractType
             ->add('hashtags', 'entity', array(
                 'class'    => 'SpicyTagBundle:Hashtag',
                 'property' => 'libelle',
-                'attr' => array('size' => 10),
+                'attr' => array('size' => 30),
                 'multiple' => true,
                 'required'=>false,
                 'query_builder' => function(
