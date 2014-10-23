@@ -1,14 +1,129 @@
 {% extends "SpicySiteBundle::layout_admin.html.twig" %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{asset('css/select2.css')}}" type="text/css" />
+    {{ parent() }}
+{% endblock %}
+
 {% block body %}
 {{ parent() }}
     <a href="{{ path('spicy_admin_home_video') }}" class="btn">
         <i class="icon-chevron-left"></i>
         Retour à la video
     </a>
+    <br/><br/>    
     <h3>Ajouter une vidéo</h3>
+    
     <form method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
-        <input type="submit" class="btn btn-primary" />
+        <div class="label">
+            {{ form_label(form.titre) }}
+            {{ form_errors(form.titre) }}
+        </div>
+        <div class="input">
+            {{ form_widget(form.titre) }}
+        </div>
+        
+        <div class="label">
+            {{ form_label(form.url) }}
+            {{ form_errors(form.url) }}
+        </div>
+        <div class="input">
+            {{ form_widget(form.url) }}
+        </div>
+        
+        <div class="label">
+            {{ form_label(form.dateVideo) }}
+            {{ form_errors(form.dateVideo) }}
+        </div>
+        <div class="input">
+            {{ form_widget(form.dateVideo) }}
+        </div>
+        
+        <div class="label">
+            {{ form_label(form.etat) }}
+            {{ form_errors(form.etat) }}
+        </div>
+        <div class="input">
+            {{ form_widget(form.etat) }}
+        </div>
+        
+        <div class="label">
+            {{ form_label(form.onTop) }}
+            {{ form_errors(form.onTop) }}
+        </div>
+        <div class="input">
+            {{ form_widget(form.onTop) }}
+        </div>
+        
+        <div class="label">
+            {{ form_label(form.source) }}
+            {{ form_errors(form.source) }}
+        </div>
+        <div class="input">
+            {{ form_widget(form.source) }}
+        </div>
+        
+        <div class="label">
+            {{ form_label(form.tags_fb) }}
+            {{ form_errors(form.tags_fb) }}
+        </div>
+        <div class="input">
+            {{ form_widget(form.tags_fb) }}
+        </div>
+        
+        <div class="label">
+            {{ form_label(form.tags_twitter) }}
+            {{ form_errors(form.tags_twitter) }}
+        </div>
+        <div class="input">
+            {{ form_widget(form.tags_twitter) }}
+        </div>
+        
+        <div class="label">
+            {{ form_label(form.description) }}
+            {{ form_errors(form.description) }}
+        </div>
+        <div class="input">
+            {{ form_widget(form.description) }}
+        </div>
+        
+        <div class="label">
+            {{ form_label(form.artistes) }}
+            {{ form_errors(form.artistes) }}
+        </div>
+        <div class="input">
+            {{ form_widget(form.artistes) }}
+        </div>
+        
+        <div class="label">
+            {{ form_label(form.genre_musicaux) }}
+            {{ form_errors(form.genre_musicaux) }}
+        </div>
+        <div class="input">
+            {{ form_widget(form.genre_musicaux) }}
+        </div>
+        
+        <div class="label">
+            {{ form_label(form.type_videos) }}
+            {{ form_errors(form.type_videos) }}
+        </div>
+        <div class="input">
+            {{ form_widget(form.type_videos) }}
+        </div>
+        <div class="button">
+            <input type="submit" class="btn btn-primary" />
+            {{ form_rest(form) }}
+        </div>
     </form>
 {% endblock%}
+
+{% block javascripts %}
+    {{parent()}}
+    
+    <script type="text/javascript" src="{{asset('js/select2.js')}}" ></script>    
+    <script type="text/javascript">
+        $("#spicy_sitebundle_videotype_artistes").select2({
+            width: '200px'
+        });
+    </script>
+{% endblock %}
