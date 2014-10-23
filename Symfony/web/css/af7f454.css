@@ -2831,7 +2831,8 @@ a, h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover, .rele
 
 /***** général *****/
 .column .content-block #encart_droit{padding:1.5em 0px;}
-#loading{background: url("/images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);}
+.loading{background: url("/images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+        width:16px;height:16px;display: hidden;}
 
 
 /***** home *****/
@@ -2841,6 +2842,10 @@ a, h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover, .rele
 
 .contact .modal_apercu{width: 1000px; left:25%; overflow: hidden;margin: auto;}
 .contact .block-content li{list-style-type:square}
+
+/****** form ******/
+form .label{float: left;clear: left;}
+form .input{float: left;}
 
 
 /*	--------------------------------------------------
