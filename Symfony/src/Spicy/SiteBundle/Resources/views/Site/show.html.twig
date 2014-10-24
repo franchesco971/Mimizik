@@ -77,7 +77,7 @@
                         {% endfor %}
                         </p>
                         <p><b class="titre">Genres: </b>
-                            {% for genre in lavideo.genreMusicaux %}
+                        {% for genre in lavideo.genreMusicaux %}
                             <a title="{{genre.libelle}}" href="{{ path('spicy_site_genre',{'id':genre.id,'slug':genre.slug})}}">{{genre.libelle}}</a>    
                             {% if loop.last %}
 
@@ -90,7 +90,11 @@
                                 <a title="Source youtube" href="{{lavideo.getTxtSource}}">{{lavideo.getSource}}</a>
                             {% else %}Inconnu{% endif %}
                         </p>
-                        <p><b class="titre">Tags:</b> {{tags}}</p>
+                        <p><b class="titre">Tags:</b>
+                        {% for hashtag in tags %}
+                            <a>#{{hashtag.libelle}}</a>
+                        {% endfor %}
+                        </p>
                         <p><b class="titre">Date : </b>{{lavideo.dateVideo|date('d/m/y')}}</p>
                     </div>
                 </div>

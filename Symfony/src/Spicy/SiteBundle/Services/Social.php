@@ -44,34 +44,20 @@ class Social
     
     public function getHashtags(Video $video)
     {
-        $hashtags=$txtHashtag='';
+        $tabHashtags=$video->getHashtags();
+        
         foreach ($video->getArtistes() as $artiste) 
         {
             foreach ($artiste->getHashtags() as $hashtag) 
             {                
-                if($hashtags=='')
+                if(!$tabHashtags->contains($hashtag))
                 {
-                    $hashtags=$hashtags.$hashtag->getLibelle();
+                    $tabHashtags->add($hashtag);
                 }
-                else
-                {
-                    $hashtags=$hashtags.';'.$hashtag->getLibelle();
-                }
-            }
+            }            
         }
         
-        if($hashtags!='')
-        {
-            $tabHashtags=explode(";", $hashtags);
-            $tabHashtags=array_unique($tabHashtags);
-            foreach ($tabHashtags as $hashtag) 
-            {               
-                    $txtHashtag=$txtHashtag.'#'.$hashtag.' ';                
-            }
-            
-        }
-        
-        return $txtHashtag;
+        return $tabHashtags;
     }
 }
 ?>

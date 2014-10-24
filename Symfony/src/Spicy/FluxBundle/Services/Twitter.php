@@ -9,6 +9,9 @@ class Twitter
     private $titre;
     private $description;
     
+    const MAX_TYPES=117;//130-13
+
+
     public function __construct() {
         
     }
@@ -23,7 +26,7 @@ class Twitter
             $this->titre=$video->getNomArtistes().' - '.$video->getTitre().': ';
             $nbTypeTitre=  strlen($this->titre);
 
-            if($nbTypeTitre<140-13)
+            if($nbTypeTitre<self::MAX_TYPES)
             {
                 $description=$this->getDescriptionTwitterTag($video, $nbTypeTitre);
                 $description=$this->getDescriptionHashtag($video,$nbTypeTitre,$description);
@@ -38,29 +41,20 @@ class Twitter
     public function getArrayHashtags(Video $video) 
     {
         $hashtags=$txtHashtag='';
-        $tabHashtags=array();
+        $tabHashtags=$video->getHashtags();
+        
         foreach ($video->getArtistes() as $artiste) 
-        {            
+        { 
             foreach ($artiste->getHashtags() as $hashtag) 
-            {                
-                if($hashtags=='')
+            {
+                if(!$tabHashtags->contains($hashtag))
                 {
-                    $hashtags=$hashtags.$hashtag->getLibelle();
-                }
-                else
-                {
-                    $hashtags=$hashtags.';'.$hashtag->getLibelle();
-                }
+                    $tabHashtags->add($hashtag);
+                }                
             }
-                        
         }
         
-        if($hashtags!='')
-        {
-            $tabHashtags=explode(";", $hashtags);
-        }
-        
-        return $tabHashtags;
+        return $tabHashtags->toArray();
     }
     
     public function getArrayTwitterTags(Video $video) {
@@ -102,7 +96,7 @@ class Twitter
         $arrayTwitterTags=$this->getArrayTwitterTags($video);
         foreach ($arrayTwitterTags as $twitterTag) {
             $nbTotalTypes=$nbTotalTypes+$nbTypeTwitterTag;
-            if($nbTotalTypes<140-13)
+            if($nbTotalTypes<self::MAX_TYPES)
             {
                 $nbTypeTwitterTag=$nbTypeTwitterTag+strlen($twitterTag);
                 $description=$description.'@'.$twitterTag.' ';
@@ -116,19 +110,18 @@ class Twitter
     {
         $nbTypeHashtag=0;
         
-        if(strlen($description.' #clip #mimizik ')<140-13)
+        if(strlen($description.' #clip #mimizik ')<  self::MAX_TYPES)
         {
             $description=$description.' #clip #mimizik ';
             $nbTotalTypes=$nbTitreTypes+strlen($description);
 
-            $arrayHastags=$this->getArrayHashtags($video);
-            $arrayHastags=array_unique($arrayHastags);
+            $arrayHastags=$this->getArrayHashtags($video); 
             foreach ($arrayHastags as $hashtag) {
                 $nbTotalTypes=$nbTotalTypes+$nbTypeHashtag;
-                if($nbTotalTypes<140-13)
+                if($nbTotalTypes<self::MAX_TYPES)
                 {
-                    $nbTypeHashtag=$nbTypeHashtag+strlen($hashtag);
-                    $description=$description.'#'.$hashtag.' ';
+                    $nbTypeHashtag=$nbTypeHashtag+strlen($hashtag->getLibelle());
+                    $description=$description.'#'.$hashtag->getLibelle().' ';
                 }            
             }
         }
