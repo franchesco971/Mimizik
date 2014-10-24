@@ -24,6 +24,18 @@ class VideoType extends AbstractType
             ->add('source','text')
             ->add('tags_fb','text', array('required' => false))
             ->add('tags_twitter','text', array('required' => false))
+            ->add('hashtags', 'entity', array(
+                'class'    => 'SpicyTagBundle:Hashtag',
+                'property' => 'libelle',
+                'attr' => array('size' => 30),
+                'multiple' => true,
+                'required'=>false,
+                'query_builder' => function(
+                    \Doctrine\ORM\EntityRepository $er) {
+                        return $er->createQueryBuilder('h')->orderBy('h.libelle', 'ASC');
+                    }
+                )
+            )
             ->add('description','textarea', array('required' => false))
             ->add('artistes', 'entity', array(
                 'class'    => 'SpicySiteBundle:Artiste',

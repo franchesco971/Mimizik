@@ -94,6 +94,11 @@ class Video
      */
     private $tags_twitter;
     
+    /**
+    * @ORM\ManyToMany(targetEntity="Spicy\TagBundle\Entity\Hashtag")
+    * @Assert\Valid()
+    */
+    private $hashtags;
     
     /**
     * @ORM\ManyToMany(targetEntity="Spicy\SiteBundle\Entity\Artiste")
@@ -551,5 +556,38 @@ class Video
     public function getOnTop()
     {
         return $this->onTop;
+    }
+
+    /**
+     * Add hashtags
+     *
+     * @param \Spicy\TagBundle\Entity\Hashtag $hashtags
+     * @return Video
+     */
+    public function addHashtag(\Spicy\TagBundle\Entity\Hashtag $hashtags)
+    {
+        $this->hashtags[] = $hashtags;
+    
+        return $this;
+    }
+
+    /**
+     * Remove hashtags
+     *
+     * @param \Spicy\TagBundle\Entity\Hashtag $hashtags
+     */
+    public function removeHashtag(\Spicy\TagBundle\Entity\Hashtag $hashtags)
+    {
+        $this->hashtags->removeElement($hashtags);
+    }
+
+    /**
+     * Get hashtags
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getHashtags()
+    {
+        return $this->hashtags;
     }
 }

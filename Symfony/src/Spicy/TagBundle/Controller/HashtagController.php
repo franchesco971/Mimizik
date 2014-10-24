@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Spicy\TagBundle\Entity\Hashtag;
+use Spicy\SiteBundle\Entity\Artiste;
+use Spicy\SiteBundle\Entity\Video;
 use Spicy\TagBundle\Form\HashtagType;
 
 /**
@@ -65,15 +67,16 @@ class HashtagController extends Controller
     public function create_modalAction(Request $request)
     {
         $entity  = new Hashtag();
+        $refererUrl = $this->getRequest()->headers->get("referer");
         $form = $this->createForm(new HashtagType(), $entity);
         $form->bind($request);
-
+                        
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-
-            return $this->redirect($this->generateUrl('spicy_admin_add_artiste'));
+            
+            return $this->redirect($refererUrl);
         }
         
         $this->get('session')->getFlashBag()->add(
@@ -81,7 +84,7 @@ class HashtagController extends Controller
             'Erreur dans la creation du tag'
         );
         
-        return $this->redirect($this->generateUrl('spicy_admin_add_artiste'));
+        return $this->redirect($refererUrl);
     }
     
     public function create_modal_updateAction(Request $request,$id)

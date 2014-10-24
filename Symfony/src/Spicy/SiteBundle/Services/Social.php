@@ -45,14 +45,18 @@ class Social
     public function getHashtags(Video $video)
     {
         $hashtags=$txtHashtag='';
-        foreach ($video->getArtistes() as $artiste) {
-            if($hashtags=='')
-            {
-                $hashtags=$hashtags.$artiste->getHashtags();
-            }
-            elseif($artiste->getHashtags()!='')
-            {
-                $hashtags=$hashtags.';'.$artiste->getHashtags();
+        foreach ($video->getArtistes() as $artiste) 
+        {
+            foreach ($artiste->getHashtags() as $hashtag) 
+            {                
+                if($hashtags=='')
+                {
+                    $hashtags=$hashtags.$hashtag->getLibelle();
+                }
+                else
+                {
+                    $hashtags=$hashtags.';'.$hashtag->getLibelle();
+                }
             }
         }
         

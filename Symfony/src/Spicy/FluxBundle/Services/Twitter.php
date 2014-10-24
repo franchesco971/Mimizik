@@ -35,7 +35,8 @@ class Twitter
         return $descriptions;
     }
     
-    public function getArrayHashtags(Video $video) {
+    public function getArrayHashtags(Video $video) 
+    {
         $hashtags=$txtHashtag='';
         $tabHashtags=array();
         foreach ($video->getArtistes() as $artiste) 
