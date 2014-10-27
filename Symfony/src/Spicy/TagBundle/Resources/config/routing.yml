@@ -3,7 +3,7 @@ mimizik_tag_homepage:
     defaults: { _controller: SpicyTagBundle:Tag:index }
 
 mimizik_tag_show:
-    pattern:  /{tag}
-    defaults: { _controller: SpicyTagBundle:Tag:show }
+    pattern:  /{tag}/{page}
+    defaults: { _controller: SpicyTagBundle:Hashtag:showTag, page: 1 }
     requirements:
         tag: "[a-zA-Z0-9-_]+"

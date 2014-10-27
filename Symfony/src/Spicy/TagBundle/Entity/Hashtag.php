@@ -40,6 +40,11 @@ class Hashtag
      */
     private $dateTag;
 
+    public function __construct() {
+        $this->dateTag= time();
+    }
+
+    
 
     /**
      * Get id

@@ -170,9 +170,38 @@ class HashtagController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'tag'      => $entity,
             'delete_form' => $deleteForm->createView(),
         );
+    }
+    
+    public function showTagAction($tag,$page)
+    {
+        $nbSuggestion=$this->container->getParameter('nbSuggestion');
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('SpicyTagBundle:Hashtag')->findOneByLibelle($tag);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Hashtag entity.');
+        }
+        
+        $artistes=$this->getDoctrine()
+                ->getManager()
+                ->getRepository('SpicySiteBundle:Artiste')
+                ->getByTag($entity->getId());
+        
+        $videos=$this->getDoctrine()
+                ->getManager()
+                ->getRepository('SpicySiteBundle:Video')
+                ->getByTag($entity->getId(),$page,$nbSuggestion);
+        
+        return $this->render('SpicyTagBundle:Hashtag:showTag.html.twig',array(
+            'tag' => $entity,
+            'artistes'=>$artistes,
+            'videos'=>$videos,
+            'page'=>$page
+        ));
     }
 
     /**

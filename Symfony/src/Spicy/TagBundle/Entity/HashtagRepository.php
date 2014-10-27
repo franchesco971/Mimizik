@@ -12,4 +12,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class HashtagRepository extends EntityRepository
 {
+    public function getById($id) 
+    {
+        
+    }
 }

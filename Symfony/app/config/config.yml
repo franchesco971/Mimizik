@@ -34,7 +34,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ SpicySiteBundle ]
+    bundles:        [ SpicySiteBundle,SpicyTagBundle ]
     java: "C:\\Program Files (x86)\Java\jre7\\bin\java.exe"
     filters:
         cssrewrite: ~

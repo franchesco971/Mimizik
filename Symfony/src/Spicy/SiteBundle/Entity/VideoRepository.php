@@ -221,4 +221,23 @@ class VideoRepository extends EntityRepository
         
         return $qb->getQuery()->getResult();
     }
+    
+    public function getByTag($id,$page,$nbOccurrences) 
+    {
+        $qb = $this->createQueryBuilder('v')
+             ->join('v.genre_musicaux', 'g')
+             ->join('v.artistes', 'a')
+             ->join('v.hashtags','h')
+                ->where('h.id=:id')
+                ->setParameter('id', $id)
+             ->andWhere('v.etat=1')
+                ->addOrderBy('v.dateVideo','DESC')
+                ->setFirstResult(($page-1)*$nbOccurrences)
+                ->setMaxResults($nbOccurrences)
+             ->addSelect('g')
+            ->addSelect('a');
+        
+        $query=$qb->getQuery();
+        return new Paginator($query);
+    }
 }

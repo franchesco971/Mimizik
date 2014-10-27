@@ -61,7 +61,8 @@ class Twitter
         $tags=$txTtag='';
         $tabTags=array();
         
-        foreach ($video->getArtistes() as $artiste) {
+        foreach ($video->getArtistes() as $artiste) 
+        {
             if($tags=='')
             {
                 $tags=$tags.$artiste->getTagTwitter();
@@ -89,7 +90,8 @@ class Twitter
         return $tabTags;
     }
     
-    public function getDescriptionTwitterTag(Video $video,$nbTotalTypes) {
+    public function getDescriptionTwitterTag(Video $video,$nbTotalTypes) 
+    {
         $nbTypeTwitterTag=0;
         $description='';
         

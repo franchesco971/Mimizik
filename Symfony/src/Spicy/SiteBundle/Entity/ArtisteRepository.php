@@ -53,5 +53,14 @@ class ArtisteRepository extends EntityRepository
         
     }
     
-    
+    public function getByTag($idTag) 
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->join('a.hashtags', 'h')
+            ->where('h.id=:id')
+            ->setParameter('id', $idTag);
+        
+        return $qb->getQuery()
+            ->getResult();
+    }
 }
