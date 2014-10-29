@@ -22,12 +22,16 @@ class VideoRepository extends EntityRepository
              ->join('v.type_videos', 't')
              ->join('v.genre_musicaux', 'g')
              ->join('v.artistes', 'a')
+             ->leftJoin('v.hashtags', 'vh')
+             ->leftJoin('a.hashtags', 'ah')
              ->where('v.id=:id')
              ->setParameter('id', $id)
              ->andWhere('v.etat=1')
              ->addSelect('a')
                 ->addSelect('t')
                 ->addSelect('g')
+                ->addSelect('vh')
+                ->addSelect('ah')
              ;
  
         return $qb->getQuery()

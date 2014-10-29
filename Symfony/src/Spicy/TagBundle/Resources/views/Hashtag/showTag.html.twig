@@ -31,7 +31,7 @@
                 <div>
                     <div class="un-tier column-perso">
                         <div class="block-content-perso">
-                            <h3 class="release-title">{{tag.libelle|upper}}</h3>
+                            <h3 class="release-title">#{{tag.libelle|upper}}</h3>
                         </div>
                     </div>
                 </div>
@@ -40,11 +40,11 @@
                     <div class="block-content">
                         <div class="featured-blog">
                         {% for video in videos %}
-                            {% include "SpicySiteBundle:Site:video_post.html.twig" %} 
-                         {%else%}
-                            <p>Pas de vidéos avec ce tag</p>
-                         {% endfor %}
+                            {% include "SpicySiteBundle:Site:video_post.html.twig" %}
                             <div id="Pagination" ></div>
+                        {%else%}
+                            <p>Pas de vidéos avec ce tag</p>
+                        {% endfor %}                            
                         </div>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
             <div class="one-third column last">
                 <div class="content-block">
                     <div class="block-content" id="encart_droit">
-                        {#% include "SpicySiteBundle:Ads:encart_droit_banstex.html.twig" %#}
+                        {% include "SpicySiteBundle:Ads:encart_droit_banstex.html.twig" %}
                     </div>
                 </div>
                 <div class="content-block">

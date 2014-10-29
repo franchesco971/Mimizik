@@ -62,8 +62,6 @@ class SiteController extends Controller
     {
         $toolsManager = $this->container->get('mimizik.tools');
         
-        $txtGenre='';
-        
         $video=$this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
@@ -119,7 +117,7 @@ class SiteController extends Controller
         $artiste=$this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Artiste')
-                ->find($id);
+                ->getWithTags($id);
         
         if($artiste == null) {
             throw $this->createNotFoundException('Artiste inexistant');

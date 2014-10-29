@@ -42,9 +42,11 @@
                             <div class="block-content"><p>Tags :
                                 {% for genre in genres %}
                                     <a href="{{ path('spicy_site_genre',{'id':genre.id,'slug':genre.slug})}}">{{genre.libelle}} </a>
-                                 {%else%}
-                                    Pas de genres de cette artiste
-                                 {% endfor %}</p>
+                                {% endfor %}
+                                {% for hashtag in artiste.hashtags %}
+                                    <a href="{{path('mimizik_tag_show',{'tag':hashtag.libelle})}}"> #{{hashtag.libelle}}</a>
+                                {% endfor %}
+                                </p>
                                 <div class="social-links-description">
                                     {% if fbLink!='' %}
                                         <a title="Facebook" class="facebook" href="{{fbLink}}" target="_blank"></a>
