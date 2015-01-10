@@ -136,9 +136,8 @@ class Video
         
         if(count($this->artistes))
         {
-            foreach ($this->artistes as $key => $artiste) {
-                
-                //$noms=$noms.'<a href="{{path(\'spicy_site_artiste\',{\'id\':'.$artiste->getId().')}}">'.$artiste->getLibelle().'</a>';
+            foreach ($this->artistes as $key => $artiste) 
+            {
                 $noms=$noms.$artiste->getLibelle();
                 
                 if($key==count($this->artistes)-2)

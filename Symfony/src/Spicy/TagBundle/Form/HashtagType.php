@@ -11,8 +11,8 @@ class HashtagType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('libelle')
-            ->add('dateTag')
+            ->add('libelle','text')
+            ->add('dateTag','datetime')
         ;
     }
 

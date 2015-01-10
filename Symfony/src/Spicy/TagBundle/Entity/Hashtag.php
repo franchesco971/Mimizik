@@ -41,7 +41,7 @@ class Hashtag
     private $dateTag;
 
     public function __construct() {
-        $this->dateTag= time();
+        $this->dateTag= new \DateTime;
     }
 
     
