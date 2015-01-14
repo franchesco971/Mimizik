@@ -4,9 +4,7 @@ namespace Spicy\TagBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 use Spicy\TagBundle\Entity\Hashtag;
 use Spicy\SiteBundle\Entity\Artiste;
 use Spicy\SiteBundle\Entity\Video;
@@ -15,16 +13,12 @@ use Spicy\TagBundle\Form\HashtagType;
 /**
  * Hashtag controller.
  *
- * @Route("/admin/hashtag")
  */
 class HashtagController extends Controller
 {
     /**
      * Lists all Hashtag entities.
      *
-     * @Route("/", name="admin_hashtag")
-     * @Method("GET")
-     * @Template()
      */
     public function indexAction()
     {
@@ -32,17 +26,14 @@ class HashtagController extends Controller
 
         $entities = $em->getRepository('SpicyTagBundle:Hashtag')->findAll();
 
-        return array(
+        return $this->render('SpicyTagBundle:Hashtag:index.html.twig', array(
             'entities' => $entities,
-        );
+        ));
     }
 
     /**
      * Creates a new Hashtag entity.
      *
-     * @Route("/", name="admin_hashtag_create")
-     * @Method("POST")
-     * @Template("SpicyTagBundle:Hashtag:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -58,12 +49,12 @@ class HashtagController extends Controller
             return $this->redirect($this->generateUrl('admin_hashtag_show', array('id' => $entity->getId())));
         }
 
-        return array(
+        return $this->render('SpicyTagBundle:Hashtag:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+        ));
     }
-    
+
     public function create_modalAction(Request $request)
     {
         $entity  = new Hashtag();
@@ -112,19 +103,16 @@ class HashtagController extends Controller
     /**
      * Displays a form to create a new Hashtag entity.
      *
-     * @Route("/new", name="admin_hashtag_new")
-     * @Method("GET")
-     * @Template()
      */
     public function newAction()
     {
         $entity = new Hashtag();
         $form   = $this->createForm(new HashtagType(), $entity);
 
-        return array(
+        return $this->render('SpicyTagBundle:Hashtag:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
+        ));
     }
     
     public function new_modalAction()
@@ -137,7 +125,7 @@ class HashtagController extends Controller
             'form'   => $form->createView(),
         ));
     }
-    
+
     public function new_modal_updateAction($id)
     {
         $entity = new Hashtag();
@@ -153,9 +141,6 @@ class HashtagController extends Controller
     /**
      * Finds and displays a Hashtag entity.
      *
-     * @Route("/{id}", name="admin_hashtag_show")
-     * @Method("GET")
-     * @Template()
      */
     public function showAction($id)
     {
@@ -169,12 +154,11 @@ class HashtagController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('SpicyTagBundle:Hashtag:show.html.twig', array(
             'tag'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
+            'delete_form' => $deleteForm->createView(),        ));
     }
-    
+
     public function showTagAction($tag,$page)
     {
         $nbSuggestion=$this->container->getParameter('nbSuggestion');
@@ -207,9 +191,6 @@ class HashtagController extends Controller
     /**
      * Displays a form to edit an existing Hashtag entity.
      *
-     * @Route("/{id}/edit", name="admin_hashtag_edit")
-     * @Method("GET")
-     * @Template()
      */
     public function editAction($id)
     {
@@ -224,19 +205,16 @@ class HashtagController extends Controller
         $editForm = $this->createForm(new HashtagType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
+        return $this->render('SpicyTagBundle:Hashtag:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
      * Edits an existing Hashtag entity.
      *
-     * @Route("/{id}", name="admin_hashtag_update")
-     * @Method("PUT")
-     * @Template("SpicyTagBundle:Hashtag:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
@@ -259,18 +237,16 @@ class HashtagController extends Controller
             return $this->redirect($this->generateUrl('admin_hashtag_edit', array('id' => $id)));
         }
 
-        return array(
+        return $this->render('SpicyTagBundle:Hashtag:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ));
     }
 
     /**
      * Deletes a Hashtag entity.
      *
-     * @Route("/{id}", name="admin_hashtag_delete")
-     * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
     {

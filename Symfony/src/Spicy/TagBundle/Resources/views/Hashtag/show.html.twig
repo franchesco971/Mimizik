@@ -22,17 +22,17 @@
 
         <ul class="record_actions">
     <li>
-        <a href="{{ path('admin_hashtag') }}">
+        <a href="{{ path('hashtag') }}">
             Back to the list
         </a>
     </li>
     <li>
-        <a href="{{ path('admin_hashtag_edit', { 'id': entity.id }) }}">
+        <a href="{{ path('hashtag_edit', { 'id': entity.id }) }}">
             Edit
         </a>
     </li>
     <li>
-        <form action="{{ path('admin_hashtag_delete', { 'id': entity.id }) }}" method="post">
+        <form action="{{ path('hashtag_delete', { 'id': entity.id }) }}" method="post">
             <input type="hidden" name="_method" value="DELETE" />
             {{ form_widget(delete_form) }}
             <button type="submit">Delete</button>

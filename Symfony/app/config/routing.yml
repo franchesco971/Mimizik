@@ -33,5 +33,5 @@ fos_user_change_password:
     prefix: /profile
     
 mimizik_tag:
-    resource: "@SpicyTagBundle/Resources/config/routing.yml"
-    prefix:   /tags/
+    resource: "@SpicyTagBundle/Resources/config/routing/hashtag.yml"
+    prefix:   /hashtags/

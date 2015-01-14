@@ -1,4 +1,4 @@
-{% extends "SpicySiteBundle::layout_admin.html.twig" %}
+{% extends '::base.html.twig' %}
 
 {% block body -%}
     <h1>Hashtag list</h1>
@@ -15,16 +15,16 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{#{ path('admin_hashtag_show', { 'id': entity.id }) }#}">{{ entity.id }}</a></td>
+                <td><a href="{{ path('hashtag_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.libelle }}</td>
                 <td>{% if entity.dateTag %}{{ entity.dateTag|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>
                 <ul>
                     <li>
-                        <a href="{#{ path('admin_hashtag_show', { 'id': entity.id }) }#}">show</a>
+                        <a href="{{ path('hashtag_show', { 'id': entity.id }) }}">show</a>
                     </li>
                     <li>
-                        <a href="{{ path('admin_hashtag_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('hashtag_edit', { 'id': entity.id }) }}">edit</a>
                     </li>
                 </ul>
                 </td>
@@ -35,7 +35,7 @@
 
         <ul>
         <li>
-            <a href="{{ path('admin_hashtag_new') }}">
+            <a href="{{ path('hashtag_new') }}">
                 Create a new entry
             </a>
         </li>
