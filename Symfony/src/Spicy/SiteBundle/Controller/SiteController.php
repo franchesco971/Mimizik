@@ -375,4 +375,20 @@ class SiteController extends Controller
        
         return $this->redirect($url);
     }
+    
+    public function showTopsAction($page)
+    {
+        $nbSuggestion=$this->container->getParameter('nbSuggestion');
+        
+        $tops=$this->getDoctrine()
+                ->getManager()
+                ->getRepository('SpicySiteBundle:Video')
+                ->getTops($page,$nbSuggestion);
+        
+        return $this->render('SpicySiteBundle:Site:tops.html.twig',array(
+            'videos'=>$tops,
+            'nombrePage'=>ceil((count($tops))/ $nbSuggestion),
+            'page'=>$page    
+        ));
+    }
 }

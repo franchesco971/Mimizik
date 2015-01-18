@@ -243,4 +243,20 @@ class VideoRepository extends EntityRepository
         $query=$qb->getQuery();
         return new Paginator($query);
     }
+    
+    public function getTops($page,$nbOccurences)
+    {
+        $qb = $this->createQueryBuilder('v')
+                ->join('v.artistes', 'a')
+                ->join('v.type_videos', 't')
+                ->setFirstResult(($page-1)*$nbOccurences)
+                ->setMaxResults($nbOccurences)
+                ->where("t.libelle='Top'")
+                ->orderBy('v.dateVideo','DESC')
+                ->addOrderBy('v.dateVideo')
+                ->addSelect('a');
+        
+        $query=$qb->getQuery();
+        return new Paginator($query);
+    }
 }

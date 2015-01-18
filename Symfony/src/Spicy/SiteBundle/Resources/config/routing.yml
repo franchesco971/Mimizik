@@ -85,3 +85,7 @@ mimizik_site_redirect_youtube:
 mimizik_site_redirect_youtube_videos:
     pattern: /channel/{url}/{plus}
     defaults: { _controller: SpicySiteBundle:Site:redirectYoutube }
+    
+mimizik_tops:
+    pattern:  /tops/{page}
+    defaults: { _controller: SpicySiteBundle:Site:showTops,page: 1 }
