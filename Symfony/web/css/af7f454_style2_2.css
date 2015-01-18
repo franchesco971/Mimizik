@@ -164,6 +164,7 @@ a, h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover, .rele
 .contact .block-content li{list-style-type:square}
 
 /****** form ******/
-form .label{float: left;clear: left;}
-form .input{float: left;}
+form .label{float: left;clear: left; width: 150px;min-height: 40px; font-weight: bold; font-size:14px;}
+form .input{float: left;min-height: 40px;}
+form .button{clear:left;float: left}
 
