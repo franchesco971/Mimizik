@@ -217,8 +217,7 @@ class VideoRepository extends EntityRepository
                 ->join('v.artistes', 'a')
                 ->join('v.genre_musicaux', 'g')
                 ->where('g.id in ('.implode(',', $idList).')')
-                ->andWhere('v.etat=1')
-                
+                ->andWhere('v.etat=1')                
                 ->setFirstResult(0)
                 ->setMaxResults(20)
                 ->addSelect('a');

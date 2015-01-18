@@ -1,43 +1,55 @@
-{% extends '::base.html.twig' %}
+{% extends "SpicySiteBundle::layout.html.twig" %}
 
-{% block body -%}
-    <h1>Hashtag list</h1>
+{% block title %}
+{{ parent() }} : Retrouvez tous les hashtags de Mimizik
+{% endblock %}
 
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Libelle</th>
-                <th>Datetag</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('hashtag_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.libelle }}</td>
-                <td>{% if entity.dateTag %}{{ entity.dateTag|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('hashtag_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('hashtag_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+{% block meta_description %}
+    <meta name="Description" content="Retrouvez tous les hashtags de Mimizik"/> 
+{% endblock %}
 
-        <ul>
-        <li>
-            <a href="{{ path('hashtag_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+{% block stylesheets %}
+    {% stylesheets filter='cssrewrite,?yui_css'
+        'css/pagination.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    
+    <div class="page-title wrapper">
+        <div class="container">
+            <span>Hashtags</span>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="content wrapper">
+        <div class="container">
+            <div class="two-third column">
+                <div class="content-block">
+                    <div class="block-content">
+                        <table>
+                            {% for entity in entities %}
+                                <tr>
+                                    <td><a href="{{ path('mimizik_tag_show', { 'tag': entity.libelle }) }}">#{{entity.libelle}}</a></td>
+                                </tr>
+                            {%else%}
+                                <tr colspan="2"><td>Pas de hashtags</td></tr>
+                            {% endfor %}
+                        </table>
+                        <div id="Pagination">          
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="one-third column last">
+                <div class="content-block">
+                    <div class="block-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

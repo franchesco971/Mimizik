@@ -1,4 +1,4 @@
-hashtag:
+mimizik_hashtag:
     pattern:  /
     defaults: { _controller: "SpicyTagBundle:Hashtag:index" }
 
