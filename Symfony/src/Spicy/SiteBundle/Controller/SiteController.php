@@ -113,6 +113,8 @@ class SiteController extends Controller
     public function showArtisteAction($id)
     {
         $nbSuggestion=$this->container->getParameter('nbSuggestion');
+        $socialService = $this->container->get('mimizik.social');
+        $toolsService = $this->container->get('mimizik.tools');
         
         $artiste=$this->getDoctrine()
                 ->getManager()
@@ -132,44 +134,20 @@ class SiteController extends Controller
             throw $this->createNotFoundException('Video inexistant');
         }
         
-        $tabGenres=array();
-        $tabIdGenres=array();
-        foreach ($videos as $video) {
-            $genres=  $video->getGenreMusicaux();
-            foreach ($genres as $genre) 
-            {
-                if(!in_array($genre, $tabGenres))
-                {
-                    $tabGenres[]=$genre;
-                    $tabIdGenres[]=$genre->getId();
-                }
-            }
-        }
+        $tabGenres=$toolsService->getAllGenresforVideoCol($videos);
+        $tabGenresId=$toolsService->getAllGenresforVideoCol($videos,true);
         
         $suggestions=$this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
-                ->getSuggestionsArtistes($tabIdGenres);
+                ->getSuggestionsArtistes($tabGenresId);
         
         if($suggestions == null) {
             throw $this->createNotFoundException('Suggestion inexistant');
         }
+
+        $tabArtistes=$toolsService->getArtistesBySuggestions($suggestions,$id);
         
-        $tabArtistes=array();
-        
-        foreach ($suggestions as $suggestion)
-        {
-            foreach ($suggestion->getArtistes() as $sArtiste)
-            {
-                if(!in_array($sArtiste, $tabArtistes) && $sArtiste->getId()!=$id)
-                {
-                    $tabArtistes[]=$sArtiste;
-                    
-                }            
-            }
-        }
-        
-        $socialService = $this->container->get('mimizik.social');
         $fbLink=$socialService->getFacebookLink($artiste);
         $twitterLinks=$socialService->getArrayTwitterLink($artiste);
         

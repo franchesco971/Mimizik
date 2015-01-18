@@ -19,4 +19,50 @@ class Tools {
         
         return $ids;
     }
+    
+    public function getAllGenresforVideoCol($videos,$getID=false) 
+    {
+        $tabGenres=array();
+        
+        foreach ($videos as $video) {
+            $genres=  $video->getGenreMusicaux();
+            foreach ($genres as $genre) 
+            {
+                if(!in_array($genre, $tabGenres))
+                {
+                    $tabGenresID[]=$genre->getId();
+                    $tabGenres[]=$genre;                    
+                }
+            }
+        }
+        
+        if($getID==true)
+        {
+            return $tabGenresID;
+        }
+        else
+        {
+            return $tabGenres;
+        }
+        
+    }
+    
+    public function getArtistesBySuggestions($suggestions,$idArtiste)
+    {
+        $tabArtistes=array();
+        
+        foreach ($suggestions as $suggestion)
+        {
+            foreach ($suggestion->getArtistes() as $sArtiste)
+            {
+                if(!in_array($sArtiste, $tabArtistes) && $sArtiste->getId()!=$idArtiste)
+                {
+                    $tabArtistes[]=$sArtiste;
+                    
+                }            
+            }
+        }
+        
+        return $tabArtistes;
+    }
 }
