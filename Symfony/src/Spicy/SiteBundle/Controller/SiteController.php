@@ -18,8 +18,7 @@ class SiteController extends Controller
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
                 ->getAvecArtistes($this->container->getParameter('nbMainVideo'),true);
-        
-        
+                
         if ($videos == null) {
             throw $this->createNotFoundException('Video inexistant');
         }
@@ -62,8 +61,6 @@ class SiteController extends Controller
     public function showAction($id)
     {
         $toolsManager = $this->container->get('mimizik.tools');
-        
-        $txtGenre='';
         
         $video=$this->getDoctrine()
                 ->getManager()
@@ -116,11 +113,13 @@ class SiteController extends Controller
     public function showArtisteAction($id)
     {
         $nbSuggestion=$this->container->getParameter('nbSuggestion');
+        $socialService = $this->container->get('mimizik.social');
+        $toolsService = $this->container->get('mimizik.tools');
         
         $artiste=$this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Artiste')
-                ->find($id);
+                ->getWithTags($id);
         
         if($artiste == null) {
             throw $this->createNotFoundException('Artiste inexistant');
@@ -135,44 +134,20 @@ class SiteController extends Controller
             throw $this->createNotFoundException('Video inexistant');
         }
         
-        $tabGenres=array();
-        $tabIdGenres=array();
-        foreach ($videos as $video) {
-            $genres=  $video->getGenreMusicaux();
-            foreach ($genres as $genre) 
-            {
-                if(!in_array($genre, $tabGenres))
-                {
-                    $tabGenres[]=$genre;
-                    $tabIdGenres[]=$genre->getId();
-                }
-            }
-        }
+        $tabGenres=$toolsService->getAllGenresforVideoCol($videos);
+        $tabGenresId=$toolsService->getAllGenresforVideoCol($videos,true);
         
         $suggestions=$this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
-                ->getSuggestionsArtistes($tabIdGenres);
+                ->getSuggestionsArtistes($tabGenresId);
         
         if($suggestions == null) {
             throw $this->createNotFoundException('Suggestion inexistant');
         }
+
+        $tabArtistes=$toolsService->getArtistesBySuggestions($suggestions,$id);
         
-        $tabArtistes=array();
-        
-        foreach ($suggestions as $suggestion)
-        {
-            foreach ($suggestion->getArtistes() as $sArtiste)
-            {
-                if(!in_array($sArtiste, $tabArtistes) && $sArtiste->getId()!=$id)
-                {
-                    $tabArtistes[]=$sArtiste;
-                    
-                }            
-            }
-        }
-        
-        $socialService = $this->container->get('mimizik.social');
         $fbLink=$socialService->getFacebookLink($artiste);
         $twitterLinks=$socialService->getArrayTwitterLink($artiste);
         
@@ -399,5 +374,21 @@ class SiteController extends Controller
         }
        
         return $this->redirect($url);
+    }
+    
+    public function showTopsAction($page)
+    {
+        $nbSuggestion=$this->container->getParameter('nbSuggestion');
+        
+        $tops=$this->getDoctrine()
+                ->getManager()
+                ->getRepository('SpicySiteBundle:Video')
+                ->getTops($page,$nbSuggestion);
+        
+        return $this->render('SpicySiteBundle:Site:tops.html.twig',array(
+            'videos'=>$tops,
+            'nombrePage'=>ceil((count($tops))/ $nbSuggestion),
+            'page'=>$page    
+        ));
     }
 }

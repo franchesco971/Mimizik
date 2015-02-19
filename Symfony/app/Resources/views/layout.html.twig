@@ -63,6 +63,8 @@
                                 <a>Genres musicaux</a>
                                 {{ render(controller("SpicySiteBundle:Site:genres"))}}
                             </li>
+                            <li><a title="Hashtags" href="{{path('mimizik_hashtag')}}">Hashtags</a></li>
+                            <li><a title="Tops" href="{{path('mimizik_tops')}}">Tops</a></li>
                             <li><a title="Contact" href="{{path('spicy_site_contact')}}">Contact</a></li>
                         </ul>
                     </div>
@@ -82,6 +84,8 @@
                             <li><a title="Accueil Mimizik" href="{{path('spicy_site_homepage')}}">Accueil</a></li>
                             <li><a title="Liste des artistes" href="{{path('spicy_site_artistes')}}">Artistes</a></li>
                             <li><a title="Genres musicaux" href="{{path('spicy_site_genres')}}">Genres musicaux</a></li>
+                            <li><a title="Hashtags" href="{{path('mimizik_hashtag')}}">Hashtags</a></li>
+                            <li><a title="Tops" href="{{path('mimizik_tops')}}">Tops</a></li>
                             <li><a title="Contact" href="{{path('spicy_site_contact')}}">Contact</a></li>
                         </ul>
                     </div>				
@@ -93,7 +97,7 @@
     
     <div id="fb-root"></div>
     {% block javascripts %}
-        <script type="text/javascript" src="{{asset('js/jquery-1.4.4.min.js')}}" ></script>
+        <script type="text/javascript" src="{{asset('js/jquery-2.1.1.min.js')}}" ></script>
         {% javascripts  filter='?yui_js'
             'js/jquery.fadeSlider.js'
             'js/jquery.hoverIntent.min.js'

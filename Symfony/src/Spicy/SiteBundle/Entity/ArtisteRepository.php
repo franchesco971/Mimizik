@@ -49,9 +49,24 @@ class ArtisteRepository extends EntityRepository
         return $query;
     }
     
-    public function getArtistesByGenre($param) {
+    public function getWithTags($id) 
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->leftJoin('a.hashtags', 'h')
+            ->where('a.id=:id')
+            ->setParameter('id', $id);
         
+        return $qb->getQuery()->getOneOrNullResult();
     }
     
-    
+    public function getByTag($idTag) 
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->join('a.hashtags', 'h')
+            ->where('h.id=:id')
+            ->setParameter('id', $idTag);
+        
+        return $qb->getQuery()
+            ->getResult();
+    }
 }

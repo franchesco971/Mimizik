@@ -42,9 +42,11 @@
                             <div class="block-content"><p>Tags :
                                 {% for genre in genres %}
                                     <a href="{{ path('spicy_site_genre',{'id':genre.id,'slug':genre.slug})}}">{{genre.libelle}} </a>
-                                 {%else%}
-                                    Pas de genres de cette artiste
-                                 {% endfor %}</p>
+                                {% endfor %}
+                                {% for hashtag in artiste.hashtags %}
+                                    <a href="{{path('mimizik_tag_show',{'tag':hashtag.libelle})}}"> #{{hashtag.libelle}}</a>
+                                {% endfor %}
+                                </p>
                                 <div class="social-links-description">
                                     {% if fbLink!='' %}
                                         <a title="Facebook" class="facebook" href="{{fbLink}}" target="_blank"></a>
@@ -72,21 +74,21 @@
                 </div>
                 <div>
                     <div id="banstex468x60">
-                        {% include "SpicySiteBundle:Ads:468x60_banstex.html.twig" %}
+                        {#% include "SpicySiteBundle:Ads:468x60_banstex.html.twig" %#}
                     </div>  
                 </div>
             </div>
             <div class="one-third column last">
                 <div class="content-block">
                     <div class="block-content" id="encart_droit">
-                        {% include "SpicySiteBundle:Ads:encart_droit_banstex.html.twig" %}
+                        {% include "SpicySiteBundle:Ads:encart_droit_adsense.html.twig" %}
                     </div>
                 </div>
                 <div class="content-block">
                     <div class="block-title"><span>Suggestions</span></div>
                     <div class="block-content">
                         {% for sArtiste in suggestions %}
-                            {% include "SpicySiteBundle:Site:artiste_sug.html.twig" %} 
+                            {% include "SpicySiteBundle:Site:artiste_post.html.twig" %} 
                          {%else%}
                             <p>Pas de suggestions</p>
                          {% endfor %}

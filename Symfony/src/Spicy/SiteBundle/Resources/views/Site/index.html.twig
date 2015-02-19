@@ -12,7 +12,7 @@
     <meta name="google-site-verification" content="sGYi5z6Hzfo88twISFPkyXzxAQG6JmyphW0UITV9uic" />
     <style type="text/css">
         /*#body{background: url("/images/testbg.png") no-repeat scroll 50% 0 rgba(0, 0, 0, 0);}*/
-    </style>
+    </style>        
 {% endblock %}
 {% block body %}
     {{ parent() }}
@@ -62,7 +62,7 @@
             </div>
             <div>
                 <div id="banstex468x60">
-                    {% include "SpicySiteBundle:Ads:468x60_banstex.html.twig" %}
+                    {#% include "SpicySiteBundle:Ads:468x60_banstex.html.twig" %#}
                 </div>  
             </div>
         </div>
@@ -82,13 +82,13 @@
                         <div class="panes">
                             <div class="pane facebook" style="display: block;">
                                 <script type="text/javascript">(function(d, s, id) {
-                                      var js, fjs = d.getElementsByTagName(s)[0];
-                                      if (d.getElementById(id)) return;
-                                      js = d.createElement(s); js.id = id;
-                                      js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1";
-                                      fjs.parentNode.insertBefore(js, fjs);
-                                    }(document, 'script', 'facebook-jssdk'));</script>
-                                <div class="fb-like-box" data-href="http://www.facebook.com/mimizikcom" data-width="260" data-height="The pixel height of the plugin" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="true"></div>
+                                  var js, fjs = d.getElementsByTagName(s)[0];
+                                  if (d.getElementById(id)) return;
+                                  js = d.createElement(s); js.id = id;
+                                  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&appId=729891760354276&version=v2.0";
+                                  fjs.parentNode.insertBefore(js, fjs);
+                                }(document, 'script', 'facebook-jssdk'));</script>
+                                <div class="fb-like-box" data-href="http://www.facebook.com/mimizikcom" data-width="260" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="true"></div>
                             </div>
                             <div id="widget-tweets" class="pane twitter">
                                <a class="twitter-timeline" height="300"  href="https://twitter.com/mimizikcom"  data-widget-id="389191778881912833">Tweets de @mimizikcom</a>

@@ -25,6 +25,15 @@ class AdminController extends Controller
     {
         $nbVideoAfficheAdmin=$this->container->getParameter('nbVideoAfficheAdmin');
         
+        $selectVideos=$this->getDoctrine()
+                ->getManager()
+                ->getRepository('SpicySiteBundle:Video')
+                ->findAll();
+        
+        if($selectVideos == null) {
+            throw $this->createNotFoundException('Videos inexistant');
+        }
+        
         $videos=$this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
@@ -35,6 +44,7 @@ class AdminController extends Controller
         }
                
         return $this->render('SpicySiteBundle:Admin:homeVideo.html.twig',array(
+            'selectVideos'=>$selectVideos,
             'videos'=>$videos,
             'nombrePage'=>ceil((count($videos))/ $nbVideoAfficheAdmin),
             'page'=>$page
@@ -129,6 +139,15 @@ class AdminController extends Controller
     {        
         $nbArtisteAffiche=$this->container->getParameter('nbArtisteAfficheAdmin');
         
+        $selectArtistes=$this->getDoctrine()
+                ->getManager()
+                ->getRepository('SpicySiteBundle:Artiste')
+                ->findAll();
+         
+        if($selectArtistes == null) {
+            throw $this->createNotFoundException('Artistes inexistant');
+        }
+        
         $artistes=$this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Artiste')
@@ -140,6 +159,7 @@ class AdminController extends Controller
                
         return $this->render('SpicySiteBundle:Admin:homeArtiste.html.twig',array(
             'artistes'=>$artistes,
+            'selectArtistes'=>$selectArtistes,
             'nombrePage'=>ceil((count($artistes))/ $nbArtisteAffiche),
             'page'=>$page
         ));
@@ -200,7 +220,8 @@ class AdminController extends Controller
         }
         
         return $this->render('SpicySiteBundle:Admin:updateArtiste.html.twig',array(
-            'form'=>$form->createView()
+            'form'=>$form->createView(),
+            'idArtiste'=>$id
         ));
     }
     

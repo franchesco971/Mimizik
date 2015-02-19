@@ -22,12 +22,16 @@ class VideoRepository extends EntityRepository
              ->join('v.type_videos', 't')
              ->join('v.genre_musicaux', 'g')
              ->join('v.artistes', 'a')
+             ->leftJoin('v.hashtags', 'vh')
+             ->leftJoin('a.hashtags', 'ah')
              ->where('v.id=:id')
              ->setParameter('id', $id)
              ->andWhere('v.etat=1')
              ->addSelect('a')
                 ->addSelect('t')
                 ->addSelect('g')
+                ->addSelect('vh')
+                ->addSelect('ah')
              ;
  
         return $qb->getQuery()
@@ -213,12 +217,46 @@ class VideoRepository extends EntityRepository
                 ->join('v.artistes', 'a')
                 ->join('v.genre_musicaux', 'g')
                 ->where('g.id in ('.implode(',', $idList).')')
-                ->andWhere('v.etat=1')
-                
+                ->andWhere('v.etat=1')                
                 ->setFirstResult(0)
                 ->setMaxResults(20)
                 ->addSelect('a');
         
         return $qb->getQuery()->getResult();
+    }
+    
+    public function getByTag($id,$page,$nbOccurrences) 
+    {
+        $qb = $this->createQueryBuilder('v')
+             ->join('v.genre_musicaux', 'g')
+             ->join('v.artistes', 'a')
+             ->join('v.hashtags','h')
+                ->where('h.id=:id')
+                ->setParameter('id', $id)
+             ->andWhere('v.etat=1')
+                ->addOrderBy('v.dateVideo','DESC')
+                ->setFirstResult(($page-1)*$nbOccurrences)
+                ->setMaxResults($nbOccurrences)
+             ->addSelect('g')
+            ->addSelect('a');
+        
+        $query=$qb->getQuery();
+        return new Paginator($query);
+    }
+    
+    public function getTops($page,$nbOccurences)
+    {
+        $qb = $this->createQueryBuilder('v')
+                ->join('v.artistes', 'a')
+                ->join('v.type_videos', 't')
+                ->setFirstResult(($page-1)*$nbOccurences)
+                ->setMaxResults($nbOccurences)
+                ->where("t.libelle='Top'")
+                ->orderBy('v.dateVideo','DESC')
+                ->addOrderBy('v.dateVideo')
+                ->addSelect('a');
+        
+        $query=$qb->getQuery();
+        return new Paginator($query);
     }
 }

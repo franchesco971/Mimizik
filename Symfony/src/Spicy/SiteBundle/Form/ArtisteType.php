@@ -15,8 +15,21 @@ class ArtisteType extends AbstractType
             ->add('description','textarea')
             ->add('tag_facebook','text', array('required' => false))
             ->add('tag_twitter','text', array('required' => false))
-            ->add('hashtags','text', array('required' => false))
-            ->add('dateArtiste','datetime')
+            ->add('hashtags', 'entity', array(
+                'class'    => 'SpicyTagBundle:Hashtag',
+                'property' => 'libelle',
+                'attr' => array('size' => 30),
+                'multiple' => true,
+                'required'=>false,
+                'query_builder' => function(
+                    \Doctrine\ORM\EntityRepository $er) {
+                        return $er->createQueryBuilder('h')->orderBy('h.libelle', 'ASC');
+                    }
+                )
+            )
+            ->add('dateArtiste','datetime',array(
+                'label'=>'Date artiste'
+            ))
             
         ;
     }

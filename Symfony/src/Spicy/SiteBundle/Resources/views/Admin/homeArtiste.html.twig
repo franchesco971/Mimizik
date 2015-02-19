@@ -1,6 +1,8 @@
 {% extends "SpicySiteBundle::layout_admin.html.twig" %}
 
 {% block stylesheets %}
+    <link rel="stylesheet" href="{{asset('css/reveal.css')}}" type="text/css" />
+    <link rel="stylesheet" href="{{asset('css/select2.css')}}" type="text/css" />
     {{ parent() }}
     <link rel="stylesheet" href="{{asset('css/admin.css')}}" type="text/css" />
     <link rel="stylesheet" href="{{asset('css/pagination.css')}}" type="text/css" />
@@ -11,25 +13,70 @@
     <h3>Artistes</h3>
     <a href="{{path('spicy_admin_add_artiste')}}">Ajouter un artiste</a>
     {{ parent() }}
-    <table border="1" class="data">
-    {% for artiste in artistes %}
+    
+    <div>
+        <label>Search Artiste</label>
+        <select id="search_artistes">
+            {% for artiste in selectArtistes %}
+                <option value='{{artiste.id}}'>{{artiste.libelle}}</option>
+            {%endfor%}
+        </select>
+    </div>
+    
+    <div id="table_artistes">    
+        <table border="1" class="data">
+        {% for artiste in artistes %}
+                <tr>
+                    <td>{{artiste.id}}</td>
+                    <td>{{artiste.libelle}}</td>
+                    <td><a href="{{path('spicy_admin_update_artiste', {'id': artiste.id})}}">Modifier</a></td>
+                    <td><a href="{{path('spicy_admin_delete_artiste',{'id':artiste.id})}}">Supprimer</a></td>
+                </tr>
+        {%else%}
+                <tr colspan="4"><td>Pas d'artistes</td></tr>
+        {%endfor%}
+        </table>
+        <div id="Pagination"></div>
+    </div>
+        
+    <div id="modal_hashtag" class="reveal-modal">
+        <div class="content"></div>
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+    
+    <div style="display:none" id="tab_reveal">            
+        <table border="1" class="data">
             <tr>
-                <td>{{artiste.id}}</td>
-                <td>{{artiste.libelle}}</td>
-                <td><a href="{{path('spicy_admin_update_artiste', {'id': artiste.id})}}">Modifier</a></td>
-                <td><a href="{{path('spicy_admin_delete_artiste',{'id':artiste.id})}}">Supprimer</a></td>
+                <td>123456789</td>
+                <td>azerty</td>
+                <td><a href="{{path('spicy_admin_update_artiste', {'id': 123456789})}}">Modifier</a></td>
+                <td><a href="{{path('spicy_admin_delete_artiste',{'id':123456789})}}">Supprimer</a></td>
             </tr>
-    {%else%}
-            <tr colspan="4"><td>Pas d'artistes</td></tr>
-    {%endfor%}
-    </table>
-    <div id="Pagination"></div>
+        </table>
+    </div>
+    
 {%endblock%}
     
 {% block javascripts %}
     {{parent()}}
-    
+    <script type="text/javascript" src="{{asset('js/select2.js')}}" ></script>
+    <script type="text/javascript" src="{{asset('js/jquery.reveal.js')}}" ></script>
     <script type="text/javascript">
+        $("#search_artistes").select2({
+            width: '200px'
+        });
+        
+        $(".loading").hide();
+        $("#search_artistes").change(function(){
+            var libelle=$("select option:selected").html();
+            var id=$("select option:selected").attr('value');
+            
+            $('#modal_hashtag .content').html($('#tab_reveal').html());
+            $('#modal_hashtag .content').html($('#modal_hashtag .content').html().replace(/123456789/g,id));
+            $('#modal_hashtag .content').html($('#modal_hashtag .content').html().replace(/azerty/g,libelle));
+            $('#modal_hashtag').reveal();
+        });
+        
         function initPagination() {
             // count entries inside the hidden content
             //var num_entries = jQuery('#hiddenresult div.result').length;
