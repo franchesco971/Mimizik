@@ -118,6 +118,12 @@ class Video
     */
     private $type_videos;
     
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nb_vu", type="integer")
+     */
+    private $nb_vu;
     
     /**
      * Constructor
@@ -588,5 +594,28 @@ class Video
     public function getHashtags()
     {
         return $this->hashtags;
+    }
+
+    /**
+     * Set nb_vu
+     *
+     * @param integer $nbVu
+     * @return Video
+     */
+    public function setNbVu($nbVu)
+    {
+        $this->nb_vu = $nbVu;
+    
+        return $this;
+    }
+
+    /**
+     * Get nb_vu
+     *
+     * @return integer 
+     */
+    public function getNbVu()
+    {
+        return $this->nb_vu;
     }
 }

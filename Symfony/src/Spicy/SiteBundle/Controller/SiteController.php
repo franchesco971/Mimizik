@@ -61,6 +61,8 @@ class SiteController extends Controller
     public function showAction($id)
     {
         $toolsManager = $this->container->get('mimizik.tools');
+        $videoManager = $this->container->get('mimizik.videoService');
+        $socialService = $this->container->get('mimizik.social');
         
         $video=$this->getDoctrine()
                 ->getManager()
@@ -79,8 +81,8 @@ class SiteController extends Controller
                 ->getRepository('SpicySiteBundle:Video')
                 ->getSuggestions($genreIdsList,$video->getId());
         
-        $socialService = $this->container->get('mimizik.social');
         $tags=$socialService->getHashtags($video);
+        $videoManager->increment($video);
         
         return $this->render('SpicySiteBundle:Site:show.html.twig',array(
             'lavideo'=>$video,
