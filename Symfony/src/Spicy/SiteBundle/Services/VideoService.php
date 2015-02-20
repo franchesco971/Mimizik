@@ -16,11 +16,16 @@ class VideoService
     
     public function increment(Video $video) 
     {
-        $nbVu=$video->getNbVu()+1;
-        $video->setNbVu($nbVu);
+        $ipInterdites=array('46.218.242.177','82.229.222.236','127.0.0.1');
         
-        $this->em->persist($video);
-        $this->em->flush();
+        if(!in_array($_SERVER['REMOTE_ADDR'], $ipInterdites))            
+        {
+            $nbVu=$video->getNbVu()+1;
+            $video->setNbVu($nbVu);
+
+            $this->em->persist($video);
+            $this->em->flush();
+        }
     }
 }
 
