@@ -15,9 +15,10 @@ class RankingRepository extends EntityRepository
     public function getLastRanking() 
     {
         $qb = $this->createQueryBuilder('r')
+                ->join('r.videoRanking', 'vr')
                 ->orderBy('r.dateRanking')
-                ->setMaxResults(1);
+                ->addSelect('vr');
         
-        return $qb->getQuery()->getOneOrNullResult();
+        return $qb->getQuery()->getSingleResult();
     }
 }

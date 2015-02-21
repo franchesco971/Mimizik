@@ -26,9 +26,6 @@ class VideoService
             $nbVu=0;
             $ranking=$this->getRanking();
             
-            //var_dump($ranking);
-            //exit;
-            
             $videoRanking = $this->em->getRepository('SpicyRankingBundle:VideoRanking')
                     ->getOne($video,$ranking);
 

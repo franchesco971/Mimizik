@@ -1,1 +1,56 @@
-{# empty Twig template #}
+{% extends "SpicySiteBundle::layout.html.twig" %}
+
+{% block title %}
+{{ parent() }} : Retrouvez le classement des vidéos clips
+{% endblock %}
+
+{% block meta_description %}
+    <meta name="Description" content="Mimizik te propose toute le classement des vidéos clips"/> 
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    
+    <div class="page-title wrapper">
+        <div class="container">
+            <span>Classement</span>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="content wrapper">
+        <div class="container">
+            <div class="two-third column">
+                
+                <div class="content-block">
+                    <div class="block-title"><span>Vidéos</span></div>
+                    <div class="block-content">
+                        <div class="featured-blog">
+                        {% for videoRanking in ranking.videoRanking %}
+                            {% set video = videoRanking.video %}
+                            {% include "SpicySiteBundle:Site:video_post.html.twig" %} 
+                         {%else%}
+                            <p>Pas de vidéos de cette artiste</p>
+                         {% endfor %}
+                            <div id="Pagination" ></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div id="banstex468x60">
+                        {#% include "SpicySiteBundle:Ads:468x60_banstex.html.twig" %#}
+                    </div>  
+                </div>
+            </div>
+            <div class="one-third column last">
+                <div class="content-block">
+                    <div class="block-content" id="encart_droit">
+                        {% include "SpicySiteBundle:Ads:encart_droit_adsense.html.twig" %}
+                    </div>
+                </div>
+                <div class="content-block">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

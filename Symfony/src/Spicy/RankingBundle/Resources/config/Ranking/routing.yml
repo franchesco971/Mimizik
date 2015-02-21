@@ -1,0 +1,3 @@
+mimizik_ranking_show:
+    pattern:  /
+    defaults: { _controller: SpicyRankingBundle:Ranking:show }

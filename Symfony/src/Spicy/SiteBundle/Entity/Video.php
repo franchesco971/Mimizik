@@ -119,10 +119,10 @@ class Video
     private $type_videos;
     
     /**
-    * @ORM\OneToMany(targetEntity="Spicy\RankingBundle\Entity\Ranking", mappedBy="video")
+    * @ORM\OneToMany(targetEntity="Spicy\RankingBundle\Entity\VideoRanking", mappedBy="video")
      * @Assert\Valid()
     */
-    private $rankings;
+    private $videoRankings;
     
     /**
      * Constructor

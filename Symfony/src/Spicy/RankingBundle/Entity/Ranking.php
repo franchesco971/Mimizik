@@ -44,10 +44,10 @@ class Ranking
     private $endRanking;
     
     /**
-    * @ORM\OneToMany(targetEntity="Spicy\SiteBundle\Entity\Video", mappedBy="ranking")
+    * @ORM\OneToMany(targetEntity="Spicy\RankingBundle\Entity\VideoRanking", mappedBy="ranking")
      * @Assert\Valid()
     */
-    private $videos;
+    private $videoRanking;
     
     /**
     * @ORM\ManyToOne(targetEntity="Spicy\RankingBundle\Entity\RankingType")
@@ -156,45 +156,45 @@ class Ranking
     {
         return $this->dateRanking;
     }
+
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->videos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->videoRanking = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
-
+    
     /**
-     * Add videos
+     * Add videoRanking
      *
-     * @param \Spicy\SiteBundle\Entity\Video $videos
+     * @param \Spicy\RankingBundle\Entity\VideoRanking $videoRanking
      * @return Ranking
      */
-    public function addVideo(\Spicy\SiteBundle\Entity\Video $videos)
+    public function addVideoRanking(\Spicy\RankingBundle\Entity\VideoRanking $videoRanking)
     {
-        $this->videos[] = $videos;
+        $this->videoRanking[] = $videoRanking;
     
         return $this;
     }
 
     /**
-     * Remove videos
+     * Remove videoRanking
      *
-     * @param \Spicy\SiteBundle\Entity\Video $videos
+     * @param \Spicy\RankingBundle\Entity\VideoRanking $videoRanking
      */
-    public function removeVideo(\Spicy\SiteBundle\Entity\Video $videos)
+    public function removeVideoRanking(\Spicy\RankingBundle\Entity\VideoRanking $videoRanking)
     {
-        $this->videos->removeElement($videos);
+        $this->videoRanking->removeElement($videoRanking);
     }
 
     /**
-     * Get videos
+     * Get videoRanking
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getVideos()
+    public function getVideoRanking()
     {
-        return $this->videos;
+        return $this->videoRanking;
     }
 }

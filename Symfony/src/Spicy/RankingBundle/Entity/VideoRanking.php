@@ -21,10 +21,10 @@ class VideoRanking
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
+    
     /**
      * @var integer
-     *
+     * 
      * @ORM\Column(name="position", type="integer", nullable=true)
      */
     private $position;
@@ -37,13 +37,15 @@ class VideoRanking
     private $nbVu;
     
     /**
-    * @ORM\ManyToOne(targetEntity="Spicy\SiteBundle\Entity\Video",inversedBy="rankings")
+    * @ORM\ManyToOne(targetEntity="Spicy\SiteBundle\Entity\Video",inversedBy="videoRanking")
+    * @ORM\JoinColumn(name="video_id", referencedColumnName="id")
     * @Assert\Valid()
     */
     private $video;
     
     /**
-    * @ORM\ManyToOne(targetEntity="Spicy\RankingBundle\Entity\Ranking",inversedBy="videos")
+    * @ORM\ManyToOne(targetEntity="Spicy\RankingBundle\Entity\Ranking",inversedBy="videoRanking")
+    * @ORM\JoinColumn(name="ranking_id", referencedColumnName="id")
     * @Assert\Valid()
     */
     private $ranking;
@@ -106,13 +108,14 @@ class VideoRanking
     }
 
 
+
     /**
      * Set video
      *
      * @param \Spicy\SiteBundle\Entity\Video $video
      * @return VideoRanking
      */
-    public function setVideo(\Spicy\SiteBundle\Entity\Video $video = null)
+    public function setVideo(\Spicy\SiteBundle\Entity\Video $video)
     {
         $this->video = $video;
     
@@ -135,7 +138,7 @@ class VideoRanking
      * @param \Spicy\RankingBundle\Entity\Ranking $ranking
      * @return VideoRanking
      */
-    public function setRanking(\Spicy\RankingBundle\Entity\Ranking $ranking = null)
+    public function setRanking(\Spicy\RankingBundle\Entity\Ranking $ranking)
     {
         $this->ranking = $ranking;
     
