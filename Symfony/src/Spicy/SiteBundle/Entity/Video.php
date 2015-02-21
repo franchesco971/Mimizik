@@ -119,11 +119,10 @@ class Video
     private $type_videos;
     
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="nb_vu", type="integer")
-     */
-    private $nb_vu;
+    * @ORM\OneToMany(targetEntity="Spicy\RankingBundle\Entity\Ranking", mappedBy="video")
+     * @Assert\Valid()
+    */
+    private $rankings;
     
     /**
      * Constructor
@@ -597,25 +596,35 @@ class Video
     }
 
     /**
-     * Set nb_vu
+     * Add rankings
      *
-     * @param integer $nbVu
+     * @param \Spicy\RankingBundle\Entity\Ranking $rankings
      * @return Video
      */
-    public function setNbVu($nbVu)
+    public function addRanking(\Spicy\RankingBundle\Entity\Ranking $rankings)
     {
-        $this->nb_vu = $nbVu;
+        $this->rankings[] = $rankings;
     
         return $this;
     }
 
     /**
-     * Get nb_vu
+     * Remove rankings
      *
-     * @return integer 
+     * @param \Spicy\RankingBundle\Entity\Ranking $rankings
      */
-    public function getNbVu()
+    public function removeRanking(\Spicy\RankingBundle\Entity\Ranking $rankings)
     {
-        return $this->nb_vu;
+        $this->rankings->removeElement($rankings);
+    }
+
+    /**
+     * Get rankings
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRankings()
+    {
+        return $this->rankings;
     }
 }

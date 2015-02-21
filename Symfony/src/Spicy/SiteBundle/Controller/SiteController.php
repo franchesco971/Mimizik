@@ -232,7 +232,14 @@ class SiteController extends Controller
     
     public function testAction()
     {
-         $test=1;
+        $startRanking=new \DateTime("first day of this month");
+        $endRanking=new \DateTime("first day of next month");
+        
+        var_dump($endRanking);
+        var_dump($startRanking);
+        exit;
+        
+        $test=1;
         return $this->render('SpicySiteBundle:Site:test.html.twig',array(
             'test'=>$test
                 

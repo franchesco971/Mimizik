@@ -26,6 +26,7 @@ class AppKernel extends Kernel
             new Spicy\UserBundle\SpicyUserBundle(),
             new Spicy\FluxBundle\SpicyFluxBundle(),
             new Spicy\TagBundle\SpicyTagBundle(),
+            new Spicy\RankingBundle\SpicyRankingBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
