@@ -232,12 +232,28 @@ class SiteController extends Controller
     
     public function testAction()
     {
-        $startRanking=new \DateTime("first day of this month");
-        $endRanking=new \DateTime("first day of next month");
+        $em=$this->getDoctrine()->getManager();
         
-        var_dump($endRanking);
-        var_dump($startRanking);
-        exit;
+        $ranking=$em->getRepository('SpicyRankingBundle:Ranking')->getLastRanking();
+        
+        $videos=$em->getRepository('SpicySiteBundle:Video')->getTop10byMonth($ranking);
+        
+        $position=1;
+        foreach ($videos as $video) {
+            var_dump($video->getTitre());
+            
+            foreach ($video->getVideoRankings() as $videoRanking) {
+                var_dump($videoRanking->getNbVu());
+                $videoRanking->setPosition($position);
+                $em->persist($video);
+            
+                
+            }
+            $position++;
+        }
+        
+        $em->flush();
+        //exit;
         
         $test=1;
         return $this->render('SpicySiteBundle:Site:test.html.twig',array(

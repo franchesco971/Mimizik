@@ -12,7 +12,7 @@ class RankingController extends Controller
         
         $ranking=$em->getRepository('SpicyRankingBundle:Ranking')->getLastRanking();
         
-        //var_dump($ranking->getVideoRanking());
+        //var_dump($ranking);
         //exit;
         
         return $this->render('SpicyRankingBundle:Ranking:show.html.twig', array(

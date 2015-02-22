@@ -8,6 +8,19 @@
     <meta name="Description" content="Mimizik te propose toute le classement des vidéos clips"/> 
 {% endblock %}
 
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style type="text/css">
+        .up-icon {
+            background:url(http://mimizik/images/up.png) 0 0 no-repeat;
+            width:32px;
+            height:32px;
+        }
+    </style> 
+{% endblock %}
+
 {% block body %}
     {{ parent() }}
     
@@ -25,8 +38,9 @@
                     <div class="block-title"><span>Vidéos</span></div>
                     <div class="block-content">
                         <div class="featured-blog">
-                        {% for videoRanking in ranking.videoRanking %}
+                        {% for videoRanking in ranking.videoRankings %}
                             {% set video = videoRanking.video %}
+                            <div class="up-icon"></div>
                             {% include "SpicySiteBundle:Site:video_post.html.twig" %} 
                          {%else%}
                             <p>Pas de vidéos de cette artiste</p>

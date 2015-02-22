@@ -48,7 +48,8 @@ class VideoService
     {     
         
         $ranking=$this->em->getRepository('SpicyRankingBundle:Ranking')->getLastRanking();
-            
+        
+        /*** base de donnee vide**/
         if ($ranking == null) {
             $ranking=$this->createRanking();
         }
@@ -56,8 +57,12 @@ class VideoService
         {
             $now=new \DateTime("now");
             
+            /*** s'il en faut un nouveau **/
             if($ranking->getEndRanking()<$now)
             {
+                /**** fige les positions du classement précédent **/
+                $this->setPositions($ranking);
+                /**** crée un nouveau classement ***/
                 $ranking=$this->createRanking();
             }
         }
@@ -93,6 +98,22 @@ class VideoService
         $videoRanking->setNbVu(1);
         
         return $videoRanking;
+    }
+    
+    public function setPositions(Ranking $ranking) 
+    {
+        $videos=$this->em->getRepository('SpicySiteBundle:Video')->getTop10byMonth($ranking);
+        
+        $position=1;
+        foreach ($videos as $video) 
+        {            
+            foreach ($video->getVideoRankings() as $videoRanking) 
+            {
+                $videoRanking->setPosition($position);
+                $this->em->persist($video);  
+            }
+            $position++;
+        }
     }
 }
 

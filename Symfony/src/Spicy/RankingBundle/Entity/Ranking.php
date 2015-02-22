@@ -47,7 +47,7 @@ class Ranking
     * @ORM\OneToMany(targetEntity="Spicy\RankingBundle\Entity\VideoRanking", mappedBy="ranking")
      * @Assert\Valid()
     */
-    private $videoRanking;
+    private $videoRankings;
     
     /**
     * @ORM\ManyToOne(targetEntity="Spicy\RankingBundle\Entity\RankingType")
@@ -164,37 +164,38 @@ class Ranking
     {
         $this->videoRanking = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
+
     /**
-     * Add videoRanking
+     * Add videoRankings
      *
-     * @param \Spicy\RankingBundle\Entity\VideoRanking $videoRanking
+     * @param \Spicy\RankingBundle\Entity\VideoRanking $videoRankings
      * @return Ranking
      */
-    public function addVideoRanking(\Spicy\RankingBundle\Entity\VideoRanking $videoRanking)
+    public function addVideoRanking(\Spicy\RankingBundle\Entity\VideoRanking $videoRankings)
     {
-        $this->videoRanking[] = $videoRanking;
+        $this->videoRankings[] = $videoRankings;
     
         return $this;
     }
 
     /**
-     * Remove videoRanking
+     * Remove videoRankings
      *
-     * @param \Spicy\RankingBundle\Entity\VideoRanking $videoRanking
+     * @param \Spicy\RankingBundle\Entity\VideoRanking $videoRankings
      */
-    public function removeVideoRanking(\Spicy\RankingBundle\Entity\VideoRanking $videoRanking)
+    public function removeVideoRanking(\Spicy\RankingBundle\Entity\VideoRanking $videoRankings)
     {
-        $this->videoRanking->removeElement($videoRanking);
+        $this->videoRankings->removeElement($videoRankings);
     }
 
     /**
-     * Get videoRanking
+     * Get videoRankings
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getVideoRanking()
+    public function getVideoRankings()
     {
-        return $this->videoRanking;
+        return $this->videoRankings;
     }
 }

@@ -3,6 +3,7 @@
 namespace Spicy\RankingBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * NewsRepository
@@ -15,10 +16,13 @@ class RankingRepository extends EntityRepository
     public function getLastRanking() 
     {
         $qb = $this->createQueryBuilder('r')
-                ->join('r.videoRanking', 'vr')
-                ->orderBy('r.dateRanking')
-                ->addSelect('vr');
+                ->join('r.videoRankings', 'vr')
+                ->addOrderBy('vr.nbVu','DESC')
+                ->addSelect('vr')
+                ->andWhere("r.dateRanking in (select max(ra.dateRanking) from SpicyRankingBundle:Ranking ra)"); 
         
-        return $qb->getQuery()->getSingleResult();
+        return $qb->getQuery()->getOneOrNullResult();
+        //$query=$qb->getQuery();
+        //return new Paginator($query);
     }
 }

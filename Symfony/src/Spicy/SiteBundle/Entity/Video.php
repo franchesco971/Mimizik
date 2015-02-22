@@ -595,36 +595,37 @@ class Video
         return $this->hashtags;
     }
 
+
     /**
-     * Add rankings
+     * Add videoRankings
      *
-     * @param \Spicy\RankingBundle\Entity\Ranking $rankings
+     * @param \Spicy\RankingBundle\Entity\VideoRanking $videoRankings
      * @return Video
      */
-    public function addRanking(\Spicy\RankingBundle\Entity\Ranking $rankings)
+    public function addVideoRanking(\Spicy\RankingBundle\Entity\VideoRanking $videoRankings)
     {
-        $this->rankings[] = $rankings;
+        $this->videoRankings[] = $videoRankings;
     
         return $this;
     }
 
     /**
-     * Remove rankings
+     * Remove videoRankings
      *
-     * @param \Spicy\RankingBundle\Entity\Ranking $rankings
+     * @param \Spicy\RankingBundle\Entity\VideoRanking $videoRankings
      */
-    public function removeRanking(\Spicy\RankingBundle\Entity\Ranking $rankings)
+    public function removeVideoRanking(\Spicy\RankingBundle\Entity\VideoRanking $videoRankings)
     {
-        $this->rankings->removeElement($rankings);
+        $this->videoRankings->removeElement($videoRankings);
     }
 
     /**
-     * Get rankings
+     * Get videoRankings
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getRankings()
+    public function getVideoRankings()
     {
-        return $this->rankings;
+        return $this->videoRankings;
     }
 }

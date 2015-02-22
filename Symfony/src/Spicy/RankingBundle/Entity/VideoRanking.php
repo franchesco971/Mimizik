@@ -37,14 +37,14 @@ class VideoRanking
     private $nbVu;
     
     /**
-    * @ORM\ManyToOne(targetEntity="Spicy\SiteBundle\Entity\Video",inversedBy="videoRanking")
+    * @ORM\ManyToOne(targetEntity="Spicy\SiteBundle\Entity\Video",inversedBy="videoRankings")
     * @ORM\JoinColumn(name="video_id", referencedColumnName="id")
     * @Assert\Valid()
     */
     private $video;
     
     /**
-    * @ORM\ManyToOne(targetEntity="Spicy\RankingBundle\Entity\Ranking",inversedBy="videoRanking")
+    * @ORM\ManyToOne(targetEntity="Spicy\RankingBundle\Entity\Ranking",inversedBy="videoRankings")
     * @ORM\JoinColumn(name="ranking_id", referencedColumnName="id")
     * @Assert\Valid()
     */
@@ -108,14 +108,13 @@ class VideoRanking
     }
 
 
-
     /**
      * Set video
      *
      * @param \Spicy\SiteBundle\Entity\Video $video
      * @return VideoRanking
      */
-    public function setVideo(\Spicy\SiteBundle\Entity\Video $video)
+    public function setVideo(\Spicy\SiteBundle\Entity\Video $video = null)
     {
         $this->video = $video;
     
@@ -138,7 +137,7 @@ class VideoRanking
      * @param \Spicy\RankingBundle\Entity\Ranking $ranking
      * @return VideoRanking
      */
-    public function setRanking(\Spicy\RankingBundle\Entity\Ranking $ranking)
+    public function setRanking(\Spicy\RankingBundle\Entity\Ranking $ranking = null)
     {
         $this->ranking = $ranking;
     
