@@ -18,6 +18,35 @@
             width:32px;
             height:32px;
         }
+        .add-icon {
+            background:url(http://mimizik/images/add.png) 0 0 no-repeat;
+            width:32px;
+            height:32px;
+        }
+        .forward-icon {
+            background:url(http://mimizik/images/forward.png) 0 0 no-repeat;
+            width:32px;
+            height:32px;
+        }
+        .down-icon {
+            background:url(http://mimizik/images/down.png) 0 0 no-repeat;
+            width:32px;
+            height:32px;
+        }
+        .ranking .post
+        {
+            border-bottom: 1px solid #ebebeb;
+            margin: 0 0 1.5em -20px;
+            overflow: hidden;
+            padding: 0 0 1.5em 0;
+            width: 80%;
+        }
+        .ranking .position
+        {
+            font-size: 2em;
+            margin-right: 5px;
+            width:30px;
+        }
     </style> 
 {% endblock %}
 
@@ -26,11 +55,11 @@
     
     <div class="page-title wrapper">
         <div class="container">
-            <span>Classement</span>
+            <span>Classement du {{ranking.dateRanking|date('m/y')}}</span>
             <div class="clear"></div>
         </div>
     </div>
-    <div class="content wrapper">
+    <div class="content wrapper ranking">
         <div class="container">
             <div class="two-third column">
                 
@@ -38,13 +67,19 @@
                     <div class="block-title"><span>Vidéos</span></div>
                     <div class="block-content">
                         <div class="featured-blog">
-                        {% for videoRanking in ranking.videoRankings %}
-                            {% set video = videoRanking.video %}
-                            <div class="up-icon"></div>
-                            {% include "SpicySiteBundle:Site:video_post.html.twig" %} 
-                         {%else%}
+                        {% for video in videos %}
+                            <div class="floatleft">
+                                {% for videoRanking in video.videoRankings %}
+                                    <div class="floatleft position">{{videoRanking.position}}</div>
+                                    {% if videoRanking.icon is not null %}
+                                        <div class="{{videoRanking.icon}}-icon floatleft"></div>
+                                    {%endif%}    
+                                {% endfor %}                                                         
+                            </div>
+                            {% include "SpicySiteBundle:Video:_video_ranking.html.twig" %} 
+                        {%else%}
                             <p>Pas de vidéos de cette artiste</p>
-                         {% endfor %}
+                        {% endfor %}
                             <div id="Pagination" ></div>
                         </div>
                     </div>

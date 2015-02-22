@@ -4,6 +4,7 @@ namespace Spicy\RankingBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Spicy\RankingBundle\Entity\RankingType;
 
 /**
  * NewsRepository
@@ -16,10 +17,24 @@ class RankingRepository extends EntityRepository
     public function getLastRanking() 
     {
         $qb = $this->createQueryBuilder('r')
-                ->join('r.videoRankings', 'vr')
+                ->leftJoin('r.videoRankings', 'vr')
                 ->addOrderBy('vr.nbVu','DESC')
                 ->addSelect('vr')
                 ->andWhere("r.dateRanking in (select max(ra.dateRanking) from SpicyRankingBundle:Ranking ra)"); 
+        
+        return $qb->getQuery()->getOneOrNullResult();
+        //$query=$qb->getQuery();
+        //return new Paginator($query);
+    }
+    
+    public function getPreviousRanking($ranking) 
+    {
+        $qb = $this->createQueryBuilder('r')
+                ->leftJoin('r.videoRankings', 'vr')
+                ->addOrderBy('r.dateRanking','DESC')
+                ->addSelect('vr')
+                ->andWhere("r.id in (select max(ra.id) from SpicyRankingBundle:Ranking ra "
+                        . "where ra.id<".$ranking->getId()." AND ra.rankingType=".RankingType::MOIS.")"); 
         
         return $qb->getQuery()->getOneOrNullResult();
         //$query=$qb->getQuery();

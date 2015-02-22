@@ -49,7 +49,13 @@ class VideoRanking
     * @Assert\Valid()
     */
     private $ranking;
-
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="icon", type="string", length=255, nullable=true)
+     */
+    private $icon;
 
     /**
      * Get id
@@ -152,5 +158,28 @@ class VideoRanking
     public function getRanking()
     {
         return $this->ranking;
+    }
+
+    /**
+     * Set icon
+     *
+     * @param string $icon
+     * @return VideoRanking
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+    
+        return $this;
+    }
+
+    /**
+     * Get icon
+     *
+     * @return string 
+     */
+    public function getIcon()
+    {
+        return $this->icon;
     }
 }

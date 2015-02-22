@@ -12,11 +12,13 @@ class RankingController extends Controller
         
         $ranking=$em->getRepository('SpicyRankingBundle:Ranking')->getLastRanking();
         
+        $videos=$em->getRepository('SpicySiteBundle:Video')->getTop10byMonth($ranking);
         //var_dump($ranking);
         //exit;
         
         return $this->render('SpicyRankingBundle:Ranking:show.html.twig', array(
-            'ranking' => $ranking
+            'ranking' => $ranking,
+            'videos'=>$videos
         ));
     }
 }

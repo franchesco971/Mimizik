@@ -236,6 +236,10 @@ class SiteController extends Controller
         
         $ranking=$em->getRepository('SpicyRankingBundle:Ranking')->getLastRanking();
         
+        $ranking=$em->getRepository('SpicyRankingBundle:Ranking')->getPreviousRanking($ranking);
+        //var_dump($ranking);
+        //exit;
+        
         $videos=$em->getRepository('SpicySiteBundle:Video')->getTop10byMonth($ranking);
         
         $position=1;
@@ -245,9 +249,7 @@ class SiteController extends Controller
             foreach ($video->getVideoRankings() as $videoRanking) {
                 var_dump($videoRanking->getNbVu());
                 $videoRanking->setPosition($position);
-                $em->persist($video);
-            
-                
+                $em->persist($video);                            
             }
             $position++;
         }

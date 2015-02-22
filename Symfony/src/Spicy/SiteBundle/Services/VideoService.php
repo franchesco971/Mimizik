@@ -103,6 +103,7 @@ class VideoService
     public function setPositions(Ranking $ranking) 
     {
         $videos=$this->em->getRepository('SpicySiteBundle:Video')->getTop10byMonth($ranking);
+        $previousRanking=$em->getRepository('SpicyRankingBundle:Ranking')->getPreviousRanking($ranking);
         
         $position=1;
         foreach ($videos as $video) 
@@ -110,10 +111,61 @@ class VideoService
             foreach ($video->getVideoRankings() as $videoRanking) 
             {
                 $videoRanking->setPosition($position);
-                $this->em->persist($video);  
+                //recuperer l'ancien classsment pour comparer
+                if($previousRanking!=NULL)
+                {
+                    $videoRanking=$this->compareRanking($videoRanking,$previousRanking);
+                }
+                
+                $this->em->persist($videoRanking);  
             }
             $position++;
         }
+    }
+    
+    public function compareRanking(VideoRanking $videoRanking,Ranking $previousRanking) 
+    {        
+        foreach ($previousRanking->getVideoRankings() as $previousVideoRanking) 
+        {
+            if($previousVideoRanking->getVideo()->getId()==$videoRanking->getId())
+            {
+                $previousPosition=$previousVideoRanking->getPosition();
+                $position=$videoRanking->getPosition();                
+                
+                if(!is_null($position))
+                {
+                    $icon=  $this->setIcons($previousPosition, $position);
+                    
+                    $videoRanking->setIcon($icon);
+                }
+            }
+        }
+        
+        return $videoRanking;
+    }
+    
+    public function setIcons($previousPosition,$position)
+    {
+        if(!is_null($previousPosition))
+        {
+            switch ($position) {
+                case $position>$previousPosition:
+                    $icon='up';
+                    break;
+                case $position<$previousPosition:
+                    $icon='down';
+                    break;
+                case $position==$previousPosition:
+                    $icon='forward';
+                    break;
+            }
+        }
+        else
+        {
+            $icon='add';
+        }
+        
+        return $icon;
     }
 }
 
