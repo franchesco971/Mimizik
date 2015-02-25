@@ -64,15 +64,24 @@
             <div class="two-third column">
                 
                 <div class="content-block">
-                    <div class="block-title"><span>Vidéos</span></div>
+                    <div class="block-title"><span>Top 10</span></div>
                     <div class="block-content">
                         <div class="featured-blog">
                         {% for video in videos %}
                             <div class="floatleft">
                                 {% for videoRanking in video.videoRankings %}
-                                    <div class="floatleft position">{{videoRanking.position}}</div>
+                                    <div class="floatleft position">
+                                        {% if videoRanking.position is not null %}
+                                            {{videoRanking.position}}
+                                        {% else%}  
+                                            {{loop.index}}
+                                        {%endif%}
+                                        
+                                    </div>
                                     {% if videoRanking.icon is not null %}
                                         <div class="{{videoRanking.icon}}-icon floatleft"></div>
+                                    {% else%}    
+                                        <div class="{{video_service.getIcon(videoRanking,previousRanking)}}-icon floatleft"></div>
                                     {%endif%}    
                                 {% endfor %}                                                         
                             </div>

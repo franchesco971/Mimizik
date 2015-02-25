@@ -29,6 +29,7 @@ twig:
         website_name: "%website_name%"
         domaine_name: "%domaine_name%"
         email_contact: "%email_contact%"
+        video_service: "@mimizik.videoService"
 
 # Assetic Configuration
 assetic:

@@ -40,4 +40,28 @@ class RankingRepository extends EntityRepository
         //$query=$qb->getQuery();
         //return new Paginator($query);
     }
+    
+    public function getRankings($page,$nbOccurences)
+    {
+        $qb = $this->createQueryBuilder('r')
+                ->setFirstResult(($page-1)*$nbOccurences)
+                ->setMaxResults($nbOccurences);
+        
+        $query=$qb->getQuery();
+        return new Paginator($query);
+    }
+    
+    public function getOne($id)
+    {
+        $qb = $this->createQueryBuilder('r')
+                ->join('r.videoRankings', 'vr')
+                ->join('vr.video', 'v')
+                ->where('r.id=:id')
+                ->setParameter('id', $id)
+                ->addSelect('vr')
+                ->addSelect('v')
+                ->addSelect('a');
+        
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }

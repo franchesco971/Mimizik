@@ -28,7 +28,8 @@ class VideoService
             
             $videoRanking = $this->em->getRepository('SpicyRankingBundle:VideoRanking')
                     ->getOne($video,$ranking);
-
+            
+            /** base vide ***/
             if ($videoRanking == null) 
             {
                 $videoRanking=  $this->createVideoRanking($ranking,$video);
@@ -103,7 +104,7 @@ class VideoService
     public function setPositions(Ranking $ranking) 
     {
         $videos=$this->em->getRepository('SpicySiteBundle:Video')->getTop10byMonth($ranking);
-        $previousRanking=$em->getRepository('SpicyRankingBundle:Ranking')->getPreviousRanking($ranking);
+        $previousRanking=$this->em->getRepository('SpicyRankingBundle:Ranking')->getPreviousRanking($ranking);
         
         $position=1;
         foreach ($videos as $video) 
@@ -111,7 +112,7 @@ class VideoService
             foreach ($video->getVideoRankings() as $videoRanking) 
             {
                 $videoRanking->setPosition($position);
-                //recuperer l'ancien classsment pour comparer
+                //recuperer l'ancien classement pour comparer
                 if($previousRanking!=NULL)
                 {
                     $videoRanking=$this->compareRanking($videoRanking,$previousRanking);
@@ -127,11 +128,12 @@ class VideoService
     {        
         foreach ($previousRanking->getVideoRankings() as $previousVideoRanking) 
         {
-            if($previousVideoRanking->getVideo()->getId()==$videoRanking->getId())
-            {
+            /** la video est presente dans le classement precedent **/
+            if($previousVideoRanking->getVideo()->getId()==$videoRanking->getVideo()->getId())
+            {                
                 $previousPosition=$previousVideoRanking->getPosition();
                 $position=$videoRanking->getPosition();                
-                
+
                 if(!is_null($position))
                 {
                     $icon=  $this->setIcons($previousPosition, $position);
@@ -149,10 +151,10 @@ class VideoService
         if(!is_null($previousPosition))
         {
             switch ($position) {
-                case $position>$previousPosition:
+                case $position<$previousPosition:
                     $icon='up';
                     break;
-                case $position<$previousPosition:
+                case $position>$previousPosition:
                     $icon='down';
                     break;
                 case $position==$previousPosition:
@@ -163,6 +165,22 @@ class VideoService
         else
         {
             $icon='add';
+        }
+        
+        return $icon;
+    }
+    
+    public function getIcon(VideoRanking $videoRanking,$previousRanking) 
+    {
+        if(!is_null($previousRanking))
+        {            
+            $videoRanking=$this->compareRanking($videoRanking, $previousRanking);
+        }
+        
+        $icon='add';
+        if(!is_null($videoRanking->getIcon()))
+        {            
+            $icon=$videoRanking->getIcon();
         }
         
         return $icon;
