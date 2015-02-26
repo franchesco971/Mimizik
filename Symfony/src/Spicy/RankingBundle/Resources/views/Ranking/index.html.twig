@@ -8,6 +8,18 @@
     <meta name="Description" content="Tous les classements par mois de Mimizik."/> 
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style type="text/css">
+        #data-ranking .search-icon {
+            background:url(/images/pagination_arrows.png) 0 6px no-repeat;
+            /*width:7px;*/
+            width: 32px; height: 20px;
+            background-position:-53px 6px;
+        }
+    </style> 
+{% endblock %}
+
 {% block body %}
     {{ parent() }}
     
@@ -22,10 +34,13 @@
             <div class="content-block">
                 <div class="block-content">
                     <div class="featured-blog">
-                        <table border="1" class="data">
-                            <tr><th>Classement</th><th></th></tr>
+                        <table border="1" id="data-ranking">
+                            <tr><th>Classements</th><th></th></tr>
                         {% for ranking in rankings %}         
-                                <tr><td><a href="{{ path('mimizik_ranking_show',{'id':ranking.id})}}">Classement du {{ranking.dateRanking|date('m/y')}}</a></td><td></td></tr>          
+                            <tr>
+                                <td><a href="{{ path('mimizik_ranking_show',{'id':ranking.id})}}">Classement du {{ranking.dateRanking|date('m/y')}}</a></td>
+                                <td><a href="{{ path('mimizik_ranking_show',{'id':ranking.id})}}"><div class="search-icon">&nbsp;</div></a></td>
+                            </tr>          
                         {% endfor %}
                         </table>
                         <div id="Pagination" >

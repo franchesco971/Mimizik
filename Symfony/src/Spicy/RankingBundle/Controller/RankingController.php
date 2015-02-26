@@ -25,8 +25,9 @@ class RankingController extends Controller
     public function showLastAction()
     {
         $em=$this->getDoctrine()->getManager();
+        $videoManager = $this->container->get('mimizik.videoService');
         
-        $ranking=$em->getRepository('SpicyRankingBundle:Ranking')->getLastRanking();
+        $ranking=$videoManager->getRanking(true);
         $previousRanking=$em->getRepository('SpicyRankingBundle:Ranking')->getPreviousRanking($ranking);
         
         $videos=$em->getRepository('SpicySiteBundle:Video')->getTop10byMonth($ranking);
@@ -42,8 +43,9 @@ class RankingController extends Controller
     public function showAction($id)
     {
         $em=$this->getDoctrine()->getManager();
+        $videoManager = $this->container->get('mimizik.videoService');
         
-        $ranking=$em->getRepository('SpicyRankingBundle:Ranking')->find($id);
+        $ranking=$videoManager->getRanking(false,$id);
         
         $previousRanking=$em->getRepository('SpicyRankingBundle:Ranking')->getPreviousRanking($ranking);
         

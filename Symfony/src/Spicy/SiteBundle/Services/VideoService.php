@@ -45,10 +45,20 @@ class VideoService
         }
     }
     
-    public function getRanking() 
-    {     
-        
+    public function getRanking($last=true,$id=0) 
+    {       
         $ranking=$this->em->getRepository('SpicyRankingBundle:Ranking')->getLastRanking();
+        
+        //ce n'est pas le dernier 
+        if(!$last && $ranking->getId()!=$id)
+        {
+            $ranking=$this->em->getRepository('SpicyRankingBundle:Ranking')->find($id);
+        }
+        else
+        {
+            $last=true;
+        }
+        
         
         /*** base de donnee vide**/
         if ($ranking == null) {
@@ -57,9 +67,8 @@ class VideoService
         else
         {
             $now=new \DateTime("now");
-            
             /*** s'il en faut un nouveau **/
-            if($ranking->getEndRanking()<$now)
+            if($ranking->getEndRanking()<$now && $last)
             {
                 /**** fige les positions du classement précédent **/
                 $this->setPositions($ranking);
@@ -107,20 +116,23 @@ class VideoService
         $previousRanking=$this->em->getRepository('SpicyRankingBundle:Ranking')->getPreviousRanking($ranking);
         
         $position=1;
-        foreach ($videos as $video) 
-        {            
-            foreach ($video->getVideoRankings() as $videoRanking) 
-            {
-                $videoRanking->setPosition($position);
-                //recuperer l'ancien classement pour comparer
-                if($previousRanking!=NULL)
+        if(!is_null($previousRanking))
+        {
+            foreach ($videos as $video) 
+            {            
+                foreach ($video->getVideoRankings() as $videoRanking) 
                 {
-                    $videoRanking=$this->compareRanking($videoRanking,$previousRanking);
+                    $videoRanking->setPosition($position);
+                    //recuperer l'ancien classement pour comparer
+                    if($previousRanking!=NULL)
+                    {
+                        $videoRanking=$this->compareRanking($videoRanking,$previousRanking);
+                    }
+
+                    $this->em->persist($videoRanking);  
                 }
-                
-                $this->em->persist($videoRanking);  
+                $position++;
             }
-            $position++;
         }
     }
     
