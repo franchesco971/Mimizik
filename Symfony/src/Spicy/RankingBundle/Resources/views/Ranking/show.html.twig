@@ -1,0 +1,88 @@
+{% extends "SpicySiteBundle::layout.html.twig" %}
+
+{% block title %}
+{{ parent() }} : Retrouvez le classement des vidéos clips
+{% endblock %}
+
+{% block meta_description %}
+    <meta name="Description" content="Mimizik te propose toute le classement des vidéos clips"/> 
+{% endblock %}
+
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets filter='cssrewrite,?yui_css'
+        'bundles/spicyranking/css/*' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
+    <style type="text/css">
+        
+    </style> 
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    
+    <div class="page-title wrapper">
+        <div class="container">
+            <span>Classement du {{ranking.dateRanking|date('m/y')}}</span>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="content wrapper ranking">
+        <div class="container">
+            <div class="two-third column">
+                
+                <div class="content-block">
+                    <div class="block-title"><span>Top 10</span></div>
+                    <div class="block-content">
+                        <div class="featured-blog">
+                            <div class="search-icon"><a href="{{ path('mimizik_ranking_index',{'page':1})}}">Retour</a></div>
+                        {% for video in videos %}
+                            <div class="floatleft">
+                                {%set position=loop.index%}
+                                {% for videoRanking in video.videoRankings %}
+                                    <div class="floatleft position">
+                                        {% if videoRanking.position is not null %}
+                                            {{videoRanking.position}}
+                                        {% else%}  
+                                            {{position}}
+                                        {%endif%}
+                                        
+                                    </div>
+                                    {% if videoRanking.icon is not null %}
+                                        <div class="{{videoRanking.icon}}-icon floatleft"></div>
+                                    {% else%}    
+                                        <div class="{{video_service.getIcon(videoRanking,previousRanking)}}-icon floatleft"></div>
+                                    {%endif%}
+                                    <div style="visibility:hidden;">{{videoRanking.nbVu}}</div>
+                                {% endfor %}                                                         
+                            </div>
+                            {% include "SpicySiteBundle:Video:_video_ranking.html.twig" %} 
+                        {%else%}
+                            <p>Pas de vidéos de cette artiste</p>
+                        {% endfor %}
+                            <div id="Pagination" ></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div id="banstex468x60">
+                        {#% include "SpicySiteBundle:Ads:468x60_banstex.html.twig" %#}
+                    </div>  
+                </div>
+            </div>
+            <div class="one-third column last">
+                <div class="content-block">
+                    <div class="block-content" id="encart_droit">
+                        {% include "SpicySiteBundle:Ads:encart_droit_adsense.html.twig" %}
+                    </div>
+                </div>
+                <div class="content-block">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

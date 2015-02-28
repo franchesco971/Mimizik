@@ -5,6 +5,7 @@ namespace Spicy\SiteBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Spicy\SiteBundle\Entity\Video;
+use Spicy\RankingBundle\Entity\Ranking;
 
 /**
  * VideoRepository
@@ -258,5 +259,19 @@ class VideoRepository extends EntityRepository
         
         $query=$qb->getQuery();
         return new Paginator($query);
+    }
+    
+    public function getTopByMonth(Ranking $ranking,$max=10) 
+    {
+        $qb=  $this->createQueryBuilder('v')
+                ->join('v.videoRankings', 'vr')
+                ->where('vr.ranking=:ranking')
+                ->setParameter('ranking', $ranking->getId())
+                ->orderBy('vr.nbVu','DESC')
+                ->addOrderBy('v.dateVideo','DESC')
+                ->setMaxResults($max)
+                ->addSelect('vr');
+        
+        return $qb->getQuery()->getResult();
     }
 }

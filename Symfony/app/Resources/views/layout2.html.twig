@@ -12,8 +12,11 @@
         <meta name="Description" content="Mimizik est un site promotion de la musique des artistes et des vidéos clip des antilles, de la caraïbes et de la guyane. Il y a tous genres musicaux (zouk, dancehall, hip-hop...) et la vidéo rétro de la semaine..."/> 
         {% endblock %}
         {% block stylesheets %}
-            <link rel="stylesheet" href="{{asset('css/style.css')}}" type="text/css" />		
-            <link rel="stylesheet" href="{{asset('css/style2.css')}}" type="text/css" />
+            {% stylesheets filter='cssrewrite,?yui_css'
+                'css/style.css'
+                'css/style2.css'%}
+                <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+            {% endstylesheets %}
         {% endblock %}
         <link rel="icon" type="image/png" href="{{asset('images/video.png')}}" />
         <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/video.ico')}}" />

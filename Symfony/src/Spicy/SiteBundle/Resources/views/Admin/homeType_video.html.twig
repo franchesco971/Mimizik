@@ -1,10 +1,5 @@
 {% extends "SpicySiteBundle::layout_admin.html.twig" %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{asset('css/admin.css')}}" type="text/css" />
-{% endblock %}
-
 {% block body %}
     <a href="{{path('spicy_admin_home')}}"><< admin</a>
     <h3>Type de vidéos</h3>

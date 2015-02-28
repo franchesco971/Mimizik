@@ -29,12 +29,13 @@ twig:
         website_name: "%website_name%"
         domaine_name: "%domaine_name%"
         email_contact: "%email_contact%"
+        video_service: "@mimizik.videoService"
 
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ SpicySiteBundle,SpicyTagBundle ]
+    bundles:        [ SpicySiteBundle,SpicyTagBundle,SpicyRankingBundle ]
     java: "C:\\Program Files (x86)\Java\jre7\\bin\java.exe"
     filters:
         cssrewrite: ~

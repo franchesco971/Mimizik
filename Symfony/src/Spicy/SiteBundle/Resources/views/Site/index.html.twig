@@ -7,12 +7,54 @@
     {% endif %}
 {% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
+{% block stylesheets %}    
     <meta name="google-site-verification" content="sGYi5z6Hzfo88twISFPkyXzxAQG6JmyphW0UITV9uic" />
+    {% stylesheets filter='cssrewrite,?yui_css'
+        '@SpicyRankingBundle/Resources/public/css/ranking.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
     <style type="text/css">
         /*#body{background: url("/images/testbg.png") no-repeat scroll 50% 0 rgba(0, 0, 0, 0);}*/
-    </style>        
+        .ranking-line{
+            width:100%;
+            height:32px;
+            margin-bottom: 10px;
+            padding-top: 10px;
+            
+        }
+        .ranking-line a{
+            font-size: 14px;
+        }
+        .ranking-line .icon{
+            padding-right: 5px;
+            
+        }
+        .ranking-line .position{
+            font-size: 16px;
+            padding-right: 5px;
+            height: 32px;
+            padding-top: 10px;
+        }
+        
+        .ranking-line .video-links{
+            height: 32px;
+            padding-top: 10px;
+            
+        }
+        .link-ranking{
+            height: 20px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .link-ranking .arrow {
+            background:url(/images/pagination_arrows.png) 0 6px no-repeat;
+            /*width:7px;*/
+            width: 25px; height: 20px;
+            background-position:-45px 3px;
+        }
+    </style> 
+    {{ parent() }}
 {% endblock %}
 {% block body %}
     {{ parent() }}
@@ -113,6 +155,15 @@
             <div class="content-block">
                 <div class="block-content" id="encart_droit">
                     {% include "SpicySiteBundle:Ads:encart_droit_adsense.html.twig" %}
+                </div>
+            </div>
+                
+                <div class="content-block">
+                <div class="block-title">
+                    <span>Dernier classement</span>
+                </div>
+                <div class="block-content">
+                    {{ render(controller("SpicyRankingBundle:Ranking:showLast"))}}
                 </div>
             </div>
         </div>

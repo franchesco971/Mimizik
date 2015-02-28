@@ -118,6 +118,11 @@ class Video
     */
     private $type_videos;
     
+    /**
+    * @ORM\OneToMany(targetEntity="Spicy\RankingBundle\Entity\VideoRanking", mappedBy="video")
+     * @Assert\Valid()
+    */
+    private $videoRankings;
     
     /**
      * Constructor
@@ -588,5 +593,39 @@ class Video
     public function getHashtags()
     {
         return $this->hashtags;
+    }
+
+
+    /**
+     * Add videoRankings
+     *
+     * @param \Spicy\RankingBundle\Entity\VideoRanking $videoRankings
+     * @return Video
+     */
+    public function addVideoRanking(\Spicy\RankingBundle\Entity\VideoRanking $videoRankings)
+    {
+        $this->videoRankings[] = $videoRankings;
+    
+        return $this;
+    }
+
+    /**
+     * Remove videoRankings
+     *
+     * @param \Spicy\RankingBundle\Entity\VideoRanking $videoRankings
+     */
+    public function removeVideoRanking(\Spicy\RankingBundle\Entity\VideoRanking $videoRankings)
+    {
+        $this->videoRankings->removeElement($videoRankings);
+    }
+
+    /**
+     * Get videoRankings
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getVideoRankings()
+    {
+        return $this->videoRankings;
     }
 }

@@ -61,6 +61,8 @@ class SiteController extends Controller
     public function showAction($id)
     {
         $toolsManager = $this->container->get('mimizik.tools');
+        $videoManager = $this->container->get('mimizik.videoService');
+        $socialService = $this->container->get('mimizik.social');
         
         $video=$this->getDoctrine()
                 ->getManager()
@@ -79,8 +81,8 @@ class SiteController extends Controller
                 ->getRepository('SpicySiteBundle:Video')
                 ->getSuggestions($genreIdsList,$video->getId());
         
-        $socialService = $this->container->get('mimizik.social');
         $tags=$socialService->getHashtags($video);
+        $videoManager->increment($video);
         
         return $this->render('SpicySiteBundle:Site:show.html.twig',array(
             'lavideo'=>$video,
@@ -230,7 +232,32 @@ class SiteController extends Controller
     
     public function testAction()
     {
-         $test=1;
+        $em=$this->getDoctrine()->getManager();
+        
+        $ranking=$em->getRepository('SpicyRankingBundle:Ranking')->getLastRanking();
+        
+        $ranking=$em->getRepository('SpicyRankingBundle:Ranking')->getPreviousRanking($ranking);
+        //var_dump($ranking);
+        //exit;
+        
+        $videos=$em->getRepository('SpicySiteBundle:Video')->getTop10byMonth($ranking);
+        
+        $position=1;
+        foreach ($videos as $video) {
+            var_dump($video->getTitre());
+            
+            foreach ($video->getVideoRankings() as $videoRanking) {
+                var_dump($videoRanking->getNbVu());
+                $videoRanking->setPosition($position);
+                $em->persist($video);                            
+            }
+            $position++;
+        }
+        
+        $em->flush();
+        //exit;
+        
+        $test=1;
         return $this->render('SpicySiteBundle:Site:test.html.twig',array(
             'test'=>$test
                 

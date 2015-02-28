@@ -1,11 +1,13 @@
 {% extends "::layout2.html.twig" %}
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{asset('css/pagination.css')}}" type="text/css" />
-    <link rel="stylesheet" href="{{asset('css/style2.css')}}" type="text/css" />		
-    <link rel="stylesheet" href="{{asset('css/reset.css')}}" type="text/css" />
-    <link rel="stylesheet" href="{{asset('css/test.css')}}" type="text/css" />
-    <link rel="stylesheet" href="{{asset('test/css/style.css')}}" type="text/css" />
+    {% stylesheets filter='cssrewrite,?yui_css'
+        'css/reset.css'
+        'css/test.css'%}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
+    {{ parent() }}
 {% endblock %}
+
 {% block body %}
     
     

@@ -1,3 +1,7 @@
+spicy_ranking:
+    resource: "@SpicyRankingBundle/Resources/config/routing.yml"
+    prefix:   /
+
 spicy_flux:
     resource: "@SpicyFluxBundle/Resources/config/routing.yml"
     prefix:   /flux/
