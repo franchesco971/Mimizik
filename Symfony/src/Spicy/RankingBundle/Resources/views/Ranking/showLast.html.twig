@@ -5,9 +5,10 @@
     </a>
 </div>
 {% for video in videos %}
+    {%set position=loop.index%}
     {% for videoRanking in video.videoRankings %}
         <div class="ranking-line">
-            <div class="floatleft position">{{videoRanking.position}}</div>
+            <div class="floatleft position">{{position}}</div>
             <div class="{{video_service.getIcon(videoRanking,previousRanking)}}-icon floatleft icon"></div>
             <div class="video-links">
                 {% for artiste in video.artistes %}

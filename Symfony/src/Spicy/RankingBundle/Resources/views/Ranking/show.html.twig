@@ -41,12 +41,13 @@
                             <div class="search-icon"><a href="{{ path('mimizik_ranking_index',{'page':1})}}">Retour</a></div>
                         {% for video in videos %}
                             <div class="floatleft">
+                                {%set position=loop.index%}
                                 {% for videoRanking in video.videoRankings %}
                                     <div class="floatleft position">
                                         {% if videoRanking.position is not null %}
                                             {{videoRanking.position}}
                                         {% else%}  
-                                            {{loop.index}}
+                                            {{position}}
                                         {%endif%}
                                         
                                     </div>
