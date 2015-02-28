@@ -9,5 +9,213 @@
  * 
  * Requires: 1.2.2+
  */
-(function(f){function g(a){var n=a||window.event,m=[].slice.call(arguments,1),l=0,k=!0,j=0,i=0;return a=f.event.fix(n),a.type="mousewheel",n.wheelDelta&&(l=n.wheelDelta/120),n.detail&&(l=-n.detail/3),i=l,n.axis!==undefined&&n.axis===n.HORIZONTAL_AXIS&&(i=0,j=-1*l),n.wheelDeltaY!==undefined&&(i=n.wheelDeltaY/120),n.wheelDeltaX!==undefined&&(j=-1*n.wheelDeltaX/120),m.unshift(a,l,j,i),(f.event.dispatch||f.event.handle).apply(this,m)}var e=["DOMMouseScroll","mousewheel"];if(f.event.fixHooks){for(var h=e.length;h;){f.event.fixHooks[e[--h]]=f.event.mouseHooks}}f.event.special.mousewheel={setup:function(){if(this.addEventListener){for(var b=e.length;b;){this.addEventListener(e[--b],g,!1)}}else{this.onmousewheel=g}},teardown:function(){if(this.removeEventListener){for(var b=e.length;b;){this.removeEventListener(e[--b],g,!1)}}else{this.onmousewheel=null}}},f.fn.extend({mousewheel:function(b){return b?this.bind("mousewheel",b):this.trigger("mousewheel")},unmousewheel:function(b){return this.unbind("mousewheel",b)}})})(jQuery);
-(function(a){a.fn.ribbonSlider=function(r){var r=jQuery.extend({speed:300,pause:0,handlePlayer:true,showControls:true},r);var e=a(this);var b=a(this).find("li");var g=a(this).find("ul");var h=e.width();var q=g.width();var m=false;var f;function n(){var s=0;b.each(function(){s+=a(this).outerWidth(true)});g.width(s)}function l(s){b.removeClass("current");s.addClass("current")}function d(){e.parent().removeClass("limit-left limit-right");if(g.position().left>=0){e.parent().addClass("limit-left")}else{if(g.position().left<=h-q){e.parent().addClass("limit-right");return false}}return true}function o(){e.parent().append('<a class="arrow arrow-left" href="#"></a><a class="arrow arrow-right" href="#"></a>');e.parent().find(".arrow").click(function(){if(a(this).hasClass("arrow-left")){c(b.filter(".current").prev("li"))}else{c(b.filter(".current").next("li"))}return false})}function i(){if(a.isFunction(a.fn.mousewheel)){e.mousewheel(function(s,t){if(t>0){c(b.filter(".current").prev("li"))}else{c(b.filter(".current").next("li"))}clearInterval(f);return false})}if(a.isFunction(a.fn.draggable)){g.draggable({axis:"x",drag:function(){if(m){return false}if(g.position().left>0||(q+g.position().left)<h){m=true;var t=-(q-h);if(g.position().left>0){t=0}g.animate({left:t},r.speed,function(){m=false;d()})}var s=0;b.each(function(){if(a(this).position().left>-g.position().left){s=a(this).index();return false}});l(b.filter(":eq("+s+")"));clearInterval(f)},stop:function(){d()}})}}function c(s){if(m==true||s.length==0){return}var t=s.position().left;if((q-t)<h){t=q-h}g.stop().animate({left:-t},r.speed,function(){if((q-t)>h){l(s)}d();m=false})}function k(){f=setInterval(function(){if(d()){c(b.filter(".current").next("li"))}else{c(b.filter(":first-child"))}},r.pause);e.add(e.parent().find(".arrow")).click(function(){clearInterval(f)})}function p(){b.filter(":first").addClass("current");n();if(r.showControls){o()}i();if(r.pause!=0){k()}}function j(){n();h=e.width();q=g.width()}p();a(document).ready(function(){j()})}})(jQuery);
+(function(a){function d(b){var c=b||window.event,d=[].slice.call(arguments,1),e=0,f=!0,g=0,h=0;return b=a.event.fix(c),b.type="mousewheel",c.wheelDelta&&(e=c.wheelDelta/120),c.detail&&(e=-c.detail/3),h=e,c.axis!==undefined&&c.axis===c.HORIZONTAL_AXIS&&(h=0,g=-1*e),c.wheelDeltaY!==undefined&&(h=c.wheelDeltaY/120),c.wheelDeltaX!==undefined&&(g=-1*c.wheelDeltaX/120),d.unshift(b,e,g,h),(a.event.dispatch||a.event.handle).apply(this,d)}var b=["DOMMouseScroll","mousewheel"];if(a.event.fixHooks)for(var c=b.length;c;)a.event.fixHooks[b[--c]]=a.event.mouseHooks;a.event.special.mousewheel={setup:function(){if(this.addEventListener)for(var a=b.length;a;)this.addEventListener(b[--a],d,!1);else this.onmousewheel=d},teardown:function(){if(this.removeEventListener)for(var a=b.length;a;)this.removeEventListener(b[--a],d,!1);else this.onmousewheel=null}},a.fn.extend({mousewheel:function(a){return a?this.bind("mousewheel",a):this.trigger("mousewheel")},unmousewheel:function(a){return this.unbind("mousewheel",a)}})})(jQuery)
+
+/*
+ * 	Ribbon Slider 1.0 - jQuery plugin
+ *	written by Ihor Ahnianikov	
+ *  http://ahnianikov.com
+ *
+ *	Copyright (c) 2012 Ihor Ahnianikov
+ *
+ *	Built for jQuery library
+ *	http://jquery.com
+ *
+ */
+ 
+(function($) {
+	$.fn.ribbonSlider = function (options) {
+		var options = jQuery.extend ({
+			speed: 300,
+			pause: 0,
+			handlePlayer: true,
+			showControls: true
+		}, options);
+		
+		var slider=$(this);
+		var slides=$(this).find('li');
+		var ribbon=$(this).find('ul');
+		var sliderWidth=slider.width();
+		var ribbonWidth=ribbon.width();
+		var disabled=false;		
+		var autoSlide;
+		
+		function setWidth() {
+			var ribbonWidth=0;
+			slides.each(function() {
+				ribbonWidth+=$(this).outerWidth(true);
+			});			
+			ribbon.width(ribbonWidth);
+		}
+		
+		function setCurrentSlide(slide) {
+			slides.removeClass('current');
+			slide.addClass('current');
+		}
+		
+		function checkLimit() {
+			slider.parent().removeClass('limit-left limit-right');
+			if(ribbon.position().left>=0) {
+				slider.parent().addClass('limit-left');
+			} else if(ribbon.position().left<=sliderWidth-ribbonWidth) {
+				slider.parent().addClass('limit-right');
+				return false;
+			}
+			return true;
+		}
+		
+		function addControls() {	
+			//add controls
+			slider.parent().append('<a class="arrow arrow-left" href="#"></a><a class="arrow arrow-right" href="#"></a>');
+			
+			//handle controls
+			slider.parent().find('.arrow').click(function() {	
+				if($(this).hasClass('arrow-left')) {
+					animate(slides.filter('.current').prev('li'));
+				} else {				
+					animate(slides.filter('.current').next('li'));
+				}
+				
+				return false;
+			});
+		}
+		
+		function addInterface() {
+			//mousewheel support
+			if ($.isFunction($.fn.mousewheel)) {
+				slider.mousewheel(function(event, delta) {
+					if(delta>0) {
+						animate(slides.filter('.current').prev('li'));
+					} else {
+						animate(slides.filter('.current').next('li'));
+					}
+					
+					clearInterval(autoSlide);					
+					return false;
+				});
+			}
+			
+			//draggable support
+			if ($.isFunction($.fn.draggable)) {
+				ribbon.draggable({ axis: 'x', drag: function() {
+					if(disabled) {
+						return false;
+					}
+				
+					if(ribbon.position().left>0 || (ribbonWidth+ribbon.position().left)<sliderWidth) {
+						disabled=true;
+						
+						//limit position
+						var limitPos=-(ribbonWidth-sliderWidth);						
+						if(ribbon.position().left>0) {
+							limitPos=0;
+						}
+						
+						ribbon.animate({ left: limitPos }, options.speed, function() {							
+							disabled=false;
+							
+							//check limit
+							checkLimit();
+						});
+					}
+				
+					//find current slide
+					var slideIndex=0;
+					slides.each(function() {
+						if($(this).position().left>-ribbon.position().left) {
+							slideIndex=$(this).index();
+							return false;					
+						}
+					});
+					
+					//set current slide
+					setCurrentSlide(slides.filter(':eq('+slideIndex+')'));
+					
+					//stop rotation
+					clearInterval(autoSlide);
+					
+				}, stop: function() {
+					//check limit
+					checkLimit();
+				}
+				});
+			}			
+		}
+		
+		function animate(slide) {
+			//disable slider
+			if (disabled==true || slide.length==0) {
+				return;
+			}
+			
+			//set step
+			var step=slide.position().left;			
+			if((ribbonWidth-step)<sliderWidth) {
+				step=ribbonWidth-sliderWidth;
+			}
+			
+			//animate slider
+			ribbon.stop().animate({ left: -step }, options.speed, function() {
+				//set current slide
+				if((ribbonWidth-step)>sliderWidth) {
+					setCurrentSlide(slide);			
+				}
+				
+				//check limit
+				checkLimit();
+				
+				disabled=false;
+			});			
+		}
+		
+		//rotate slider
+		function rotate() {			
+			autoSlide=setInterval(function() {
+				if(checkLimit()) {
+					animate(slides.filter('.current').next('li'));
+				} else {				
+					animate(slides.filter(':first-child'));
+				}
+			},options.pause);
+			
+			slider.add(slider.parent().find('.arrow')).click(function() {
+				clearInterval(autoSlide);
+			});
+		}
+	 
+		function init() {		
+			//set first slide
+			slides.filter(':first').addClass('current');
+		
+			//set ribbon width
+			setWidth();
+			
+			//add slider controls
+			if(options.showControls) {
+				addControls();
+			}
+						
+			//add devices interface
+			addInterface();
+			
+			//rotate
+			if(options.pause!=0) {
+				rotate();
+			}
+		}
+		
+		function resizeSlider() {
+			setWidth();
+			sliderWidth=slider.width();
+			ribbonWidth=ribbon.width();
+		}
+		
+		//init slider
+		init();
+		
+		//window resize event
+		$(document).ready(function() {
+			resizeSlider();			
+		});
+	}
+})(jQuery);

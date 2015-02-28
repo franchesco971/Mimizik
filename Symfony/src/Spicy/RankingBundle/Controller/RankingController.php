@@ -30,10 +30,10 @@ class RankingController extends Controller
         $ranking=$videoManager->getRanking(true);
         $previousRanking=$em->getRepository('SpicyRankingBundle:Ranking')->getPreviousRanking($ranking);
         
-        $videos=$em->getRepository('SpicySiteBundle:Video')->getTop10byMonth($ranking);
+        $videos=$em->getRepository('SpicySiteBundle:Video')->getTopByMonth($ranking,3);
         
         
-        return $this->render('SpicyRankingBundle:Ranking:show.html.twig', array(
+        return $this->render('SpicyRankingBundle:Ranking:showLast.html.twig', array(
             'ranking' => $ranking,
             'previousRanking'=>$previousRanking,
             'videos'=>$videos
@@ -49,7 +49,7 @@ class RankingController extends Controller
         
         $previousRanking=$em->getRepository('SpicyRankingBundle:Ranking')->getPreviousRanking($ranking);
         
-        $videos=$em->getRepository('SpicySiteBundle:Video')->getTop10byMonth($ranking);
+        $videos=$em->getRepository('SpicySiteBundle:Video')->getTopByMonth($ranking);
         //var_dump($videos);
         //exit;
         return $this->render('SpicyRankingBundle:Ranking:show.html.twig', array(

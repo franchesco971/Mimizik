@@ -12,50 +12,12 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    {% stylesheets filter='cssrewrite,?yui_css'
+        'bundles/spicyranking/css/*' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
     <style type="text/css">
-        .up-icon {
-            background:url(http://mimizik/images/up.png) 0 0 no-repeat;
-            width:32px;
-            height:32px;
-        }
-        .add-icon {
-            background:url(http://mimizik/images/add.png) 0 0 no-repeat;
-            width:32px;
-            height:32px;
-        }
-        .forward-icon {
-            background:url(http://mimizik/images/forward.png) 0 0 no-repeat;
-            width:32px;
-            height:32px;
-        }
-        .down-icon {
-            background:url(http://mimizik/images/down.png) 0 0 no-repeat;
-            width:32px;
-            height:32px;
-        }
-        .ranking .post
-        {
-            border-bottom: 1px solid #ebebeb;
-            margin: 0 0 1.5em -20px;
-            overflow: hidden;
-            padding: 0 0 1.5em 0;
-            width: 80%;
-        }
-        .ranking .position
-        {
-            font-size: 2em;
-            margin-right: 5px;
-            width:30px;
-        }
         
-        .ranking .search-icon {
-            background:url(/images/pagination_arrows.png) 0 6px no-repeat;
-            /*width:7px;*/
-            width: 32px; height: 20px;
-            padding-left: 15px; padding-top: 3px;
-            margin-bottom: 20px;
-            font-size: 16px;
-        }
     </style> 
 {% endblock %}
 
