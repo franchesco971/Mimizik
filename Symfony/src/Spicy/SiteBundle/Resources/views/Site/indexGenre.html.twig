@@ -7,14 +7,6 @@
 {% block meta_description %}
     <meta name="Description" content="Mimizik regroupe tous les genres musicaux des antilles, de la caraïbes et de la guyane."/> 
 {% endblock %}
-
-{% block stylesheets %}
-    {% stylesheets filter='cssrewrite,?yui_css'
-        'css/pagination.css' %}
-        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
-    {% endstylesheets %}
-    {{ parent() }}
-{% endblock %}
     
 {% block body %}
     

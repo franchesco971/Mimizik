@@ -1,13 +1,5 @@
 {% extends "SpicySiteBundle::layout_admin.html.twig" %}
 
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{asset('css/reveal.css')}}" type="text/css" />
-    <link rel="stylesheet" href="{{asset('css/select2.css')}}" type="text/css" />
-    {{ parent() }}
-    <link rel="stylesheet" href="{{asset('css/admin.css')}}" type="text/css" />
-    <link rel="stylesheet" href="{{asset('css/pagination.css')}}" type="text/css" />
-{% endblock %}
-
 {% block body %}
     <a href="{{path('spicy_admin_home')}}"><< admin</a>
     <h3>Artistes</h3>

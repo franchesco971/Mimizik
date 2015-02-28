@@ -7,14 +7,6 @@
 {% block meta_description %}
     <meta name="Description" content="Mimizik te propose toute la musique et les vidéos clip de {{artiste.libelle}}. {{artiste.description}}"/> 
 {% endblock %}
-    
-{% block stylesheets %}
-    {% stylesheets filter='cssrewrite,?yui_css'
-        'css/pagination.css' %}
-        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
-    {% endstylesheets %}
-    {{ parent() }}
-{% endblock %}
 
 {% block body %}
     {{ parent() }}

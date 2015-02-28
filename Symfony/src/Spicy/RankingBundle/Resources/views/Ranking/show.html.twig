@@ -55,7 +55,8 @@
                                         <div class="{{videoRanking.icon}}-icon floatleft"></div>
                                     {% else%}    
                                         <div class="{{video_service.getIcon(videoRanking,previousRanking)}}-icon floatleft"></div>
-                                    {%endif%}    
+                                    {%endif%}
+                                    <div style="visibility:hidden;">{{videoRanking.nbVu}}</div>
                                 {% endfor %}                                                         
                             </div>
                             {% include "SpicySiteBundle:Video:_video_ranking.html.twig" %} 

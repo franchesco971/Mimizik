@@ -5,8 +5,15 @@
 {% endblock %}
   
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{asset('css/admin.css')}}" type="text/css" />
-    {{ parent() }}
+    {% stylesheets filter='cssrewrite,?yui_css'
+        'css/style.css'
+        'css/style2.css'
+        'css/reveal.css'
+        'css/select2.css'
+        'css/pagination.css'
+        '@SpicySiteBundle/Resources/public/css/admin.css'%}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
 {% endblock %}
 
 {% block body %}

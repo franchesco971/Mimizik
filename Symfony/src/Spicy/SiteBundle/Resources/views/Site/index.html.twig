@@ -7,11 +7,10 @@
     {% endif %}
 {% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
+{% block stylesheets %}    
     <meta name="google-site-verification" content="sGYi5z6Hzfo88twISFPkyXzxAQG6JmyphW0UITV9uic" />
     {% stylesheets filter='cssrewrite,?yui_css'
-        'bundles/spicyranking/css/*' %}
+        '@SpicyRankingBundle/Resources/public/css/ranking.css' %}
         <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
     {% endstylesheets %}
     <style type="text/css">
@@ -54,7 +53,8 @@
             width: 25px; height: 20px;
             background-position:-45px 3px;
         }
-    </style>        
+    </style> 
+    {{ parent() }}
 {% endblock %}
 {% block body %}
     {{ parent() }}
