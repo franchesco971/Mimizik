@@ -1,0 +1,15 @@
+mimizik_ranking_show:
+    pattern:  /show/{id}
+    defaults: { _controller: SpicyRankingBundle:Ranking:show }
+    requirements: 
+        id: \d+
+        
+mimizik_ranking_last_show:
+    pattern:  /last
+    defaults: { _controller: SpicyRankingBundle:Ranking:showLast }
+    requirements: 
+        id: \d+        
+    
+mimizik_ranking_index:
+    pattern:  /{page}
+    defaults: { _controller: SpicyRankingBundle:Ranking:index,page: 1 }

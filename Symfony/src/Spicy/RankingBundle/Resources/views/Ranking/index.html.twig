@@ -1,0 +1,94 @@
+{% extends "SpicySiteBundle::layout.html.twig" %}
+
+{% block title %}
+{{ parent() }} : Tous les classements par mois de Mimizik
+{% endblock %}
+
+{% block meta_description %}
+    <meta name="Description" content="Tous les classements par mois de Mimizik."/> 
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets filter='cssrewrite,?yui_css'
+        'bundles/spicyranking/css/*' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
+    <style type="text/css">
+        
+    </style> 
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    
+    <div class="page-title wrapper">
+        <div class="container">
+            <span>Les classements par mois de Mimizik</span>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="container" id="main_container" >
+        <div class="column two-third" >
+            <div class="content-block">
+                <div class="block-content">
+                    <div class="featured-blog">
+                        <table border="1" id="data-ranking">
+                            <tr><th>Classements</th><th></th></tr>
+                        {% for ranking in rankings %}         
+                            <tr>
+                                <td><a href="{{ path('mimizik_ranking_show',{'id':ranking.id})}}">Classement du {{ranking.dateRanking|date('m/y')}}</a></td>
+                                <td><a href="{{ path('mimizik_ranking_show',{'id':ranking.id})}}"><div class="search-icon">&nbsp;</div></a></td>
+                            </tr>          
+                        {% endfor %}
+                        </table>
+                        <div id="Pagination" >
+
+                        </div>                        
+                    </div>
+                </div>    
+            </div>
+            <div>
+                <div id="banstex468x60">
+                    {#% include "SpicySiteBundle:Ads:468x60_banstex.html.twig" %#}
+                </div>  
+            </div>
+        </div>
+        <div class="one-third column last">
+            <div class="content-block">
+                <div class="block-content" id="encart_droit">
+                    {% include "SpicySiteBundle:Ads:encart_droit_adsense.html.twig" %}
+                </div>
+            </div>
+        </div>
+    </div>
+       
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+    
+    <script type="text/javascript">
+        function initPagination() {
+            var num_entries = {{rankings|length}}
+            // Create content inside pagination element
+            $("#Pagination").pagination(num_entries, {
+                //callback: pageselectCallback,
+                items_per_page:20, // Show only one item per page
+                link_to:"{{ path('mimizik_ranking_index',{'page':'__id__'})}}",
+                current_page:{{page-1}},
+                prev_text:"Prèc.",
+                next_text:"Suiv.",
+                num_edge_entries:2,
+                num_display_entries:8,
+                callback:function(){}
+            });
+         }
+
+        // When document is ready, initialize pagination
+        $(document).ready(function(){      
+            initPagination();
+        });
+    </script>
+    
+{% endblock%}

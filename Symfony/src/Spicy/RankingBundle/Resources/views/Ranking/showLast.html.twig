@@ -1,0 +1,29 @@
+<div class="link-ranking">
+    <a href="{{ path('mimizik_ranking_show',{'id':ranking.id})}}">
+        <div class="floatleft">Voir le classement</div>
+        <div class="arrow floatleft">&nbsp;</div>
+    </a>
+</div>
+{% for video in videos %}
+    {%set position=loop.index%}
+    {% for videoRanking in video.videoRankings %}
+        <div class="ranking-line">
+            <div class="floatleft position">{{position}}</div>
+            <div class="{{video_service.getIcon(videoRanking,previousRanking)}}-icon floatleft icon"></div>
+            <div class="video-links">
+                {% for artiste in video.artistes %}
+                    <a title="{{artiste.libelle}}" href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a>    
+                    {% if loop.length==2 and loop.first %}
+                    &amp;
+                    {% elseif loop.length>2 and loop.revindex>2 %}
+                    ,
+                    {% elseif loop.last==false %}
+                    &amp;
+                    {%endif%}
+                {% endfor %}
+                </span>
+                - <a href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">{{video.titre}}</a>
+            </div>
+        </div>
+    {% endfor %}    
+{% endfor %}

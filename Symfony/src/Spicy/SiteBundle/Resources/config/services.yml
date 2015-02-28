@@ -17,6 +17,10 @@ services:
         class: Spicy\SiteBundle\Services\Social
     mimizik.tools:
         class: Spicy\SiteBundle\Services\Tools
+    mimizik.videoService:
+        class: Spicy\SiteBundle\Services\VideoService
+        arguments: 
+            entityManager: "@doctrine.orm.entity_manager"
 #    spicy_site.example:
 #        class: %spicy_site.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
