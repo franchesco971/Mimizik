@@ -264,13 +264,14 @@ class VideoRepository extends EntityRepository
     public function getTopByMonth(Ranking $ranking,$max=10) 
     {
         $qb=  $this->createQueryBuilder('v')
+                ->join('v.artistes', 'a')
                 ->join('v.videoRankings', 'vr')
                 ->where('vr.ranking=:ranking')
                 ->setParameter('ranking', $ranking->getId())
                 ->orderBy('vr.nbVu','DESC')
                 ->addOrderBy('v.dateVideo','DESC')
                 ->setMaxResults($max)
-                ->addSelect('vr');
+                ->addSelect('vr')->addSelect('a');
         
         return $qb->getQuery()->getResult();
     }

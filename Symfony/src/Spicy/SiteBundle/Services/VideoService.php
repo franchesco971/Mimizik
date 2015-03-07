@@ -71,7 +71,7 @@ class VideoService
             if($ranking->getEndRanking()<$now && $last)
             {
                 /**** fige les positions du classement précédent **/
-                $this->setPositions($ranking);
+                $this->setPositions($ranking);      
                 /**** crée un nouveau classement ***/
                 $ranking=$this->createRanking();
             }
@@ -96,6 +96,7 @@ class VideoService
         $ranking->setRankingType($rankingType);
 
         $this->em->persist($ranking);
+        $this->em->flush();
         
         return $ranking;
     }
@@ -111,8 +112,8 @@ class VideoService
     }
     
     public function setPositions(Ranking $ranking) 
-    {
-        $videos=$this->em->getRepository('SpicySiteBundle:Video')->getTopByMonth($ranking);
+    {        
+        $videos=$this->em->getRepository('SpicySiteBundle:Video')->getTopByMonth($ranking);        
         $previousRanking=$this->em->getRepository('SpicyRankingBundle:Ranking')->getPreviousRanking($ranking);
         
         $position=1;
@@ -159,7 +160,7 @@ class VideoService
     }
     
     public function setIcons($previousPosition,$position)
-    {
+    {        
         if(!is_null($previousPosition))
         {
             switch ($position) {

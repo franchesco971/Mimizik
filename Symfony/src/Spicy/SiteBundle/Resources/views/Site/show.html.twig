@@ -60,9 +60,9 @@
                     <meta itemprop="embedURL" content="http://www.youtube.com/embed/{{lavideo.url}}" />
                     <meta itemprop="description" content="{{lavideo.description|nl2br}}" />
                     {% set autoplay=0 %}
-                    <iframe width="900" height="506" src="http://www.youtube.com/embed/{{lavideo.url}}?autoplay={{autoplay}}" frameborder="0" allowfullscreen></iframe>
+                        <iframe width="900" height="506" src="http://www.youtube.com/embed/{{lavideo.url}}?autoplay={{autoplay}}" frameborder="0" allowfullscreen></iframe>
+                    </div>
                 </div>
-            </div>
             <div class="two-third column">
                 <div class="content-block">
                     <div class="block-title"><span>Description</span></div>
@@ -185,5 +185,5 @@
             }
             (document,"script","twitter-wjs");
        </script>
-      
+       
 {% endblock %}
