@@ -9,7 +9,7 @@
     {% for videoRanking in video.videoRankings %}
         <div class="ranking-line">
             <div class="floatleft position">{{position}}</div>
-            <div class="{{video_service.getIcon(videoRanking,previousRanking)}}-icon floatleft icon"></div>
+            <div class="{{video_service.getIcon(videoRanking,previousRanking,position)}}-icon floatleft icon"></div>
             <div class="video-links">
                 {% for artiste in video.artistes %}
                     <a title="{{artiste.libelle}}" href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a>    

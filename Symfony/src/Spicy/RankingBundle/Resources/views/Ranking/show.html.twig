@@ -54,7 +54,7 @@
                                     {% if videoRanking.icon is not null %}
                                         <div class="{{videoRanking.icon}}-icon floatleft"></div>
                                     {% else%}    
-                                        <div class="{{video_service.getIcon(videoRanking,previousRanking)}}-icon floatleft"></div>
+                                        <div class="{{video_service.getIcon(videoRanking,previousRanking,position)}}-icon floatleft"></div>
                                     {%endif%}
                                     <div style="visibility:hidden;">{{videoRanking.nbVu}}</div>
                                 {% endfor %}                                                         

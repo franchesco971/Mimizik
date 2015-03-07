@@ -19,7 +19,8 @@ class VideoService
     
     public function increment(Video $video) 
     {
-        $ipInterdites=array('46.218.242.177','82.229.222.236','127.0.0.1');
+        //$ipInterdites=array('46.218.242.177','82.229.222.236','127.0.0.1');
+        $ipInterdites=array();
         
         if(!in_array($_SERVER['REMOTE_ADDR'], $ipInterdites))            
         {
@@ -145,8 +146,7 @@ class VideoService
             if($previousVideoRanking->getVideo()->getId()==$videoRanking->getVideo()->getId())
             {                
                 $previousPosition=$previousVideoRanking->getPosition();
-                $position=$videoRanking->getPosition();                
-
+                $position=$videoRanking->getPosition();
                 if(!is_null($position))
                 {
                     $icon=  $this->setIcons($previousPosition, $position);
@@ -160,7 +160,7 @@ class VideoService
     }
     
     public function setIcons($previousPosition,$position)
-    {        
+    {
         if(!is_null($previousPosition))
         {
             switch ($position) {
@@ -183,8 +183,9 @@ class VideoService
         return $icon;
     }
     
-    public function getIcon(VideoRanking $videoRanking,$previousRanking) 
+    public function getIcon(VideoRanking $videoRanking,$previousRanking,$position) 
     {
+        $videoRanking->setPosition($position);
         if(!is_null($previousRanking))
         {            
             $videoRanking=$this->compareRanking($videoRanking, $previousRanking);
