@@ -40,11 +40,11 @@
                     <div class="block-content">
                         <div class="featured-blog">
                         {% for video in videos %}
-                            {% include "SpicySiteBundle:Site:video_post.html.twig" %}
-                            <div id="Pagination" ></div>
+                            {% include "SpicySiteBundle:Site:video_post.html.twig" %}                            
                         {%else%}
                             <p>Pas de vidéos avec ce tag</p>
-                        {% endfor %}                            
+                        {% endfor %}
+                            <div id="Pagination" ></div>
                         </div>
                     </div>
                 </div>
