@@ -46,11 +46,12 @@ class RankingController extends Controller
         $videoManager = $this->container->get('mimizik.videoService');
         
         $ranking=$videoManager->getRanking(false,$id);
-        
+        $now=new \DateTime("now");
         $previousRanking=$em->getRepository('SpicyRankingBundle:Ranking')->getPreviousRanking($ranking);
         
         $videos=$em->getRepository('SpicySiteBundle:Video')->getTopByMonth($ranking);
-        //var_dump($videos);
+        //var_dump($ranking->getEndRanking());
+        //var_dump($now);
         //exit;
         return $this->render('SpicyRankingBundle:Ranking:show.html.twig', array(
             'ranking' => $ranking,

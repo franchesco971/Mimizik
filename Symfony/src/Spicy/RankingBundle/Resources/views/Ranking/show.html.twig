@@ -17,7 +17,10 @@
         <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
     {% endstylesheets %}
     <style type="text/css">
-        
+        .ranking .retour{
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        } 
     </style> 
 {% endblock %}
 
@@ -38,7 +41,7 @@
                     <div class="block-title"><span>Top 10</span></div>
                     <div class="block-content">
                         <div class="featured-blog">
-                            <div class="search-icon"><a href="{{ path('mimizik_ranking_index',{'page':1})}}">Retour</a></div>
+                            <div class="search-icon retour"><a href="{{ path('mimizik_ranking_index',{'page':1})}}">Retour</a></div>
                         {% for video in videos %}
                             <div class="floatleft">
                                 {%set position=loop.index%}

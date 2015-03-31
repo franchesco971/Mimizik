@@ -3,6 +3,7 @@
 namespace Spicy\SiteBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use Monolog\Logger;
 use Spicy\SiteBundle\Entity\Video;
 use Spicy\RankingBundle\Entity\Ranking;
 use Spicy\RankingBundle\Entity\RankingType;
@@ -11,10 +12,12 @@ use Spicy\RankingBundle\Entity\VideoRanking;
 class VideoService
 {
     protected $em;
+    protected $logger;
     
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, Logger $logger)
     {
         $this->em = $entityManager;
+        $this->logger=$logger;
     }
     
     public function increment(Video $video) 
@@ -40,7 +43,7 @@ class VideoService
                 $nbVu=$videoRanking->getNbVu()+1;
                 $videoRanking->setNbVu($nbVu);
             }
-
+                        
             $this->em->persist($videoRanking);
             $this->em->flush();
         }
@@ -63,6 +66,8 @@ class VideoService
         
         /*** base de donnee vide**/
         if ($ranking == null) {
+            $this->logger->info("Creation d'un ranking");
+            $this->logger->error('Base de donnee vide');
             $ranking=$this->createRanking();
         }
         else
@@ -74,6 +79,8 @@ class VideoService
                 /**** fige les positions du classement précédent **/
                 $this->setPositions($ranking);      
                 /**** crée un nouveau classement ***/
+                $this->logger->info("Creation d'un ranking");
+                $this->logger->error('Crée un nouveau classement'.$ranking->getEndRanking().'<'.$now->format('Y-m-d H:i:sP'));
                 $ranking=$this->createRanking();
             }
         }

@@ -18,8 +18,12 @@ class RankingRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('r')
                 ->leftJoin('r.videoRankings', 'vr')
+                ->leftJoin('vr.video', 'v')
+                ->join('v.genre_musicaux', 'g')
                 ->addOrderBy('vr.nbVu','DESC')
                 ->addSelect('vr')
+                ->where('g.id<> :id_retro')
+                ->setParameter('id_retro', 2)
                 ->andWhere("r.dateRanking in (select max(ra.dateRanking) from SpicyRankingBundle:Ranking ra)"); 
         
         return $qb->getQuery()->getOneOrNullResult();
@@ -31,8 +35,12 @@ class RankingRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('r')
                 ->leftJoin('r.videoRankings', 'vr')
+                ->leftJoin('vr.video', 'v')
+                ->join('v.genre_musicaux', 'g')
                 ->addOrderBy('r.dateRanking','DESC')
                 ->addSelect('vr')
+                ->where('g.id<> :id_retro')
+                ->setParameter('id_retro', 2)
                 ->andWhere("r.id in (select max(ra.id) from SpicyRankingBundle:Ranking ra "
                         . "where ra.id<".$ranking->getId()." AND ra.rankingType=".RankingType::MOIS.")"); 
         
