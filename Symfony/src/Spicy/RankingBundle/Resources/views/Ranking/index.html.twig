@@ -23,8 +23,16 @@
             font-size: 14px;
             padding: 1em 10px;
         }
+        #data-ranking td .llink{
+            width: 120px;
+        }
         .pagination{
             margin-top: 10px;
+        }
+        #data-ranking .search-icon {
+            background: url("/images/pagination_arrows.png") no-repeat scroll -53px 6px rgba(0, 0, 0, 0);
+            height: 20px;
+            width: 20px;
         }
     </style> 
 {% endblock %}
@@ -48,7 +56,9 @@
                         {% for ranking in rankings %}         
                             <tr>
                                 <td><a href="{{ path('mimizik_ranking_show',{'id':ranking.id})}}">Classement du {{ranking.dateRanking|date('m/y')}}</a></td>
-                                <td><a href="{{ path('mimizik_ranking_show',{'id':ranking.id})}}"><div class="search-icon">&nbsp;</div></a></td>
+                                <td class="link">
+                                    <a class="button" href="{{ path('mimizik_ranking_show',{'id':ranking.id})}}"><span>Voir le classement</span></a>
+                                </td>
                             </tr>          
                         {% endfor %}
                         </table>

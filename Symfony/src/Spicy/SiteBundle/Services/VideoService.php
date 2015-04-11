@@ -22,8 +22,8 @@ class VideoService
     
     public function increment(Video $video) 
     {
-        //$ipInterdites=array('46.218.242.177','82.229.222.236','127.0.0.1');
-        $ipInterdites=array();
+        $ipInterdites=array('46.218.242.177','82.229.222.236','127.0.0.1');
+        //$ipInterdites=array();
         
         if(!in_array($_SERVER['REMOTE_ADDR'], $ipInterdites))            
         {
@@ -54,8 +54,9 @@ class VideoService
         $ranking=$this->em->getRepository('SpicyRankingBundle:Ranking')->getLastRanking();
         
         //ce n'est pas le dernier 
-        if(!$last && $ranking->getId()!=$id)
+        if(!$last && $ranking)
         {
+            if($ranking->getId()!=$id)
             $ranking=$this->em->getRepository('SpicyRankingBundle:Ranking')->find($id);
         }
         else
@@ -80,7 +81,7 @@ class VideoService
                 $this->setPositions($ranking);      
                 /**** crée un nouveau classement ***/
                 $this->logger->info("Creation d'un ranking");
-                $this->logger->error('Crée un nouveau classement'.$ranking->getEndRanking().'<'.$now->format('Y-m-d H:i:sP'));
+                $this->logger->error('Crée un nouveau classement'.$ranking->getEndRanking()->format('Y-m-d H:i:sP').'<'.$now->format('Y-m-d H:i:sP'));
                 $ranking=$this->createRanking();
             }
         }

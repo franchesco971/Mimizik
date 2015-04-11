@@ -234,30 +234,28 @@ class SiteController extends Controller
     {
         $em=$this->getDoctrine()->getManager();
         
-        $ranking=$em->getRepository('SpicyRankingBundle:Ranking')->getLastRanking();
+        //$ranking=$em->getRepository('SpicyRankingBundle:Ranking')->getLastRanking();
         
-        $ranking=$em->getRepository('SpicyRankingBundle:Ranking')->getPreviousRanking($ranking);
-        //var_dump($ranking);
-        //exit;
+        $videoRankings=$em->getRepository('SpicyRankingBundle:VideoRanking')->findBy(array('ranking'=>2));
+        var_dump(count($videoRankings));
+        $videoRankingsPost=$em->getRepository('SpicyRankingBundle:VideoRanking')->findBy(array('ranking'=>4));
+        var_dump(count($videoRankingsPost));
         
-        $videos=$em->getRepository('SpicySiteBundle:Video')->getTop10byMonth($ranking);
-        
-        $position=1;
-        foreach ($videos as $video) {
-            var_dump($video->getTitre());
+        foreach ($videoRankings as $videoRanking) {
+            $videoId=$videoRanking->getVideo()->getId();
             
-            foreach ($video->getVideoRankings() as $videoRanking) {
-                var_dump($videoRanking->getNbVu());
-                $videoRanking->setPosition($position);
-                $em->persist($video);                            
+            foreach ($videoRankingsPost as $videoRankingPost) {
+                $videoIdPost=$videoRankingPost->getVideo()->getId();
+                if($videoId==$videoIdPost)
+                {
+                    $videoRanking->setNbVu($videoRanking->getNbVu()+$videoRankingPost->getNbVu());
+                }
             }
-            $position++;
+            //$em->persist($videoRanking);
         }
         
-        $em->flush();
-        //exit;
+        //$em->flush();
         
-        $test=1;
         return $this->render('SpicySiteBundle:Site:test.html.twig',array(
             'test'=>$test
                 

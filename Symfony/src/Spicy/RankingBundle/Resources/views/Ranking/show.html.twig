@@ -21,6 +21,15 @@
             font-size: 1.1em;
             margin-bottom: 20px;
         } 
+        .post .infos_video
+        {
+            width:230px;
+        }
+        .ranking .block-content
+        {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
     </style> 
 {% endblock %}
 
@@ -41,7 +50,7 @@
                     <div class="block-title"><span>Top 10</span></div>
                     <div class="block-content">
                         <div class="featured-blog">
-                            <div class="search-icon retour"><a href="{{ path('mimizik_ranking_index',{'page':1})}}">Retour</a></div>
+                            <div class="retour"><a class="button dark" href="{{ path('mimizik_ranking_index',{'page':1})}}"><span>Retour</span></a></div>
                         {% for video in videos %}
                             <div class="floatleft">
                                 {%set position=loop.index%}
