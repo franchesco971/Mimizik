@@ -93,10 +93,11 @@ class SiteController extends Controller
     
     public function indexArtisteAction($page)
     {
+        
+        $em=$this->getDoctrine()->getManager();
         $nbArtisteAffiche=$this->container->getParameter('nbArtisteAffiche');
         
-        $artistes=$this->getDoctrine()
-                ->getManager()
+        $artistes=$em
                 ->getRepository('SpicySiteBundle:Artiste')
                 ->getAll($page,$nbArtisteAffiche);
         
@@ -104,11 +105,14 @@ class SiteController extends Controller
         if($artistes == null) {
             throw $this->createNotFoundException('Artiste inexistant');
         }
+        
+        $selectArtistes=$em->getRepository('SpicySiteBundle:Artiste')->findAll();
                
         return $this->render('SpicySiteBundle:Site:indexArtiste.html.twig',array(
             'artistes'=>$artistes,
             'nombrePage'=>ceil((count($artistes))/ $nbArtisteAffiche),
-            'page'=>$page
+            'page'=>$page,
+            'selectArtistes'=>$selectArtistes
         ));
     }
     
@@ -233,10 +237,13 @@ class SiteController extends Controller
     public function testAction()
     {
         $em=$this->getDoctrine()->getManager();
+        $test='';
+        $ranking=$em->getRepository('SpicyRankingBundle:Ranking')->getLastRanking();
         
-        //$ranking=$em->getRepository('SpicyRankingBundle:Ranking')->getLastRanking();
+        var_dump($ranking);
+        //exit;
         
-        $videoRankings=$em->getRepository('SpicyRankingBundle:VideoRanking')->findBy(array('ranking'=>2));
+        /*$videoRankings=$em->getRepository('SpicyRankingBundle:VideoRanking')->findBy(array('ranking'=>2));
         var_dump(count($videoRankings));
         $videoRankingsPost=$em->getRepository('SpicyRankingBundle:VideoRanking')->findBy(array('ranking'=>4));
         var_dump(count($videoRankingsPost));
@@ -254,7 +261,7 @@ class SiteController extends Controller
             //$em->persist($videoRanking);
         }
         
-        //$em->flush();
+        //$em->flush();*/
         
         return $this->render('SpicySiteBundle:Site:test.html.twig',array(
             'test'=>$test

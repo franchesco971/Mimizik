@@ -30,6 +30,9 @@ spicy_site_artiste:
     defaults: { _controller: SpicySiteBundle:Site:showArtiste }
     requirements: 
         id: \d+
+mimizik_show_artiste_js:
+    pattern: /artiste/
+    defaults: { _controller: SpicySiteBundle:Site:showArtiste }
         
 spicy_site_genres:
     pattern: /genres/{page}
