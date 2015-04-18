@@ -208,12 +208,14 @@ class VideoService
         return $icon;
     }
     
-    public function getLastRanking() {
+    public function getLastRanking() 
+    {
         $rankings=new \Doctrine\Common\Collections\ArrayCollection();
         $rankings=$this->em->getRepository('SpicyRankingBundle:Ranking')->getByDate();
         
         if(empty($rankings))
         {
+            $this->logger->info("empty rankings");
             return NULL;
         }
         else
