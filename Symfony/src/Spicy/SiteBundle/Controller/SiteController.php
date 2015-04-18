@@ -238,9 +238,11 @@ class SiteController extends Controller
     {
         $em=$this->getDoctrine()->getManager();
         $test='';
-        $ranking=$em->getRepository('SpicyRankingBundle:Ranking')->getLastRanking();
+        //$ranking=$em->getRepository('SpicyRankingBundle:Ranking')->getLastRanking();
+        $rankings=$em->getRepository('SpicyRankingBundle:Ranking')->getByDate();
         
-        var_dump($ranking);
+        //var_dump($ranking);
+        var_dump($rankings);
         //exit;
         
         /*$videoRankings=$em->getRepository('SpicyRankingBundle:VideoRanking')->findBy(array('ranking'=>2));

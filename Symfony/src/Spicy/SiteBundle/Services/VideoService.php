@@ -51,7 +51,7 @@ class VideoService
     
     public function getRanking($last=true,$id=0) 
     {       
-        $ranking=$this->em->getRepository('SpicyRankingBundle:Ranking')->getLastRanking();
+        $ranking=$this->getLastRanking();
         
         //ce n'est pas le dernier 
         if(!$last && $ranking)
@@ -206,6 +206,20 @@ class VideoService
         }
         
         return $icon;
+    }
+    
+    public function getLastRanking() {
+        $rankings=new \Doctrine\Common\Collections\ArrayCollection();
+        $rankings=$this->em->getRepository('SpicyRankingBundle:Ranking')->getByDate();
+        
+        if(empty($rankings))
+        {
+            return NULL;
+        }
+        else
+        {
+            return $rankings[0];
+        }
     }
 }
 

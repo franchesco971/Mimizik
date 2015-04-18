@@ -71,4 +71,17 @@ class RankingRepository extends EntityRepository
         
         return $qb->getQuery()->getOneOrNullResult();
     }
+    
+    public function getByDate() 
+    {
+        $qb = $this->createQueryBuilder('r')
+                ->leftJoin('r.videoRankings', 'vr')
+                ->leftJoin('vr.video', 'v')
+                ->leftJoin('v.genre_musicaux', 'g', 'WITH', 'g.id<> :id_retro')
+                ->addOrderBy('r.dateRanking','DESC')
+                ->addOrderBy('vr.nbVu','DESC')
+                ->setParameter('id_retro', 2);
+        
+        return $qb->getQuery()->getResult();
+    }
 }
