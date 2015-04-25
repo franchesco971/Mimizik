@@ -51,24 +51,24 @@ class VideoService
     
     public function getRanking($last=true,$id=0) 
     {
-        $ranking=$this->getLastRanking();
-        
-        //ce n'est pas le dernier 
-        if(!$last && $ranking)
+        $lastRanking=$this->getLastRanking();
+                
+        if(!$last && $id)//un classement en particulier
         {
-            if($ranking->getId()!=$id)
+            $ranking=$this->em->getRepository('SpicyRankingBundle:Ranking')->find($id);
+            
+            if(!$ranking)//mauvais id
             {
-                $ranking=$this->em->getRepository('SpicyRankingBundle:Ranking')->find($id);
-            }            
+                throw $this->createNotFoundException('Classement indisponible');
+            }
         }
-        else
+        else //le dernier classement
         {
-            $last=true;
-        }
-        
+            $ranking=$lastRanking;
+        }        
         
         /*** base de donnee vide**/
-        if ($ranking == null) {
+        if ($lastRanking == null) {
             $this->logger->info("Creation d'un ranking ");
             $this->logger->error("Base de donnee vide last=$last et id=$id");
             $ranking=$this->createRanking();
