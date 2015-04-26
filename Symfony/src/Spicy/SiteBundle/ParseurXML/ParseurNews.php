@@ -26,7 +26,7 @@ class ParseurNews
         //$document_xml->load($document);
         $document_xml->load($this->document);
         $listeItems = $document_xml->getElementsByTagName('item');/*** les items*/
-        var_dump($listeItems->length);
+        //var_dump($listeItems->length);
         //foreach($listeItems as $item)
         for ($j = 0; $j < $listeItems->length; ++$j)    
         {
