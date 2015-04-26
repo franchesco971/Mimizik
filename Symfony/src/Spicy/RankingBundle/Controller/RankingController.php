@@ -27,7 +27,7 @@ class RankingController extends Controller
         $em=$this->getDoctrine()->getManager();
         $videoManager = $this->container->get('mimizik.videoService');
         
-        $ranking=$videoManager->getRanking(true);
+        $ranking=$videoManager->getRanking(true);//last ranking
         $previousRanking=$em->getRepository('SpicyRankingBundle:Ranking')->getPreviousRanking($ranking);
         
         $videos=$em->getRepository('SpicySiteBundle:Video')->getTopByMonth($ranking,3);

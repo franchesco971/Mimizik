@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Spicy\SiteBundle\Entity\Video;
 use Spicy\SiteBundle\Form\VideoType;
+use Spicy\SiteBundle\Form\VideoYoutubeType;
 use Spicy\SiteBundle\Entity\TypeVideo;
 use Spicy\SiteBundle\Form\TypeVideoType;
 use Spicy\SiteBundle\Entity\GenreMusical;
@@ -53,16 +54,24 @@ class AdminController extends Controller
     
     public function addVideoAction()
     {
+        $videoManager = $this->container->get('mimizik.videoService');
+        $request = $this->get('request');
+        $yurl = $request->query->get('youtubeUrl');
+        
         $video=new Video;
         
-        $form= $this->createForm(new VideoType,$video);
+        if($yurl)//s'il y a une url youtube
+        {
+            $video=$videoManager->setYoutubeData($video,$yurl);
+        }
         
-        $request = $this->get('request');
+        $form= $this->createForm(new VideoType,$video);    
+            
         if ($request->getMethod() == 'POST') {
           $form->bind($request);
 
           if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrine()->getManager();            
             $em->persist($video);
             $em->flush();
             
@@ -73,6 +82,29 @@ class AdminController extends Controller
         }
         
         return $this->render('SpicySiteBundle:Admin:addVideo.html.twig',array(
+            'form'=>$form->createView()
+        ));
+    }
+    
+    public function addVideoYoutubeAction()
+    {
+        $parseur = $this->container->get('mimizik.parseur.youtube');
+        $parseur->setDocument('http://gdata.youtube.com/feeds/api/videos/qPZn9qsoh8M');
+        $video=new Video;
+        
+        $request = $this->get('request');
+        $videotype=$request->request->get('spicy_sitebundle_videotype');
+        $url=$videotype['url'];
+        
+        $form= $this->createForm(new VideoType(),$video);
+        
+        
+        if ($request->getMethod() == 'POST') {
+          
+          return $this->redirect($this->generateUrl('spicy_admin_add_video',array('youtubeUrl'=>$url)));
+        }
+        
+        return $this->render('SpicySiteBundle:Admin:addVideoYoutube.html.twig',array(
             'form'=>$form->createView()
         ));
     }

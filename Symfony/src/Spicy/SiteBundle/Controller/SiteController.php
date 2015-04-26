@@ -239,10 +239,10 @@ class SiteController extends Controller
         $em=$this->getDoctrine()->getManager();
         $test='';
         //$ranking=$em->getRepository('SpicyRankingBundle:Ranking')->getLastRanking();
-        $rankings=$em->getRepository('SpicyRankingBundle:Ranking')->getByDate();
+        //$rankings=$em->getRepository('SpicyRankingBundle:Ranking')->getByDate();
         
         //var_dump($ranking);
-        var_dump($rankings);
+        //var_dump($rankings);
         //exit;
         
         /*$videoRankings=$em->getRepository('SpicyRankingBundle:VideoRanking')->findBy(array('ranking'=>2));
@@ -264,6 +264,13 @@ class SiteController extends Controller
         }
         
         //$em->flush();*/
+        
+        $parseur = $this->container->get('mimizik.parseur.youtube');
+        
+        $parseur->setDocument('http://gdata.youtube.com/feeds/api/videos/qPZn9qsoh8M');
+        
+        var_dump($parseur->get('content'));
+        var_dump($parseur->get('name'));
         
         return $this->render('SpicySiteBundle:Site:test.html.twig',array(
             'test'=>$test

@@ -121,3 +121,7 @@ admin_hashtag_delete:
     defaults: { _controller: SpicyTagBundle:Hashtag:delete }
     requirements:
         id: \d+
+        
+admin_add_video_youtube:
+    pattern:  /add_video_youtube
+    defaults: { _controller: SpicySiteBundle:Admin:addVideoYoutube }
