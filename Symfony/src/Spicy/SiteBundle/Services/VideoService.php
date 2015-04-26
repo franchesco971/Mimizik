@@ -8,16 +8,19 @@ use Spicy\SiteBundle\Entity\Video;
 use Spicy\RankingBundle\Entity\Ranking;
 use Spicy\RankingBundle\Entity\RankingType;
 use Spicy\RankingBundle\Entity\VideoRanking;
+use Spicy\SiteBundle\Services\ParseurXMLYoutube;
 
 class VideoService
 {
     protected $em;
     protected $logger;
+    protected $parser;
     
-    public function __construct(EntityManager $entityManager, Logger $logger)
+    public function __construct(EntityManager $entityManager, Logger $logger,ParseurXMLYoutube $parser)
     {
         $this->em = $entityManager;
         $this->logger=$logger;
+        $this->parser=$parser;
     }
     
     public function increment(Video $video) 
@@ -59,7 +62,7 @@ class VideoService
             
             if(!$ranking)//mauvais id
             {
-                throw $this->createNotFoundException('Classement indisponible');
+                throw new \Exception('Classement indisponible');
             }
         }
         else //le dernier classement
@@ -224,6 +227,16 @@ class VideoService
         {
             return $rankings[0];
         }
+    }
+    
+    public function setYoutubeData(Video $video,$idYoutube) 
+    {
+        $this->parser->setDocument("http://gdata.youtube.com/feeds/api/videos/$idYoutube");
+
+        $video->setDescription($this->parser->get('content'));
+        $video->setUrl($idYoutube);
+                
+        return $video;
     }
 }
 
