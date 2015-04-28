@@ -277,6 +277,8 @@ class VideoRepository extends EntityRepository
                 ->addSelect('vr')
                 ->addSelect('t');
         
-        return $qb->getQuery()->getResult();
+        //return $qb->getQuery()->getResult();
+        $query=$qb->getQuery();
+        return new Paginator($query);
     }
 }
