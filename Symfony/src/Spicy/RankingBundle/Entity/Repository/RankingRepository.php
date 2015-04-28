@@ -51,6 +51,16 @@ class RankingRepository extends EntityRepository
     public function getRankings($page,$nbOccurences)
     {
         $qb = $this->createQueryBuilder('r')
+                ->leftJoin('r.videoRankings', 'vr')
+                ->leftJoin('vr.video', 'v')
+                ->leftJoin('v.genre_musicaux', 'g', 'WITH', 'g.id<> :id_retro')
+                ->leftJoin('v.type_videos', 't', 'WITH', 't.id<> :id_type')
+                ->setParameter('id_retro', 2)
+                ->setParameter('id_type', 1)
+                ->addSelect('vr')
+                ->addSelect('v')
+                ->addSelect('g')
+                ->addSelect('t')
                 ->setFirstResult(($page-1)*$nbOccurences)
                 ->setMaxResults($nbOccurences);
         
@@ -63,11 +73,16 @@ class RankingRepository extends EntityRepository
         $qb = $this->createQueryBuilder('r')
                 ->join('r.videoRankings', 'vr')
                 ->join('vr.video', 'v')
+                ->join('v.genre_musicaux', 'g', 'WITH', 'g.id<> :id_retro')
+                ->join('v.type_videos', 't', 'WITH', 't.id= :id_type')
                 ->where('r.id=:id')
                 ->setParameter('id', $id)
+                ->setParameter('id_retro', 2)
+                ->setParameter('id_type', 1)
                 ->addSelect('vr')
                 ->addSelect('v')
-                ->addSelect('a');
+                ->addSelect('g')
+                ->addSelect('t');
         
         return $qb->getQuery()->getOneOrNullResult();
     }
@@ -78,9 +93,14 @@ class RankingRepository extends EntityRepository
                 ->leftJoin('r.videoRankings', 'vr')
                 ->leftJoin('vr.video', 'v')
                 ->leftJoin('v.genre_musicaux', 'g', 'WITH', 'g.id<> :id_retro')
+                ->leftJoin('v.type_videos', 't', 'WITH', 't.id<> :id_type')
                 ->addOrderBy('r.dateRanking','DESC')
                 ->addOrderBy('vr.nbVu','DESC')
-                ->setParameter('id_retro', 2);
+                ->setParameter('id_retro', 2)
+                ->setParameter('id_type', 1)
+                ->addSelect('vr')
+                ->addSelect('v')
+                ->addSelect('t');
         
         return $qb->getQuery()->getResult();
     }

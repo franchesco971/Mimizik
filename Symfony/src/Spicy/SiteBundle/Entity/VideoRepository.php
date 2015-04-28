@@ -266,11 +266,16 @@ class VideoRepository extends EntityRepository
         $qb=  $this->createQueryBuilder('v')
                 ->join('v.videoRankings', 'vr')
                 ->where('vr.ranking=:ranking')
+                ->join('v.genre_musicaux', 'g', 'WITH', 'g.id<> :id_retro')
+                ->join('v.type_videos', 't', 'WITH', 't.id= :id_type')
                 ->setParameter('ranking', $ranking->getId())
+                ->setParameter('id_retro', 2)
+                ->setParameter('id_type', 1)
                 ->orderBy('vr.nbVu','DESC')
                 ->addOrderBy('v.dateVideo','DESC')
                 ->setMaxResults($max)
-                ->addSelect('vr');
+                ->addSelect('vr')
+                ->addSelect('t');
         
         return $qb->getQuery()->getResult();
     }

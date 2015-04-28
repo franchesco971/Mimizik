@@ -58,7 +58,7 @@ class VideoService
                 
         if(!$last && $id)//un classement en particulier
         {
-            $ranking=$this->em->getRepository('SpicyRankingBundle:Ranking')->find($id);
+            $ranking=$this->em->getRepository('SpicyRankingBundle:Ranking')->getOne($id);
             
             if(!$ranking)//mauvais id
             {
