@@ -54,7 +54,9 @@ class AdminController extends Controller
     
     public function addVideoAction()
     {
-        $videoManager = $this->container->get('mimizik.videoService');
+        //$videoManager = $this->container->get('mimizik.videoService');
+        $youtubeAPI = $this->container->get('mimizik.youtube.api');
+        $developerKey=$this->container->getParameter('developer_key');
         $request = $this->get('request');
         $yurl = $request->query->get('youtubeUrl');
         
@@ -62,7 +64,9 @@ class AdminController extends Controller
         
         if($yurl)//s'il y a une url youtube
         {
-            $video=$videoManager->setYoutubeData($video,$yurl);
+            //$video=$videoManager->setYoutubeData($video,$yurl);
+            $arrayResult=$youtubeAPI->getArrayResult($yurl,$developerKey);
+            $video=$youtubeAPI->setVideoData($video,$arrayResult);
         }
         
         $form= $this->createForm(new VideoType,$video);    
@@ -88,8 +92,8 @@ class AdminController extends Controller
     
     public function addVideoYoutubeAction()
     {
-        $parseur = $this->container->get('mimizik.parseur.youtube');
-        $parseur->setDocument('http://gdata.youtube.com/feeds/api/videos/qPZn9qsoh8M');
+        //$parseur = $this->container->get('mimizik.parseur.youtube');
+        //$parseur->setDocument('http://gdata.youtube.com/feeds/api/videos/qPZn9qsoh8M');        
         $video=new Video;
         
         $request = $this->get('request');

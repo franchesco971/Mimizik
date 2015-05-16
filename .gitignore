@@ -228,3 +228,4 @@ pip-log.txt
 /Symfony/app/cache/
 /Symfony/app/logs/
 /nbproject/
+/Symfony/web/bundles/

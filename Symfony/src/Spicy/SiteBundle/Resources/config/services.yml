@@ -27,6 +27,8 @@ services:
         - { name: monolog.logger, channel: mimizik }
     mimizik.parseur.youtube:
         class: Spicy\SiteBundle\Services\ParseurXMLYoutube
+    mimizik.youtube.api:
+        class: Spicy\SiteBundle\Services\YoutubeAPI
 #    spicy_site.example:
 #        class: %spicy_site.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]

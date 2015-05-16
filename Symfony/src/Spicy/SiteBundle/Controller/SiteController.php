@@ -237,6 +237,8 @@ class SiteController extends Controller
     public function testAction()
     {
         $em=$this->getDoctrine()->getManager();
+        $youtubeAPI = $this->container->get('mimizik.youtube.api');
+        $developerKey=$this->container->getParameter('developer_key');
         $test='';
         //$ranking=$em->getRepository('SpicyRankingBundle:Ranking')->getLastRanking();
         //$rankings=$em->getRepository('SpicyRankingBundle:Ranking')->getByDate();
@@ -265,12 +267,17 @@ class SiteController extends Controller
         
         //$em->flush();*/
         
-        $parseur = $this->container->get('mimizik.parseur.youtube');
+        /*$parseur = $this->container->get('mimizik.parseur.youtube');
         
         $parseur->setDocument('http://gdata.youtube.com/feeds/api/videos/qPZn9qsoh8M');
         
         var_dump($parseur->get('content'));
-        var_dump($parseur->get('name'));
+        var_dump($parseur->get('name'));*/
+        
+        //$objJSON=$youtubeAPI->getJSONResponse(0,0);
+        //var_dump($objJSON->items[0]->snippet);
+        $arrayResult=$youtubeAPI->getArrayResult('KGzlYk8YXTA',$developerKey);
+        var_dump($arrayResult);
         
         return $this->render('SpicySiteBundle:Site:test.html.twig',array(
             'test'=>$test
