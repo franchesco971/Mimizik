@@ -13,6 +13,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class GenreMusical
 {
+    const RETRO=2;
+    
     /**
      * @var integer
      *

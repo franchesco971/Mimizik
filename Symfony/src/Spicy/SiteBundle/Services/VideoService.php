@@ -8,6 +8,7 @@ use Spicy\SiteBundle\Entity\Video;
 use Spicy\RankingBundle\Entity\Ranking;
 use Spicy\RankingBundle\Entity\RankingType;
 use Spicy\RankingBundle\Entity\VideoRanking;
+use Spicy\SiteBundle\Entity\GenreMusical;
 use Spicy\SiteBundle\Services\ParseurXMLYoutube;
 
 class VideoService
@@ -27,8 +28,16 @@ class VideoService
     {
         $ipInterdites=array('46.218.242.177','82.229.222.236','127.0.0.1');
         //$ipInterdites=array();
+        $valid=true;
+        foreach ($video->getGenreMusicaux() as $genre) {
+            $idGenre=$genre->getId();
+            if($idGenre==GenreMusical::RETRO)
+            {
+                $valid=false;
+            }
+        }
         
-        if(!in_array($_SERVER['REMOTE_ADDR'], $ipInterdites))            
+        if(!in_array($_SERVER['REMOTE_ADDR'], $ipInterdites) && $valid)            
         {
             $nbVu=0;
             $ranking=$this->getRanking();
