@@ -10,8 +10,8 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {% stylesheets filter='cssrewrite,?yui_css'
-        'bundles/spicyranking/css/*' %}
+    {% stylesheets filter='cssrewrite,?yui_css' output='css/compiled/home_ranking.css'
+        '@SpicyRankingBundle/Resources/public/css/*' %}
         <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
     {% endstylesheets %}
     <style type="text/css">

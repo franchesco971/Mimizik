@@ -9,53 +9,18 @@
 
 {% block stylesheets %}    
     <meta name="google-site-verification" content="sGYi5z6Hzfo88twISFPkyXzxAQG6JmyphW0UITV9uic" />
-    {% stylesheets filter='cssrewrite,?yui_css'
-        '@SpicyRankingBundle/Resources/public/css/ranking.css' %}
+    {{ parent() }}
+    {% stylesheets filter='cssrewrite,?yui_css' output='css/compiled/home.css'
+        '@SpicyRankingBundle/Resources/public/css/ranking.css'
+        '@SpicySiteBundle/Resources/public/css/home.css'
+    %}
         <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
     {% endstylesheets %}
     <style type="text/css">
-        /*#body{background: url("/images/testbg.png") no-repeat scroll 50% 0 rgba(0, 0, 0, 0);}*/
-        .ranking-line{
-            width:100%;
-            height:32px;
-            margin-bottom: 10px;
-            padding-top: 10px;
-            
-        }
-        .ranking-line a{
-            font-size: 14px;
-        }
-        .ranking-line .icon{
-            padding-right: 5px;
-            
-        }
-        .ranking-line .position{
-            font-size: 16px;
-            padding-right: 5px;
-            height: 32px;
-            padding-top: 10px;
-        }
-        
-        .ranking-line .video-links{
-            height: 32px;
-            padding-top: 10px;
-            
-        }
-        .link-ranking{
-            height: 20px;
-            margin-bottom: 10px;
-            font-size: 16px;
-            font-weight: bold;
-        }
-        .link-ranking .arrow {
-            background:url(/images/pagination_arrows.png) 0 6px no-repeat;
-            /*width:7px;*/
-            width: 25px; height: 20px;
-            background-position:-45px 3px;
-        }
+        /*#body{background: url("/images/testbg.png") no-repeat scroll 50% 0 rgba(0, 0, 0, 0);}*/        
     </style> 
-    {{ parent() }}
 {% endblock %}
+
 {% block body %}
     {{ parent() }}
     <div id="lastVideos" class="ribbon-slider-container">
@@ -233,7 +198,7 @@
             initPagination();
         });
     </script>
-    {% javascripts  filter='?yui_js'
+    {% javascripts  filter='?yui_js' output='js/compiled/home.js'
         'js/jquery.mousewheel.min.js'
         'js/jquery.ribbonSlider.js' %}
         <script type="text/javascript" src="{{ asset_url }}" ></script>

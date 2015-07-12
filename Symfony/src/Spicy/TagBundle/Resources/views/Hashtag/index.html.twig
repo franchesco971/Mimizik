@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block stylesheets %}
-    {% stylesheets filter='cssrewrite,?yui_css'
+    {% stylesheets filter='cssrewrite,?yui_css' output='css/compiled/home_hashtag.css'
         'css/pagination.css' %}
         <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
     {% endstylesheets %}

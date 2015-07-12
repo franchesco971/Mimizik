@@ -1,10 +1,10 @@
 {% extends "::layout2.html.twig" %}
 {% block stylesheets %}
-    {% stylesheets filter='cssrewrite,?yui_css'
+    {#% stylesheets filter='cssrewrite,?yui_css'
         'css/reset.css'
         'css/test.css'%}
         <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
-    {% endstylesheets %}
+    {% endstylesheets %#}
     {{ parent() }}
 {% endblock %}
 

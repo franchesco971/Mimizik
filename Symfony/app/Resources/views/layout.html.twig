@@ -13,11 +13,12 @@
         {% endblock %}
         <!--<meta http-equiv="Content-Language" content="fr">-->
         {% block stylesheets %}
-            {% stylesheets filter='cssrewrite,?yui_css'
+            {% stylesheets filter='cssrewrite,?yui_css' output='css/compiled/main.css'
                 'css/style.css'
                 'css/style2.css'
                 'css/reveal.css'
-                'css/pagination.css'%}
+                'css/pagination.css'
+            %}
                 <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
             {% endstylesheets %}
         {% endblock %}
@@ -101,12 +102,13 @@
     <div id="fb-root"></div>
     {% block javascripts %}
         <script type="text/javascript" src="{{asset('js/jquery-2.1.1.min.js')}}" ></script>
-        {% javascripts  filter='?yui_js'
+        {% javascripts  filter='?yui_js' output='js/compiled/main.js'
             'js/jquery.fadeSlider.js'
             'js/jquery.hoverIntent.min.js'
             'js/jquery.custom.js'
             'js/jquery.pagination.js'
-            'js/jquery.reveal.js' %}
+            'js/jquery.reveal.js' 
+        %}
             <script type="text/javascript" src="{{ asset_url }}" ></script>
         {% endjavascripts %}        
     {% endblock %}

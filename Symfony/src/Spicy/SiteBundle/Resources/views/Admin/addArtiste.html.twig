@@ -73,10 +73,7 @@
 {% endblock%}
 
 {% block javascripts %}
-    {{parent()}}
-    
-    <script type="text/javascript" src="{{asset('js/select2.js')}}" ></script>
-    <script type="text/javascript" src="{{asset('js/jquery.reveal.js')}}" ></script>    
+    {{parent()}}        
     <script type="text/javascript">
         $("#spicy_sitebundle_artistetype_hashtags").select2({
             width: '100px'

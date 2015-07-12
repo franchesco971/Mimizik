@@ -5,7 +5,7 @@
 {% endblock %}
   
 {% block stylesheets %}
-    {% stylesheets filter='cssrewrite,?yui_css'
+    {% stylesheets filter='cssrewrite,?yui_css' output='css/compiled/main_admin.css'
         'css/style.css'
         'css/style2.css'
         'css/reveal.css'
@@ -28,5 +28,10 @@
 
 {% block javascripts %}
     <script type="text/javascript" src="{{asset('js/jquery-2.1.1.min.js')}}" ></script>
-    <script type="text/javascript" src="{{asset('js/jquery.pagination.js')}}" ></script>
+    {% javascripts  filter='?yui_js' output='js/compiled/main_admin.js'
+        'js/jquery.pagination.js'
+        'js/select2.js'
+        'js/jquery.reveal.js' %}
+        <script type="text/javascript" src="{{ asset_url }}" ></script>
+    {% endjavascripts %}
 {% endblock %}
