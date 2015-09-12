@@ -108,6 +108,9 @@
                 initSlider();
             });    
     </script>
-    <script type="text/javascript" src="{{asset('test/js/jquery.mousewheel.min.js')}}" ></script>
-    <script type="text/javascript" src="{{asset('test/js/jquery.ribbonSlider.js')}}" ></script>
+    {% javascripts  filter='?yui_js' output='js/compiled/home.js'
+        'js/jquery.mousewheel.min.js'
+        'js/jquery.ribbonSlider.js' %}
+        <script type="text/javascript" src="{{ asset_url }}" ></script>
+    {% endjavascripts %}
 {% endblock%}
