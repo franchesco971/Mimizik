@@ -22,7 +22,11 @@
     {{ parent() }}
     <link rel="image_src" type="image/jpeg" href="http://img.youtube.com/vi/{{lavideo.url}}/0.jpg" />
     <link rel="video_src" href="http://www.youtube.com/v/{{lavideo.url}}?version=3&autohide=1"/>
-    
+    <style type="text/css">
+        .twitter-like{
+            display: inline-block;
+        }
+    </style>
 {% endblock %}  
     
 {% block body %}
@@ -120,9 +124,11 @@
                          data-width="400" data-show-faces="true"></div>
                         <div class="g-plusone" data-size="tall" data-href="{{website_name}}{{path('spicy_site_video_slug',{'id':lavideo.id,'slug':lavideo.slug})}}">
                         </div>
-                        <a href="https://twitter.com/share" class="twitter-share-button floatleft" 
-                           data-url="{{website_name}}{{path('spicy_site_video_slug',{'id':lavideo.id,'slug':lavideo.slug})}}" 
-                           data-via="mimizik" data-lang="fr"  data-count="vertical">Tweet</a>
+                        <div class="twitter-like">
+                            <a href="https://twitter.com/share" class="twitter-share-button floatleft" 
+                               data-url="{{website_name}}{{path('spicy_site_video_slug',{'id':lavideo.id,'slug':lavideo.slug})}}" 
+                               data-via="mimizik" data-lang="fr"  data-count="vertical">Tweet</a>
+                        </div>
                     </div>
                 </div>
                 <div class="content-block">
