@@ -44,6 +44,7 @@ public function initialized($id);
 }
 namespace Symfony\Component\DependencyInjection
 {
+use Symfony\Component\DependencyInjection\Exception\InactiveScopeException;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
@@ -55,20 +56,23 @@ class Container implements IntrospectableContainerInterface
 {
 protected $parameterBag;
 protected $services;
+protected $methodMap;
+protected $aliases;
 protected $scopes;
 protected $scopeChildren;
 protected $scopedServices;
 protected $scopeStacks;
 protected $loading = array();
+private $underscoreMap = array('_'=>'','.'=>'_','\\'=>'_');
 public function __construct(ParameterBagInterface $parameterBag = null)
 {
 $this->parameterBag = null === $parameterBag ? new ParameterBag() : $parameterBag;
 $this->services = array();
+$this->aliases = array();
 $this->scopes = array();
 $this->scopeChildren = array();
 $this->scopedServices = array();
 $this->scopeStacks = array();
-$this->set('service_container', $this);
 }
 public function compile()
 {
@@ -101,6 +105,9 @@ if (self::SCOPE_PROTOTYPE === $scope) {
 throw new InvalidArgumentException(sprintf('You cannot set service "%s" of scope "prototype".', $id));
 }
 $id = strtolower($id);
+if ('service_container'=== $id) {
+return;
+}
 if (self::SCOPE_CONTAINER !== $scope) {
 if (!isset($this->scopedServices[$scope])) {
 throw new RuntimeException(sprintf('You cannot set service "%s" of inactive scope.', $id));
@@ -108,42 +115,97 @@ throw new RuntimeException(sprintf('You cannot set service "%s" of inactive scop
 $this->scopedServices[$scope][$id] = $service;
 }
 $this->services[$id] = $service;
+if (method_exists($this, $method ='synchronize'.strtr($id, $this->underscoreMap).'Service')) {
+$this->$method();
+}
+if (self::SCOPE_CONTAINER !== $scope && null === $service) {
+unset($this->scopedServices[$scope][$id]);
+}
+if (null === $service) {
+unset($this->services[$id]);
+}
 }
 public function has($id)
 {
-$id = strtolower($id);
-return isset($this->services[$id]) || method_exists($this,'get'.strtr($id, array('_'=>'','.'=>'_')).'Service');
+for ($i = 2;;) {
+if ('service_container'=== $id
+|| isset($this->aliases[$id])
+|| isset($this->services[$id])
+|| array_key_exists($id, $this->services)
+) {
+return true;
+}
+if (--$i && $id !== $lcId = strtolower($id)) {
+$id = $lcId;
+} else {
+return method_exists($this,'get'.strtr($id, $this->underscoreMap).'Service');
+}
+}
 }
 public function get($id, $invalidBehavior = self::EXCEPTION_ON_INVALID_REFERENCE)
 {
-$id = strtolower($id);
-if (isset($this->services[$id])) {
+for ($i = 2;;) {
+if ('service_container'=== $id) {
+return $this;
+}
+if (isset($this->aliases[$id])) {
+$id = $this->aliases[$id];
+}
+if (isset($this->services[$id]) || array_key_exists($id, $this->services)) {
 return $this->services[$id];
 }
 if (isset($this->loading[$id])) {
 throw new ServiceCircularReferenceException($id, array_keys($this->loading));
 }
-if (method_exists($this, $method ='get'.strtr($id, array('_'=>'','.'=>'_')).'Service')) {
+if (isset($this->methodMap[$id])) {
+$method = $this->methodMap[$id];
+} elseif (--$i && $id !== $lcId = strtolower($id)) {
+$id = $lcId;
+continue;
+} elseif (method_exists($this, $method ='get'.strtr($id, $this->underscoreMap).'Service')) {
+} else {
+if (self::EXCEPTION_ON_INVALID_REFERENCE === $invalidBehavior) {
+if (!$id) {
+throw new ServiceNotFoundException($id);
+}
+$alternatives = array();
+foreach ($this->services as $key => $associatedService) {
+$lev = levenshtein($id, $key);
+if ($lev <= strlen($id) / 3 || false !== strpos($key, $id)) {
+$alternatives[] = $key;
+}
+}
+throw new ServiceNotFoundException($id, null, null, $alternatives);
+}
+return;
+}
 $this->loading[$id] = true;
 try {
 $service = $this->$method();
 } catch (\Exception $e) {
 unset($this->loading[$id]);
-if (isset($this->services[$id])) {
+if (array_key_exists($id, $this->services)) {
 unset($this->services[$id]);
+}
+if ($e instanceof InactiveScopeException && self::EXCEPTION_ON_INVALID_REFERENCE !== $invalidBehavior) {
+return;
 }
 throw $e;
 }
 unset($this->loading[$id]);
 return $service;
 }
-if (self::EXCEPTION_ON_INVALID_REFERENCE === $invalidBehavior) {
-throw new ServiceNotFoundException($id);
-}
 }
 public function initialized($id)
 {
-return isset($this->services[strtolower($id)]);
+$id = strtolower($id);
+if ('service_container'=== $id) {
+return true;
+}
+if (isset($this->aliases[$id])) {
+$id = $this->aliases[$id];
+}
+return isset($this->services[$id]) || array_key_exists($id, $this->services);
 }
 public function getServiceIds()
 {
@@ -154,6 +216,7 @@ if (preg_match('/^get(.+)Service$/', $method->name, $match)) {
 $ids[] = self::underscore($match[1]);
 }
 }
+$ids[] ='service_container';
 return array_unique(array_merge($ids, array_keys($this->services)));
 }
 public function enterScope($name)
@@ -200,8 +263,11 @@ $this->services = call_user_func_array('array_diff_key', $services);
 if (isset($this->scopeStacks[$name]) && count($this->scopeStacks[$name]) > 0) {
 $services = $this->scopeStacks[$name]->pop();
 $this->scopedServices += $services;
-array_unshift($services, $this->services);
-$this->services = call_user_func_array('array_merge', $services);
+foreach ($services as $array) {
+foreach ($array as $id => $service) {
+$this->set($id, $service, $name);
+}
+}
 }
 }
 public function addScope(ScopeInterface $scope)
@@ -234,7 +300,7 @@ return isset($this->scopedServices[$name]);
 }
 public static function camelize($id)
 {
-return preg_replace_callback('/(^|_|\.)+(.)/', function ($match) { return ('.'=== $match[1] ?'_':'').strtoupper($match[2]); }, $id);
+return strtr(ucwords(strtr($id, array('_'=>' ','.'=>'_ ','\\'=>'_ '))), array(' '=>''));
 }
 public static function underscore($id)
 {
@@ -256,7 +322,6 @@ public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = 
 namespace Symfony\Component\HttpKernel
 {
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\Config\Loader\LoaderInterface;
 interface KernelInterface extends HttpKernelInterface, \Serializable
@@ -291,6 +356,8 @@ public function terminate(Request $request, Response $response);
 }
 namespace Symfony\Component\HttpKernel
 {
+use Symfony\Bridge\ProxyManager\LazyProxy\Instantiator\RuntimeInstantiator;
+use Symfony\Bridge\ProxyManager\LazyProxy\PhpDumper\ProxyDumper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
@@ -302,18 +369,15 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Loader\ClosureLoader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
+use Symfony\Component\HttpKernel\Config\EnvParametersResource;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\MergeExtensionConfigurationPass;
 use Symfony\Component\HttpKernel\DependencyInjection\AddClassesToCachePass;
-use Symfony\Component\HttpKernel\Debug\ErrorHandler;
-use Symfony\Component\HttpKernel\Debug\ExceptionHandler;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\ClassLoader\ClassCollectionLoader;
-use Symfony\Component\ClassLoader\DebugClassLoader;
 abstract class Kernel implements KernelInterface, TerminableInterface
 {
 protected $bundles;
@@ -325,22 +389,20 @@ protected $debug;
 protected $booted;
 protected $name;
 protected $startTime;
-protected $classes;
-protected $errorReportingLevel;
-const VERSION ='2.2.1';
-const VERSION_ID ='20101';
+protected $loadClassCache;
+const VERSION ='2.3.32';
+const VERSION_ID ='20332';
 const MAJOR_VERSION ='2';
-const MINOR_VERSION ='2';
-const RELEASE_VERSION ='1';
+const MINOR_VERSION ='3';
+const RELEASE_VERSION ='32';
 const EXTRA_VERSION ='';
 public function __construct($environment, $debug)
 {
 $this->environment = $environment;
-$this->debug = (Boolean) $debug;
+$this->debug = (bool) $debug;
 $this->booted = false;
 $this->rootDir = $this->getRootDir();
 $this->name = $this->getName();
-$this->classes = array();
 $this->bundles = array();
 if ($this->debug) {
 $this->startTime = microtime(true);
@@ -349,17 +411,6 @@ $this->init();
 }
 public function init()
 {
-ini_set('display_errors', 0);
-if ($this->debug) {
-error_reporting(-1);
-DebugClassLoader::enable();
-ErrorHandler::register($this->errorReportingLevel);
-if ('cli'!== php_sapi_name()) {
-ExceptionHandler::register();
-} else {
-ini_set('display_errors', 1);
-}
-}
 }
 public function __clone()
 {
@@ -373,6 +424,9 @@ public function boot()
 {
 if (true === $this->booted) {
 return;
+}
+if ($this->loadClassCache) {
+$this->doLoadClassCache($this->loadClassCache[0], $this->loadClassCache[1]);
 }
 $this->initializeBundles();
 $this->initializeContainer();
@@ -501,7 +555,7 @@ public function getRootDir()
 {
 if (null === $this->rootDir) {
 $r = new \ReflectionObject($this);
-$this->rootDir = str_replace('\\','/', dirname($r->getFileName()));
+$this->rootDir = dirname($r->getFileName());
 }
 return $this->rootDir;
 }
@@ -511,9 +565,7 @@ return $this->container;
 }
 public function loadClassCache($name ='classes', $extension ='.php')
 {
-if (!$this->booted && is_file($this->getCacheDir().'/classes.map')) {
-ClassCollectionLoader::load(include($this->getCacheDir().'/classes.map'), $this->getCacheDir(), $name, $this->debug, false, $extension);
-}
+$this->loadClassCache = array($name, $extension);
 }
 public function setClassCache(array $classes)
 {
@@ -534,6 +586,12 @@ return $this->rootDir.'/logs';
 public function getCharset()
 {
 return'UTF-8';
+}
+protected function doLoadClassCache($name, $extension)
+{
+if (!$this->booted && is_file($this->getCacheDir().'/classes.map')) {
+ClassCollectionLoader::load(include($this->getCacheDir().'/classes.map'), $this->getCacheDir(), $name, $this->debug, false, $extension);
+}
 }
 protected function initializeBundles()
 {
@@ -558,7 +616,8 @@ $directChildren[$parentName] = $name;
 $topMostBundles[$name] = $bundle;
 }
 }
-if (count($diff = array_values(array_diff(array_keys($directChildren), array_keys($this->bundles))))) {
+if (!empty($directChildren) && count($diff = array_diff_key($directChildren, $this->bundles))) {
+$diff = array_keys($diff);
 throw new \LogicException(sprintf('Bundle "%s" extends bundle "%s", which is not registered.', $directChildren[$diff[0]], $diff[0]));
 }
 $this->bundleMap = array();
@@ -591,6 +650,7 @@ $cache = new ConfigCache($this->getCacheDir().'/'.$class.'.php', $this->debug);
 $fresh = true;
 if (!$cache->isFresh()) {
 $container = $this->buildContainer();
+$container->compile();
 $this->dumpContainer($cache, $container, $class, $this->getContainerBaseClass());
 $fresh = false;
 }
@@ -608,7 +668,7 @@ foreach ($this->bundles as $name => $bundle) {
 $bundles[$name] = get_class($bundle);
 }
 return array_merge(
-array('kernel.root_dir'=> $this->rootDir,'kernel.environment'=> $this->environment,'kernel.debug'=> $this->debug,'kernel.name'=> $this->name,'kernel.cache_dir'=> $this->getCacheDir(),'kernel.logs_dir'=> $this->getLogDir(),'kernel.bundles'=> $bundles,'kernel.charset'=> $this->getCharset(),'kernel.container_class'=> $this->getContainerClass(),
+array('kernel.root_dir'=> realpath($this->rootDir) ?: $this->rootDir,'kernel.environment'=> $this->environment,'kernel.debug'=> $this->debug,'kernel.name'=> $this->name,'kernel.cache_dir'=> realpath($this->getCacheDir()) ?: $this->getCacheDir(),'kernel.logs_dir'=> realpath($this->getLogDir()) ?: $this->getLogDir(),'kernel.bundles'=> $bundles,'kernel.charset'=> $this->getCharset(),'kernel.container_class'=> $this->getContainerClass(),
 ),
 $this->getEnvParameters()
 );
@@ -627,7 +687,7 @@ protected function buildContainer()
 {
 foreach (array('cache'=> $this->getCacheDir(),'logs'=> $this->getLogDir()) as $name => $dir) {
 if (!is_dir($dir)) {
-if (false === @mkdir($dir, 0777, true)) {
+if (false === @mkdir($dir, 0777, true) && !is_dir($dir)) {
 throw new \RuntimeException(sprintf("Unable to create the %s directory (%s)\n", $name, $dir));
 }
 } elseif (!is_writable($dir)) {
@@ -635,6 +695,17 @@ throw new \RuntimeException(sprintf("Unable to write in the %s directory (%s)\n"
 }
 }
 $container = $this->getContainerBuilder();
+$container->addObjectResource($this);
+$this->prepareContainer($container);
+if (null !== $cont = $this->registerContainerConfiguration($this->getContainerLoader($container))) {
+$container->merge($cont);
+}
+$container->addCompilerPass(new AddClassesToCachePass($this));
+$container->addResource(new EnvParametersResource('SYMFONY__'));
+return $container;
+}
+protected function prepareContainer(ContainerBuilder $container)
+{
 $extensions = array();
 foreach ($this->bundles as $bundle) {
 if ($extension = $bundle->getContainerExtension()) {
@@ -648,25 +719,25 @@ $container->addObjectResource($bundle);
 foreach ($this->bundles as $bundle) {
 $bundle->build($container);
 }
-$container->addObjectResource($this);
 $container->getCompilerPassConfig()->setMergePass(new MergeExtensionConfigurationPass($extensions));
-if (null !== $cont = $this->registerContainerConfiguration($this->getContainerLoader($container))) {
-$container->merge($cont);
-}
-$container->addCompilerPass(new AddClassesToCachePass($this));
-$container->compile();
-return $container;
 }
 protected function getContainerBuilder()
 {
-return new ContainerBuilder(new ParameterBag($this->getKernelParameters()));
+$container = new ContainerBuilder(new ParameterBag($this->getKernelParameters()));
+if (class_exists('ProxyManager\Configuration') && class_exists('Symfony\Bridge\ProxyManager\LazyProxy\Instantiator\RuntimeInstantiator')) {
+$container->setProxyInstantiator(new RuntimeInstantiator());
+}
+return $container;
 }
 protected function dumpContainer(ConfigCache $cache, ContainerBuilder $container, $class, $baseClass)
 {
 $dumper = new PhpDumper($container);
-$content = $dumper->dump(array('class'=> $class,'base_class'=> $baseClass));
+if (class_exists('ProxyManager\Configuration') && class_exists('Symfony\Bridge\ProxyManager\LazyProxy\PhpDumper\ProxyDumper')) {
+$dumper->setProxyDumper(new ProxyDumper(md5((string) $cache)));
+}
+$content = $dumper->dump(array('class'=> $class,'base_class'=> $baseClass,'file'=> (string) $cache));
 if (!$this->debug) {
-$content = self::stripComments($content);
+$content = static::stripComments($content);
 }
 $cache->write($content, $container->getResources());
 }
@@ -690,21 +761,33 @@ return $source;
 $rawChunk ='';
 $output ='';
 $tokens = token_get_all($source);
+$ignoreSpace = false;
 for (reset($tokens); false !== $token = current($tokens); next($tokens)) {
 if (is_string($token)) {
 $rawChunk .= $token;
 } elseif (T_START_HEREDOC === $token[0]) {
-$output .= preg_replace(array('/\s+$/Sm','/\n+/S'),"\n", $rawChunk) . $token[1];
+$output .= $rawChunk.$token[1];
 do {
 $token = next($tokens);
 $output .= $token[1];
 } while ($token[0] !== T_END_HEREDOC);
 $rawChunk ='';
-} elseif (!in_array($token[0], array(T_COMMENT, T_DOC_COMMENT))) {
+} elseif (T_WHITESPACE === $token[0]) {
+if ($ignoreSpace) {
+$ignoreSpace = false;
+continue;
+}
+$rawChunk .= preg_replace(array('/\n{2,}/S'),"\n", $token[1]);
+} elseif (in_array($token[0], array(T_COMMENT, T_DOC_COMMENT))) {
+$ignoreSpace = true;
+} else {
 $rawChunk .= $token[1];
+if (T_OPEN_TAG === $token[0]) {
+$ignoreSpace = true;
 }
 }
-$output .= preg_replace(array('/\s+$/Sm','/\n+/S'),"\n", $rawChunk);
+}
+$output .= $rawChunk;
 return $output;
 }
 public function serialize()
@@ -820,6 +903,9 @@ $basename = preg_replace('/Bundle$/','', $this->getName());
 $class = $this->getNamespace().'\\DependencyInjection\\'.$basename.'Extension';
 if (class_exists($class)) {
 $extension = new $class();
+if (!$extension instanceof ExtensionInterface) {
+throw new \LogicException(sprintf('Extension %s must implement Symfony\Component\DependencyInjection\Extension\ExtensionInterface.', $class));
+}
 $expectedAlias = Container::underscore($basename);
 if ($expectedAlias != $extension->getAlias()) {
 throw new \LogicException(sprintf('The extension alias for the default extension of a '.'bundle must be the underscored version of the '.'bundle name ("%s" instead of "%s")',
@@ -851,7 +937,6 @@ return dirname($this->reflected->getFileName());
 }
 public function getParent()
 {
-return null;
 }
 final public function getName()
 {
@@ -876,7 +961,7 @@ if ($relativePath = $file->getRelativePath()) {
 $ns .='\\'.strtr($relativePath,'/','\\');
 }
 $r = new \ReflectionClass($ns.'\\'.$file->getBasename('.php'));
-if ($r->isSubclassOf('Symfony\\Component\\Console\\Command\\Command') && !$r->isAbstract()) {
+if ($r->isSubclassOf('Symfony\\Component\\Console\\Command\\Command') && !$r->isAbstract() && !$r->getConstructor()->getNumberOfRequiredParameters()) {
 $application->add($r->newInstance());
 }
 }
@@ -886,6 +971,8 @@ $application->add($r->newInstance());
 namespace Symfony\Component\Config
 {
 use Symfony\Component\Config\Resource\ResourceInterface;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
 class ConfigCache
 {
 private $debug;
@@ -893,7 +980,7 @@ private $file;
 public function __construct($file, $debug)
 {
 $this->file = $file;
-$this->debug = (Boolean) $debug;
+$this->debug = (bool) $debug;
 }
 public function __toString()
 {
@@ -907,7 +994,7 @@ return false;
 if (!$this->debug) {
 return true;
 }
-$metadata = $this->file.'.meta';
+$metadata = $this->getMetaFile();
 if (!is_file($metadata)) {
 return false;
 }
@@ -922,27 +1009,25 @@ return true;
 }
 public function write($content, array $metadata = null)
 {
-$dir = dirname($this->file);
-if (!is_dir($dir)) {
-if (false === @mkdir($dir, 0777, true)) {
-throw new \RuntimeException(sprintf('Unable to create the %s directory', $dir));
-}
-} elseif (!is_writable($dir)) {
-throw new \RuntimeException(sprintf('Unable to write in the %s directory', $dir));
-}
-$tmpFile = tempnam($dir, basename($this->file));
-if (false !== @file_put_contents($tmpFile, $content) && @rename($tmpFile, $this->file)) {
-@chmod($this->file, 0666 & ~umask());
-} else {
-throw new \RuntimeException(sprintf('Failed to write cache file "%s".', $this->file));
+$mode = 0666;
+$umask = umask();
+$filesystem = new Filesystem();
+$filesystem->dumpFile($this->file, $content, null);
+try {
+$filesystem->chmod($this->file, $mode, $umask);
+} catch (IOException $e) {
 }
 if (null !== $metadata && true === $this->debug) {
-$file = $this->file.'.meta';
-$tmpFile = tempnam($dir, basename($file));
-if (false !== @file_put_contents($tmpFile, serialize($metadata)) && @rename($tmpFile, $file)) {
-@chmod($file, 0666 & ~umask());
+$filesystem->dumpFile($this->getMetaFile(), serialize($metadata), null);
+try {
+$filesystem->chmod($this->getMetaFile(), $mode, $umask);
+} catch (IOException $e) {
 }
 }
+}
+private function getMetaFile()
+{
+return $this->file.'.meta';
 }
 }
 }
@@ -1057,7 +1142,7 @@ $a = array();
 foreach ($var as $k => $v) {
 $a[] = sprintf('%s => %s', $k, $this->varToString($v));
 }
-return sprintf("Array(%s)", implode(', ', $a));
+return sprintf('Array(%s)', implode(', ', $a));
 }
 if (is_resource($var)) {
 return sprintf('Resource(%s)', get_resource_type($var));
@@ -1078,12 +1163,12 @@ return (string) $var;
 namespace Symfony\Component\HttpKernel\DependencyInjection
 {
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Scope;
 class ContainerAwareHttpKernel extends HttpKernel
 {
 protected $container;
@@ -1091,6 +1176,9 @@ public function __construct(EventDispatcherInterface $dispatcher, ContainerInter
 {
 parent::__construct($dispatcher, $controllerResolver);
 $this->container = $container;
+if (!$container->hasScope('request')) {
+$container->addScope(new Scope('request'));
+}
 }
 public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
 {
@@ -1100,35 +1188,13 @@ $this->container->set('request', $request,'request');
 try {
 $response = parent::handle($request, $type, $catch);
 } catch (\Exception $e) {
+$this->container->set('request', null,'request');
 $this->container->leaveScope('request');
 throw $e;
 }
+$this->container->set('request', null,'request');
 $this->container->leaveScope('request');
 return $response;
-}
-}
-}
-namespace Symfony\Bundle\FrameworkBundle
-{
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\HttpKernel\DependencyInjection\ContainerAwareHttpKernel;
-class HttpKernel extends ContainerAwareHttpKernel
-{
-public function forward($controller, array $attributes = array(), array $query = array())
-{
-trigger_error('forward() is deprecated since version 2.2 and will be removed in 2.3.', E_USER_DEPRECATED);
-$attributes['_controller'] = $controller;
-$subRequest = $this->container->get('request')->duplicate($query, null, $attributes);
-return $this->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
-}
-public function render($uri, array $options = array())
-{
-trigger_error('render() is deprecated since version 2.2 and will be removed in 2.3. Use Symfony\Component\HttpKernel\Fragment\FragmentHandler::render() instead.', E_USER_DEPRECATED);
-$options = $this->renderer->fixOptions($options);
-$strategy = isset($options['strategy']) ? $options['strategy'] :'default';
-unset($options['strategy']);
-$this->container->get('fragment.handler')->render($uri, $strategy, $options);
 }
 }
 }
