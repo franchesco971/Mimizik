@@ -421,7 +421,7 @@ input[type="button"] {
 	line-height:19px;
 	height:19px;
 	padding:5px 26px 5px 10px;
-	background:#272727 url(/images/search_icon.png) right 8px no-repeat;
+	background:#272727 url(images/search_icon.png) right 8px no-repeat;
 	border-color:#1B1B1B;
 	color:#666;
 	width:157px;
