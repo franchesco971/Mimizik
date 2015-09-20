@@ -1,30 +1,15 @@
 <div class="post">
-    <div class="image floatleft" >
+    <div class="image floatleft video-thumbnail" >
         <a href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
             <img src="http://img.youtube.com/vi/{{video.url}}/0.jpg" width="240" height="180" alt="{{video.titre}} mimizik" />
+        </a>
+        <a class="caption" href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
+            <span>{{video.artistes|artistsName(20)|raw}} - {{video.titre}} </span>
         </a>
     </div>
     <div class="floatleft infos_video">
         <h3 class="artistes post-title">
-        {% set nbletter=0%}
-        {% for artiste in video.artistes %} 
-            {% if nbletter<20 %}
-                <a title="{{artiste.libelle}}" href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a>
-                
-                {%set nbletter=nbletter+artiste.libelle|length%}
-                
-                {% if loop.length==2 and loop.first and nbletter<20%}
-                &amp;
-                {% elseif loop.length>2 and loop.revindex>2 and nbletter<20%}
-                ,
-                {% elseif loop.last==false and nbletter<20%}
-                &amp;
-                {%endif%}
-            {%endif%}
-            
-        {% else %}
-            <p>Inconnu</p>
-        {% endfor%}
+            {{video.artistes|artistsNameLink(20)|raw}}
         </h3>
         <h4 class="titre">
             <a title="{{video.getNomArtistes}} - {{video.titre}}" href="{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}">
