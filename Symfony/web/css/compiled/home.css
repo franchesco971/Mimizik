@@ -84,3 +84,22 @@
     width: 25px; height: 20px;
     background-position:-45px 3px;
 }
+
+#recherche
+{
+    background-color: white;overflow: hidden;
+    background: rgba(0, 0, 0, 0) url("/images/bg_black_70.png") repeat scroll 0 0;
+    padding-bottom: 20px;
+}
+#recherche .search-hidden
+{
+    height: 10px;visibility: hidden;
+}
+#recherche .search-form input[type="text"]
+{
+    width:280px;margin-left: 20px;
+}
+#recherche .search-form label
+{
+    color: #fff;font-size: 1.8em;
+}

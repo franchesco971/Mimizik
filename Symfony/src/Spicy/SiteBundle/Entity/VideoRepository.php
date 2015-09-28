@@ -214,6 +214,9 @@ class VideoRepository extends EntityRepository
     
     public function getSuggestionsArtistes($idList)
     {        
+        if(empty($idList))
+        $idList[]=0;
+        
         $qb=$this->createQueryBuilder('v')
                 ->join('v.artistes', 'a')
                 ->join('v.genre_musicaux', 'g')

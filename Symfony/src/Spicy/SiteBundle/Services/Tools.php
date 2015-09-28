@@ -22,7 +22,7 @@ class Tools {
     
     public function getAllGenresforVideoCol($videos,$getID=false) 
     {
-        $tabGenres=array();
+        $tabGenres=$tabGenresID=array();
         
         foreach ($videos as $video) {
             $genres=  $video->getGenreMusicaux();

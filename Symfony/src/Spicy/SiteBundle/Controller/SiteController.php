@@ -135,22 +135,14 @@ class SiteController extends Controller
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
                 ->getByArtiste($id,$nbSuggestion);
-        
-         if ($videos == null) {
-            throw $this->createNotFoundException('Video inexistant');
-        }
-        
+                
         $tabGenres=$toolsService->getAllGenresforVideoCol($videos);
         $tabGenresId=$toolsService->getAllGenresforVideoCol($videos,true);
         
         $suggestions=$this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
-                ->getSuggestionsArtistes($tabGenresId);
-        
-        if($suggestions == null) {
-            throw $this->createNotFoundException('Suggestion inexistant');
-        }
+                ->getSuggestionsArtistes($tabGenresId);        
 
         $tabArtistes=$toolsService->getArtistesBySuggestions($suggestions,$id);
         
