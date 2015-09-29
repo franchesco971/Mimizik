@@ -170,15 +170,6 @@
                 callback:function(){}
             });
          }
-        
-        //Social Widget
-	/*if($('.social-widget').length) {
-		if($('.social-widget .pane.twitter').length) {
-			$.getJSON('http://api.twitter.com/1/statuses/user_timeline/'+$('.pane.twitter input.twitter-username').val()+'.json?count='+parseInt($('.pane.twitter input.tweets-number').val())+'&callback=?', function(tweets) {
-				$('.social-widget .pane.twitter').html(loadTweets(tweets));
-			});
-		}
-	}*/
 	
 	//Tabs
 	if($('.tabs-container').length) {	
@@ -210,37 +201,9 @@
             //initSlider();
             initPagination();
             
-            /*$('#recherche').load(function() {
-                console.log('search');
-                $(this).addClass('search-form');
-            });
-            
-            $('form.gsc-search-box').ready(function() {
-                console.log('$(this)');
-                console.log($(this));
-                $('form.gsc-search-box').addClass('search-form');
-            });*/
-            
-            /*console.log('$(this)');
-                $('form.gsc-search-box').addClass('search-form');
-                $('.search-form input[type="text"]' ).removeAttr('style');*/
-            
-            /*setTimeout(function(){
-                console.log('$(this)');
-                $('form.gsc-search-box').addClass('search-form');
-                $('.search-form input[type="text"]' ).removeAttr('style');
-              }, 1000);*/
-            /*$('form.gsc-search-box').ready(function() {
-                console.log('azerty');
-                $('form.gsc-search-box').addClass('search-form');
-            });    */
-            
-            
-            //$('.search-form input[type="text"]' ).attr('style','');
             $('#recherche .search-form form').submit(function() {
                 //$('#recherche .search-hidden').show();
                 var val_search=$(this).find('input[type="text"]').val();
-                console.log(val_search);
                 
                 var hidden_form=$('#recherche .search-hidden form');
                 var hidden_input=hidden_form.find('.gsc-input input');
@@ -253,17 +216,17 @@
                 return false;
             });
             
-            /*$('#recherche .search-hidden form').submit(function() {
-                console.log("val_search");
-                return false;
-            });*/
+            $('#recherche .search-form input[type="text"]').focus(function() {
+                 $(this).val('');
+            });
             
         });
     </script>
-    {% javascripts  filter='?yui_js' output='js/compiled/home.js'
+    <script type="text/javascript" src="{{asset('js/jquery.ribbonSlider.js')}}" ></script>
+    {#% javascripts  filter='?yui_js' output='js/compiled/home.js'
         'js/jquery.mousewheel.min.js'
         'js/jquery.ribbonSlider.js' %}
         <script type="text/javascript" src="{{ asset_url }}" ></script>
-    {% endjavascripts %}
+    {% endjavascripts %#}
     <script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 {% endblock%}

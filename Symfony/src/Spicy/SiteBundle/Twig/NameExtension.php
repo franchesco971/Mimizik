@@ -31,18 +31,18 @@ class NameExtension extends \Twig_Extension
                 $nbletter=$nbletter+strlen($label); 
                 $block="<a title='$label' href='$link'>$label</a>";
                 $text=$text.$block;
-
+                
                 if(count($artists)==2 && $key==0)
                 {
-                    $text=$text.'&amp;';
+                    $text=$text.' &amp; ';
                 }
                 elseif (count($artists)>2 && count($artists)-$key+1>2) 
                 {
-                    $text=$text.',';
+                    $text=$text.', ';
                 }
                 elseif (count($artists)!=$key+1) 
                 {
-                    $text=$text.'&amp;';
+                    $text=$text.' &amp; ';
                 }
             }
         }
@@ -57,23 +57,21 @@ class NameExtension extends \Twig_Extension
         foreach ($artists as $key=>$artist) {
             if($nbletter<$maxNumber)
             {
-                //$link=$this->router->generate('spicy_site_artiste_slug',array('id'=>$artist->getId(),'slug'=>$artist->getSlug()));
                 $label=$artist->getLibelle();
                 $nbletter=$nbletter+strlen($label); 
-                //$block="<a title='$label' href='$link'>$label</a>";
                 $text=$text.$label;
 
                 if(count($artists)==2 && $key==0)
                 {
-                    $text=$text.'&amp;';
+                    $text=$text.' &amp; ';
                 }
                 elseif (count($artists)>2 && count($artists)-$key+1>2) 
                 {
-                    $text=$text.',';
+                    $text=$text.', ';
                 }
                 elseif (count($artists)!=$key+1) 
                 {
-                    $text=$text.'&amp;';
+                    $text=$text.' &amp; ';
                 }
             }
         }
