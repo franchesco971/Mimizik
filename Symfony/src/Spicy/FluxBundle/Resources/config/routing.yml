@@ -16,3 +16,6 @@ spicy_site_flux_artistes:
 spicy_site_flux_index:
     pattern: /index
     defaults: { _controller: SpicyFluxBundle:Flux:fluxIndex }
+mimizik_flux_videos_top:
+    pattern: /videos_top
+    defaults: { _controller: SpicyFluxBundle:Flux:fluxVideosTop }

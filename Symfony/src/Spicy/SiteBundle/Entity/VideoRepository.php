@@ -50,16 +50,14 @@ class VideoRepository extends EntityRepository
             ->setFirstResult(0)
             ->setMaxResults($nbOccurrences)
             ->addSelect('a');
-        
+                
         if($top)
         {
-            $qb->orderBy('v.onTop','DESC')->addOrderBy('v.dateVideo','DESC');
-        }
-        else
-        {
-            $qb->orderBy('v.dateVideo','DESC');
+            $qb->addOrderBy('v.onTop','DESC');
         }
         
+        $qb->addOrderBy('v.dateVideo','DESC');
+                
         $query=$qb->getQuery();
         
         return new Paginator($query);
@@ -283,5 +281,29 @@ class VideoRepository extends EntityRepository
         //return $qb->getQuery()->getResult();
         $query=$qb->getQuery();
         return new Paginator($query);
+    }
+    
+    public function getAvecArtistesFlux($nbOccurrences,$top=false)
+    {
+        $qb = $this->createQueryBuilder('v')
+            ->join('v.artistes', 'a')
+            ->join('v.genre_musicaux', 'g')
+            ->where('g.id<> :id_retro')
+            ->setParameter('id_retro', $this->retro)
+            ->andWhere('v.etat=1')           
+            ->setFirstResult(0)
+            ->setMaxResults($nbOccurrences)
+            ->addSelect('a');
+                
+        if($top)
+        {
+            $qb->andWhere('v.onTop=1');
+        }
+        
+        $qb->addOrderBy('v.dateVideo','DESC');
+                
+        $query=$qb->getQuery();
+        
+        return $query->getResult();
     }
 }

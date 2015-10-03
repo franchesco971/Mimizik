@@ -71,6 +71,9 @@
         <a class="arrow arrow-left" href="#"></a>
         <a class="arrow arrow-right" href="#"></a>
     </div>
+                {% for video in videos %}
+                    <p>{{video.id}}  </p>     
+                {% endfor %}
 {%endblock%}
 
 {% block javascripts %}

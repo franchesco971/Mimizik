@@ -19,7 +19,7 @@ class NameExtension extends \Twig_Extension
         );
     }
 
-    public function artistsNameLinkFilter($artists,$maxNumber)
+    public function artistsNameLinkFilter($artists,$maxNumber=20)
     {
         $text='';
         $nbletter=0;
@@ -32,25 +32,14 @@ class NameExtension extends \Twig_Extension
                 $block="<a title='$label' href='$link'>$label</a>";
                 $text=$text.$block;
                 
-                if(count($artists)==2 && $key==0)
-                {
-                    $text=$text.' &amp; ';
-                }
-                elseif (count($artists)>2 && count($artists)-$key+1>2) 
-                {
-                    $text=$text.', ';
-                }
-                elseif (count($artists)!=$key+1) 
-                {
-                    $text=$text.' &amp; ';
-                }
+                $text=$this->ponctuation($artists, $key,$text);
             }
         }
 
         return $text;
     }
     
-    public function artistsNameFilter($artists,$maxNumber)
+    public function artistsNameFilter($artists,$maxNumber=20)
     {
         $text='';
         $nbletter=0;
@@ -60,22 +49,29 @@ class NameExtension extends \Twig_Extension
                 $label=$artist->getLibelle();
                 $nbletter=$nbletter+strlen($label); 
                 $text=$text.$label;
-
-                if(count($artists)==2 && $key==0)
-                {
-                    $text=$text.' &amp; ';
-                }
-                elseif (count($artists)>2 && count($artists)-$key+1>2) 
-                {
-                    $text=$text.', ';
-                }
-                elseif (count($artists)!=$key+1) 
-                {
-                    $text=$text.' &amp; ';
-                }
+                
+                $text=$this->ponctuation($artists, $key,$text);
             }
         }
 
+        return $text;
+    }
+    
+    public function ponctuation($artists,$key,$text) 
+    {
+        if(count($artists)==2 && $key==0)
+        {
+            $text=$text.' &amp; ';
+        }
+        elseif (count($artists)>2 && count($artists)-$key>2) 
+        {                    
+            $text=$text.', ';
+        }
+        elseif (count($artists)-$key==2) 
+        {
+            $text=$text.' &amp; ';
+        }
+        
         return $text;
     }
 

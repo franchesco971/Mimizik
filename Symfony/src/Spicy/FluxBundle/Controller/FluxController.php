@@ -99,4 +99,21 @@ class FluxController extends Controller
             'descriptions'=>$arrayDescriptions
         ));
     }
+    
+    public function fluxVideosTopAction()
+    {
+        $videos=$this->getDoctrine()
+                ->getManager()
+                ->getRepository('SpicySiteBundle:Video')
+                ->getAvecArtistesFlux(30,true);
+        
+        if ($videos == null) {
+            throw $this->createNotFoundException('Video inexistant');
+        }
+                
+        //return $this->render('SpicySiteBundle:Site:test.html.twig',array(
+        return $this->render('SpicyFluxBundle:Flux:fluxVideos.html.twig',array(
+            'videos'=>$videos                
+        ));
+    }
 }
