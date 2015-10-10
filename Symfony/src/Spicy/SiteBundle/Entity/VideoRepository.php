@@ -297,10 +297,34 @@ class VideoRepository extends EntityRepository
                 
         if($top)
         {
-            $qb->andWhere('v.onTop=1');
+            $qb->leftJoin('v.videoRankings', 'vr')
+                    ->andWhere('v.onTop=1')
+                    ->orderBy('vr.nbVu');
         }
         
         $qb->addOrderBy('v.dateVideo','DESC');
+                
+        $query=$qb->getQuery();
+        
+        return $query->getResult();
+    }
+    
+    public function getFlux($nbOccurrences,$top=false)
+    {
+        $qb = $this->createQueryBuilder('v')
+            ->join('v.genre_musicaux', 'g')
+            ->where('g.id<> :id_retro')
+            ->setParameter('id_retro', $this->retro)
+            ->andWhere('v.etat=1')           
+            ->setFirstResult(0)
+            ->setMaxResults($nbOccurrences)
+            ->orderBy('v.dateVideo','DESC');
+                
+        if($top)
+        {
+            $qb->leftJoin('v.videoRankings', 'vr')
+                    ->andWhere('v.onTop=1');
+        }
                 
         $query=$qb->getQuery();
         

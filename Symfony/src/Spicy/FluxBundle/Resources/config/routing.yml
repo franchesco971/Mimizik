@@ -19,3 +19,6 @@ spicy_site_flux_index:
 mimizik_flux_videos_top:
     pattern: /videos_top
     defaults: { _controller: SpicyFluxBundle:Flux:fluxVideosTop }
+mimizik_flux_videos_top_twitter:
+    pattern: /videos_top_twitter
+    defaults: { _controller: SpicyFluxBundle:Flux:fluxVideosTopTwitter }

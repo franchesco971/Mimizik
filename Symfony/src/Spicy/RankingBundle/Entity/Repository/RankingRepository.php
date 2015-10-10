@@ -26,8 +26,6 @@ class RankingRepository extends EntityRepository
                 ->andWhere("r.dateRanking in (select max(ra.dateRanking) from SpicyRankingBundle:Ranking ra)"); 
         
         return $qb->getQuery()->getOneOrNullResult();
-        //$query=$qb->getQuery();
-        //return new Paginator($query);
     }
     
     public function getPreviousRanking($ranking) 
@@ -44,8 +42,6 @@ class RankingRepository extends EntityRepository
                         . "where ra.id<".$ranking->getId()." AND ra.rankingType=".RankingType::MOIS.")"); 
         
         return $qb->getQuery()->getOneOrNullResult();
-        //$query=$qb->getQuery();
-        //return new Paginator($query);
     }
     
     public function getRankings($page,$nbOccurences)
@@ -103,5 +99,13 @@ class RankingRepository extends EntityRepository
                 ->addSelect('t');
         
         return $qb->getQuery()->getResult();
+    }
+    
+    public function getLast() 
+    {
+        $qb = $this->createQueryBuilder('r')
+                ->where('r.id in (select max(ra.id) from SpicyRankingBundle:Ranking ra)');
+        
+        return $qb->getQuery()->getOneOrNullResult();
     }
 }

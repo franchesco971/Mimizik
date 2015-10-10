@@ -3,7 +3,7 @@
 <rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"> 
   <channel>
 	<title>Mimizik - Toutes les vidéos clip et la musique des antilles, de la caraïbes et de la guyane. Tout mizik la!</title>
-	<link>{{website_name}}{{path('spicy_site_flux_videos_twitter')}}</link>
+	<link>{{website_name}}</link>
 	<description>
             Mimizik est un site promotion de la musique des artistes et des vidéos clip des antilles, 
             de la caraïbes et de la guyane. Il y a tous genres musicaux (zouk, dancehall, hip-hop...) et la vidéo rétro de la semaine.
@@ -16,14 +16,14 @@
 	<image>
 	  <title>Mimizik - Toutes les vidéos clip et la musique des antilles, de la caraïbes et de la guyane. Tout mizik la!</title>
 	  <url>{{website_name}}{{asset('images/logo.png')}}</url>
-	  <link>{{website_name}}{{path('spicy_site_flux_videos_twitter')}}</link>
+	  <link>{{website_name}}</link>
 	  <width>131</width>
 	  <height>50</height>
 	</image>
-        <atom:link href="{{website_name}}{{path('spicy_site_flux_videos_twitter')}}" rel="self" type="application/rss+xml"/>  
+        <atom:link href="{{website_name}}{{selfLink}}" rel="self" type="application/rss+xml"/>  
         {% for video in videos %} 
         <item>
-            <title>{{video.getNomArtistes}} - {{video.titre}}</title>
+            <title>{{video.artistes|artistsName|raw}} - {{video.titre}}</title>
             <description>{{descriptions[video.id]}}</description>
             <link>{{website_name}}{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}</link>
             <guid isPermaLink="false">{{website_name}}{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}</guid>  
