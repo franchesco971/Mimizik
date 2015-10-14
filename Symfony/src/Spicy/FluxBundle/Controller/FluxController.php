@@ -41,7 +41,8 @@ class FluxController extends Controller
                 
         return $this->render('SpicyFluxBundle:Flux:fluxVideos.html.twig',array(
             'videos'=>$videos,
-            'selfLink'=>$this->generateUrl('spicy_site_flux_videos')                
+            'selfLink'=>$this->generateUrl('spicy_site_flux_videos'),
+            'pubDates'=>  $this->getTabData($videos)                
         ));
     }
     
@@ -63,7 +64,8 @@ class FluxController extends Controller
         return $this->render('SpicyFluxBundle:Flux:videosTwitter.html.twig',array(
             'videos'=>$videos,
             'descriptions'=>$arrayDescriptions,
-            'selfLink'=>$this->generateUrl('spicy_site_flux_videos_twitter')
+            'selfLink'=>$this->generateUrl('spicy_site_flux_videos_twitter'),
+            'pubDates'=>  $this->getTabData($videos)
         ));
     }
     
@@ -80,7 +82,8 @@ class FluxController extends Controller
         
         return $this->render('SpicyFluxBundle:Flux:fluxVideos.html.twig',array(
             'videos'=>$videos,
-            'selfLink'=>$this->generateUrl('spicy_site_flux_retro')               
+            'selfLink'=>$this->generateUrl('spicy_site_flux_retro')  ,
+            'pubDates'=>  $this->getTabData($videos)             
         ));
     }
     
@@ -101,7 +104,8 @@ class FluxController extends Controller
         return $this->render('SpicyFluxBundle:Flux:videosTwitter.html.twig',array(
             'videos'=>$videos,
             'descriptions'=>$arrayDescriptions,
-            'selfLink'=>$this->generateUrl('spicy_site_flux_retro_twitter')
+            'selfLink'=>$this->generateUrl('spicy_site_flux_retro_twitter'),
+            'pubDates'=>  $this->getTabData($videos)
         ));
     }
     
@@ -112,7 +116,8 @@ class FluxController extends Controller
         //return $this->render('SpicySiteBundle:Site:test.html.twig',array(        
         return $this->render('SpicyFluxBundle:Flux:fluxVideos.html.twig',array(
             'videos'=>$videos,
-            'selfLink'=>$this->generateUrl('mimizik_flux_videos_top')                
+            'selfLink'=>$this->generateUrl('mimizik_flux_videos_top'),
+            'pubDates'=>  $this->getTabData($videos,true)
         ));
     }
     
@@ -122,7 +127,7 @@ class FluxController extends Controller
         
         $videos=$em
                 ->getRepository('SpicySiteBundle:Video')
-                ->getFlux(7,true);
+                ->getFlux(5,true);
 
         if ($videos == null) {
             throw $this->createNotFoundException('Video inexistant');
@@ -142,8 +147,27 @@ class FluxController extends Controller
         return $this->render('SpicyFluxBundle:Flux:videosTwitter.html.twig',array(
             'videos'=>$videos,
             'descriptions'=>$arrayDescriptions,
-            'selfLink'=>$this->generateUrl('mimizik_flux_videos_top_twitter')
+            'selfLink'=>$this->generateUrl('mimizik_flux_videos_top_twitter'),
+            'pubDates'=>  $this->getTabData($videos,true)
         ));
+    }
+    
+    public function getTabData($videos,$top=false) 
+    {
+        $datas=array();
+        foreach ($videos as $video) {
+            if($top)
+            {
+                $pubDate=new \DateTime('NOW');
+            }
+            else
+            {
+                $pubDate=$video->getDateVideo();
+            }
+            $datas[$video->getId()]=array('pubDate'=>$pubDate);
+        }
+        
+        return $datas;
     }
 }
 

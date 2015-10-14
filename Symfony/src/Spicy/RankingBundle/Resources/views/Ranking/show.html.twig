@@ -30,6 +30,10 @@
             padding-left: 10px;
             padding-right: 10px;
         }
+        .hide-ranking td
+        {
+            padding: 0;
+        }
     </style> 
 {% endblock %}
 
@@ -85,31 +89,14 @@
                     </div>  
                 </div>
                     
-                <div class="content-block" style="display:none">
+                <div class="content-block hide-ranking" style="display:none">
                     <table>
                         {% for video in videos %}
                             {% set nbVideo=loop.index%}
                             {% for videoRanking in video.videoRankings %}
                             <tr>
                                 <td>{{nbVideo}}</td>
-                                <td>{% set nbletter=0%}
-                                    {% for artiste in video.artistes %} 
-                                        {% if nbletter<20 %}
-                                            <a title="{{artiste.libelle}}" href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a>
-
-                                            {%set nbletter=nbletter+artiste.libelle|length%}
-
-                                            {% if loop.length==2 and loop.first and nbletter<20%}
-                                            &amp;
-                                            {% elseif loop.length>2 and loop.revindex>2 and nbletter<20%}
-                                            ,
-                                            {% elseif loop.last==false and nbletter<20%}
-                                            &amp;
-                                            {%endif%}
-                                        {%endif%}
-
-                                    {% endfor %}
-                                </td>
+                                <td>{{video.artistes|artistsNameLink(20)|raw}}</td>
                                 <td>{{video.titre}}</td>
                                 <td>&nbsp;</td>
                                 <td>
@@ -132,6 +119,7 @@
                                 <td>{{videoRanking.nbVu}}</td>
                                 <td>&nbsp;</td>
                                 <td>http://www.mimizik.com{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}</td>
+                                <td>https://youtu.be/{{video.url}}</td>
                             </tr>
                             {% endfor %}
                         {% endfor %}
