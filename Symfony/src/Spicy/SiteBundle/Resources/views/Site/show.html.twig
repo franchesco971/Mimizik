@@ -26,6 +26,10 @@
         .twitter-like{
             display: inline-block;
         }
+        #video-content #description span
+        {
+            margin-right: 10px;
+        }
     </style>
 {% endblock %}  
     
@@ -38,7 +42,7 @@
             <div class="clear"></div>
         </div>
     </div>
-    <div class="content wrapper">
+    <div class="content wrapper " id="video-content">
         <div class="container">
             <div class="content-block" itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
                 <div class="block-title">
@@ -68,17 +72,12 @@
                 </div>
             </div>
             <div class="two-third column">
-                <div class="content-block">
+                <div class="content-block" id="description">
                     <div class="block-title"><span>Description</span></div>
                     <div class="block-content">                        
                         <p>{{lavideo.description|nl2br}}</p>
                         <p ><b class="titre">Artistes: </b>
-                            {% for artiste in lavideo.artistes %}
-                            <a title="{{artiste.libelle}}" href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a>    
-                            {% if loop.last %}
-
-                            {% elseif loop.first %} & {% else %} , {%endif%}
-                        {% endfor %}
+                            {{lavideo.artistes|artistsNameLink|raw}}
                         </p>
                         <p><b class="titre">Genres: </b>
                         {% for genre in lavideo.genreMusicaux %}
@@ -100,6 +99,7 @@
                         {% endfor %}
                         </p>
                         <p><b class="titre">Date : </b>{{lavideo.dateVideo|date('d/m/y')}}</p>
+                        <p><b class="titre">Nombre de vues ce mois-ci :</b> <span>{{nbVuMonth}}</span><b class="titre">Nombre de vues total :</b> <span>{{nbVuTotal}}</span></p>
                     </div>
                 </div>
                 <div class="content-block">

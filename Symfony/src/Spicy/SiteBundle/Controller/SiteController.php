@@ -63,10 +63,9 @@ class SiteController extends Controller
         $toolsManager = $this->container->get('mimizik.tools');
         $videoManager = $this->container->get('mimizik.videoService');
         $socialService = $this->container->get('mimizik.social');
+        $em=$this->getDoctrine()->getManager();
         
-        $video=$this->getDoctrine()
-                ->getManager()
-                ->getRepository('SpicySiteBundle:Video')
+        $video=$em->getRepository('SpicySiteBundle:Video')
                 ->getOneAvecArtistes($id);
         
          if ($video == null) {
@@ -76,18 +75,21 @@ class SiteController extends Controller
         $genres=$video->getGenreMusicaux();
         $genreIdsList=$toolsManager->getListId($genres);
         
-        $suggestions=$this->getDoctrine()
-                ->getManager()
-                ->getRepository('SpicySiteBundle:Video')
+        $suggestions=$em->getRepository('SpicySiteBundle:Video')
                 ->getSuggestions($genreIdsList,$video->getId());
         
         $tags=$socialService->getHashtags($video);
         $videoManager->increment($video);
         
+        $nbVuTotal=$em->getRepository('SpicyRankingBundle:VideoRanking')->getCountForVideo($video);
+        $currentVideoRanking=$em->getRepository('SpicyRankingBundle:VideoRanking')->getOneOfLastRanking($video);
+        
         return $this->render('SpicySiteBundle:Site:show.html.twig',array(
             'lavideo'=>$video,
             'suggestions'=>$suggestions,
-            'tags'=>$tags
+            'tags'=>$tags,
+            'nbVuTotal'=>$nbVuTotal['total'],
+            'nbVuMonth'=>$currentVideoRanking?$currentVideoRanking->getNbVu():0
         ));
     }
     

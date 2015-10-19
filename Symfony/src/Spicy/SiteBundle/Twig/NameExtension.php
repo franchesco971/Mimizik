@@ -19,7 +19,7 @@ class NameExtension extends \Twig_Extension
         );
     }
 
-    public function artistsNameLinkFilter($artists,$maxNumber=20)
+    public function artistsNameLinkFilter($artists,$maxNumber=100)
     {
         $text='';
         $nbletter=0;
@@ -39,7 +39,7 @@ class NameExtension extends \Twig_Extension
         return $text;
     }
     
-    public function artistsNameFilter($artists,$maxNumber=20)
+    public function artistsNameFilter($artists,$maxNumber=100)
     {
         $text='';
         $nbletter=0;

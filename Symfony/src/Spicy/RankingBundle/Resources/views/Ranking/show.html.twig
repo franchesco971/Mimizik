@@ -34,6 +34,10 @@
         {
             padding: 0;
         }
+        .hide-ranking table
+        {
+            margin-bottom: 20px;
+        }
     </style> 
 {% endblock %}
 
@@ -120,6 +124,16 @@
                                 <td>&nbsp;</td>
                                 <td>http://www.mimizik.com{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}</td>
                                 <td>https://youtu.be/{{video.url}}</td>
+                            </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </table>
+                    <table>
+                        {% for video in videos %}
+                            {% set nbVideo=loop.index%}
+                            {% for videoRanking in video.videoRankings %}
+                            <tr>
+                                <td>N°{{nbVideo}} : {{video.artistes|artistsNameLink()|raw}} - {{video.titre}}</td>
                             </tr>
                             {% endfor %}
                         {% endfor %}
