@@ -29,29 +29,53 @@ class SiteController extends Controller
         ));
     }
     
-    public function indexSuiteAction($page,$topVideos)
+    public function indexSuiteAction($page=1,$topVideos)
     {
         $nbResultVideoIndex=$this->container->getParameter('nbResultVideoIndex');
         $nbMainVideo=$this->container->getParameter('nbMainVideo');
+        $em=$this->getDoctrine()->getManager();
         
         $toolsManager = $this->container->get('mimizik.tools');
         $videoIdsList=$toolsManager->getListId($topVideos);
         
-        $videos=$this->getDoctrine()
-                ->getManager()
-                ->getRepository('SpicySiteBundle:Video')
+        /*$videos=$em->getRepository('SpicySiteBundle:Video')
                 ->getSuiteAvecArtistes(
                         $page,
                         $nbMainVideo,
                         $nbResultVideoIndex,
                         $videoIdsList
-                );
+                );*/
+        
+        $videos=$em->getRepository('SpicySiteBundle:Video')->getSuite($page,$nbResultVideoIndex,$videoIdsList);
         
         if ($videos == null) {
             throw $this->createNotFoundException('Video inexistant');
         }
         
         return $this->render('SpicySiteBundle:Site:indexSuite.html.twig',array(
+            'autresVideos'=>$videos,
+            'nombrePage'=>ceil((count($videos)-$nbMainVideo)/ $nbResultVideoIndex),
+            'page'=>$page
+        ));
+    }
+    
+    public function indexSuiteAjaxAction($page=1)
+    {
+        $nbResultVideoIndex=$this->container->getParameter('nbResultVideoIndex');
+        $nbMainVideo=$this->container->getParameter('nbMainVideo');
+        $em=$this->getDoctrine()->getManager();
+        $topVideos=$em->getRepository('SpicySiteBundle:Video')->getAvecArtistes($nbMainVideo,true);
+        
+        $toolsManager = $this->container->get('mimizik.tools');
+        $videoIdsList=$toolsManager->getListId($topVideos);        
+        
+        $videos=$em->getRepository('SpicySiteBundle:Video')->getSuite($page,$nbResultVideoIndex,$videoIdsList);
+        
+        if ($videos == null) {
+            throw $this->createNotFoundException('Video inexistant');
+        }
+        
+        return $this->render('SpicySiteBundle:Site:indexSuiteAjax.html.twig',array(
             'autresVideos'=>$videos,
             'nombrePage'=>ceil((count($videos)-$nbMainVideo)/ $nbResultVideoIndex),
             'page'=>$page
@@ -416,6 +440,14 @@ class SiteController extends Controller
         }
        
         return $this->redirect($url);
+    }
+    
+    public function redirectFeedbackAction(Request $request)
+    {
+        $href =$request->query->get('href');
+        $href='http://'.$href;
+
+        return $this->redirect($href);
     }
     
     public function showTopsAction($page)

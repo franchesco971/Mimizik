@@ -134,6 +134,7 @@ class FluxController extends Controller
         }
         
         shuffle($videos);
+        $videos=array_slice($videos, 0,2);
         
         return $videos;
     }

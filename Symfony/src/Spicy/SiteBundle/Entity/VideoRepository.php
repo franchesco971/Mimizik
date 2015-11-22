@@ -89,6 +89,45 @@ class VideoRepository extends EntityRepository
         //return $query->getResult();
     }
     
+    public function getSuite($page,$nbOccurrences,$videoIdsList)
+    {
+        if( $page < 1 )
+        {
+            throw $this->createNotFoundException('Page inexistante (page = '.$page.')');
+        }
+        
+        $qb = $this->createQueryBuilder('v')
+             ->join('v.genre_musicaux', 'g')
+             ->where('g.id<> :id_retro')
+             ->setParameter('id_retro', $this->retro)
+             ->andWhere('v.etat=1')
+             ->andWhere('v.id NOT IN (:list)')
+            ->setParameter('list', $videoIdsList)
+            ->setFirstResult(($page-1)*$nbOccurrences)
+            ->setMaxResults($nbOccurrences)
+            ->orderBy('v.dateVideo','DESC')
+            ;
+        $query=$qb->getQuery();
+        
+        return new Paginator($query);
+    }
+    
+    public function getSuiteAjax($videoIdsList)
+    {        
+        $qb = $this->createQueryBuilder('v')
+             ->join('v.genre_musicaux', 'g')
+             ->where('g.id<> :id_retro')
+             ->setParameter('id_retro', $this->retro)
+             ->andWhere('v.etat=1')
+             ->andWhere('v.id NOT IN (:list)')
+            ->setParameter('list', $videoIdsList)
+            ->orderBy('v.dateVideo','DESC')
+            ;
+        $query=$qb->getQuery();
+        
+        return $query->getResult();
+    }
+    
     public function getByArtiste($id,$nbOccurrences)
     {
         $qb = $this->createQueryBuilder('v')

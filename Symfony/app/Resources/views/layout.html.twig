@@ -11,7 +11,6 @@
             <meta property="og:image" content="{{asset('images/logo.png')}}" />
             <meta property="og:url" content="{{website_name}}" />
         {% endblock %}
-        <!--<meta http-equiv="Content-Language" content="fr">-->
         {% block stylesheets %}
             {% stylesheets filter='cssrewrite,?yui_css' output='css/compiled/main.css'
                 'css/style.css'
@@ -42,7 +41,7 @@
             <div class="supheader wrapper">
                 <div class="container">
                     <div class="logo">
-                        <img src="{{asset('images/logo100rouge.png')}}"  alt="Logo mimizik" />
+                        <a href="{{path("spicy_site_homepage")}}"><img src="{{asset('images/logo100rouge.png')}}"  alt="Logo mimizik" /></a>
                         <h1 style="display:none">Mimizik</h1>
                     </div>	
                     <div class="social-links">
@@ -110,7 +109,8 @@
             'js/jquery.reveal.js' 
         %}
             <script type="text/javascript" src="{{ asset_url }}" ></script>
-        {% endjavascripts %}        
+        {% endjavascripts %}       
+        <noscript>Your browser does not support JavaScript!</noscript>
     {% endblock %}
     </body>
 </html>

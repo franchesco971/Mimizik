@@ -3,6 +3,11 @@ spicy_site_homepage:
     defaults: { _controller: SpicySiteBundle:Site:index,page: 1 }
     requirements: 
         page: \d+
+mimizik_homepage_ajax:
+    pattern:  /ajax/{page}
+    defaults: { _controller: SpicySiteBundle:Site:indexSuiteAjax,page: 1 }
+    requirements: 
+        page: \d+              
 spicy_site_video_slug:
     pattern:  /video/{id}/{slug}
     defaults: { _controller: SpicySiteBundle:Site:show }
@@ -88,6 +93,9 @@ mimizik_site_redirect_youtube:
 mimizik_site_redirect_youtube_videos:
     pattern: /channel/{url}/{plus}
     defaults: { _controller: SpicySiteBundle:Site:redirectYoutube }
+mimizik_site_redirect_feedback:
+    pattern: /plugins/feedback.php
+    defaults: { _controller: SpicySiteBundle:Site:redirectFeedback }
     
 mimizik_tops:
     pattern:  /tops/{page}
