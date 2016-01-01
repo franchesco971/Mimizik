@@ -100,3 +100,7 @@ mimizik_site_redirect_feedback:
 mimizik_tops:
     pattern:  /tops/{page}
     defaults: { _controller: SpicySiteBundle:Site:showTops,page: 1 }
+    
+mimizik_genres_menu:
+    pattern: /genres_menu
+    defaults: { _controller: SpicySiteBundle:Site:Genres }

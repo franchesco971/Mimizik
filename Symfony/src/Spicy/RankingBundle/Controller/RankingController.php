@@ -3,6 +3,7 @@
 namespace Spicy\RankingBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Spicy\RankingBundle\Entity\RankingType;
 
 class RankingController extends Controller
 {
@@ -17,8 +18,26 @@ class RankingController extends Controller
         
         return $this->render('SpicyRankingBundle:Ranking:index.html.twig',array(
             'rankings'=>$rankings,
-            'nombrePage'=>ceil((count($rankings))/ $nbSuggestion),
-            'page'=>$page    
+            'nombrePage'=>ceil(count($rankings)/ $nbSuggestion),
+            'page'=>$page ,
+            'rankingType'=>  RankingType::MOIS   
+        ));
+    }
+    
+    public function indexYearAction($page)
+    {
+        $nbSuggestion=$this->container->getParameter('nbSuggestion');
+
+        $rankings=$this->getDoctrine()
+                ->getManager()
+                ->getRepository('SpicyRankingBundle:Ranking')
+                ->getRankings($page,$nbSuggestion,  RankingType::ANNEE);
+        
+        return $this->render('SpicyRankingBundle:Ranking:index.html.twig',array(
+            'rankings'=>$rankings,
+            'nombrePage'=>ceil(count($rankings)/ $nbSuggestion),
+            'page'=>$page,
+            'rankingType'=>  RankingType::ANNEE   
         ));
     }
     
@@ -27,10 +46,15 @@ class RankingController extends Controller
         $em=$this->getDoctrine()->getManager();
         $videoManager = $this->container->get('mimizik.videoService');
         
-        $ranking=$videoManager->getRanking(true);//last ranking
+        $ranking=$videoManager->getRanking(RankingType::MOIS);//last ranking
+        
+        if(!$ranking)//mauvais id
+        {
+            throw new \Exception('Classement indisponible');
+        }
         $previousRanking=$em->getRepository('SpicyRankingBundle:Ranking')->getPreviousRanking($ranking);
         
-        $videos=$em->getRepository('SpicySiteBundle:Video')->getTopByMonth($ranking,3);
+        $videos=$em->getRepository('SpicySiteBundle:Video')->getTopByDate($ranking,3);
         
         
         return $this->render('SpicyRankingBundle:Ranking:showLast.html.twig', array(
@@ -40,19 +64,31 @@ class RankingController extends Controller
         ));
     }
     
-    public function showAction($id)
+    public function showAction($id,$type_id)
     {
         $em=$this->getDoctrine()->getManager();
-        $videoManager = $this->container->get('mimizik.videoService');
+//        $videoManager = $this->container->get('mimizik.videoService');
         
-        $ranking=$videoManager->getRanking(false,$id);
-        $now=new \DateTime("now");
+        //$ranking=$videoManager->getRanking($id);
+        $ranking=$em->getRepository('SpicyRankingBundle:Ranking')->getOne($id);
+        
+        if(!$ranking)//mauvais id
+        {
+            throw new \Exception('Classement indisponible');
+        }
+        
         $previousRanking=$em->getRepository('SpicyRankingBundle:Ranking')->getPreviousRanking($ranking);
         
-        $videos=$em->getRepository('SpicySiteBundle:Video')->getTopByMonth($ranking);
-        //var_dump($ranking->getEndRanking());
-        //var_dump($now);
-        //exit;
+        $max=10;
+        
+        if($type_id==RankingType::MOIS)
+            $max=10;
+        
+        if($type_id==RankingType::ANNEE)
+            $max=30;
+        
+        $videos=$em->getRepository('SpicySiteBundle:Video')->getTopByDate($ranking,$max);
+        
         return $this->render('SpicyRankingBundle:Ranking:show.html.twig', array(
             'ranking' => $ranking,
             'previousRanking'=>$previousRanking,

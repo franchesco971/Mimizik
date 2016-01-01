@@ -136,12 +136,12 @@
                 </div>
             </div>
                 
-                <div class="content-block">
+            <div class="content-block" id="last-ranking">
                 <div class="block-title">
                     <span>Dernier classement</span>
                 </div>
-                <div class="block-content">
-                    {{ render(controller("SpicyRankingBundle:Ranking:showLast"))}}
+                <div class="block-content last">
+                    
                 </div>
             </div>
         </div>
@@ -232,6 +232,14 @@
             $('#recherche .search-form input[type="text"]').focus(function() {
                  $(this).val('');
             });
+            
+            $.ajax({
+                url: "{{ path('mimizik_ranking_last_show')}}",
+                context: document.body
+              })
+            .done(function(html) {
+                $('#last-ranking .last').html(html);
+            })
             
         });
     </script>

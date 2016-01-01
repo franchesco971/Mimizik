@@ -5,6 +5,7 @@ namespace Spicy\RankingBundle\Entity\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Spicy\RankingBundle\Entity\RankingType;
+use Spicy\RankingBundle\Entity\Ranking;
 
 /**
  * NewsRepository
@@ -28,7 +29,7 @@ class RankingRepository extends EntityRepository
         return $qb->getQuery()->getOneOrNullResult();
     }
     
-    public function getPreviousRanking($ranking) 
+    public function getPreviousRanking(Ranking $ranking) 
     {
         $qb = $this->createQueryBuilder('r')
                 ->leftJoin('r.videoRankings', 'vr')
@@ -39,24 +40,23 @@ class RankingRepository extends EntityRepository
                 ->where('g.id<> :id_retro')
                 ->setParameter('id_retro', 2)
                 ->andWhere("r.id in (select max(ra.id) from SpicyRankingBundle:Ranking ra "
-                        . "where ra.id<".$ranking->getId()." AND ra.rankingType=".RankingType::MOIS.")"); 
+                        . "where ra.id<".$ranking->getId()." AND ra.rankingType=".$ranking->getRankingType()->getId().")"); 
         
         return $qb->getQuery()->getOneOrNullResult();
     }
     
-    public function getRankings($page,$nbOccurences)
+    public function getRankings($page,$nbOccurences,$type=RankingType::MOIS)
     {
         $qb = $this->createQueryBuilder('r')
                 ->leftJoin('r.videoRankings', 'vr')
                 ->leftJoin('vr.video', 'v')
                 ->leftJoin('v.genre_musicaux', 'g', 'WITH', 'g.id<> :id_retro')
                 ->leftJoin('v.type_videos', 't', 'WITH', 't.id<> :id_type')
+                ->leftJoin('r.rankingType', 'rt')
+                ->andWhere('rt.id=:type')
                 ->setParameter('id_retro', 2)
                 ->setParameter('id_type', 1)
-                ->addSelect('vr')
-                ->addSelect('v')
-                ->addSelect('g')
-                ->addSelect('t')
+                ->setParameter('type', $type)
                 ->setFirstResult(($page-1)*$nbOccurences)
                 ->setMaxResults($nbOccurences);
         
@@ -83,22 +83,27 @@ class RankingRepository extends EntityRepository
         return $qb->getQuery()->getOneOrNullResult();
     }
     
-    public function getByDate() 
+    public function getByDate($type=  RankingType::MOIS) 
     {
+        $now=new \DateTime("now");
+        
         $qb = $this->createQueryBuilder('r')
+                ->leftJoin('r.rankingType', 'rt')
                 ->leftJoin('r.videoRankings', 'vr')
                 ->leftJoin('vr.video', 'v')
                 ->leftJoin('v.genre_musicaux', 'g', 'WITH', 'g.id<> :id_retro')
                 ->leftJoin('v.type_videos', 't', 'WITH', 't.id<> :id_type')
+                ->where('r.startRanking<:now')
+                ->andWhere('r.endRanking>:now')
+                ->andWhere('rt.id=:type')
                 ->addOrderBy('r.dateRanking','DESC')
                 ->addOrderBy('vr.nbVu','DESC')
                 ->setParameter('id_retro', 2)
                 ->setParameter('id_type', 1)
-                ->addSelect('vr')
-                ->addSelect('v')
-                ->addSelect('t');
+                ->setParameter('now', $now)
+                ->setParameter('type', $type);
         
-        return $qb->getQuery()->getResult();
+        return $qb->getQuery()->getOneOrNullResult();
     }
     
     public function getLast() 

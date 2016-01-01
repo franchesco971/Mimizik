@@ -60,13 +60,17 @@
                         <ul id="menu-main-menu" class="menu">
                             <li><a title="Accueil Mimizik" href="{{path('spicy_site_homepage')}}">Accueil</a></li>
                             <li><a title="Liste des artistes" href="{{path('spicy_site_artistes')}}">Artistes</a></li>
-                            <li>
-                                <a>Genres musicaux</a>
-                                {{ render(controller("SpicySiteBundle:Site:genres"))}}
+                            <li id="genresMenu">                                
                             </li>
                             <li><a title="Hashtags" href="{{path('mimizik_hashtag')}}">Hashtags</a></li>
                             <li><a title="Tops" href="{{path('mimizik_tops')}}">Tops</a></li>
-                            <li><a title="Classements" href="{{path('mimizik_ranking_index')}}">Classements</a></li>
+                            <li>
+                                <a>Classements</a>
+                                <ul class="sub-menu" >
+                                    <li><a title="Classements mensuel" href="{{path('mimizik_ranking_index')}}">Mensuel</a></li></li>
+                                    <li><a title="Classements annuel" href="{{path('mimizik_year_ranking_index')}}">Annuel</a></li></li>
+                                </ul>
+                            </li>    
                             <li><a title="Contact" href="{{path('spicy_site_contact')}}">Contact</a></li>
                         </ul>
                     </div>
@@ -111,6 +115,21 @@
             <script type="text/javascript" src="{{ asset_url }}" ></script>
         {% endjavascripts %}       
         <noscript>Your browser does not support JavaScript!</noscript>
+        
+        <script type="text/javascript">
+
+            // When document is ready, initialize pagination
+            $(document).ready(function(){      
+                $.ajax({
+                    url: "{{ path('mimizik_genres_menu')}}",
+                    context: document.body
+                  })
+                .done(function(html) {
+                    $('#genresMenu').html(html);
+                })
+            });
+        </script>
     {% endblock %}
+    
     </body>
 </html>

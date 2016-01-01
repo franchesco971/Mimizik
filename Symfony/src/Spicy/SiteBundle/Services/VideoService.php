@@ -10,6 +10,7 @@ use Spicy\RankingBundle\Entity\RankingType;
 use Spicy\RankingBundle\Entity\VideoRanking;
 use Spicy\SiteBundle\Entity\GenreMusical;
 use Spicy\SiteBundle\Services\ParseurXMLYoutube;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class VideoService
 {
@@ -26,8 +27,8 @@ class VideoService
     
     public function increment(Video $video) 
     {
-        $ipInterdites=array('46.218.242.177','82.229.222.236','127.0.0.1');
-        //$ipInterdites=array();
+        //$ipInterdites=array('46.218.242.177','82.229.222.236','127.0.0.1');
+        $ipInterdites=array();
         $valid=true;
         foreach ($video->getGenreMusicaux() as $genre) {
             $idGenre=$genre->getId();
@@ -40,78 +41,57 @@ class VideoService
         if(!in_array($_SERVER['REMOTE_ADDR'], $ipInterdites) && $valid)            
         {
             $nbVu=0;
-            $ranking=$this->getRanking();
+            $ranking=$this->getRanking(RankingType::MOIS);
+            $yearRanking=$this->getRanking(RankingType::ANNEE);
             
-            $videoRanking = $this->em->getRepository('SpicyRankingBundle:VideoRanking')
-                    ->getOne($video,$ranking);
-            
-            /** base vide ***/
-            if ($videoRanking == null) 
-            {
-                $videoRanking=  $this->createVideoRanking($ranking,$video);
-            }
-            else
-            {
-                $nbVu=$videoRanking->getNbVu()+1;
-                $videoRanking->setNbVu($nbVu);
-            }
-                        
-            $this->em->persist($videoRanking);
-            $this->em->flush();
+            $this->incrementVideoRanking($video,$ranking);
+            $this->incrementVideoRanking($video,$yearRanking);
         }
     }
     
-    public function getRanking($last=true,$id=0) 
+    public function getRanking($type=  RankingType::MOIS) 
     {
-        $lastRanking=$this->getLastRanking();
-                
-        if(!$last && $id)//un classement en particulier
-        {
-            $ranking=$this->em->getRepository('SpicyRankingBundle:Ranking')->getOne($id);
-            
-            if(!$ranking)//mauvais id
-            {
-                throw new \Exception('Classement indisponible');
-            }
-        }
-        else //le dernier classement
-        {
-            $ranking=$lastRanking;
-        }        
+        $now=new \DateTime("now");
+        $ranking=$this->em->getRepository('SpicyRankingBundle:Ranking')->getByDate($type);                
         
         /*** base de donnee vide**/
-        if ($lastRanking == null) {
-            $this->logger->info("Creation d'un ranking ");
-            $this->logger->error("Base de donnee vide last=$last et id=$id");
-            $ranking=$this->createRanking();
-        }
-        else
-        {
-            $now=new \DateTime("now");
-            /*** s'il en faut un nouveau **/
-            if($ranking->getEndRanking()<$now && $last)
-            {
-                /**** fige les positions du classement précédent **/
-                $this->setPositions($ranking);      
-                /**** crée un nouveau classement ***/
-                $this->logger->info("Creation d'un ranking");
-                $this->logger->error('Crée un nouveau classement'.$ranking->getEndRanking()->format('Y-m-d H:i:sP').'<'.$now->format('Y-m-d H:i:sP'));
-                $ranking=$this->createRanking();
-            }
+        if ($ranking == null) {
+                  
+            /**** crée un nouveau classement ***/
+            $this->logger->info("Creation d'un ranking de type $type ");            
+            $ranking=$this->createRanking($type);
+            $this->logger->error('Crée un nouveau classement '.$ranking->getStartRanking()->format('Y-m-d H:i:sP').'/ '.$ranking->getEndRanking()->format('Y-m-d H:i:sP').' à '.$now->format('Y-m-d H:i:sP'));
+            
+            $previousRanking=$this->em->getRepository('SpicyRankingBundle:Ranking')->getPreviousRanking($ranking);
+            
+            /**** fige les positions du classement précédent **/
+            if($previousRanking)
+            $this->setPositions($previousRanking);
         }
         
         return $ranking;
     }
     
-    public function createRanking() 
+    public function createRanking($type) 
     {
         $now=new \DateTime("now");        
         
         $ranking=new Ranking();
         $dateRanking=$now;
-        $startRanking=new \DateTime("first day of this month");
-        $endRanking=new \DateTime("first day of next month");
-        $rankingType=$this->em->getRepository('SpicyRankingBundle:RankingType')->find(RankingType::MOIS);
+        if($type==RankingType::MOIS)
+        {
+            $startRanking=new \DateTime("first day of this month");
+            $endRanking=new \DateTime("first day of next month");
+        }
+        elseif ($type==RankingType::ANNEE) 
+        {
+            $startRanking=new \DateTime("first day of this year");
+            $endRanking=new \DateTime("first day of next year");
+        }
+        
+        $startRanking->setTime(0, 0, 1);        
+        $endRanking->setTime(0, 0, 0);
+        $rankingType=$this->em->getRepository('SpicyRankingBundle:RankingType')->find($type);
 
         $ranking->setDateRanking($dateRanking);
         $ranking->setStartRanking($startRanking);
@@ -222,22 +202,6 @@ class VideoService
         return $icon;
     }
     
-    public function getLastRanking() 
-    {
-        $rankings=new \Doctrine\Common\Collections\ArrayCollection();
-        $rankings=$this->em->getRepository('SpicyRankingBundle:Ranking')->getByDate();
-        
-        if(empty($rankings))
-        {
-            $this->logger->info("empty rankings");
-            return NULL;
-        }
-        else
-        {
-            return $rankings[0];
-        }
-    }
-    
     public function setYoutubeData(Video $video,$idYoutube) 
     {
         $this->parser->setDocument("http://gdata.youtube.com/feeds/api/videos/$idYoutube");
@@ -246,6 +210,26 @@ class VideoService
         $video->setUrl($idYoutube);
                 
         return $video;
+    }
+    
+    public function incrementVideoRanking($video,$ranking) 
+    {
+        $videoRanking = $this->em->getRepository('SpicyRankingBundle:VideoRanking')
+                    ->getOne($video,$ranking);
+            
+        /** base vide ***/
+        if ($videoRanking == null) 
+        {
+            $videoRanking=  $this->createVideoRanking($ranking,$video);
+        }
+        else
+        {
+            $nbVu=$videoRanking->getNbVu()+1;
+            $videoRanking->setNbVu($nbVu);
+        }
+
+        $this->em->persist($videoRanking);
+        $this->em->flush();
     }
 }
 

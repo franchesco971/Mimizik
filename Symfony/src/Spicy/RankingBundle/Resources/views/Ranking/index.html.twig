@@ -55,9 +55,9 @@
                             <tr><th>Classements</th><th></th></tr>
                         {% for ranking in rankings %}         
                             <tr>
-                                <td><a href="{{ path('mimizik_ranking_show',{'id':ranking.id})}}">Classement du {{ranking.dateRanking|date('m/y')}}</a></td>
+                                <td><a href="{{ path('mimizik_ranking_show',{'id':ranking.id,'type_id':ranking.rankingType.id})}}">Classement du {{ranking.dateRanking|date('m/y')}}</a></td>
                                 <td class="link">
-                                    <a class="button" href="{{ path('mimizik_ranking_show',{'id':ranking.id})}}"><span>Voir le classement</span></a>
+                                    <a class="button" href="{{ path('mimizik_ranking_show',{'id':ranking.id,'type_id':ranking.rankingType.id})}}"><span>Voir le classement</span></a>
                                 </td>
                             </tr>          
                         {% endfor %}
@@ -94,8 +94,8 @@
             // Create content inside pagination element
             $("#Pagination").pagination(num_entries, {
                 //callback: pageselectCallback,
-                items_per_page:20, // Show only one item per page
-                link_to:"{{ path('mimizik_ranking_index',{'page':'__id__'})}}",
+                items_per_page:10, // Show only one item per page
+                link_to:"{{ path('mimizik_ranking_index',{'page':'__id__','type_id':rankingType})}}",
                 current_page:{{page-1}},
                 prev_text:"Prèc.",
                 next_text:"Suiv.",

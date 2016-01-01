@@ -294,8 +294,12 @@ class SiteController extends Controller
         
         //$objJSON=$youtubeAPI->getJSONResponse(0,0);
         //var_dump($objJSON->items[0]->snippet);
-        $arrayResult=$youtubeAPI->getArrayResult('KGzlYk8YXTA',$developerKey);
-        var_dump($arrayResult);
+        //$arrayResult=$youtubeAPI->getArrayResult('KGzlYk8YXTA',$developerKey);
+//        $startRanking=new \DateTime("first day of this year");
+//        $startRanking->setTime(0, 0, 0);
+//        $now=new \DateTime("now");
+        //$ranking=$em->getRepository('SpicyRankingBundle:Ranking')->getLastByDate();
+        var_dump($_SERVER['REMOTE_ADDR']);
         
         return $this->render('SpicySiteBundle:Site:test.html.twig',array(
             'test'=>$test
