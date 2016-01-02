@@ -27,8 +27,8 @@ class VideoService
     
     public function increment(Video $video) 
     {
-        //$ipInterdites=array('46.218.242.177','82.229.222.236','127.0.0.1');
-        $ipInterdites=array();
+        $ipInterdites=array('46.218.242.177','82.229.222.236','127.0.0.1');
+        //$ipInterdites=array();
         $valid=true;
         foreach ($video->getGenreMusicaux() as $genre) {
             $idGenre=$genre->getId();

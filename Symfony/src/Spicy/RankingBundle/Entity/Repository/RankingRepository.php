@@ -54,6 +54,7 @@ class RankingRepository extends EntityRepository
                 ->leftJoin('v.type_videos', 't', 'WITH', 't.id<> :id_type')
                 ->leftJoin('r.rankingType', 'rt')
                 ->andWhere('rt.id=:type')
+                ->orderBy('r.id','DESC')
                 ->setParameter('id_retro', 2)
                 ->setParameter('id_type', 1)
                 ->setParameter('type', $type)

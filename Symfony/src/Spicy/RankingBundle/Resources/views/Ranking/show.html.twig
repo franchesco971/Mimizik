@@ -46,7 +46,14 @@
     
     <div class="page-title wrapper">
         <div class="container">
+            {%set number=10%}
+            {% if ranking.rankingType.id == constant('MOIS',ranking.rankingType)%}
+                {%set number=10%}
             <span>Classement du {{ranking.dateRanking|date('m/y')}}</span>
+            {% elseif ranking.rankingType.id == constant('ANNEE',ranking.rankingType)%}
+                {%set number=30%}
+            <span>Classement de {{ranking.dateRanking|date('Y')}}</span>
+            {% endif%}
             <div class="clear"></div>
         </div>
     </div>
@@ -55,7 +62,7 @@
             <div class="two-third column">
                 
                 <div class="content-block">
-                    <div class="block-title"><span>Top 10</span></div>
+                    <div class="block-title"><span>Top {{number}}</span></div>
                     <div class="block-content">
                         <div class="featured-blog">
                             <div class="retour"><a class="button dark" href="{{ path('mimizik_ranking_index',{'page':1})}}"><span>Retour</span></a></div>

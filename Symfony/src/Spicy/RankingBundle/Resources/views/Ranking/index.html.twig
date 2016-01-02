@@ -1,10 +1,22 @@
 {% extends "SpicySiteBundle::layout.html.twig" %}
 
+{% set MOIS = constant('Spicy\\RankingBundle\\Entity\\RankingType::MOIS') %}
+{% set ANNEE = constant('Spicy\\RankingBundle\\Entity\\RankingType::ANNEE') %}
+
+{% set type_ranking = "mois" %}  
+{%if rankingType == MOIS%}
+    {% set type_ranking = "mois" %}        
+{% elseif rankingType == ANNEE%}
+    {% set type_ranking = "année" %}  
+{%endif%}
+
 {% block title %}
-{{ parent() }} : Tous les classements par mois de Mimizik
+    
+    {{ parent() }}{{" : Tous les classements par "~type_ranking~" de Mimizik"}}
 {% endblock %}
 
 {% block meta_description %}
+    
     <meta name="Description" content="Tous les classements par mois de Mimizik."/> 
 {% endblock %}
 
@@ -41,8 +53,8 @@
     {{ parent() }}
     
     <div class="page-title wrapper">
-        <div class="container">
-            <span>Les classements par mois de Mimizik</span>
+        <div class="container">            
+            <span>Les classements par {{type_ranking}} de Mimizik</span>
             <div class="clear"></div>
         </div>
     </div>
@@ -55,7 +67,13 @@
                             <tr><th>Classements</th><th></th></tr>
                         {% for ranking in rankings %}         
                             <tr>
-                                <td><a href="{{ path('mimizik_ranking_show',{'id':ranking.id,'type_id':ranking.rankingType.id})}}">Classement du {{ranking.dateRanking|date('m/y')}}</a></td>
+                                <td>
+                                    {%if rankingType == MOIS%}
+                                    <a href="{{ path('mimizik_ranking_show',{'id':ranking.id,'type_id':ranking.rankingType.id})}}">Classement du {{ranking.dateRanking|date('m/y')}}</a>
+                                    {% elseif rankingType == ANNEE%}
+                                    <a href="{{ path('mimizik_ranking_show',{'id':ranking.id,'type_id':ranking.rankingType.id})}}">Classement de {{ranking.dateRanking|date('Y')}}</a>
+                                    {% endif%}
+                                </td>
                                 <td class="link">
                                     <a class="button" href="{{ path('mimizik_ranking_show',{'id':ranking.id,'type_id':ranking.rankingType.id})}}"><span>Voir le classement</span></a>
                                 </td>
