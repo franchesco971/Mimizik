@@ -114,4 +114,17 @@ class RankingRepository extends EntityRepository
         
         return $qb->getQuery()->getOneOrNullResult();
     }
+    
+    public function getRankingsByType($nbOccurences,$type=RankingType::MOIS)
+    {
+        $qb = $this->createQueryBuilder('r')
+                ->leftJoin('r.rankingType', 'rt')
+                ->where('rt.id=:type')
+                ->orderBy('r.id','DESC')
+                ->setParameter('type', $type)
+                ->setFirstResult(1)
+                ->setMaxResults($nbOccurences);
+        
+        return $qb->getQuery()->getResult();
+    }
 }

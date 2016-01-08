@@ -68,11 +68,13 @@
                         {% for ranking in rankings %}         
                             <tr>
                                 <td>
+                                    <a href="{{ path('mimizik_ranking_show',{'id':ranking.id,'type_id':ranking.rankingType.id})}}">
                                     {%if rankingType == MOIS%}
-                                    <a href="{{ path('mimizik_ranking_show',{'id':ranking.id,'type_id':ranking.rankingType.id})}}">Classement du {{ranking.dateRanking|date('m/y')}}</a>
+                                    Classement du {{ranking.dateRanking|date('m/y')}}
                                     {% elseif rankingType == ANNEE%}
-                                    <a href="{{ path('mimizik_ranking_show',{'id':ranking.id,'type_id':ranking.rankingType.id})}}">Classement de {{ranking.dateRanking|date('Y')}}</a>
+                                    Classement de {{ranking.dateRanking|date('Y')}}
                                     {% endif%}
+                                    </a>
                                 </td>
                                 <td class="link">
                                     <a class="button" href="{{ path('mimizik_ranking_show',{'id':ranking.id,'type_id':ranking.rankingType.id})}}"><span>Voir le classement</span></a>

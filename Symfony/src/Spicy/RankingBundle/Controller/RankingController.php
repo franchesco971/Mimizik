@@ -95,4 +95,16 @@ class RankingController extends Controller
             'videos'=>$videos
         ));
     }
+    
+    public function ajaxRankingSideAction($type) 
+    {
+        $em=$this->getDoctrine()->getManager();
+        
+        $rankings=$em->getRepository('SpicyRankingBundle:Ranking')->getRankingsByType(5,$type);
+        
+        return $this->render('SpicyRankingBundle:Ranking:_side.html.twig', array(
+            'rankings' => $rankings,
+            'rankingType'=>$type
+        ));
+    }
 }

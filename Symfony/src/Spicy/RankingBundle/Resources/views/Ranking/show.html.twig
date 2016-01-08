@@ -153,8 +153,25 @@
                         {% include "SpicySiteBundle:Ads:encart_droit_adsense.html.twig" %}
                     </div>
                 </div>
-                
+                <div class="content-block">
+                    <div class="block-content" id="side_ranking">
+                        
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+    <script type="text/javascript">
+        $.ajax({
+            url: "{{ path('mimizik_ajax_ranking_side',{'type':ranking.rankingType.id})}}",
+            context: document.body
+          })
+        .done(function(html) {
+            $('#side_ranking').html(html);
+        })
+    </script>
 {% endblock %}

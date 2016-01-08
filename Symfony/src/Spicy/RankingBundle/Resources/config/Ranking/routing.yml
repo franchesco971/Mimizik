@@ -18,3 +18,7 @@ mimizik_ranking_index:
 mimizik_year_ranking_index:
     pattern:  /year/{page}
     defaults: { _controller: SpicyRankingBundle:Ranking:indexYear,page: 1 }
+    
+mimizik_ajax_ranking_side:
+    pattern:  /side/{type}
+    defaults: { _controller: SpicyRankingBundle:Ranking:ajaxRankingSide }
