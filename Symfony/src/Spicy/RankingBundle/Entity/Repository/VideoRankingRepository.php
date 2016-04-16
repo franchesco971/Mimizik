@@ -4,6 +4,7 @@ namespace Spicy\RankingBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Spicy\RankingBundle\Entity\Ranking;
+use Spicy\RankingBundle\Entity\RankingType;
 use Spicy\SiteBundle\Entity\Video;
 
 /**
@@ -40,7 +41,11 @@ class VideoRankingRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('vr')
                 ->select('SUM(vr.nbVu) as total')
+                ->leftJoin('vr.ranking', 'r')
+                ->leftJoin('r.rankingType', 'rt')
                 ->where('vr.video=:video')
+                ->andWhere('rt.id=:rtid')
+                ->setParameter('rtid', RankingType::MOIS)
                 ->setParameter('video', $video->getId());
         
         return $qb->getQuery()->getOneOrNullResult();
