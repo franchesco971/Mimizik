@@ -1,0 +1,7 @@
+mimizik_app_fb_token:
+    pattern:  /token
+    defaults: { _controller: SpicyAppBundle:Facebook:token }
+    
+mimizik_app_fb_login:
+    pattern:  /login
+    defaults: { _controller: SpicyAppBundle:Facebook:login }

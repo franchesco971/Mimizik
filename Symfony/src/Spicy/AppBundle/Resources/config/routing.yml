@@ -1,0 +1,3 @@
+mimizik_app_fb:
+    resource: "@SpicyAppBundle/Resources/config/Facebook/routing.yml"
+    prefix:   /facebook

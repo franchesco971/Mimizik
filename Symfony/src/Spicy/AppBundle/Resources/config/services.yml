@@ -1,0 +1,7 @@
+parameters:
+#    spicy_app.example.class: Spicy\AppBundle\Example
+
+services:
+#    spicy_app.example:
+#        class: %spicy_app.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

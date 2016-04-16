@@ -24,7 +24,8 @@
         "stof/doctrine-extensions-bundle":"dev-master",
         "friendsofsymfony/user-bundle": "dev-master",
         "winzou/console-bundle": "dev-master",
-        "symfony/twig-bundle": "2.3.*"
+        "symfony/twig-bundle": "2.3.*",
+        "facebook/php-sdk-v4" : "~5.0"
     },
     "scripts": {
         "post-install-cmd": [

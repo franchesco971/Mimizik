@@ -114,6 +114,9 @@ throw new RuntimeException(sprintf('You cannot set service "%s" of inactive scop
 }
 $this->scopedServices[$scope][$id] = $service;
 }
+if (isset($this->aliases[$id])) {
+unset($this->aliases[$id]);
+}
 $this->services[$id] = $service;
 if (method_exists($this, $method ='synchronize'.strtr($id, $this->underscoreMap).'Service')) {
 $this->$method();
@@ -184,9 +187,7 @@ try {
 $service = $this->$method();
 } catch (\Exception $e) {
 unset($this->loading[$id]);
-if (array_key_exists($id, $this->services)) {
 unset($this->services[$id]);
-}
 if ($e instanceof InactiveScopeException && self::EXCEPTION_ON_INVALID_REFERENCE !== $invalidBehavior) {
 return;
 }
@@ -210,9 +211,8 @@ return isset($this->services[$id]) || array_key_exists($id, $this->services);
 public function getServiceIds()
 {
 $ids = array();
-$r = new \ReflectionClass($this);
-foreach ($r->getMethods() as $method) {
-if (preg_match('/^get(.+)Service$/', $method->name, $match)) {
+foreach (get_class_methods($this) as $method) {
+if (preg_match('/^get(.+)Service$/', $method, $match)) {
 $ids[] = self::underscore($match[1]);
 }
 }
@@ -304,7 +304,7 @@ return strtr(ucwords(strtr($id, array('_'=>' ','.'=>'_ ','\\'=>'_ '))), array(' 
 }
 public static function underscore($id)
 {
-return strtolower(preg_replace(array('/([A-Z]+)([A-Z][a-z])/','/([a-z\d])([A-Z])/'), array('\\1_\\2','\\1_\\2'), strtr($id,'_','.')));
+return strtolower(preg_replace(array('/([A-Z]+)([A-Z][a-z])/','/([a-z\d])([A-Z])/'), array('\\1_\\2','\\1_\\2'), str_replace('_','.', $id)));
 }
 }
 }
@@ -390,11 +390,11 @@ protected $booted;
 protected $name;
 protected $startTime;
 protected $loadClassCache;
-const VERSION ='2.3.32';
-const VERSION_ID ='20332';
-const MAJOR_VERSION ='2';
-const MINOR_VERSION ='3';
-const RELEASE_VERSION ='32';
+const VERSION ='2.3.39';
+const VERSION_ID = 20339;
+const MAJOR_VERSION = 2;
+const MINOR_VERSION = 3;
+const RELEASE_VERSION = 39;
 const EXTRA_VERSION ='';
 public function __construct($environment, $debug)
 {
@@ -735,10 +735,7 @@ $dumper = new PhpDumper($container);
 if (class_exists('ProxyManager\Configuration') && class_exists('Symfony\Bridge\ProxyManager\LazyProxy\PhpDumper\ProxyDumper')) {
 $dumper->setProxyDumper(new ProxyDumper(md5((string) $cache)));
 }
-$content = $dumper->dump(array('class'=> $class,'base_class'=> $baseClass,'file'=> (string) $cache));
-if (!$this->debug) {
-$content = static::stripComments($content);
-}
+$content = $dumper->dump(array('class'=> $class,'base_class'=> $baseClass,'file'=> (string) $cache,'debug'=> $this->debug));
 $cache->write($content, $container->getResources());
 }
 protected function getContainerLoader(ContainerInterface $container)
@@ -762,14 +759,15 @@ $rawChunk ='';
 $output ='';
 $tokens = token_get_all($source);
 $ignoreSpace = false;
-for (reset($tokens); false !== $token = current($tokens); next($tokens)) {
-if (is_string($token)) {
+for ($i = 0; isset($tokens[$i]); ++$i) {
+$token = $tokens[$i];
+if (!isset($token[1]) ||'b"'=== $token) {
 $rawChunk .= $token;
 } elseif (T_START_HEREDOC === $token[0]) {
 $output .= $rawChunk.$token[1];
 do {
-$token = next($tokens);
-$output .= $token[1];
+$token = $tokens[++$i];
+$output .= isset($token[1]) &&'b"'!== $token ? $token[1] : $token;
 } while ($token[0] !== T_END_HEREDOC);
 $rawChunk ='';
 } elseif (T_WHITESPACE === $token[0]) {
@@ -788,6 +786,10 @@ $ignoreSpace = true;
 }
 }
 $output .= $rawChunk;
+if (PHP_VERSION_ID >= 70000) {
+unset($tokens, $rawChunk);
+gc_mem_caches();
+}
 return $output;
 }
 public function serialize()
@@ -809,8 +811,8 @@ private $prefix;
 protected $decorated;
 public function __construct($prefix, $decorated)
 {
-if (!extension_loaded('apc')) {
-throw new \RuntimeException('Unable to use ApcClassLoader as APC is not enabled.');
+if (!function_exists('apcu_fetch')) {
+throw new \RuntimeException('Unable to use ApcClassLoader as APC is not installed.');
 }
 if (!method_exists($decorated,'findFile')) {
 throw new \InvalidArgumentException('The class finder must implement a "findFile" method.');
@@ -835,8 +837,8 @@ return true;
 }
 public function findFile($class)
 {
-if (false === $file = apc_fetch($this->prefix.$class)) {
-apc_store($this->prefix.$class, $file = $this->decorated->findFile($class));
+if (false === $file = apcu_fetch($this->prefix.$class)) {
+apcu_store($this->prefix.$class, $file = $this->decorated->findFile($class));
 }
 return $file;
 }
@@ -952,13 +954,16 @@ public function registerCommands(Application $application)
 if (!is_dir($dir = $this->getPath().'/Command')) {
 return;
 }
+if (!class_exists('Symfony\Component\Finder\Finder')) {
+throw new \RuntimeException('You need the symfony/finder component to register bundle commands.');
+}
 $finder = new Finder();
 $finder->files()->name('*Command.php')->in($dir);
 $prefix = $this->getNamespace().'\\Command';
 foreach ($finder as $file) {
 $ns = $prefix;
 if ($relativePath = $file->getRelativePath()) {
-$ns .='\\'.strtr($relativePath,'/','\\');
+$ns .='\\'.str_replace('/','\\', $relativePath);
 }
 $r = new \ReflectionClass($ns.'\\'.$file->getBasename('.php'));
 if ($r->isSubclassOf('Symfony\\Component\\Console\\Command\\Command') && !$r->isAbstract() && !$r->getConstructor()->getNumberOfRequiredParameters()) {

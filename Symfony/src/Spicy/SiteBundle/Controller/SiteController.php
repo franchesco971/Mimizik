@@ -9,6 +9,8 @@ use Spicy\SiteBundle\Entity\TypeVideo;
 use Spicy\SiteBundle\Entity\GenreMusical;
 use Spicy\SiteBundle\Form\TypeVideoType;
 use Symfony\Component\HttpFoundation\Request;
+use Facebook\Facebook;
+use Facebook\Exceptions as FacebookExceptions;
 
 class SiteController extends Controller
 {
@@ -258,48 +260,7 @@ class SiteController extends Controller
         $youtubeAPI = $this->container->get('mimizik.youtube.api');
         $developerKey=$this->container->getParameter('developer_key');
         $test='';
-        //$ranking=$em->getRepository('SpicyRankingBundle:Ranking')->getLastRanking();
-        //$rankings=$em->getRepository('SpicyRankingBundle:Ranking')->getByDate();
-        
-        //var_dump($ranking);
-        //var_dump($rankings);
-        //exit;
-        
-        /*$videoRankings=$em->getRepository('SpicyRankingBundle:VideoRanking')->findBy(array('ranking'=>2));
-        var_dump(count($videoRankings));
-        $videoRankingsPost=$em->getRepository('SpicyRankingBundle:VideoRanking')->findBy(array('ranking'=>4));
-        var_dump(count($videoRankingsPost));
-        
-        foreach ($videoRankings as $videoRanking) {
-            $videoId=$videoRanking->getVideo()->getId();
-            
-            foreach ($videoRankingsPost as $videoRankingPost) {
-                $videoIdPost=$videoRankingPost->getVideo()->getId();
-                if($videoId==$videoIdPost)
-                {
-                    $videoRanking->setNbVu($videoRanking->getNbVu()+$videoRankingPost->getNbVu());
-                }
-            }
-            //$em->persist($videoRanking);
-        }
-        
-        //$em->flush();*/
-        
-        /*$parseur = $this->container->get('mimizik.parseur.youtube');
-        
-        $parseur->setDocument('http://gdata.youtube.com/feeds/api/videos/qPZn9qsoh8M');
-        
-        var_dump($parseur->get('content'));
-        var_dump($parseur->get('name'));*/
-        
-        //$objJSON=$youtubeAPI->getJSONResponse(0,0);
-        //var_dump($objJSON->items[0]->snippet);
-        //$arrayResult=$youtubeAPI->getArrayResult('KGzlYk8YXTA',$developerKey);
-//        $startRanking=new \DateTime("first day of this year");
-//        $startRanking->setTime(0, 0, 0);
-//        $now=new \DateTime("now");
-        //$ranking=$em->getRepository('SpicyRankingBundle:Ranking')->getLastByDate();
-        var_dump($_SERVER['REMOTE_ADDR']);
+
         
         return $this->render('SpicySiteBundle:Site:test.html.twig',array(
             'test'=>$test
