@@ -4,6 +4,7 @@ namespace Spicy\AppBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 use Facebook\Facebook;
+use Spicy\SiteBundle\Entity\Video;
 
 class FacebookManager
 {
@@ -21,6 +22,16 @@ class FacebookManager
               ]);
         
         return $fb;
+    }
+    
+    public function getMessage(Video $video) 
+    {
+        $message='Nouveau titre sur Mimizik.com : ';
+        $message=$message.$video->getNomArtistes().' - '.$video->getTitre().'. ';
+        $message=$message.$video->getDescription();
+        $message=$message.' #mimizik';
+        
+        return $message;
     }
 }
 

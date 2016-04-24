@@ -20,7 +20,7 @@ class FacebookController extends Controller
         
         $facebookManager = $this->container->get('mimizik.app.facebook.manager');       
         
-        if(!isset($_SESSION['facebook_access_token']) || $_SESSION['facebook_access_token']!='')
+        if(!isset($_SESSION['FB_USER_ACCESS_TOKEN']) || $_SESSION['FB_USER_ACCESS_TOKEN']!='')
         {                        
             $fb=$facebookManager->getFacebookObject();
 
@@ -48,55 +48,69 @@ class FacebookController extends Controller
         
         $facebookManager = $this->container->get('mimizik.app.facebook.manager');
         $em=$this->getDoctrine()->getManager();
-        $video=$em->getRepository('SpicySiteBundle:Video')->find($_SESSION['id_video_publish']);
+        $videoId=(isset($_SESSION['id_video_publish']))?$_SESSION['id_video_publish']:0;
+        $video=$em->getRepository('SpicySiteBundle:Video')->find($videoId);
         $pageId=$this->container->getParameter('app_fb_page_id');
         
         if ($video == null) {
             throw $this->createNotFoundException('Video inexistant');
         }
         
-        $fb=$facebookManager->getFacebookObject();
-        
-        $helper = $fb->getRedirectLoginHelper();
-        
-        
-        
-        try {
-          $accessToken = $helper->getAccessToken();
-        } catch(\Facebook\Exceptions\FacebookResponseException $e) {
-          // When Graph returns an error
-          echo 'Graph returned an error: ' . $e->getMessage();
-          exit;
-        } catch(\Facebook\Exceptions\FacebookSDKException $e) {
-          // When validation fails or other local issues
-          echo 'Facebook SDK returned an error: ' . $e->getMessage();
-          exit;
-        }                
-        
-        $response=$fb->get("/$pageId?fields=access_token",$accessToken);
+        if(!isset($_SESSION['FB_USER_ACCESS_TOKEN']) || $_SESSION['FB_USER_ACCESS_TOKEN']!='')
+        {        
+            $fb=$facebookManager->getFacebookObject();
 
-        $accessToken=json_decode($response->getBody())->access_token;
-
-        if (isset($accessToken)) {
-            // Logged in!
-            $accessToken=$_SESSION['facebook_access_token'] = (string) $accessToken;
+            $helper = $fb->getRedirectLoginHelper();               
 
             try {
-                // Returns a `Facebook\FacebookResponse` object
-                  $date=new \DateTime('NOW');
-                  $date=$date->modify( '+15 minutes' );
-                  $message='Nouveau titre sur Mimizik.com : ';
-                  $message=$message.$video->getDescription();
-                  $message=$message.' #mimizik';
+              $userAccessToken = $helper->getAccessToken();
+            } catch(\Facebook\Exceptions\FacebookResponseException $e) {
+              // When Graph returns an error
+              echo 'Graph returned an error: ' . $e->getMessage();
+              exit;
+            } catch(\Facebook\Exceptions\FacebookSDKException $e) {
+              // When validation fails or other local issues
+              echo 'Facebook SDK returned an error: ' . $e->getMessage();
+              exit;
+            } 
+            
+            $_SESSION['FB_USER_ACCESS_TOKEN']=$userAccessToken;
+        }
+        else
+        {
+            $userAccessToken=$_SESSION['FB_USER_ACCESS_TOKEN'];
+        }
+        
+        if(!isset($_SESSION['FB_PAGE_ACCESS_TOKEN']) || $_SESSION['FB_PAGE_ACCESS_TOKEN']!='')
+        {
+            $response=$fb->get("/$pageId?fields=access_token",$userAccessToken);
 
-                $params=[
-                    'message' => $message,
-                    'published'=>false,
-                    'scheduled_publish_time'=>  $date->getTimestamp(),
-                    'link'=>$this->generateUrl('spicy_site_video_slug',array('id'=>$video->getId(),'slug'=>$video->getSlug()),true)
-                ];
-                
-                $response = $fb->post("/$pageId/feed", $params, $accessToken);
+            $pageAccessToken=json_decode($response->getBody())->access_token;
+            
+            $_SESSION['FB_PAGE_ACCESS_TOKEN']=$pageAccessToken;
+        }
+        else
+        {
+            $pageAccessToken=$_SESSION['FB_PAGE_ACCESS_TOKEN'];
+        }        
+        
+
+        if (isset($pageAccessToken)) {
+            // Logged in!
+            
+            $date=new \DateTime('NOW');
+            $date=$date->modify( '+15 minutes' );
+
+            $params=[
+                'message' => $facebookManager->getMessage($video),
+                'published'=>false,
+                'scheduled_publish_time'=>  $date->getTimestamp(),
+                'link'=>$this->generateUrl('spicy_site_video_slug',array('id'=>$video->getId(),'slug'=>$video->getSlug()),true)
+            ];
+
+            try {
+                // Returns a `Facebook\FacebookResponse` object                                  
+                $response = $fb->post("/$pageId/feed", $params, $pageAccessToken);
                 
             } catch(Facebook\Exceptions\FacebookResponseException $e) {
               echo 'Graph returned an error: ' . $e->getMessage();
@@ -106,7 +120,7 @@ class FacebookController extends Controller
               exit;
             }
 
-          $graphNode = $response->getGraphNode();
+          //$graphNode = $response->getGraphNode();
             return $this->redirect($this->generateUrl('spicy_admin_home_video'));
         }
         else
