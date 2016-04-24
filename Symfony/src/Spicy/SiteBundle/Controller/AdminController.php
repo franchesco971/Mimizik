@@ -72,17 +72,18 @@ class AdminController extends Controller
         $form= $this->createForm(new VideoType,$video);    
             
         if ($request->getMethod() == 'POST') {
-          $form->bind($request);
+            $form->bind($request);
 
-          if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();            
-            $em->persist($video);
-            $em->flush();
-            
-            $this->get('session')->getFlashBag()->add('info','Video bien ajouté');
-            
-            return $this->redirect($this->generateUrl('spicy_admin_home_video'));
-          }
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();            
+                $em->persist($video);
+                $em->flush();
+
+                $this->get('session')->getFlashBag()->add('info','Video bien ajouté');
+                $_SESSION['id_video_publish']=$video->getId();
+
+                return $this->redirect($this->generateUrl('mimizik_app_fb_login'));
+            }
         }
         
         return $this->render('SpicySiteBundle:Admin:addVideo.html.twig',array(

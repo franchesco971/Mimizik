@@ -1,6 +1,6 @@
 spicy_app:
     resource: "@SpicyAppBundle/Resources/config/routing.yml"
-    prefix:   /app/
+    prefix:   /apps/
 
 spicy_ranking:
     resource: "@SpicyRankingBundle/Resources/config/routing.yml"
