@@ -125,6 +125,13 @@ class Video
     private $videoRankings;
     
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="nextPublishDate", type="datetime", nullable=true)
+     */
+    private $nextPublishDate;
+    
+    /**
      * Constructor
      */
     public function __construct()
@@ -627,5 +634,28 @@ class Video
     public function getVideoRankings()
     {
         return $this->videoRankings;
+    }
+
+    /**
+     * Set nextPublishDate
+     *
+     * @param \DateTime $nextPublishDate
+     * @return Video
+     */
+    public function setNextPublishDate($nextPublishDate)
+    {
+        $this->nextPublishDate = $nextPublishDate;
+    
+        return $this;
+    }
+
+    /**
+     * Get nextPublishDate
+     *
+     * @return \DateTime 
+     */
+    public function getNextPublishDate()
+    {
+        return $this->nextPublishDate;
     }
 }

@@ -18,6 +18,9 @@ class VideoService
     protected $logger;
     protected $parser;
     
+    const TOP_VIDEO=1;
+    const NEW_VIDEO=2;
+
     public function __construct(EntityManager $entityManager, Logger $logger,ParseurXMLYoutube $parser)
     {
         $this->em = $entityManager;
@@ -230,6 +233,44 @@ class VideoService
 
         $this->em->persist($videoRanking);
         $this->em->flush();
+    }
+    
+    public function videosTop($nbVideosTop,$nbResult)
+    {        
+        $videos=$this->em
+                ->getRepository('SpicySiteBundle:Video')
+                ->getFlux($nbVideosTop,true);
+
+        if (empty($videos)) {
+            throw new \Exception ('Video inexistant', 404);
+        }
+        
+        $videos=$this->getRandVideos($videos, $nbResult);
+        
+        return $videos;
+    }
+    
+    public function getRandVideos($videos,$nbVideos) {
+        shuffle($videos);
+        $videos=array_slice($videos, 0,$nbVideos);
+        return $videos;
+    }
+    
+    public function getMessage(Video $video,$type=self::NEW_VIDEO) 
+    {
+        if($type==self::TOP_VIDEO)
+        {
+            $message='Vidéo #Top10mimizik >> ';
+        }
+        else {
+            $message='Nouveau titre sur Mimizik.com : ';
+        }        
+        
+        $message=$message.$video->getNomArtistes().' - '.$video->getTitre().'. ';
+        $message=$message.$video->getDescription();
+        $message=$message.' #mimizik';
+        
+        return $message;
     }
 }
 

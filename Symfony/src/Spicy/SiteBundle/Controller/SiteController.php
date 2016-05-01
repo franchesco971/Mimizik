@@ -256,11 +256,28 @@ class SiteController extends Controller
     
     public function testAction()
     {
-        $em=$this->getDoctrine()->getManager();
-        $youtubeAPI = $this->container->get('mimizik.youtube.api');
-        $developerKey=$this->container->getParameter('developer_key');
-        $test='';
-
+        $videoManager = $this->container->get('mimizik.videoService');
+        $randTopVideos=$videoManager->videosTop(10,10);
+        $dateDemain=new \DateTime('TOMORROW');
+        var_dump($dateDemain);
+        foreach ($randTopVideos as $randTopVideo) {
+            $date=$randTopVideo->getNextPublishDate();
+            
+            if($date)
+            {
+                var_dump($date);
+                $date=$date->format('Y-m-d');
+                var_dump('$date');
+                $date=new \DateTime($date);
+                if($date==$dateDemain)
+                {
+                    
+                }    
+                var_dump($date->modify('+16 hours'));
+                var_dump('**');
+            }
+        }
+        $test=$randTopVideo;
         
         return $this->render('SpicySiteBundle:Site:test.html.twig',array(
             'test'=>$test

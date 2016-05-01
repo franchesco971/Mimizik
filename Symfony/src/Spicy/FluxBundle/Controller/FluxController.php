@@ -111,7 +111,8 @@ class FluxController extends Controller
     
     public function fluxVideosTopAction()
     {
-        $videos=$this->videosTop();
+        $videoService = $this->container->get('mimizik.videoService');
+        $videos=$videoService->videosTop(5,2);
         
         //return $this->render('SpicySiteBundle:Site:test.html.twig',array(        
         return $this->render('SpicyFluxBundle:Flux:fluxVideos.html.twig',array(
@@ -119,24 +120,6 @@ class FluxController extends Controller
             'selfLink'=>$this->generateUrl('mimizik_flux_videos_top'),
             'pubDates'=>  $this->getTabData($videos,true)
         ));
-    }
-    
-    public function videosTop()
-    {
-        $em=$this->getDoctrine()->getManager();
-        
-        $videos=$em
-                ->getRepository('SpicySiteBundle:Video')
-                ->getFlux(5,true);
-
-        if ($videos == null) {
-            throw $this->createNotFoundException('Video inexistant');
-        }
-        
-        shuffle($videos);
-        $videos=array_slice($videos, 0,2);
-        
-        return $videos;
     }
     
     public function fluxVideosTopTwitterAction()
