@@ -131,15 +131,15 @@ class VideoService
                 {
                     $videoRanking->setPosition($position);
                     //recuperer l'ancien classement pour comparer
-                    if($previousRanking!=NULL)
+                    if($previousRanking)
                     {
                         $videoRanking=$this->compareRanking($videoRanking,$previousRanking);
-                    }
-
-                    $this->em->persist($videoRanking);  
+                    } 
                 }
                 $position++;
             }
+            
+            $this->em->flush();
         }
     }
     
