@@ -272,5 +272,12 @@ class VideoService
         
         return $message;
     }
+    
+    public function getCleanLink($link) {
+        $link = str_replace("https", "http", $link);
+        $link = str_replace("/app_dev.php/", "/", $link);
+        
+        return $link;
+    }
 }
 

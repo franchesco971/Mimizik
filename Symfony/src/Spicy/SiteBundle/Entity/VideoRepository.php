@@ -129,17 +129,21 @@ class VideoRepository extends EntityRepository
         return $query->getResult();
     }
     
-    public function getByArtiste($id,$nbOccurrences)
+    public function getByArtiste($id,$nbOccurrences=null,$first=0)
     {
         $qb = $this->createQueryBuilder('v')
              ->join('v.artistes', 'a')
                 ->where('a.id=:id')
                 ->setParameter('id', $id)
              ->andWhere('v.etat=1')
-                ->addOrderBy('v.dateVideo','DESC')
-                ->setFirstResult(0)
-                ->setMaxResults($nbOccurrences)
+                ->addOrderBy('v.dateVideo','DESC')                                
              ->addSelect('a');
+        
+        if($nbOccurrences)
+        {
+            $qb->setFirstResult($first)
+            ->setMaxResults($nbOccurrences);
+        }
         
         return $qb->getQuery()
             ->getResult();

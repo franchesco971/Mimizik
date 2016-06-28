@@ -25,16 +25,17 @@ spicy_site_artistes:
     requirements: 
         page: \d+
 spicy_site_artiste_slug:
-    pattern: /artiste/{id}/{slug}
-    defaults: { _controller: SpicySiteBundle:Site:showArtiste }
+    pattern: /artiste/{id}/{slug}/{page}
+    defaults: { _controller: SpicySiteBundle:Site:showArtiste, page: 1 }
     requirements:
         slug: "[a-zA-Z0-9-_]+"
         id: \d+
+        page: \d+
 spicy_site_artiste:
     pattern: /artiste/{id}
     defaults: { _controller: SpicySiteBundle:Site:showArtiste }
     requirements: 
-        id: \d+
+        id: \d+        
 mimizik_show_artiste_js:
     pattern: /artiste/
     defaults: { _controller: SpicySiteBundle:Site:showArtiste }

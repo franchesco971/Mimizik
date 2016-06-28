@@ -60,7 +60,26 @@
                          {%else%}
                             <p>Pas de vidéos de cette artiste</p>
                          {% endfor %}
-                            <div id="Pagination" ></div>
+                            <div id="Pagination" class="pagination" ></div>
+                            <ul class="pagination">
+                                {% if page==1%}
+                                    {% set nbprec=null%}
+                                    {% set nbsuiv=2%}
+                                {% elseif page==nbVideos %}
+                                    {% set nbprec=page-1%}
+                                    {% set nbsuiv=null%}
+                                {% else %}
+                                    {% set nbprec=page-1%}
+                                    {% set nbsuiv=page+1%}
+                                {% endif %}
+                                
+                                <li class="prev"><a href="{% if nbprec%}{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":nbprec})}}{% else %}#{% endif %}">précédent</a></li>
+                                {% for i in 1..(nbVideos/10)+1 %}
+                                    
+                                    <li ><a class="{% if i==page%}current{% endif %}" href="{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":i})}}">{{i}}</a></li>
+                                {% endfor %}
+                                <li class="next"><a href="{% if nbsuiv%}{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":nbsuiv})}}{% else %}#{% endif %}">suivant</a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>

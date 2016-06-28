@@ -64,10 +64,10 @@ class FacebookController extends Controller
             // Si la video est active
             if($video->getEtat())
             {
-                $date=$video->getDateVideo();
+                $date=new \DateTime('NOW');
                 $publishDate=$date->modify( '+15 minutes' );
                 $link=$this->generateUrl('spicy_site_video_slug',array('id'=>$video->getId(),'slug'=>$video->getSlug()),true);
-                $link = str_replace("https", "http", $link);
+                $link = $videoManager->getCleanLink($link);
 
                 $params=[
                     'message' => $videoManager->getMessage($video),
@@ -87,8 +87,8 @@ class FacebookController extends Controller
                 foreach ($randTopVideos as $randTopVideo) {
                     $date=$randTopVideo->getNextPublishDate();
                     $publishDate=$publishDate->modify('+16 hours');
-                    $link=$this->generateUrl('spicy_site_video_slug',array('id'=>$video->getId(),'slug'=>$video->getSlug()),true);
-                    $link = str_replace("https", "http", $link);
+                    $link=$this->generateUrl('spicy_site_video_slug',array('id'=>$randTopVideo->getId(),'slug'=>$randTopVideo->getSlug()),true);
+                    $link = $videoManager->getCleanLink($link);
                     
                     $paramsTop=[
                         'message' => $videoManager->getMessage($randTopVideo,$videoManager::TOP_VIDEO),
