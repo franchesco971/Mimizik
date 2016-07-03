@@ -34,10 +34,9 @@ class RankingRepository extends EntityRepository
         $qb = $this->createQueryBuilder('r')
                 ->leftJoin('r.videoRankings', 'vr')
                 ->leftJoin('vr.video', 'v')
-                ->join('v.genre_musicaux', 'g')
+                ->leftJoin('v.genre_musicaux', 'g', 'WITH', 'g.id<> :id_retro')
                 ->addOrderBy('r.dateRanking','DESC')
                 ->addSelect('vr')
-                ->where('g.id<> :id_retro')
                 ->setParameter('id_retro', 2)
                 ->andWhere("r.id in (select max(ra.id) from SpicyRankingBundle:Ranking ra "
                         . "where ra.id<".$ranking->getId()." AND ra.rankingType=".$ranking->getRankingType()->getId().")"); 

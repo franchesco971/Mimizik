@@ -268,7 +268,9 @@ class SiteController extends Controller
     
     public function testAction()
     {
-        $videoManager = $this->container->get('mimizik.videoService');
+        $test=[];
+        $em=$this->getDoctrine()->getManager();
+        /*$videoManager = $this->container->get('mimizik.videoService');
         $randTopVideos=$videoManager->videosTop(10,10);
         $dateDemain=new \DateTime('TOMORROW');
         var_dump($dateDemain);
@@ -289,7 +291,12 @@ class SiteController extends Controller
                 var_dump('**');
             }
         }
-        $test=$randTopVideo;
+        $test=$randTopVideo;*/
+        $ranking=$em->getRepository('SpicyRankingBundle:Ranking')->getLastRanking();
+        
+        $previousRanking=$em->getRepository('SpicyRankingBundle:Ranking')->getPreviousRanking($ranking);
+        var_dump($ranking);
+        var_dump($previousRanking);
         
         return $this->render('SpicySiteBundle:Site:test.html.twig',array(
             'test'=>$test
