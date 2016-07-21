@@ -73,6 +73,14 @@ class Artiste
      * @ORM\Column(name="dateArtiste", type="datetime")
      */
     private $dateArtiste;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="instagram", type="text")
+     * 
+     */
+    private $instagram;
 
     public function __construct() {
         $this->dateArtiste=new \DateTime;
@@ -247,5 +255,51 @@ class Artiste
     public function getHashtags()
     {
         return $this->hashtags;
+    }
+
+    /**
+     * Set instagram
+     *
+     * @param string $instagram
+     * @return Artiste
+     */
+    public function setInstagram($instagram)
+    {
+        $this->instagram = $instagram;
+    
+        return $this;
+    }
+
+    /**
+     * Get instagram
+     *
+     * @return string 
+     */
+    public function getInstagram()
+    {
+        return $this->instagram;
+    }
+
+    /**
+     * Add hashtags
+     *
+     * @param \Spicy\TagBundle\Entity\Hashtag $hashtags
+     * @return Artiste
+     */
+    public function addHashtag(\Spicy\TagBundle\Entity\Hashtag $hashtags)
+    {
+        $this->hashtags[] = $hashtags;
+    
+        return $this;
+    }
+
+    /**
+     * Remove hashtags
+     *
+     * @param \Spicy\TagBundle\Entity\Hashtag $hashtags
+     */
+    public function removeHashtag(\Spicy\TagBundle\Entity\Hashtag $hashtags)
+    {
+        $this->hashtags->removeElement($hashtags);
     }
 }

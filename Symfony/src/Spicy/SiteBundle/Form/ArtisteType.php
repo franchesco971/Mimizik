@@ -15,6 +15,7 @@ class ArtisteType extends AbstractType
             ->add('description','textarea')
             ->add('tag_facebook','text', array('required' => false))
             ->add('tag_twitter','text', array('required' => false))
+            ->add('instagram','text', array('required' => false))
             ->add('hashtags', 'entity', array(
                 'class'    => 'SpicyTagBundle:Hashtag',
                 'property' => 'libelle',
