@@ -132,14 +132,19 @@ a, h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover, .rele
     padding: 3px 0 1px;
 }
 .social-links-description a {
-    background: url("/images/social_icons.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: url("/images/sprites-social.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     display: block;
     float: right;
-    height: 25px;
+    height: 48px;
     margin-left: 10px;
-    width: 24px;
+    width: 48px;
 }
-.social-links-description a.twitter { background-position: -306px 0; }
+.social-links-description a.facebook { background-position: -48px -48px; }
+.social-links-description a.twitter { background-position: 0 -48px; }
+.social-links-description a.instagram { background-position: -240px -48px; }
+.social-links-description a.facebook:hover { background-position: -48px -0; }
+.social-links-description a.twitter:hover { background-position: 0 0; }
+.social-links-description a.instagram:hover { background-position: -240px 0; }
 .block-title h1,.block-title h2{line-height:1em;word-spacing:0px;font-size:1.3em;margin-bottom: 0px;}
 .block-title h1 a,.block-title h2 a{color: #EE3450;}
 .content-block .block-title > h1,.content-block .block-title > h2 {

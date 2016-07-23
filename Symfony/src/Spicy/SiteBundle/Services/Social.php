@@ -22,6 +22,21 @@ class Social
         return $link;
     }
     
+    public function getInstagramLink(Artiste $artiste)
+    {
+        $link='';
+        $instagram=$artiste->getInstagram();
+        
+        if($instagram!='')
+        {
+            $link='https://www.instagram.com/';
+        }
+        
+        $link=$link.$instagram;
+        
+        return $link;
+    }
+    
     public function getArrayTwitterLink(Artiste $artiste) 
     {
         $arrayTags=$this->getArrayTag(';',$artiste->getTagTwitter());

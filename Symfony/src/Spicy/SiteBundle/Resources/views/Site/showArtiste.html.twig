@@ -46,6 +46,9 @@
                                     {% for twitterLink in twitterLinks %}
                                         <a title="Twitter" class="twitter" href="{{twitterLink}}" target="_blank"></a>
                                     {% endfor %}
+                                    {% if instaLink!='' %}
+                                        <a title="Instagram" class="instagram" href="{{instaLink}}" target="_blank"></a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -73,9 +76,9 @@
                                     {% set nbsuiv=page+1%}
                                 {% endif %}
                                 
-                                <li class="prev"><a href="{% if nbprec%}{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":nbprec})}}{% else %}#{% endif %}">précédent</a></li>
-                                {% for i in 1..(nbVideos/10)+1 %}
-                                    
+                                <li class="prev"><a href="{% if nbprec%}{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":nbprec})}}{% else %}#{% endif %}">précédent</a></li>                                
+                                {% set nbpages=(nbVideos/10)|round%}
+                                {% for i in 1..nbpages %}                                    
                                     <li ><a class="{% if i==page%}current{% endif %}" href="{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":i})}}">{{i}}</a></li>
                                 {% endfor %}
                                 <li class="next"><a href="{% if nbsuiv%}{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":nbsuiv})}}{% else %}#{% endif %}">suivant</a></li>

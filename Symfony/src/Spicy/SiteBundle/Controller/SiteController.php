@@ -170,7 +170,7 @@ class SiteController extends Controller
             $tabVideos=array_slice($videos,0,10);
         }
         elseif ($page>1) {
-            $nbVids=($page*10)-11;
+            $nbVids=($page*10)-10;
             $tabVideos=array_slice($videos,$nbVids,10);
         }
                 
@@ -185,11 +185,13 @@ class SiteController extends Controller
         $tabArtistes=$toolsService->getArtistesBySuggestions($suggestions,$id);
         
         $fbLink=$socialService->getFacebookLink($artiste);
+        $instaLink=$socialService->getInstagramLink($artiste);
         $twitterLinks=$socialService->getArrayTwitterLink($artiste);
         
         return $this->render('SpicySiteBundle:Site:showArtiste.html.twig',array(
             'fbLink'=>$fbLink,
             'twitterLinks'=>$twitterLinks,
+            'instaLink'=>$instaLink,
             'videos'=>$tabVideos,
             'artiste'=>$artiste,
             'genres'=>$tabGenres,

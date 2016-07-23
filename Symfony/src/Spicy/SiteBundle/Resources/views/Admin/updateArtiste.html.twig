@@ -44,6 +44,14 @@
         </div>
         
         <div class="label">
+            {{ form_label(form.instagram) }}
+            {{ form_errors(form.instagram) }}
+        </div>
+        <div class="input">
+            {{ form_widget(form.instagram) }}
+        </div>
+        
+        <div class="label">
             {{ form_label(form.hashtags) }}
             {{ form_errors(form.hashtags) }}
         </div>
