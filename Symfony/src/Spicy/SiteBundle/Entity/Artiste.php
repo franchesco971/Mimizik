@@ -77,8 +77,7 @@ class Artiste
     /**
      * @var string
      *
-     * @ORM\Column(name="instagram", type="text")
-     * 
+     * @ORM\Column(name="instagram", type="text", nullable=true) 
      */
     private $instagram;
 
