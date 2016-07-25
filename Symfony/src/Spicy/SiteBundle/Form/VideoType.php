@@ -49,6 +49,18 @@ class VideoType extends AbstractType
                     }
                 )
             )
+            ->add('collaborateurs', 'entity', array(
+                'class'    => 'SpicySiteBundle:Collaborateur',
+                'property' => 'name',
+                'attr' => array('size' => 10),
+                'multiple' => true,
+                'required'=>false,
+                'query_builder' => function(
+                    \Doctrine\ORM\EntityRepository $er) {
+                        return $er->createQueryBuilder('c')->orderBy('c.name', 'ASC');
+                    }
+                )
+            )
             ->add('genre_musicaux', 'entity', array(
                 'class'    => 'SpicySiteBundle:GenreMusical',
                 'property' => 'libelle',

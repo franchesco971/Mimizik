@@ -144,7 +144,7 @@ class SiteController extends Controller
         ));
     }
     
-    public function showArtisteAction($id,$page)
+    public function showArtisteAction($id,$page=1)
     {
         $nbSuggestion=$this->container->getParameter('nbSuggestion');
         $socialService = $this->container->get('mimizik.social');

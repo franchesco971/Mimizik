@@ -99,6 +99,16 @@
         </div>
         
         <div class="label">
+            {{ form_label(form.collaborateurs) }}
+            {{ form_errors(form.collaborateurs) }}
+        </div>
+        <div class="input">
+            {{ form_widget(form.collaborateurs) }}
+            <a href="#" data-reveal-id="modal_hashtag" id="modal_new_collaborateur">Cr&eacute;e un collaborateur</a>
+            <div class="loading"></div>
+        </div>
+        
+        <div class="label">
             {{ form_label(form.genre_musicaux) }}
             {{ form_errors(form.genre_musicaux) }}
         </div>
@@ -128,11 +138,7 @@
 {% block javascripts %}
     {{parent()}}
     <script type="text/javascript">
-        $("#spicy_sitebundle_videotype_artistes").select2({
-            width: '200px'
-        });
-        
-        $("#spicy_sitebundle_videotype_hashtags").select2({
+        $("#spicy_sitebundle_videotype_artistes,#spicy_sitebundle_videotype_hashtags,#spicy_sitebundle_videotype_collaborateurs").select2({
             width: '200px'
         });
         
@@ -142,6 +148,20 @@
             $.ajax({
                 type: "POST",
                 url: "{{ path('admin_hashtag_new_modal')}}",
+                cache: false,
+                success: function(data){
+                   $('#modal_hashtag .content').html(data);
+                   $('#modal_hashtag').reveal();
+                   $(".loading").hide();
+                }
+            });    
+            return false;
+        });
+        $("#modal_new_collaborateur").click(function(){ 
+            $(".loading").show();
+            $.ajax({
+                type: "POST",
+                url: "{{ path('admin_collaborateur_new_modal')}}",
                 cache: false,
                 success: function(data){
                    $('#modal_hashtag .content').html(data);

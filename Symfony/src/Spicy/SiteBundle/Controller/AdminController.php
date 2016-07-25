@@ -3,6 +3,7 @@
 namespace Spicy\SiteBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 use Spicy\SiteBundle\Entity\Video;
 use Spicy\SiteBundle\Form\VideoType;
@@ -13,7 +14,8 @@ use Spicy\SiteBundle\Entity\GenreMusical;
 use Spicy\SiteBundle\Form\GenreMusicalType;
 use Spicy\SiteBundle\Entity\Artiste;
 use Spicy\SiteBundle\Form\ArtisteType;
-
+use Spicy\SiteBundle\Entity\Collaborateur;
+use Spicy\SiteBundle\Form\CollaborateurType;
 
 class AdminController extends Controller
 {
@@ -545,5 +547,39 @@ class AdminController extends Controller
         return $this->render('SpicySiteBundle:Admin:csv.html.twig',array(
             'txt'=>$txt
         ));
+    }
+    
+    public function modalNewCollaborateurAction()
+    {
+        $entity = new Collaborateur();
+        $form   = $this->createForm(new CollaborateurType(), $entity);
+
+        return $this->render('SpicySiteBundle:Admin:Collaborateur/modalNew.html.twig',array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+    
+    public function modalCreateCollaborateurAction(Request $request)
+    {
+        $entity  = new Collaborateur();
+        $refererUrl = $this->getRequest()->headers->get("referer");
+        $form = $this->createForm(new CollaborateurType(), $entity);
+        $form->bind($request);
+                        
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+            
+            return $this->redirect($refererUrl);
+        }
+        
+        $this->get('session')->getFlashBag()->add(
+            'notice',
+            'Erreur dans la creation du collaborateur'
+        );
+        
+        return $this->redirect($refererUrl);
     }
 }

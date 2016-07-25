@@ -125,3 +125,11 @@ admin_hashtag_delete:
 admin_add_video_youtube:
     pattern:  /add_video_youtube
     defaults: { _controller: SpicySiteBundle:Admin:addVideoYoutube }
+    
+admin_collaborateur_new_modal:  
+    pattern:  /collaborateur/new_modal
+    defaults: { _controller: SpicySiteBundle:Admin:modalNewCollaborateur }
+    
+admin_collaborateur_create_modal:  
+    pattern:  /collaborateur/create_modal
+    defaults: { _controller: SpicySiteBundle:Admin:modalCreateCollaborateur }

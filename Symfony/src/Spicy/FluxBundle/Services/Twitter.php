@@ -95,7 +95,9 @@ class Twitter
         $nbTypeTwitterTag=0;
         $description='';
         
+        $arrayTwitterCollabs=$this->getArrayTwitterCollabs($video);
         $arrayTwitterTags=$this->getArrayTwitterTags($video);
+        $arrayTwitterTags=  array_merge($arrayTwitterCollabs,$arrayTwitterTags);
         foreach ($arrayTwitterTags as $twitterTag) {
             $nbTotalTypes=$nbTotalTypes+$nbTypeTwitterTag;
             if($nbTotalTypes<self::MAX_TYPES)
@@ -128,6 +130,30 @@ class Twitter
             }
         }
         return $description;
+    }
+    
+    public function getArrayTwitterCollabs(Video $video) {
+        $tags=$txTtag='';
+        $tabTags=[];
+        
+        foreach ($video->getCollaborateurs() as $collaborateur) 
+        {
+            if($tags=='')
+            {
+                $tags=$collaborateur->getTwitter();
+            }
+            elseif($collaborateur->getTwitter()!='')
+            {
+                $tags=$tags.';'.$collaborateur->getTwitter();
+            }
+        }
+        
+        if($tags!='')
+        {
+            $tabTags=explode(";", $tags);
+        }
+        
+        return $tabTags;
     }
 }
 ?>

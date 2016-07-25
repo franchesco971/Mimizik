@@ -132,6 +132,12 @@ class Video
     private $nextPublishDate;
     
     /**
+    * @ORM\ManyToMany(targetEntity="Spicy\SiteBundle\Entity\Collaborateur")
+     * @Assert\Valid()
+    */
+    private $collaborateurs;
+    
+    /**
      * Constructor
      */
     public function __construct()
@@ -139,6 +145,7 @@ class Video
         $this->dateVideo=new \DateTime;
         $this->artistes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->genre_musicaux = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->collaborateurs = new \Doctrine\Common\Collections\ArrayCollection();
         $this->etat=true;
     }
     
@@ -657,5 +664,38 @@ class Video
     public function getNextPublishDate()
     {
         return $this->nextPublishDate;
+    }
+
+    /**
+     * Add collaborateurs
+     *
+     * @param \Spicy\SiteBundle\Entity\Collaborateur $collaborateurs
+     * @return Video
+     */
+    public function addCollaborateur(\Spicy\SiteBundle\Entity\Collaborateur $collaborateurs)
+    {
+        $this->collaborateurs[] = $collaborateurs;
+    
+        return $this;
+    }
+
+    /**
+     * Remove collaborateurs
+     *
+     * @param \Spicy\SiteBundle\Entity\Collaborateur $collaborateurs
+     */
+    public function removeCollaborateur(\Spicy\SiteBundle\Entity\Collaborateur $collaborateurs)
+    {
+        $this->collaborateurs->removeElement($collaborateurs);
+    }
+
+    /**
+     * Get collaborateurs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCollaborateurs()
+    {
+        return $this->collaborateurs;
     }
 }
