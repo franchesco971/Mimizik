@@ -121,9 +121,10 @@ class VideoService
     {        
         $videos=$this->em->getRepository('SpicySiteBundle:Video')->getTopByMonth($ranking);        
         $previousRanking=$this->em->getRepository('SpicyRankingBundle:Ranking')->getPreviousRanking($ranking);
-        
+        $this->logger->info("setPositions n-1=".$ranking->getId()." et n-2=".$previousRanking->getId());
         $position=1;
-        if(!is_null($previousRanking))
+        
+        if($previousRanking)
         {
             foreach ($videos as $video) 
             {            
@@ -132,7 +133,7 @@ class VideoService
                     $videoRanking->setPosition($position);
                     //recuperer l'ancien classement pour comparer
                     if($previousRanking)
-                    {
+                    {                        
                         $videoRanking=$this->compareRanking($videoRanking,$previousRanking);
                     } 
                 }
@@ -150,9 +151,10 @@ class VideoService
             /** la video est presente dans le classement precedent **/
             if($previousVideoRanking->getVideo()->getId()==$videoRanking->getVideo()->getId())
             {                
+                $this->logger->info("la video est presente dans le classement precedent");
                 $previousPosition=$previousVideoRanking->getPosition();
                 $position=$videoRanking->getPosition();
-                if(!is_null($position))
+                if($position)
                 {
                     $icon=  $this->setIcons($previousPosition, $position);
                     
