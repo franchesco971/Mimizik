@@ -77,7 +77,7 @@
                                 {% endif %}
                                 
                                 <li class="prev"><a href="{% if nbprec%}{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":nbprec})}}{% else %}#{% endif %}">précédent</a></li>                                
-                                {% set nbpages=(nbVideos/10)|round%}
+                                {% set nbpages=(nbVideos/10)|round(0,'ceil')%}
                                 {% for i in 1..nbpages %}                                    
                                     <li ><a class="{% if i==page%}current{% endif %}" href="{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":i})}}">{{i}}</a></li>
                                 {% endfor %}
@@ -99,6 +99,11 @@
                     </div>
                 </div>
                 <div class="content-block">
+                    <div class="block-content selectArtistes">
+                        {{ render(controller('SpicySiteBundle:Site:selectArtistesForward')) }}
+                    </div>
+                </div>
+                <div class="content-block">
                     <div class="block-title"><span>Suggestions</span></div>
                     <div class="block-content">
                         {% for sArtiste in suggestions %}
@@ -115,4 +120,5 @@
     
 {% block javascripts %}
     {{ parent() }}
+    {%include "SpicySiteBundle:Site:Artiste\\_search.js.twig" %}
 {% endblock %}

@@ -121,27 +121,27 @@
                 </div>
             </div>
             
-            <div class="content-block">
-                <div class="block-title">
-                    <span>Rétro de la semaine</span>
-                </div>
-                <div class="block-content">
-                    {{ render(controller("SpicySiteBundle:Site:retro"))}}
-                </div>
-            </div>
-                
-            <div class="content-block">
-                <div class="block-content" id="encart_droit">
-                    {% include "SpicySiteBundle:Ads:encart_droit_adsense.html.twig" %}
-                </div>
-            </div>
-                
             <div class="content-block" id="last-ranking">
                 <div class="block-title">
                     <span>Dernier classement</span>
                 </div>
                 <div class="block-content last">
                     
+                </div>
+            </div>
+                           
+            <div class="content-block">
+                <div class="block-content" id="encart_droit">
+                    {% include "SpicySiteBundle:Ads:encart_droit_adsense.html.twig" %}
+                </div>
+            </div>
+                
+            <div class="content-block">
+                <div class="block-title">
+                    <span>Rétro de la semaine</span>
+                </div>
+                <div class="block-content">
+                    {{ render(controller("SpicySiteBundle:Site:retro"))}}
                 </div>
             </div>
         </div>

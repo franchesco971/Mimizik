@@ -153,6 +153,11 @@
                         {% include "SpicySiteBundle:Ads:encart_droit_adsense.html.twig" %}
                     </div>
                 </div>
+                <div class="content-block">
+                    <div class="block-content selectArtistes">
+                        {{ render(controller('SpicySiteBundle:Site:selectArtistesForward')) }}
+                    </div>
+                </div>
             </div>
             
         </div>
@@ -162,6 +167,10 @@
 {% block javascripts %}
     
     {{parent()}}
+    {% javascripts  filter='?yui_js' output='js/select2.js' %}
+        <script type="text/javascript" src="{{ asset_url }}" ></script>
+    {% endjavascripts %} 
+    {% include "SpicySiteBundle:Site:Artiste\\_search.js.twig" %}
     <script type="text/javascript">
             (function(d, s, id) {
               var js, fjs = d.getElementsByTagName(s)[0];

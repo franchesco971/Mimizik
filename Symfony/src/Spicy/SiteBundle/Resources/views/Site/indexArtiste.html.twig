@@ -37,24 +37,6 @@
         </div>
     </div>
     <div class="content wrapper">
-        <div class="container selectArtistes">
-            <div class="two-third column">
-                <div class="content-block">
-                    <div class="block-content">
-                        <div class="floatleft title">
-                            <span>Recherche un artiste : </span>
-                        </div>
-                        <div class="floatleft">
-                            <select id="search_artistes">
-                            {% for artiste in selectArtistes %}
-                                <option value='{{artiste.id}}'>{{artiste.libelle}}</option>
-                            {%endfor%}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="container">
             <div class="two-third column">
                 <div class="content-block">
@@ -76,21 +58,19 @@
             </div>
             <div class="one-third column last">
                 <div class="content-block">
-                    <div class="block-content"></div>
+                    <div class="block-content" id="encart_droit">
+                        {% include "SpicySiteBundle:Ads:encart_droit_adsense.html.twig" %}
+                    </div>
+                </div>
+                <div class="content-block">
+                    <div class="block-content selectArtistes">
+                        {#%include "SpicySiteBundle:Site:Artiste\\_search.html.twig" %#}
+                        {{ render(controller('SpicySiteBundle:Site:selectArtistesForward')) }}
+                    </div>
                 </div>
             </div>
         </div>
     </div>     
-                        
-    <div id="modal_hashtag" class="reveal-modal">
-        <div class="content">
-            <table border="1" class="data">
-                <tr>
-                </tr>
-            </table>
-        </div>
-        <a class="close-reveal-modal">&#215;</a>
-    </div>
     
 {%endblock%}
     
@@ -100,46 +80,32 @@
         'js/select2.js' 
     %}
         <script type="text/javascript" src="{{ asset_url }}" ></script>
-    {% endjavascripts %}   
+    {% endjavascripts %} 
+    {%include "SpicySiteBundle:Site:Artiste\\_search.js.twig" %}
 <script type="text/javascript">
-        function initPagination() {
-            // count entries inside the hidden content
-            //var num_entries = jQuery('#hiddenresult div.result').length;
-            var num_entries = {{artistes|length}}
-            // Create content inside pagination element
-            $("#Pagination").pagination(num_entries, {
-                //callback: pageselectCallback,
-                items_per_page:20, // Show only one item per page
-                link_to:"{{ path('spicy_site_artistes')}}/__id__",
-                current_page:{{page-1}},
-                prev_text:"Prèc.",
-                next_text:"Suiv.",
-                num_edge_entries:2,
-                num_display_entries:8,
-                callback:function(){}
-            });
-         }
-
-        // When document is ready, initialize pagination
-        $(document).ready(function(){      
-            initPagination();
-            
-            $("#search_artistes").select2({
-                width: '200px'
-            });
-            
-            $(".loading").hide();
-            $("#search_artistes").change(function(){
-                var libelle=$("select option:selected").html();
-                var id=$("select option:selected").attr('value');
-                             
-                $('#modal_hashtag .content .data tr').html('');
-                $('#modal_hashtag .content .data tr').append($('<td>'+libelle+'</td>'));
-                $('#modal_hashtag .content .data tr').append($('<td class="btn-show"><a class="button dark" href="{{ path('mimizik_show_artiste_js')}}'+id+'"><span>Voir</span></a></td>'))
-                
-                $('#modal_hashtag').reveal();
-            });
+    function initPagination() {
+        // count entries inside the hidden content
+        //var num_entries = jQuery('#hiddenresult div.result').length;
+        var num_entries = {{artistes|length}}
+        // Create content inside pagination element
+        $("#Pagination").pagination(num_entries, {
+            //callback: pageselectCallback,
+            items_per_page:20, // Show only one item per page
+            link_to:"{{ path('spicy_site_artistes')}}/__id__",
+            current_page:{{page-1}},
+            prev_text:"Prèc.",
+            next_text:"Suiv.",
+            num_edge_entries:2,
+            num_display_entries:8,
+            callback:function(){}
         });
-    </script>
+     }
+
+    // When document is ready, initialize pagination
+    $(document).ready(function(){      
+        initPagination();       
+        
+    });
+</script>
     
 {% endblock%}

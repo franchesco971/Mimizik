@@ -468,4 +468,17 @@ class SiteController extends Controller
             'page'=>$page    
         ));
     }
+    
+    public function selectArtistesAction() {
+        $em=$this->getDoctrine()->getManager();
+        $selectArtistes=$em->getRepository('SpicySiteBundle:Artiste')->findAll();
+        
+        return $this->render('SpicySiteBundle:Site:Artiste\\_search.html.twig',array(
+            'selectArtistes'=>$selectArtistes
+        ));
+    }
+    
+    public function selectArtistesForwardAction() {
+        return $this->forward('SpicySiteBundle:Site:selectArtistes');
+    }
 }

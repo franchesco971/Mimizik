@@ -192,6 +192,10 @@ if ($e instanceof InactiveScopeException && self::EXCEPTION_ON_INVALID_REFERENCE
 return;
 }
 throw $e;
+} catch (\Throwable $e) {
+unset($this->loading[$id]);
+unset($this->services[$id]);
+throw $e;
 }
 unset($this->loading[$id]);
 return $service;
@@ -390,11 +394,11 @@ protected $booted;
 protected $name;
 protected $startTime;
 protected $loadClassCache;
-const VERSION ='2.3.39';
-const VERSION_ID = 20339;
+const VERSION ='2.3.42';
+const VERSION_ID = 20342;
 const MAJOR_VERSION = 2;
 const MINOR_VERSION = 3;
-const RELEASE_VERSION = 39;
+const RELEASE_VERSION = 42;
 const EXTRA_VERSION ='';
 public function __construct($environment, $debug)
 {
@@ -837,8 +841,9 @@ return true;
 }
 public function findFile($class)
 {
-if (false === $file = apcu_fetch($this->prefix.$class)) {
-apcu_store($this->prefix.$class, $file = $this->decorated->findFile($class));
+$file = apcu_fetch($this->prefix.$class, $success);
+if (!$success) {
+apcu_store($this->prefix.$class, $file = $this->decorated->findFile($class) ?: null);
 }
 return $file;
 }
@@ -1193,6 +1198,10 @@ $this->container->set('request', $request,'request');
 try {
 $response = parent::handle($request, $type, $catch);
 } catch (\Exception $e) {
+$this->container->set('request', null,'request');
+$this->container->leaveScope('request');
+throw $e;
+} catch (\Throwable $e) {
 $this->container->set('request', null,'request');
 $this->container->leaveScope('request');
 throw $e;
