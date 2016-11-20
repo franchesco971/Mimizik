@@ -76,9 +76,8 @@
     
 {% block javascripts %}
     {{parent()}}
-    {% javascripts  filter='?yui_js' output='js/compiled/home_artiste.js'
-        'js/select2.js' 
-    %}
+    {% javascripts  filter='?yui_js' output='js/compiled/artiste/index.js'
+        'js/select2.min.js' %}
         <script type="text/javascript" src="{{ asset_url }}" ></script>
     {% endjavascripts %} 
     {%include "SpicySiteBundle:Site:Artiste\\_search.js.twig" %}
