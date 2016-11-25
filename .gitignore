@@ -232,3 +232,4 @@ pip-log.txt
 /nbproject/
 /Symfony/web/bundles/
 /Symfony/web/css/compiled/
+/Symfony/nbproject/
