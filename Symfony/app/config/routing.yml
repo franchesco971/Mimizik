@@ -1,3 +1,7 @@
+spicy_itw:
+    resource: "@SpicyITWBundle/Resources/config/routing.yml"
+    prefix:   /
+
 spicy_app:
     resource: "@SpicyAppBundle/Resources/config/routing.yml"
     prefix:   /apps/
