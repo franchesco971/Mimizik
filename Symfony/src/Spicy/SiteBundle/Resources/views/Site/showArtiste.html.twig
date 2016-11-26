@@ -8,6 +8,14 @@
     <meta name="Description" content="Mimizik te propose toute la musique et les vidéos clip de {{artiste.libelle}}. {{artiste.description}}"/> 
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets filter='cssrewrite,?yui_css' output='css/compiled/home_artiste.css'
+        'css/select2.css'%}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
+{% endblock %}
+
 {% block body %}
     {{ parent() }}
     
@@ -120,5 +128,9 @@
     
 {% block javascripts %}
     {{ parent() }}
+    {% javascripts  filter='?yui_js' output='js/compiled/artiste/index.js'
+        'js/select2.min.js' %}
+        <script type="text/javascript" src="{{ asset_url }}" ></script>
+    {% endjavascripts %} 
     {%include "SpicySiteBundle:Site:Artiste\\_search.js.twig" %}
 {% endblock %}

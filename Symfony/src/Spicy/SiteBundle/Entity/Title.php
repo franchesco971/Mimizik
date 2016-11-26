@@ -1,14 +1,14 @@
 <?php
-
 namespace Spicy\SiteBundle\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 /**
- * Titre
- *
- * @ORM\Table()
+ * @ORM\Table(name="title")
  * @ORM\Entity
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"video" = "Video","track"="Track"})
  */
 class Title
 {
@@ -20,57 +20,204 @@ class Title
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
+    
     /**
      * @var string
      *
      * @ORM\Column(name="titre", type="string", length=255)
      */
     private $titre;
-
     /**
      * @var string
      *
      * @ORM\Column(name="url", type="string", length=255)
      */
     private $url;
-
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="createdAt", type="datetime")
+     * @ORM\Column(name="dateVideo", type="datetime")
      */
-    private $createdAt;
-
+    private $dateVideo;
     /**
      * @var boolean
      *
-     * @ORM\Column(name="status", type="boolean")
+     * @ORM\Column(name="etat", type="boolean")
      */
-    private $status;
-
+    private $etat;
+    
     /**
      * @var boolean
      *
-     * @ORM\Column(name="onTop", type="boolean")
+     * @ORM\Column(name="on_top", type="boolean")
      */
     private $onTop;
-
+    
     /**
-     * @var string
      *
+     * @var string
+     * @Gedmo\Slug(fields={"titre"})
      * @ORM\Column(name="slug", type="string", length=255)
      */
     private $slug;
-
+    
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="source", type="string", length=255)
+     */
+    private $source;
+    
+    /**
+     * @var text
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
-
-
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tags_fb", type="string", length=255, nullable=true)
+     */
+    private $tags_fb;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tags_twitter", type="string", length=255, nullable=true)
+     */
+    private $tags_twitter;
+    
+    /**
+    * @ORM\ManyToMany(targetEntity="Spicy\TagBundle\Entity\Hashtag")
+    * @ORM\JoinTable(name="video_hashtag",
+    *      joinColumns={@ORM\JoinColumn(name="video_id", referencedColumnName="id")},
+    *      inverseJoinColumns={@ORM\JoinColumn(name="hashtag_id", referencedColumnName="id")}
+    *      )
+    * @Assert\Valid()
+    */
+    private $hashtags;
+    
+    /**
+    * @ORM\ManyToMany(targetEntity="Spicy\SiteBundle\Entity\Artiste")
+    * @ORM\JoinTable(name="video_artiste",
+    *      joinColumns={@ORM\JoinColumn(name="video_id", referencedColumnName="id")},
+    *      inverseJoinColumns={@ORM\JoinColumn(name="artiste_id", referencedColumnName="id")}
+    *      )
+     * @Assert\Valid()
+    */
+    private $artistes;
+    
+    /**
+    * @ORM\ManyToMany(targetEntity="Spicy\SiteBundle\Entity\GenreMusical")
+    * @ORM\JoinTable(name="video_genremusical",
+    *      joinColumns={@ORM\JoinColumn(name="video_id", referencedColumnName="id")},
+    *      inverseJoinColumns={@ORM\JoinColumn(name="genremusical_id", referencedColumnName="id")}
+    *      )
+    * @Assert\Valid()
+    */
+    private $genre_musicaux;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="nextPublishDate", type="datetime", nullable=true)
+     */
+    private $nextPublishDate;
+    
+    /**
+    * @ORM\ManyToMany(targetEntity="Spicy\SiteBundle\Entity\Collaborateur")
+    * @ORM\JoinTable(name="video_collaborateur",
+    *      joinColumns={@ORM\JoinColumn(name="video_id", referencedColumnName="id")},
+    *      inverseJoinColumns={@ORM\JoinColumn(name="collaborateur_id", referencedColumnName="id")}
+    *      )
+     * @Assert\Valid()
+    */
+    private $collaborateurs;
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->dateVideo=new \DateTime;
+        $this->artistes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->genre_musicaux = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->collaborateurs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->etat=true;
+    }
+    
+    public function getNomArtistes()
+    {
+        $noms='';
+        
+        if(count($this->artistes))
+        {
+            foreach ($this->artistes as $key => $artiste) 
+            {
+                $noms=$noms.$artiste->getLibelle();
+                
+                if($key==count($this->artistes)-2)
+                {
+                    $noms=$noms.' & ';
+                }                
+                elseif($key!=count($this->artistes)-1)
+                {
+                    $noms=$noms.', ';
+                }
+            }
+        }
+        else{
+            $noms='Inconnu';
+        }
+        
+        return $noms;
+    }
+    
+    public function getNomGenres()
+    {
+        $noms='';
+        
+        if(count($this->genre_musicaux))
+        {
+            foreach ($this->genre_musicaux as $key => $genre) {
+                $noms=$noms.$genre->getLibelle();
+                                
+                if($key!=count($this->genre_musicaux)-1)
+                {
+                    $noms=$noms.', ';
+                }
+            }
+        }
+        else{
+            $noms='Inconnu';
+        }
+        
+        return $noms;
+    }
+    
+    public function getNomTypes()
+    {
+        $noms='';
+        
+        if(count($this->type_videos))
+        {
+            foreach ($this->type_videos as $key => $type) {
+                $noms=$noms.$type->getLibelle();
+                                
+                if($key!=count($this->type_videos)-1)
+                {
+                    $noms=$noms.', ';
+                }
+            }
+        }
+        else{
+            $noms='Inconnu';
+        }
+        
+        return $noms;
+    }
     /**
      * Get id
      *
@@ -80,20 +227,18 @@ class Title
     {
         return $this->id;
     }
-
     /**
      * Set titre
      *
      * @param string $titre
-     * @return Titre
+     * @return Video
      */
     public function setTitre($titre)
     {
         $this->titre = $titre;
-
+    
         return $this;
     }
-
     /**
      * Get titre
      *
@@ -103,20 +248,18 @@ class Title
     {
         return $this->titre;
     }
-
     /**
      * Set url
      *
      * @param string $url
-     * @return Titre
+     * @return Video
      */
     public function setUrl($url)
     {
         $this->url = $url;
-
+    
         return $this;
     }
-
     /**
      * Get url
      *
@@ -126,89 +269,130 @@ class Title
     {
         return $this->url;
     }
-
     /**
-     * Set createdAt
+     * Set dateVideo
      *
-     * @param \DateTime $createdAt
-     * @return Titre
+     * @param \DateTime $dateVideo
+     * @return Video
      */
-    public function setCreatedAt($createdAt)
+    public function setDateVideo($dateVideo)
     {
-        $this->createdAt = $createdAt;
-
+        $this->dateVideo = $dateVideo;
+    
         return $this;
     }
-
     /**
-     * Get createdAt
+     * Get dateVideo
      *
      * @return \DateTime 
      */
-    public function getCreatedAt()
+    public function getDateVideo()
     {
-        return $this->createdAt;
+        return $this->dateVideo;
     }
-
     /**
-     * Set status
+     * Set etat
      *
-     * @param boolean $status
-     * @return Titre
+     * @param boolean $etat
+     * @return Video
      */
-    public function setStatus($status)
+    public function setEtat($etat)
     {
-        $this->status = $status;
-
+        $this->etat = $etat;
+    
         return $this;
     }
-
     /**
-     * Get status
+     * Get etat
      *
      * @return boolean 
      */
-    public function getStatus()
+    public function getEtat()
     {
-        return $this->status;
+        return $this->etat;
     }
-
+    
+    
     /**
-     * Set onTop
+     * Add artistes
      *
-     * @param boolean $onTop
-     * @return Titre
+     * @param \Spicy\SiteBundle\Entity\Artiste $artistes
+     * @return Video
      */
-    public function setOnTop($onTop)
+    public function addArtiste(\Spicy\SiteBundle\Entity\Artiste $artistes)
     {
-        $this->onTop = $onTop;
-
+        $this->artistes[] = $artistes;
+    
         return $this;
     }
-
     /**
-     * Get onTop
+     * Remove artistes
      *
-     * @return boolean 
+     * @param \Spicy\SiteBundle\Entity\Artiste $artistes
      */
-    public function getOnTop()
+    public function removeArtiste(\Spicy\SiteBundle\Entity\Artiste $artistes)
     {
-        return $this->onTop;
+        $this->artistes->removeElement($artistes);
     }
-
+    /**
+     * Get artistes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getArtistes()
+    {
+        return $this->artistes;
+    }
+    /**
+     * Add genre_musicaux
+     *
+     * @param \Spicy\SiteBundle\Entity\Genre_musical $genreMusicaux
+     * @return Video
+     */
+    
+    /**
+     * Add genre_musicaux
+     *
+     * @param \Spicy\SiteBundle\Entity\GenreMusical $genreMusicaux
+     * @return Video
+     */
+    public function addGenreMusicaux(\Spicy\SiteBundle\Entity\GenreMusical $genreMusicaux)
+    {
+        $this->genre_musicaux[] = $genreMusicaux;
+    
+        return $this;
+    }
+    /**
+     * Remove genre_musicaux
+     *
+     * @param \Spicy\SiteBundle\Entity\GenreMusical $genreMusicaux
+     */
+    public function removeGenreMusicaux(\Spicy\SiteBundle\Entity\GenreMusical $genreMusicaux)
+    {
+        $this->genre_musicaux->removeElement($genreMusicaux);
+    }
+    /**
+     * Get genre_musicaux
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGenreMusicaux()
+    {
+        return $this->genre_musicaux;
+    }
+    
     /**
      * Set slug
      *
      * @param string $slug
-     * @return Titre
+     * @return Video
      */
     public function setSlug($slug)
     {
         $this->slug = $slug;
-
+    
         return $this;
     }
-
     /**
      * Get slug
      *
@@ -218,20 +402,45 @@ class Title
     {
         return $this->slug;
     }
-
+    /**
+     * Set source
+     *
+     * @param string $source
+     * @return Video
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
+    
+        return $this;
+    }
+    /**
+     * Get source
+     *
+     * @return string 
+     */
+    public function getSource()
+    {        
+        return $this->source;
+    }
+    
+    public function getTxtSource()
+    {
+        $txt='http://www.youtube.com/user/'.$this->source;
+        return $txt;
+    }
     /**
      * Set description
      *
      * @param string $description
-     * @return Titre
+     * @return Video
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
+    
         return $this;
     }
-
     /**
      * Get description
      *
@@ -240,5 +449,150 @@ class Title
     public function getDescription()
     {
         return $this->description;
+    }
+    /**
+     * Set tags_fb
+     *
+     * @param string $tagsFb
+     * @return Video
+     */
+    public function setTagsFb($tagsFb)
+    {
+        $this->tags_fb = $tagsFb;
+    
+        return $this;
+    }
+    /**
+     * Get tags_fb
+     *
+     * @return string 
+     */
+    public function getTagsFb()
+    {
+        return $this->tags_fb;
+    }
+    /**
+     * Set tags_twitter
+     *
+     * @param string $tagsTwitter
+     * @return Video
+     */
+    public function setTagsTwitter($tagsTwitter)
+    {
+        $this->tags_twitter = $tagsTwitter;
+    
+        return $this;
+    }
+    /**
+     * Get tags_twitter
+     *
+     * @return string 
+     */
+    public function getTagsTwitter()
+    {
+        return $this->tags_twitter;
+    }
+    /**
+     * Set onTop
+     *
+     * @param boolean $onTop
+     * @return Video
+     */
+    public function setOnTop($onTop)
+    {
+        $this->onTop = $onTop;
+    
+        return $this;
+    }
+    /**
+     * Get onTop
+     *
+     * @return boolean 
+     */
+    public function getOnTop()
+    {
+        return $this->onTop;
+    }
+    /**
+     * Add hashtags
+     *
+     * @param \Spicy\TagBundle\Entity\Hashtag $hashtags
+     * @return Video
+     */
+    public function addHashtag(\Spicy\TagBundle\Entity\Hashtag $hashtags)
+    {
+        $this->hashtags[] = $hashtags;
+    
+        return $this;
+    }
+    /**
+     * Remove hashtags
+     *
+     * @param \Spicy\TagBundle\Entity\Hashtag $hashtags
+     */
+    public function removeHashtag(\Spicy\TagBundle\Entity\Hashtag $hashtags)
+    {
+        $this->hashtags->removeElement($hashtags);
+    }
+    /**
+     * Get hashtags
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getHashtags()
+    {
+        return $this->hashtags;
+    }
+    
+    /**
+     * Set nextPublishDate
+     *
+     * @param \DateTime $nextPublishDate
+     * @return Video
+     */
+    public function setNextPublishDate($nextPublishDate)
+    {
+        $this->nextPublishDate = $nextPublishDate;
+    
+        return $this;
+    }
+    /**
+     * Get nextPublishDate
+     *
+     * @return \DateTime 
+     */
+    public function getNextPublishDate()
+    {
+        return $this->nextPublishDate;
+    }
+    /**
+     * Add collaborateurs
+     *
+     * @param \Spicy\SiteBundle\Entity\Collaborateur $collaborateurs
+     * @return Video
+     */
+    public function addCollaborateur(\Spicy\SiteBundle\Entity\Collaborateur $collaborateurs)
+    {
+        $this->collaborateurs[] = $collaborateurs;
+    
+        return $this;
+    }
+    /**
+     * Remove collaborateurs
+     *
+     * @param \Spicy\SiteBundle\Entity\Collaborateur $collaborateurs
+     */
+    public function removeCollaborateur(\Spicy\SiteBundle\Entity\Collaborateur $collaborateurs)
+    {
+        $this->collaborateurs->removeElement($collaborateurs);
+    }
+    /**
+     * Get collaborateurs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCollaborateurs()
+    {
+        return $this->collaborateurs;
     }
 }

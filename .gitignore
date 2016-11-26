@@ -1,5 +1,5 @@
 # Bootstrap
-app/bootstrap*
+/Symfony/app/bootstrap*
 app/bootstrap.php.cache
 app/SymfonyRequirements.php
 
@@ -9,6 +9,9 @@ vendor/*
 */cache/*
 web/uploads/*
 web/bundles/*
+/Symfony/composer.lock
+/Symfony/web/js/compiled/
+composer.phar
 
 #################
 ## Eclipse
