@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             new Spicy\TagBundle\SpicyTagBundle(),
             new Spicy\RankingBundle\SpicyRankingBundle(),
             new Spicy\AppBundle\SpicyAppBundle(),
+            new Spicy\ITWBundle\SpicyITWBundle(),
             new Spicy\LyricsBundle\SpicyLyricsBundle(),
         );
 

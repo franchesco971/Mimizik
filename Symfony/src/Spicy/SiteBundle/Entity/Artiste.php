@@ -80,6 +80,12 @@ class Artiste
      * @ORM\Column(name="instagram", type="text", nullable=true) 
      */
     private $instagram;
+    
+    /**
+    * @ORM\OneToMany(targetEntity="Spicy\ITWBundle\Entity\Interview", mappedBy="artiste")
+     * @Assert\Valid()
+    */
+    private $interviews;
 
     public function __construct() {
         $this->dateArtiste=new \DateTime;
@@ -300,5 +306,38 @@ class Artiste
     public function removeHashtag(\Spicy\TagBundle\Entity\Hashtag $hashtags)
     {
         $this->hashtags->removeElement($hashtags);
+    }
+
+    /**
+     * Add interviews
+     *
+     * @param \Spicy\ITWBundle\Entity\Interview $interviews
+     * @return Artiste
+     */
+    public function addInterview(\Spicy\ITWBundle\Entity\Interview $interviews)
+    {
+        $this->interviews[] = $interviews;
+
+        return $this;
+    }
+
+    /**
+     * Remove interviews
+     *
+     * @param \Spicy\ITWBundle\Entity\Interview $interviews
+     */
+    public function removeInterview(\Spicy\ITWBundle\Entity\Interview $interviews)
+    {
+        $this->interviews->removeElement($interviews);
+    }
+
+    /**
+     * Get interviews
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getInterviews()
+    {
+        return $this->interviews;
     }
 }

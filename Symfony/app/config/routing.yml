@@ -1,6 +1,10 @@
 spicy_lyrics:
     resource: "@SpicyLyricsBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /paroles/
+
+spicy_itw:
+    resource: "@SpicyITWBundle/Resources/config/routing.yml"
+    prefix:   /itw/
 
 spicy_app:
     resource: "@SpicyAppBundle/Resources/config/routing.yml"

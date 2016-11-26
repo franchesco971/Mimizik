@@ -9,7 +9,9 @@ vendor/*
 */cache/*
 web/uploads/*
 web/bundles/*
+/Symfony/composer.lock
 /Symfony/web/js/compiled/
+composer.phar
 
 #################
 ## Eclipse
@@ -233,3 +235,4 @@ pip-log.txt
 /nbproject/
 /Symfony/web/bundles/
 /Symfony/web/css/compiled/
+/Symfony/nbproject/

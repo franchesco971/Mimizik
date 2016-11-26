@@ -1,11 +1,8 @@
 <?php
-
 namespace Spicy\SiteBundle\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
-
 /**
  * @ORM\Table(name="title")
  * @ORM\Entity
@@ -30,21 +27,18 @@ class Title
      * @ORM\Column(name="titre", type="string", length=255)
      */
     private $titre;
-
     /**
      * @var string
      *
      * @ORM\Column(name="url", type="string", length=255)
      */
     private $url;
-
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="dateVideo", type="datetime")
      */
     private $dateVideo;
-
     /**
      * @var boolean
      *
@@ -124,7 +118,6 @@ class Title
     * @Assert\Valid()
     */
     private $genre_musicaux;
-
     
     /**
      * @var \DateTime
@@ -225,8 +218,6 @@ class Title
         
         return $noms;
     }
-
-
     /**
      * Get id
      *
@@ -236,7 +227,6 @@ class Title
     {
         return $this->id;
     }
-
     /**
      * Set titre
      *
@@ -249,7 +239,6 @@ class Title
     
         return $this;
     }
-
     /**
      * Get titre
      *
@@ -259,7 +248,6 @@ class Title
     {
         return $this->titre;
     }
-
     /**
      * Set url
      *
@@ -272,7 +260,6 @@ class Title
     
         return $this;
     }
-
     /**
      * Get url
      *
@@ -282,7 +269,6 @@ class Title
     {
         return $this->url;
     }
-
     /**
      * Set dateVideo
      *
@@ -295,7 +281,6 @@ class Title
     
         return $this;
     }
-
     /**
      * Get dateVideo
      *
@@ -305,7 +290,6 @@ class Title
     {
         return $this->dateVideo;
     }
-
     /**
      * Set etat
      *
@@ -318,7 +302,6 @@ class Title
     
         return $this;
     }
-
     /**
      * Get etat
      *
@@ -342,7 +325,6 @@ class Title
     
         return $this;
     }
-
     /**
      * Remove artistes
      *
@@ -352,7 +334,6 @@ class Title
     {
         $this->artistes->removeElement($artistes);
     }
-
     /**
      * Get artistes
      *
@@ -362,7 +343,6 @@ class Title
     {
         return $this->artistes;
     }
-
     /**
      * Add genre_musicaux
      *
@@ -370,7 +350,6 @@ class Title
      * @return Video
      */
     
-
     /**
      * Add genre_musicaux
      *
@@ -383,7 +362,6 @@ class Title
     
         return $this;
     }
-
     /**
      * Remove genre_musicaux
      *
@@ -393,7 +371,6 @@ class Title
     {
         $this->genre_musicaux->removeElement($genreMusicaux);
     }
-
     /**
      * Get genre_musicaux
      *
@@ -403,9 +380,7 @@ class Title
     {
         return $this->genre_musicaux;
     }
-
     
-
     /**
      * Set slug
      *
@@ -418,7 +393,6 @@ class Title
     
         return $this;
     }
-
     /**
      * Get slug
      *
@@ -428,7 +402,6 @@ class Title
     {
         return $this->slug;
     }
-
     /**
      * Set source
      *
@@ -441,7 +414,6 @@ class Title
     
         return $this;
     }
-
     /**
      * Get source
      *
@@ -457,7 +429,6 @@ class Title
         $txt='http://www.youtube.com/user/'.$this->source;
         return $txt;
     }
-
     /**
      * Set description
      *
@@ -470,7 +441,6 @@ class Title
     
         return $this;
     }
-
     /**
      * Get description
      *
@@ -480,8 +450,6 @@ class Title
     {
         return $this->description;
     }
-
-
     /**
      * Set tags_fb
      *
@@ -494,7 +462,6 @@ class Title
     
         return $this;
     }
-
     /**
      * Get tags_fb
      *
@@ -504,7 +471,6 @@ class Title
     {
         return $this->tags_fb;
     }
-
     /**
      * Set tags_twitter
      *
@@ -517,7 +483,6 @@ class Title
     
         return $this;
     }
-
     /**
      * Get tags_twitter
      *
@@ -527,7 +492,6 @@ class Title
     {
         return $this->tags_twitter;
     }
-
     /**
      * Set onTop
      *
@@ -540,7 +504,6 @@ class Title
     
         return $this;
     }
-
     /**
      * Get onTop
      *
@@ -550,7 +513,6 @@ class Title
     {
         return $this->onTop;
     }
-
     /**
      * Add hashtags
      *
@@ -563,7 +525,6 @@ class Title
     
         return $this;
     }
-
     /**
      * Remove hashtags
      *
@@ -573,7 +534,6 @@ class Title
     {
         $this->hashtags->removeElement($hashtags);
     }
-
     /**
      * Get hashtags
      *
@@ -583,10 +543,7 @@ class Title
     {
         return $this->hashtags;
     }
-
-
     
-
     /**
      * Set nextPublishDate
      *
@@ -599,7 +556,6 @@ class Title
     
         return $this;
     }
-
     /**
      * Get nextPublishDate
      *
@@ -609,7 +565,6 @@ class Title
     {
         return $this->nextPublishDate;
     }
-
     /**
      * Add collaborateurs
      *
@@ -622,7 +577,6 @@ class Title
     
         return $this;
     }
-
     /**
      * Remove collaborateurs
      *
@@ -632,7 +586,6 @@ class Title
     {
         $this->collaborateurs->removeElement($collaborateurs);
     }
-
     /**
      * Get collaborateurs
      *
