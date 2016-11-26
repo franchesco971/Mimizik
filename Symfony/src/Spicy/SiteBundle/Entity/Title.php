@@ -137,6 +137,12 @@ class Title
     private $collaborateurs;
     
     /**
+    * @ORM\OneToOne(targetEntity="Spicy\LyricsBundle\Entity\Lyrics", cascade={"persist"})
+    * @ORM\JoinColumn(nullable=true)
+    */
+    private $lyrics;
+    
+    /**
      * Constructor
      */
     public function __construct()
@@ -594,5 +600,28 @@ class Title
     public function getCollaborateurs()
     {
         return $this->collaborateurs;
+    }
+
+    /**
+     * Set lyrics
+     *
+     * @param \Spicy\LyricsBundle\Entity\Lyrics $lyrics
+     * @return Title
+     */
+    public function setLyrics(\Spicy\LyricsBundle\Entity\Lyrics $lyrics = null)
+    {
+        $this->lyrics = $lyrics;
+
+        return $this;
+    }
+
+    /**
+     * Get lyrics
+     *
+     * @return \Spicy\LyricsBundle\Entity\Lyrics 
+     */
+    public function getLyrics()
+    {
+        return $this->lyrics;
     }
 }

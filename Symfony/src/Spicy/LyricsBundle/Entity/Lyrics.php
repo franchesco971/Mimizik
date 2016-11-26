@@ -3,6 +3,8 @@
 namespace Spicy\LyricsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Lyrics
@@ -20,13 +22,6 @@ class Lyrics
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="language", type="integer")
-     */
-    private $language;
     
     /**
      * @var \DateTime
@@ -34,7 +29,27 @@ class Lyrics
      * @ORM\Column(name="createdAt", type="datetime", nullable=true)
      */
     private $createdAt;
+    
+    /**
+    * @ORM\OneToMany(targetEntity="Spicy\LyricsBundle\Entity\Paragraph", mappedBy="Lyrics")
+    * @Assert\Valid()
+    */
+    private $paragraphs;
+    
+    /**
+    * @ORM\OneToOne(targetEntity="Spicy\SiteBundle\Entity\Title")
+    */
+    private $title;
 
+
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->paragraphs = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -44,29 +59,6 @@ class Lyrics
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set language
-     *
-     * @param integer $language
-     * @return Lyrics
-     */
-    public function setLanguage($language)
-    {
-        $this->language = $language;
-
-        return $this;
-    }
-
-    /**
-     * Get language
-     *
-     * @return integer 
-     */
-    public function getLanguage()
-    {
-        return $this->language;
     }
 
     /**
@@ -90,5 +82,61 @@ class Lyrics
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * Add paragraphs
+     *
+     * @param \Spicy\LyricsBundle\Entity\Paragraph $paragraphs
+     * @return Lyrics
+     */
+    public function addParagraph(\Spicy\LyricsBundle\Entity\Paragraph $paragraphs)
+    {
+        $this->paragraphs[] = $paragraphs;
+
+        return $this;
+    }
+
+    /**
+     * Remove paragraphs
+     *
+     * @param \Spicy\LyricsBundle\Entity\Paragraph $paragraphs
+     */
+    public function removeParagraph(\Spicy\LyricsBundle\Entity\Paragraph $paragraphs)
+    {
+        $this->paragraphs->removeElement($paragraphs);
+    }
+
+    /**
+     * Get paragraphs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getParagraphs()
+    {
+        return $this->paragraphs;
+    }
+
+    /**
+     * Set title
+     *
+     * @param \Spicy\SiteBundle\Entity\Title $title
+     * @return Lyrics
+     */
+    public function setTitle(\Spicy\SiteBundle\Entity\Title $title = null)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return \Spicy\SiteBundle\Entity\Title 
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 }

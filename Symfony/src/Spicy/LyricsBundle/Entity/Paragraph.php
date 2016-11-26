@@ -3,6 +3,8 @@
 namespace Spicy\LyricsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Paragraph
@@ -36,9 +38,16 @@ class Paragraph
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="text")
+     * @ORM\Column(name="content_original", type="text")
      */
-    private $content;
+    private $contentOriginal;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="content_traduction", type="text")
+     */
+    private $contentTraduction;
     
     /**
      * @var integer
@@ -46,7 +55,15 @@ class Paragraph
      * @ORM\Column(name="paragraph_type", type="integer")
      */
     private $paragraph_type;
+    
+    /**
+    * @ORM\ManyToOne(targetEntity="Spicy\LyricsBundle\Entity\Lyrics")
+    * @Assert\Valid()
+    */
+    private $lyrics;
 
+
+    
 
     /**
      * Get id
@@ -82,26 +99,49 @@ class Paragraph
     }
 
     /**
-     * Set content
+     * Set contentOriginal
      *
-     * @param string $content
+     * @param string $contentOriginal
      * @return Paragraph
      */
-    public function setContent($content)
+    public function setContentOriginal($contentOriginal)
     {
-        $this->content = $content;
+        $this->contentOriginal = $contentOriginal;
 
         return $this;
     }
 
     /**
-     * Get content
+     * Get contentOriginal
      *
      * @return string 
      */
-    public function getContent()
+    public function getContentOriginal()
     {
-        return $this->content;
+        return $this->contentOriginal;
+    }
+
+    /**
+     * Set contentTraduction
+     *
+     * @param string $contentTraduction
+     * @return Paragraph
+     */
+    public function setContentTraduction($contentTraduction)
+    {
+        $this->contentTraduction = $contentTraduction;
+
+        return $this;
+    }
+
+    /**
+     * Get contentTraduction
+     *
+     * @return string 
+     */
+    public function getContentTraduction()
+    {
+        return $this->contentTraduction;
     }
 
     /**
@@ -125,5 +165,28 @@ class Paragraph
     public function getParagraphType()
     {
         return $this->paragraph_type;
+    }
+
+    /**
+     * Set lyrics
+     *
+     * @param \Spicy\LyricsBundle\Entity\Lyrics $lyrics
+     * @return Paragraph
+     */
+    public function setLyrics(\Spicy\LyricsBundle\Entity\Lyrics $lyrics = null)
+    {
+        $this->lyrics = $lyrics;
+
+        return $this;
+    }
+
+    /**
+     * Get lyrics
+     *
+     * @return \Spicy\LyricsBundle\Entity\Lyrics 
+     */
+    public function getLyrics()
+    {
+        return $this->lyrics;
     }
 }
