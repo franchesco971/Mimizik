@@ -57,7 +57,7 @@ class Paragraph
     private $paragraph_type;
     
     /**
-    * @ORM\ManyToOne(targetEntity="Spicy\LyricsBundle\Entity\Lyrics")
+    * @ORM\ManyToOne(targetEntity="Spicy\LyricsBundle\Entity\Lyrics",inversedBy="paragraphs")
     * @Assert\Valid()
     */
     private $lyrics;

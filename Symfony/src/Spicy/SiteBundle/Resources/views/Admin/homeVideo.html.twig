@@ -24,6 +24,7 @@
                     <td>{{video.titre}}</td>
                     <td>{{video.etat}}</td>
                     <td><a href="{{path('spicy_admin_update_video', {'id': video.id})}}">Modifier</a></td>
+                    <td><a href="{{path('admin_lyrics_update', {'id': video.id})}}">Paroles</a></td>
                     <td><a href="{{path('spicy_admin_delete_video',{'id':video.id})}}">Supprimer</a></td>
                 </tr>
         {%else%}

@@ -31,7 +31,7 @@ class Interview
     private $createdAt;
     
     /**
-    * @ORM\ManyToOne(targetEntity="Spicy\SiteBundle\Entity\Artiste")
+    * @ORM\ManyToOne(targetEntity="Spicy\SiteBundle\Entity\Artiste",inversedBy="interviews")
      * @Assert\Valid()
     */
     private $artiste;

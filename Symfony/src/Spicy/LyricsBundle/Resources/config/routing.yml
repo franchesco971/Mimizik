@@ -1,3 +1,5 @@
-spicy_lyrics_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: SpicyLyricsBundle:Default:index }
+admin_lyrics_update:  
+    pattern:  /update/{id}
+    defaults: { _controller: SpicyLyricsBundle:Lyrics:update }
+    requirements: 
+        id: \d+

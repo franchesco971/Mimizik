@@ -31,7 +31,7 @@ class Lyrics
     private $createdAt;
     
     /**
-    * @ORM\OneToMany(targetEntity="Spicy\LyricsBundle\Entity\Paragraph", mappedBy="Lyrics")
+    * @ORM\OneToMany(targetEntity="Spicy\LyricsBundle\Entity\Paragraph", mappedBy="lyrics")
     * @Assert\Valid()
     */
     private $paragraphs;

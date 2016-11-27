@@ -45,7 +45,7 @@ class Question
     private $position;
     
     /**
-    * @ORM\ManyToOne(targetEntity="Spicy\ITWBundle\Entity\Interview")
+    * @ORM\ManyToOne(targetEntity="Spicy\ITWBundle\Entity\Interview", inversedBy="questions")
      * @Assert\Valid()
     */
     private $interview;
