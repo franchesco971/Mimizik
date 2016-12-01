@@ -45,7 +45,7 @@ class Paragraph
     /**
      * @var string
      *
-     * @ORM\Column(name="content_traduction", type="text")
+     * @ORM\Column(name="content_traduction", type="text", nullable=true)
      */
     private $contentTraduction;
     
@@ -61,9 +61,6 @@ class Paragraph
     * @Assert\Valid()
     */
     private $lyrics;
-
-
-    
 
     /**
      * Get id

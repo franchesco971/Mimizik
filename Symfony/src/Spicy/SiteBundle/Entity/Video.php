@@ -94,4 +94,26 @@ class Video extends Title
         return $this->videoRankings;
     }
     
+    public function getNomTypes()
+    {
+        $noms='';
+        
+        if(count($this->type_videos))
+        {
+            foreach ($this->type_videos as $key => $type) {
+                $noms=$noms.$type->getLibelle();
+                                
+                if($key!=count($this->type_videos)-1)
+                {
+                    $noms=$noms.', ';
+                }
+            }
+        }
+        else{
+            $noms='Inconnu';
+        }
+        
+        return $noms;
+    }
+    
 }

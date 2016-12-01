@@ -137,9 +137,9 @@ class Title
     private $collaborateurs;
     
     /**
-    * @ORM\OneToOne(targetEntity="Spicy\LyricsBundle\Entity\Lyrics", cascade={"persist"})
-    * @ORM\JoinColumn(nullable=true)
-    */
+     * @ORM\OneToOne(targetEntity="Spicy\LyricsBundle\Entity\Lyrics", inversedBy="title", cascade={"persist"})
+     * @ORM\JoinColumn(name="lyrics_id", referencedColumnName="id")
+     */
     private $lyrics;
     
     /**
@@ -203,27 +203,7 @@ class Title
         return $noms;
     }
     
-    public function getNomTypes()
-    {
-        $noms='';
-        
-        if(count($this->type_videos))
-        {
-            foreach ($this->type_videos as $key => $type) {
-                $noms=$noms.$type->getLibelle();
-                                
-                if($key!=count($this->type_videos)-1)
-                {
-                    $noms=$noms.', ';
-                }
-            }
-        }
-        else{
-            $noms='Inconnu';
-        }
-        
-        return $noms;
-    }
+    
     /**
      * Get id
      *

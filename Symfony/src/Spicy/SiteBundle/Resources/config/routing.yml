@@ -105,3 +105,9 @@ mimizik_tops:
 mimizik_genres_menu:
     pattern: /genres_menu
     defaults: { _controller: SpicySiteBundle:Site:Genres }
+    
+mimizik_paroles_slug:
+    pattern:  /paroles/{id}/{slug}
+    defaults: { _controller: SpicySiteBundle:Site:show,referrer:'lyrics' }
+    requirements: 
+        id: \d+

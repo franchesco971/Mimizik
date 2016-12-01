@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Spicy\LyricsBundle\Entity\Lyrics;
 use Spicy\SiteBundle\Form\TitleType;
 use Spicy\LyricsBundle\Entity\Paragraph;
+use Spicy\LyricsBundle\Form\LyricsType;
 
 class LyricsController extends Controller
 {
@@ -15,25 +16,32 @@ class LyricsController extends Controller
         $em=  $this->getDoctrine()->getManager();
         
         $video=$em->getRepository('SpicySiteBundle:Video')->find($id);
-        if(!$lyrics=$video->getLyrics())
+        $lyrics=$video->getLyrics();
+
+        if(!$lyrics)
         {
             $lyrics=new Lyrics();
-            $lyrics->addParagraph(new Paragraph);
             $video->setLyrics($lyrics);
         }
-        
-        $form= $this->createForm(new TitleType,$video);
+               
+        $form= $this->createForm(new LyricsType,$lyrics);
         if ($request->getMethod() == 'POST') {
-            $form->bind($request);
-
-            if ($form->isValid()) {           
+            
+            $form->bind($request);           
+           
+            if ($form->isValid()) { 
                 $em->persist($lyrics);
+                foreach ($lyrics->getParagraphs() as $p) {
+                    $p->setLyrics($lyrics);
+                    $em->persist($p);
+                }
+                
                 $em->flush();
 
-                $this->get('session')->getFlashBag()->add('info','Video bien ajouté');
-                $_SESSION['id_video_publish']=$video->getId();
+                $this->get('session')->getFlashBag()->add('info','Paroles bien ajouté');
 
-                return $this->redirect($this->generateUrl('mimizik_app_fb_login'));
+                return $this->redirect($this->generateUrl('spicy_admin_home_video'));
+                
             }
         }
         

@@ -1,6 +1,12 @@
 {% extends "SpicySiteBundle::layout.html.twig" %}
 
-{% block title %}{{lavideo.getNomArtistes}} - {{lavideo.titre}} sur Mimizik{% endblock %}
+{% block title %}
+    {%if referrer=='lyrics'%}
+        Paroles du titre {{lavideo.titre}} avec {{lavideo.getNomArtistes}} - Mimizik
+    {%else%}
+    {{lavideo.getNomArtistes}} - {{lavideo.titre}} sur Mimizik
+    {% endif %}
+{% endblock %}
 
 {% block meta_description %}
     <meta name="Description" content="Vidéo clip {{lavideo.getNomArtistes}} - {{lavideo.titre}} : {{lavideo.description}}"/>
@@ -35,12 +41,23 @@
         {
             margin-right: 10px;
         }
+        .song-text {
+            color: #505050;
+            font-family: pt_sansregular,arial,helvetica,sans-serif;
+            font-size: 15px;
+            line-height: 30px;
+        }
+        .red_type
+        {
+            color: #ee3450;
+        }
+        
     </style>
 {% endblock %}  
     
 {% block body %}
     {{ parent() }}
-    
+    {{referrer}}
     <div class="page-title wrapper">
         <div class="container">
             <span>Vid&eacute;o</span>
@@ -76,6 +93,25 @@
                     <iframe width="900" height="506" src="http://www.youtube.com/embed/{{lavideo.url}}?autoplay={{autoplay}}" frameborder="0" allowfullscreen></iframe>
                 </div>
             </div>
+            {% if lavideo.lyrics%}
+            <div class="lyrics-block content-block" >
+                <div class="block-title"><span>Paroles</span></div>
+                <div class="block-content">
+                    <a class="button large" id="btn_lyrics">
+                        <span>Voir les paroles</span>
+                    </a>
+                    <a class="button large" id="btn_print_lyrics">
+                        <span>Imprimer les paroles</span>
+                    </a>
+                    <div style="display:none" id="lyrics_content" > 
+                        {% for paragraph in lyrics.paragraphs%}
+                            <p class="red_type">({{paragraphType[paragraph.paragraphType]|upper}})</p>
+                            <p class="song-text">{{paragraph.contentOriginal|nl2br}}</p>
+                        {%endfor%}
+                    </div>
+                </div>
+            </div>
+            {%endif%}
             <div class="two-third column">
                 <div class="content-block" id="description">
                     <div class="block-title"><span>Description</span></div>
@@ -171,10 +207,7 @@
 
 {% block javascripts %}    
     {{parent()}}
-    {% javascripts  filter='?yui_js' output='js/compiled/main_admin.js'
-        'js/select2.min.js' %}
-        <script type="text/javascript" src="{{ asset_url }}" ></script>
-    {% endjavascripts %}
+    <script type="text/javascript" src="{{asset('js/select2.min.js')}}" ></script>
     {% include "SpicySiteBundle:Site:Artiste\\_search.js.twig" %}
     <script type="text/javascript">
             (function(d, s, id) {
@@ -205,5 +238,33 @@
         }
         (document,"script","twitter-wjs");
    </script>
+   
+   <script type="text/javascript">
+        $(document).ready(function(){ 
+                       
+            $( "#btn_lyrics" ).click(function() {                
+                var span= $(this).find('span');
+                if ($("#lyrics_content").is(':visible')) {
+                    span.html('Voir les paroles');
+                } else {                   
+                    span.html('Cacher les paroles');
+                }
+                $("#lyrics_content").toggle("slow");
+            });
+            
+            if('{{referrer}}'=='lyrics')
+            {
+                $( "#btn_lyrics" ).click();
+            }
+            
+            $( "#btn_print_lyrics" ).click(function() {
+                var divToPrint=document.getElementById('lyrics_content');
+                var newWin=window.open('','Print-Window');
+                newWin.document.open();
+                newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+                newWin.document.close();
+            });
+        });
+</script>
        
 {% endblock %}

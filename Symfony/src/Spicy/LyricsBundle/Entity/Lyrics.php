@@ -10,7 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * Lyrics
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Spicy\LyricsBundle\Entity\Repository\LyricsRepository")
  */
 class Lyrics
 {
@@ -31,17 +31,16 @@ class Lyrics
     private $createdAt;
     
     /**
-    * @ORM\OneToMany(targetEntity="Spicy\LyricsBundle\Entity\Paragraph", mappedBy="lyrics")
+    * @ORM\OneToMany(targetEntity="Spicy\LyricsBundle\Entity\Paragraph", mappedBy="lyrics",cascade={"persist"})
     * @Assert\Valid()
     */
     private $paragraphs;
     
     /**
-    * @ORM\OneToOne(targetEntity="Spicy\SiteBundle\Entity\Title")
+    * @ORM\OneToOne(targetEntity="Spicy\SiteBundle\Entity\Title", mappedBy="lyrics")
     */
     private $title;
-
-
+    
     
     /**
      * Constructor
@@ -49,6 +48,7 @@ class Lyrics
     public function __construct()
     {
         $this->paragraphs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->createdAt= new \DateTime();
     }
 
     /**
@@ -92,6 +92,7 @@ class Lyrics
      */
     public function addParagraph(\Spicy\LyricsBundle\Entity\Paragraph $paragraphs)
     {
+        $paragraphs->setLyrics($this);
         $this->paragraphs[] = $paragraphs;
 
         return $this;

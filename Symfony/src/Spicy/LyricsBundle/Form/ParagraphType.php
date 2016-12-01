@@ -17,8 +17,13 @@ class ParagraphType extends AbstractType
     {
         $builder
             ->add('position','text')
-            ->add('contentOriginal','textarea')
-            ->add('contentTraduction','textarea')
+            ->add('contentOriginal','textarea',[
+                'attr'=>['cols'=>80,'rows'=>10]
+            ])
+            ->add('contentTraduction','textarea',[
+                'attr'=>['cols'=>80,'rows'=>10],
+                'required'=>false
+            ])
             ->add('paragraph_type','choice',[
                 'choices'=>[Paragraph::INTRO=>'Intro',Paragraph::COUPLET =>'Couplet',Paragraph::REFRAIN=>'Refrain',Paragraph::OUTRO=>'Outro']
             ])

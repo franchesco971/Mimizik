@@ -1,48 +1,26 @@
 {% extends "SpicySiteBundle::layout_admin.html.twig" %}
+{% use "::bootstrap_3_horizontal_layout.html.twig" %}
 
 {% form_theme form _self %}
 
 {% block spicy_lyricsbundle_paragraph_widget %}
     <div class="paragraph_widget">
         {{ form_errors(form) }}
-        {#<div class="label">
-            {{ form_label(form.position) }}
-            {{ form_errors(form.position) }}            
-        </div>
-        <div class="input">
-            {{ form_widget(form.position) }}
-        </div>#}
         <table>
             <tr>
                 <td>
-                    {{ form_label(form.position) }}
-                    {{ form_errors(form.position) }}
+                    {{ form_row(form.position) }}
                 </td>
                 <td>
-                    {{ form_widget(form.position) }}
-                </td>
-                <td>
-                    {{ form_label(form.paragraph_type) }}
-                    {{ form_errors(form.paragraph_type) }}
-                </td>
-                <td>
-                    {{ form_widget(form.paragraph_type) }}
+                    {{ form_row(form.paragraph_type) }}
                 </td>
             </tr>
-             <tr>
+            <tr>
                 <td>
-                    {{ form_label(form.contentOriginal) }}
-                    {{ form_errors(form.contentOriginal) }}
+                    {{ form_row(form.contentOriginal) }}
                 </td>
                 <td>
-                    {{ form_widget(form.contentOriginal) }}
-                </td>
-                <td>
-                    {{ form_label(form.contentTraduction) }}
-                    {{ form_errors(form.contentTraduction) }}
-                </td>
-                <td>
-                    {{ form_widget(form.contentTraduction) }}
+                    {{ form_row(form.contentTraduction) }}
                 </td>
             </tr>
         </table>
@@ -72,10 +50,16 @@
     
   $(document).ready(function() {
     // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
-    var $container = $('div#spicy_sitebundle_title_lyrics_paragraphs');
+    //var $container = $('div#spicy_sitebundle_title_lyrics_paragraphs');
 
     // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
-    var index = $('div#spicy_sitebundle_title_lyrics_paragraphs>div').length;
+    //var index = $('div#spicy_sitebundle_title_lyrics_paragraphs>div').length;
+    
+    // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+    var $container = $('div#spicy_lyricsbundle_lyrics_paragraphs');
+
+    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+    var index = $('div#spicy_lyricsbundle_lyrics_paragraphs>div').length;
 
     // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
     $('#add_paragraph').click(function(e) {
@@ -113,6 +97,8 @@
 
         // On ajoute le prototype modifié à la fin de la balise <div>
         $container.append($prototype);
+        
+        $prototype.find('input[id$="position"]').val(index+1);
 
         // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
         index++;

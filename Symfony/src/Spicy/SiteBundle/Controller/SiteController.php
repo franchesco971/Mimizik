@@ -11,6 +11,7 @@ use Spicy\SiteBundle\Form\TypeVideoType;
 use Symfony\Component\HttpFoundation\Request;
 use Facebook\Facebook;
 use Facebook\Exceptions as FacebookExceptions;
+use Spicy\LyricsBundle\Entity\Paragraph;
 
 class SiteController extends Controller
 {
@@ -84,7 +85,7 @@ class SiteController extends Controller
         ));
     }
     
-    public function showAction($id)
+    public function showAction($id,$referrer='video')
     {
         $toolsManager = $this->container->get('mimizik.tools');
         $videoManager = $this->container->get('mimizik.videoService');
@@ -110,11 +111,16 @@ class SiteController extends Controller
         $nbVuTotal=$em->getRepository('SpicyRankingBundle:VideoRanking')->getCountForVideo($video);
         $currentVideoRanking=$em->getRepository('SpicyRankingBundle:VideoRanking')->getOneOfLastRanking($video);
         
+        $paragraphType=[Paragraph::INTRO=>'Intro', Paragraph::COUPLET=>'Couplet',  Paragraph::REFRAIN=>'Refrain',  Paragraph::OUTRO=>'Outro'];
+        
         return $this->render('SpicySiteBundle:Site:show.html.twig',array(
             'lavideo'=>$video,
             'suggestions'=>$suggestions,
             'tags'=>$tags,
             'nbVuTotal'=>$nbVuTotal['total'],
+            'lyrics'=>$em->getRepository('SpicyLyricsBundle:Lyrics')->getOrdered($video),
+            'paragraphType'=>$paragraphType,
+            'referrer'=>$referrer,
             'nbVuMonth'=>$currentVideoRanking?$currentVideoRanking->getNbVu():0
         ));
     }
