@@ -1,6 +1,10 @@
 spicy_lyrics:
     resource: "@SpicyLyricsBundle/Resources/config/routing.yml"
     prefix:   /paroles/
+    
+mimizik_lyrics_admin:
+    resource: "@SpicyLyricsBundle/Resources/config/routing_admin.yml"
+    prefix:   /admin/paroles/
 
 spicy_itw:
     resource: "@SpicyITWBundle/Resources/config/routing.yml"
