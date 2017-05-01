@@ -10,7 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({"video" = "Video","track"="Track"})
  */
-class Title
+abstract class Title
 {
     /**
      * @var integer
