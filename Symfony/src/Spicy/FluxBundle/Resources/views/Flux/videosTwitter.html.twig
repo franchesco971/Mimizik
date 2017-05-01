@@ -24,7 +24,7 @@
         {% for video in videos %} 
         <item>
             <title>{{video.artistes|artistsName|raw}} - {{video.titre}}</title>
-            <description>{{descriptions[video.id]}}</description>
+            <description>{{descriptions[video.id]}} --> </description>
             <link>{{website_name}}{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}</link>
             <guid isPermaLink="false">{{website_name}}{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}</guid>  
             <pubDate>{{ pubDates[video.id]['pubDate']|date("D, d M Y H:i:s O") }}</pubDate>
