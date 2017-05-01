@@ -32,6 +32,7 @@ security:
             form_login:
                 login_path: fos_user_security_login
                 check_path: fos_user_security_check
+                use_referer: true
             logout:
                 path: fos_user_security_logout
                 target: /
