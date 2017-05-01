@@ -69,7 +69,14 @@ class VideoService
             
             /**** fige les positions du classement précédent **/
             if($previousRanking)
-            $this->setPositions($previousRanking);
+            {
+                $this->setPositions($previousRanking);
+            }
+            else
+            {
+                $this->logger->error("(select max(ra.id) from SpicyRankingBundle:Ranking ra "
+                        . "where ra.id<".$ranking->getId()." AND ra.rankingType=".$ranking->getRankingType()->getId().")");
+            }
         }
         
         return $ranking;
