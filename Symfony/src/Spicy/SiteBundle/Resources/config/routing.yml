@@ -111,3 +111,7 @@ mimizik_paroles_slug:
     defaults: { _controller: SpicySiteBundle:Site:show,referrer:'lyrics' }
     requirements: 
         id: \d+
+        
+mimizik_social_login:
+    pattern: /social_login
+    defaults: { _controller: SpicySiteBundle:Site:socialLogin }

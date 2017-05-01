@@ -1,3 +1,7 @@
 spicy_user_homepage:
     pattern:  /hello/{name}
     defaults: { _controller: SpicyUserBundle:Default:index }
+    
+mimizik_user_security:
+    resource: "@SpicyUserBundle/Resources/config/Security/routing.yml"
+    prefix:   /security

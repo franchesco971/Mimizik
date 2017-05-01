@@ -486,5 +486,5 @@ class SiteController extends Controller
     
     public function selectArtistesForwardAction() {
         return $this->forward('SpicySiteBundle:Site:selectArtistes');
-    }
+    }   
 }

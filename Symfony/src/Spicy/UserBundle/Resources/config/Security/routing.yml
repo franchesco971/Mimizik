@@ -1,0 +1,7 @@
+mimizik_user_security_login:
+    pattern:  /login_modal
+    defaults: { _controller: SpicyUserBundle:Security:loginModal }
+    
+mimizik_user_social_login:
+    pattern:  /social_login/{type}/{id}/{name}    
+    defaults: { _controller: SpicyUserBundle:Security:socialLogin }

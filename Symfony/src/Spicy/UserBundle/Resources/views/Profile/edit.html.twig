@@ -1,0 +1,12 @@
+{% extends "SpicyUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+    <div class="content-block">
+        <div class="block-title ">
+            <span>Modification du profil</span>
+        </div>
+        <div class="block-content">
+            {% include "FOSUserBundle:Profile:edit_content.html.twig" %}
+        </div>
+    </div>
+{% endblock fos_user_content %}

@@ -4,6 +4,7 @@
         <title>{% block title %}Mimizik - Toutes les vidéos clip et la musique des antilles, de la caraïbes et de la guyane. Tout mizik la!{% endblock %}</title>
         
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+        <meta name="google-signin-client_id" content="286880270017-n438moatedvbo22leu2v2u3qnsf0vlht.apps.googleusercontent.com">
         {% block meta_description %}
             <meta name="Description" content="Mimizik est un site promotion de la musique des artistes et des vidéos clip des antilles, de la caraïbes et de la guyane. Il y a tous genres musicaux (zouk, dancehall, hip-hop...) et la vidéo rétro de la semaine..." />
             <meta property="og:title" content="Mimizik" />
@@ -17,6 +18,7 @@
                 'css/style2.css'
                 'css/reveal.css'
                 'css/pagination.css'
+                'css/form.css'
             %}
                 <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
             {% endstylesheets %}
@@ -42,7 +44,7 @@
                 <div class="container">
                     <div class="logo">
                         <a href="{{path("spicy_site_homepage")}}"><img src="{{asset('images/logo100rouge.png')}}"  alt="Logo mimizik" /></a>
-                        <h1 style="display:none">Mimizik</h1>
+                        <h1 style="display:none">Mimizik</h1>                       
                     </div>	
                     <div class="social-links">
                         <a title="Facebook" class="facebook" href="https://www.facebook.com/mimizikcom" target="_blank"></a>								
@@ -50,7 +52,17 @@
                         <a title="Twitter" class="twitter" href="https://twitter.com/mimizikcom" target="_blank"></a>
                         <a title="Google+" class="google" href="https://plus.google.com/+Mimizik" target="_blank"></a>
                         <a title="Flux" class="rss" href="http://www.mimizik.com/flux/videos" target="_blank"></a>
-                    </div><!--/ social links-->				
+
+                    </div><!--/ social links-->	
+                    {%set is_connected=0%}
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {%set is_connected=1%}
+                        <div  class="button dark large" style="clear: right;float:right;margin-top:20px;">
+                            <a id="btn_disconnect" href="{{path('fos_user_security_logout')}}"><span>Se Déconnecter</span></a>
+                        </div>                    
+                    {% else %}
+                        <div  class="button dark large" style="clear: right;float:right;margin-top:20px;"><a id="modal_connect" style=""><span>Se connecter</span></a></div>
+                    {% endif%}
                     <div class="clear"></div>
                 </div>			
             </div>
@@ -103,8 +115,54 @@
 	</div>
     
     <div id="fb-root"></div>
+    <div id="global_modal" class="reveal-modal">
+        <div class="content">
+            <div class="content-block">
+                <div class="block-title ">
+                    <span class="aligncenter">Connectez-vous</span>
+                </div>
+                <div class="block-content connection">
+                    <div class="row">
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-3">
+                            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="#" onclick="signOut();">Sign out</a>
+                        </div>
+                    </div>
+                    <div class="divider row col-md-12"></div>
+                    <div class="row">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3 hidden fb-button">
+                            <div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="true" onlogin="checkLoginState();"></div>
+                        </div>
+                        <!--<fb:login-button data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="true" scope="public_profile,email" 
+                                         onlogin="checkLoginState();"></fb:login-button>-->
+                        <div class="col-md-3">
+                            <div id="fb-status"></div>
+                        </div>
+                    </div>
+                    <div class="divider row col-md-12"></div>
+                </div>
+                
+            </div>
+            
+            <div class="content-block">
+                <div class="block-title"><span>Inscription</span></div>
+                <div class="block-content registration">
+                    <div class="button dark large" style=""><a id="btn_register" style="" href="{{path('fos_user_registration_register')}}"><span>S'inscrire</span></a></div>
+                </div>
+            </div>
+        </div>
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
     {% block javascripts %}
         <script type="text/javascript" src="{{asset('js/jquery-2.1.1.min.js')}}" ></script>
+        <script type="text/javascript" src="{{asset('js/api/fb.js')}}" ></script>
+        <script type="text/javascript" src="{{asset('js/api/google.js')}}" ></script>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
         {% javascripts  filter='?yui_js' output='js/compiled/main.js'
             'js/jquery.fadeSlider.js'
             'js/jquery.hoverIntent.min.js'
@@ -117,16 +175,76 @@
         <noscript>Your browser does not support JavaScript!</noscript>
         
         <script type="text/javascript">
+            
+            var url_social_login="{{path('mimizik_user_social_login',{"id":"__id__","type":"__type__","name":"__name__"})}}";
+            var is_connected={{is_connected}};
+            var fb_login=1;var google_login=2;
+            
+            //twitter
+            !function(d,s,id){
+                var js,fjs=d.getElementsByTagName(s)[0];
+                if(!d.getElementById(id))
+                {js=d.createElement(s);
+                    js.id=id;js.src="https://platform.twitter.com/widgets.js";
+                    fjs.parentNode.insertBefore(js,fjs);
+                }            
+            }
+            (document,"script","twitter-wjs");
+            
+            //google
+            window.___gcfg = {lang: 'fr'};
+            (function() {
+              var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+              po.src = 'https://apis.google.com/js/plusone.js';
+              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+            })();
+            
+            function getLoginForm()
+            {
+                $.ajax({
+                    url: "{{ path('mimizik_user_security_login')}}",
+                    context: document.body
+                  })
+                .done(function(html) {
+                    $('#global_modal .block-content.connection').append('<div id="modal_login">'+html+'</div>');
+                });
+            }
 
             // When document is ready, initialize pagination
-            $(document).ready(function(){      
+            $(document).ready(function(){           
+                
                 $.ajax({
                     url: "{{ path('mimizik_genres_menu')}}",
                     context: document.body
                   })
                 .done(function(html) {
                     $('#genresMenu').html(html);
-                })
+                });
+                
+                $("#modal_connect").click(function(){ 
+                    $(".fb-button").show();
+                    //$(".loading").show();
+                        //$('#modal_hashtag .content').html(data);
+                        if($('#global_modal #modal_login').length==0)                           
+                        getLoginForm();
+
+                        $('#global_modal').reveal();
+                        //$(".loading").hide();   
+                    return false;
+                });
+                
+                $('#modal_connect').on('hidden', function () {
+                    $(".fb-button").hide();
+                });
+                
+                $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
+                    console.log('close');
+                });
+                
+                $("#btn_disconnect").on('click',function(){
+                   fb_login.disconnect();
+                   //google_plugin.signOut();
+                });
             });
         </script>
     {% endblock %}
