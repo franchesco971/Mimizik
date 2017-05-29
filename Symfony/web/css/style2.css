@@ -172,3 +172,6 @@ form .label{float: left;clear: left; width: 150px;min-height: 40px; font-weight:
 form .input{float: left;min-height: 40px;}
 form .button{clear:left;float: left}
 
+#login .blockright{clear: right;float:right;margin-top:20px;}
+#login .blockright.message{font-size:1.3em;color:white;}
+

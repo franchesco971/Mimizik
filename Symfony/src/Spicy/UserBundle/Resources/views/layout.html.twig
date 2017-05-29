@@ -1,17 +1,23 @@
 {% extends "::layout.html.twig" %}
- 
-{# Dans notre layout, il faut définir le block body #}
+
+{% block title %}
+    Mimizik
+{% endblock %}
+
+{% block stylesheets %}
+    {{parent()}}
+    <link href="{{ asset('css/form.css') }}" type="text/css" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+
+  
 {% block body %}
- 
-  {# On affiche les messages flash que définissent les contrôleurs du bundle #}
-  {% for key, message in app.session.flashbag.all() %}
-    <div class="alert alert-{{ key }}">
-      {{ message|trans({}, 'FOSUserBundle') }}
-    </div>
-  {% endfor %}
- 
-  {# On définit ce block, dans lequel vont venir s'insérer les autres vues du bundle #}
-  {% block fos_user_content %}
-  {% endblock fos_user_content %}
- 
+      {% for message in app.session.flashbag.get('info') %}
+        <p>{{ message }}</p>
+      {% endfor %}
+      <div class="container content">
+      {% block fos_user_content %}
+      {% endblock %}  
+      </div>
 {% endblock %}

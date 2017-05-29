@@ -2,6 +2,6 @@ parameters:
 #    spicy_user.example.class: Spicy\UserBundle\Example
 
 services:
-#    spicy_user.example:
-#        class: %spicy_user.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    mimizik.user_provider.service:
+        class: Spicy\UserBundle\Service\UserProvider
+        arguments: [@fos_user.user_manager,{facebook: 'facebookId',google: 'googleId'}]

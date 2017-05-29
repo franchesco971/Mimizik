@@ -2043,6 +2043,7 @@ li + .formatted-form#respond {
 }
 
 .formatted-form input[type="text"],
+.formatted-form input[type="password"],
 .formatted-form textarea,
 .formatted-form select {
 	width:100%;

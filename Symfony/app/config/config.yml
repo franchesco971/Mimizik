@@ -96,4 +96,50 @@ monolog:
             type: stream
             path: "%kernel.logs_dir%/%kernel.environment%.ranking.log"
             level: debug
-            channels: mimizik
+            channels: mimizik            
+            
+#hwi_oauth:
+#    firewall_names:        [secured_area]
+#    resource_owners:
+#        facebook:
+#            type:          facebook
+#            client_id:     1559467677396676
+#            client_secret: 21670bef195b9f6323bc74607e0aa6ba
+#            scope:         "email"
+#            options:
+#                display: popup #dialog is optimized for popup window
+
+hwi_oauth:
+    connect:
+        account_connector: mimizik.user_provider.service
+    firewall_names:
+        - 'main' # name of security firewall configured to work with HWIOAuthBundle
+    fosub:
+        username_iterations: 30
+        properties:
+            facebook:    facebook_id
+            google:    google_id
+    resource_owners:
+        facebook:
+            type:                facebook
+#            #dev
+#            client_id:           1559467677396676
+#            client_secret:       21670bef195b9f6323bc74607e0aa6ba
+            #prod
+            client_id:           729891760354276
+            client_secret:       f99b1e647c6db07975a37cc287c0d91b
+            scope:               "email"
+            response_type :      'key'
+            options:
+                display: popup #dialog is optimized for popup window
+                auth_type: rerequest # Re-asking for Declined Permissions
+                
+        google:
+            type:                google            
+            ##dev
+            #client_id:           "286880270017-dp68ot4u62kk6j7imaiok22agfq90qrf.apps.googleusercontent.com"
+            #client_secret:       "5FQ7hoCvwka-zf9e3rQrPla5"
+            #prod
+            client_id:           "286880270017-2l26o875etmhp41chq9hbcqnlda1mmhu.apps.googleusercontent.com"
+            client_secret:       "DxnGad852KH1AxGa_4nRS4hX"
+            scope: "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
