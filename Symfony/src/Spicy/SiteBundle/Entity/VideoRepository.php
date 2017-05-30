@@ -21,23 +21,12 @@ class VideoRepository extends EntityRepository
     public function getOneAvecArtistes($id)
     {
         $qb = $this->createQueryBuilder('v')
-             ->join('v.type_videos', 't')
-             ->join('v.genre_musicaux', 'g')
-             ->join('v.artistes', 'a')
-             ->leftJoin('v.hashtags', 'vh')
-             ->leftJoin('a.hashtags', 'ah')
              ->where('v.id=:id')
              ->setParameter('id', $id)
              ->andWhere('v.etat=1')
-             ->addSelect('a')
-                ->addSelect('t')
-                ->addSelect('g')
-                ->addSelect('vh')
-                ->addSelect('ah')
              ;
  
-        return $qb->getQuery()
-                ->getSingleResult();
+        return $qb->getQuery()->getOneOrNullResult();
     }
     
     public function getAvecArtistes($nbOccurrences,$top=false)
