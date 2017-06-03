@@ -10,7 +10,7 @@ vendor/*
 web/uploads/*
 web/bundles/*
 /Symfony/composer.lock
-/Symfony/web/js/compiled/
+/Symfony/web/js/compiled/*
 composer.phar
 
 #################
@@ -234,5 +234,5 @@ pip-log.txt
 /Symfony/app/logs/
 /nbproject/
 /Symfony/web/bundles/
-/Symfony/web/css/compiled/
+/Symfony/web/css/compiled/*
 /Symfony/nbproject/

@@ -132,4 +132,8 @@ admin_collaborateur_new_modal:
     
 admin_collaborateur_create_modal:  
     pattern:  /collaborateur/create_modal
-    defaults: { _controller: SpicySiteBundle:Admin:modalCreateCollaborateur }
+    defaults: { _controller: SpicySiteBundle:Admin:modalCreateCollaborateur }  
+        
+admin_test_fb:
+    pattern:  /test/fb
+    defaults: { _controller: SpicySiteBundle:Admin:testFB }

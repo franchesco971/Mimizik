@@ -582,4 +582,14 @@ class AdminController extends Controller
         
         return $this->redirect($refererUrl);
     }
+    
+    public function testFBAction() {
+        $facebookManager = $this->container->get('mimizik.app.facebook.manager');
+        
+        $facebookManager=$facebookManager->getFacebookObject();
+        
+        var_dump('YES');
+        
+        return $this->render('SpicySiteBundle:Admin:index.html.twig');
+    }
 }
