@@ -80,4 +80,4 @@ fos_user_group:
     
 mimizik_approval_admin:
     resource: "@SpicySiteBundle/Resources/config/routing/approval.yml"
-    prefix:   /admin/approval/
+    prefix:   /approval/

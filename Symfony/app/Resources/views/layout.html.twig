@@ -54,7 +54,12 @@
                         <a title="Flux" class="rss" href="http://www.mimizik.com/flux/videos" target="_blank"></a>
                     </div><!--/ social links-->
                     {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <div  class="button dark large blockright">
+                        {% if is_granted('ROLE_CONTRIBUTOR')%}
+                            <div  class="button dark large blockright">
+                                <a id="btn_approval" href="{{path('approval_new')}}"><span>Soumettre une vidéo</span></a>
+                            </div>
+                        {% endif%}
+                        <div  class="button dark large blockright">                            
                             <a id="btn_disconnect" href="{{path('fos_user_security_logout')}}"><span>Se Déconnecter</span></a>                            
                         </div>           
                             <div  class="large blockright message">Hello <a href="{{path('fos_user_profile_show')}}">{{ app.user.username }}</a>!!</div>
