@@ -26,7 +26,8 @@
         "coresphere/console-bundle": "0.1.*",
         "symfony/twig-bundle": "2.4.*",
         "hwi/oauth-bundle": "0.4.*",
-        "facebook/php-sdk-v4": "^5.5"
+        "facebook/php-sdk-v4": "^5.5",
+        "symfony/var-dumper": "v3.2.*"
     },
     "scripts": {
         "post-install-cmd": [

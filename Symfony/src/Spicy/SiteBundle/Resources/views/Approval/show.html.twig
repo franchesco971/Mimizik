@@ -1,0 +1,37 @@
+{% extends "SpicySiteBundle::layout_admin.html.twig" %}
+
+{% block body %}
+{{ parent() }}
+    <h1>Approval</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Approvaldate</th>
+                <td>{{ entity.approvalDate }}</td>
+            </tr>
+            <tr>
+                <th>Disapprovaldate</th>
+                <td>{{ entity.disapprovalDate }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('approval') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('approval_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

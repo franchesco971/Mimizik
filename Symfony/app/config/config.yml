@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: website_parameters.yml }
+    - { resource: services.yml }
 
 framework:
     #esi:             ~
@@ -83,12 +84,12 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: Spicy\UserBundle\Entity\User
-
-services:
-    twig.extension.text:
-       class: Twig_Extensions_Extension_Text
-       tags:
-           - { name: twig.extension }
+    registration:
+        form:
+            type: mimizik_user_registration
+            handler: mimizik.form.handler.registration
+    group:
+        group_class: Spicy\AppBundle\Entity\Group
            
 monolog:
     handlers:

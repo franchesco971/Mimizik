@@ -1,3 +1,7 @@
+spicy_site_approval:
+    resource: "@SpicySiteBundle/Resources/config/routing/approval.yml"
+    prefix:   /approval
+
 spicy_site_homepage:
     pattern:  /{page}
     defaults: { _controller: SpicySiteBundle:Site:index,page: 1 }

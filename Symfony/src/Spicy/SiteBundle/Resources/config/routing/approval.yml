@@ -1,0 +1,30 @@
+approval:
+    path:     /
+    defaults: { _controller: "SpicySiteBundle:Approval:index" }
+
+approval_show:
+    path:     /{id}/show
+    defaults: { _controller: "SpicySiteBundle:Approval:show" }
+
+approval_new:
+    path:     /new
+    defaults: { _controller: "SpicySiteBundle:Approval:new" }
+
+approval_create:
+    path:     /create
+    defaults: { _controller: "SpicySiteBundle:Approval:create" }
+    requirements: { _method: post }
+
+approval_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "SpicySiteBundle:Approval:edit" }
+
+approval_update:
+    path:     /{id}/update
+    defaults: { _controller: "SpicySiteBundle:Approval:update" }
+    requirements: { _method: post|put }
+
+approval_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "SpicySiteBundle:Approval:delete" }
+    requirements: { _method: post|delete }

@@ -1,0 +1,16 @@
+{% extends "SpicySiteBundle::layout_admin.html.twig" %}
+
+{% block body %}
+{{ parent() }}
+    <h1>Approval creation</h1>
+
+    {{ form(form) }}
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('approval') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}
