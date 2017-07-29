@@ -15,10 +15,10 @@ class ApprovalType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('approvalDate')
-            ->add('disapprovalDate')
-            ->add('title',new VideoType())
-            ->add('user')
+//            ->add('approvalDate')
+//            ->add('disapprovalDate')
+            ->add('title',new ApprovalVideoType())
+//            ->add('user')
         ;
     }
     
@@ -28,7 +28,8 @@ class ApprovalType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Spicy\SiteBundle\Entity\Approval'
+            'data_class' => 'Spicy\SiteBundle\Entity\Approval',
+            'cascade_validation' => true
         ));
     }
 

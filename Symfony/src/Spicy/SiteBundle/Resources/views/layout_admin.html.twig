@@ -19,10 +19,16 @@
 {% block body %}
     
     {# On affiche tous les messages flash dont le nom est « info » #}
-      {% for message in app.session.flashbag.get('info') %}
-        <p>{{ message }}</p>
-      {% endfor %}
-        
+    {% for message in app.session.flashbag.get('info') %}
+        <div class="alert alert-info">
+          {{message}}
+        </div>
+    {% endfor %}
+    {% for message in app.session.flashbag.get('error') %}
+        <div class="alert alert-warning">
+            {{message}}
+        </div>
+    {% endfor %}
        
 {% endblock %}
 

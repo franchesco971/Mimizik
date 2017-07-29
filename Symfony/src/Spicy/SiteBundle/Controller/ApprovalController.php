@@ -7,6 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Spicy\SiteBundle\Entity\Approval;
 use Spicy\SiteBundle\Form\ApprovalType;
+use Spicy\SiteBundle\Entity\Video;
+use Spicy\SiteBundle\Entity\TypeVideo;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 /**
  * Approval controller.
@@ -35,16 +38,34 @@ class ApprovalController extends Controller
      */
     public function createAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
         $entity = new Approval();
+        $video=new Video();
+        $typeClip = $em->getRepository('SpicySiteBundle:TypeVideo')->findOneBy(['libelle'=>'Clip']);
+        $video->addTypeVideo($typeClip)->setEtat(false);
+        $entity->setTitle($video)->setUser($this->getUser());
+        
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            try{
+                $em->persist($entity);
+                $em->flush();
+                
+                $this->get('session')->getFlashBag()->add('info','Video soumis à approbation');
+                return $this->redirect($this->generateUrl('approval_show', array('id' => $entity->getId())));
+            }
+            catch(UniqueConstraintViolationException $e)
+            {
+                $this->get('session')->getFlashBag()->add('error','Video déjà soumise');
+            }
+            catch(\Exception $e)
+            {
+                $this->get('session')->getFlashBag()->add('error',"Erreur d'enregistrement");
+            }
 
-            return $this->redirect($this->generateUrl('approval_show', array('id' => $entity->getId())));
+            
         }
 
         return $this->render('SpicySiteBundle:Approval:new.html.twig', array(
@@ -78,7 +99,13 @@ class ApprovalController extends Controller
      */
     public function newAction()
     {
+        $em = $this->getDoctrine()->getManager();
         $entity = new Approval();
+        $video=new Video();
+        $typeClip = $em->getRepository('SpicySiteBundle:TypeVideo')->findOneBy(['libelle'=>'Clip']);
+        $video->addTypeVideo($typeClip)->setEtat(false);
+        $entity->setTitle($video)->setUser($this->getUser());
+        
         $form   = $this->createCreateForm($entity);
 
         return $this->render('SpicySiteBundle:Approval:new.html.twig', array(
@@ -124,12 +151,12 @@ class ApprovalController extends Controller
         }
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
+//        $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('SpicySiteBundle:Approval:edit.html.twig', array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'form'   => $editForm->createView(),
+//            'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -165,20 +192,21 @@ class ApprovalController extends Controller
             throw $this->createNotFoundException('Unable to find Approval entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
+//        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->flush();
+            $this->get('session')->getFlashBag()->add('info','Video modifié');
 
             return $this->redirect($this->generateUrl('approval_edit', array('id' => $id)));
-        }
+        }        
 
         return $this->render('SpicySiteBundle:Approval:edit.html.twig', array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'form'   => $editForm->createView(),
+//            'delete_form' => $deleteForm->createView(),
         ));
     }
     /**

@@ -152,6 +152,8 @@ abstract class Title
         $this->genre_musicaux = new \Doctrine\Common\Collections\ArrayCollection();
         $this->collaborateurs = new \Doctrine\Common\Collections\ArrayCollection();
         $this->etat=true;
+        $this->onTop=false;
+        $this->source='';
     }
     
     public function getNomArtistes()

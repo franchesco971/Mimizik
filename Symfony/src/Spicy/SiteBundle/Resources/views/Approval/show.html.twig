@@ -1,5 +1,18 @@
 {% extends "SpicySiteBundle::layout_admin.html.twig" %}
 
+{% block analytics %}
+    <!-- analytics -->
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-42850691-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+{% endblock %}
+
 {% block body %}
 {{ parent() }}
     <h1>Approval</h1>
@@ -7,31 +20,31 @@
     <table class="record_properties">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
+                <th>Titre</th>
+                <td>{{ entity.title.titre }}</td>
             </tr>
             <tr>
-                <th>Approvaldate</th>
-                <td>{{ entity.approvalDate }}</td>
+                <th>Id youtube</th>
+                <td>{{ entity.title.url }}</td>
             </tr>
             <tr>
-                <th>Disapprovaldate</th>
-                <td>{{ entity.disapprovalDate }}</td>
+                <th>Artistes</th>
+                <td>{{ entity.title.artistes|artistsName }}</td>
             </tr>
         </tbody>
     </table>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('approval') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('approval_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+    <ul class="record_actions">
+       {# <li>
+            <a href="{{ path('approval') }}">
+                Back to the list
+            </a>
+        </li>#}
+        <li>
+            <a href="{{ path('approval_edit', { 'id': entity.id }) }}">
+                Modifier
+            </a>
+        </li>
+        {#    <li>{{ form(delete_form) }}</li>#}
+    </ul>
 {% endblock %}

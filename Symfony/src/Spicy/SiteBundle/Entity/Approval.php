@@ -24,19 +24,19 @@ class Approval
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="approvalDate", type="datetimetz")
+     * @ORM\Column(name="approvalDate", type="datetimetz", nullable=true)
      */
     private $approvalDate;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="disapprovalDate", type="datetimetz")
+     * @ORM\Column(name="disapprovalDate", type="datetimetz", nullable=true)
      */
     private $disapprovalDate;
     
     /**
-     * @ORM\OneToOne(targetEntity="Spicy\SiteBundle\Entity\Title", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Spicy\SiteBundle\Entity\Title", cascade={"persist","merge"})
      * @ORM\JoinColumn(name="title_id", referencedColumnName="id")
      */
     private $title;
@@ -46,6 +46,17 @@ class Approval
     * @ORM\JoinColumn(nullable=false)
     */
     private $user;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="requestDate", type="datetimetz")
+     */
+    private $requestDate;
+    
+    public function __construct() {
+        $this->requestDate=new \DateTime;
+    }
 
     /**
      * Get id
@@ -151,5 +162,29 @@ class Approval
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set requestDate
+     *
+     * @param \DateTime $requestDate
+     *
+     * @return Approval
+     */
+    public function setRequestDate($requestDate)
+    {
+        $this->requestDate = $requestDate;
+
+        return $this;
+    }
+
+    /**
+     * Get requestDate
+     *
+     * @return \DateTime
+     */
+    public function getRequestDate()
+    {
+        return $this->requestDate;
     }
 }

@@ -8,39 +8,62 @@
         </title>
         
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+{#        <meta name="google-signin-client_id" content="286880270017-n438moatedvbo22leu2v2u3qnsf0vlht.apps.googleusercontent.com">#}
         {% block meta_description %}
-        <meta name="Description" content="Mimizik est un site promotion de la musique des artistes et des vidéos clip des antilles, de la caraïbes et de la guyane. Il y a tous genres musicaux (zouk, dancehall, hip-hop...) et la vidéo rétro de la semaine..."/> 
+            <meta name="Description" content="Mimizik est un site promotion de la musique des artistes et des vidéos clip des antilles, de la caraïbes et de la guyane. Il y a tous genres musicaux (zouk, dancehall, hip-hop...) et la vidéo rétro de la semaine..." />
+            <meta property="og:title" content="Mimizik" />
+            <meta property="og:type" content="website" />
+            <meta property="og:image" content="{{asset('images/logo.png')}}" />
+            <meta property="og:url" content="{{website_name}}" />
         {% endblock %}
         {% block stylesheets %}
-            {% stylesheets filter='cssrewrite,?yui_css' output='css/compiled/main_admin2.css'
+            {% stylesheets filter='cssrewrite,?yui_css' output='css/compiled/main.css'
                 'css/style.css'
-                'css/style2.css'%}
+                'css/style2.css'
+                'css/reveal.css'
+                'css/pagination.css'
+                'css/form.css'
+            %}
                 <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
             {% endstylesheets %}
         {% endblock %}
         <link rel="icon" type="image/png" href="{{asset('images/video.png')}}" />
-        <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/video.ico')}}" />
+        <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/icone.gif')}}" />
         <link rel="alternate" type="application/rss+xml" title="videos" href="{{website_name}}{{path('spicy_site_flux_videos')}}" />
+        {% block analytics %}
+        {% endblock %}        
     </head>
     
     <body>
         <div class="header">
             <div class="supheader wrapper">
-                <div class="container">
+                <div class="container" id="login">
                     <div class="logo">
-                        <span>Mimizik</span>
-                    </div><!--/ logo-->
-                    <!--<div class="user-links">
-                            <div class="button-container">
-                                    <a class="button small dark login-link" href="#"><span>Sign In</span></a>
-                            </div>		
-                    </div>--><!--/ user links-->	
+                        <a href="{{path("spicy_site_homepage")}}"><img src="{{asset('images/logo100rouge.png')}}"  alt="Logo mimizik" /></a>
+                        <h1 style="display:none">Mimizik</h1>
+                    </div>	
                     <div class="social-links">
                         <a title="Facebook" class="facebook" href="https://www.facebook.com/mimizikcom" target="_blank"></a>								
                         <a title="Youtube" class="youtube" href="https://www.youtube.com/user/mimizikcom" target="_blank"></a>
                         <a title="Twitter" class="twitter" href="https://twitter.com/mimizikcom" target="_blank"></a>
+                        <a title="Google+" class="google" href="https://plus.google.com/+Mimizik" target="_blank"></a>
                         <a title="Flux" class="rss" href="http://www.mimizik.com/flux/videos" target="_blank"></a>
-                    </div><!--/ social links-->				
+                    </div><!--/ social links-->
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {% if is_granted('ROLE_CONTRIBUTOR')%}
+                            <div  class="button dark large blockright">
+                                <a id="btn_approval" href="{{path('approval_new')}}"><span>Soumettre une vidéo</span></a>
+                            </div>
+                        {% endif%}
+                        <div  class="button dark large blockright">                            
+                            <a id="btn_disconnect" href="{{path('fos_user_security_logout')}}"><span>Se Déconnecter</span></a>                            
+                        </div>           
+                            <div  class="large blockright message">Hello <a href="{{path('fos_user_profile_show')}}">{{ app.user.username }}</a>!!</div>
+                    {% else %}
+                        <div  class="button dark large blockright" >
+                            <a id="modal_connect" style=""><span>Se connecter</span></a>                            
+                        </div>
+                    {% endif%}
                     <div class="clear"></div>
                 </div>			
             </div>
@@ -48,12 +71,20 @@
                 <div class="container" >
                     <div class="menu" >
                         <ul id="menu-main-menu" class="menu">
-                            <li><a href="{{path('spicy_site_homepage')}}">Accueil</a></li>
-                            <li><a href="{{path('spicy_site_artistes')}}">Artistes</a></li>
-                            <li>
-                                {{ render(controller("SpicySiteBundle:Site:genres"))}}
+                            <li><a title="Accueil Mimizik" href="{{path('spicy_site_homepage')}}">Accueil</a></li>
+                            <li><a title="Liste des artistes" href="{{path('spicy_site_artistes')}}">Artistes</a></li>
+                            <li id="genresMenu">                                
                             </li>
-                            <li><a href="{{path('spicy_site_contact')}}">Contact</a></li>
+                            <li><a title="Hashtags" href="{{path('mimizik_hashtag')}}">Hashtags</a></li>
+                            <li><a title="Tops" href="{{path('mimizik_tops')}}">Tops</a></li>
+                            <li>
+                                <a>Classements</a>
+                                <ul class="sub-menu" >
+                                    <li><a title="Classements mensuel" href="{{path('mimizik_ranking_index')}}">Mensuel</a></li></li>
+                                    <li><a title="Classements annuel" href="{{path('mimizik_year_ranking_index')}}">Annuel</a></li></li>
+                                </ul>
+                            </li>    
+                            <li><a title="Contact" href="{{path('spicy_site_contact')}}">Contact</a></li>
                         </ul>
                     </div>
                 </div>
