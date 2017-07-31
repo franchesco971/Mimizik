@@ -24,6 +24,10 @@ class ApprovalController extends Controller
      */
     public function indexAction()
     {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException();
+        }
+        
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('SpicySiteBundle:Approval')->findAll();
@@ -200,7 +204,7 @@ class ApprovalController extends Controller
             $em->flush();
             $this->get('session')->getFlashBag()->add('info','Video modifié');
 
-            return $this->redirect($this->generateUrl('approval_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('approval_show', array('id' => $id)));
         }        
 
         return $this->render('SpicySiteBundle:Approval:edit.html.twig', array(
@@ -248,5 +252,37 @@ class ApprovalController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+    
+    /**
+     * Displays a form to edit an existing Approval entity.
+     *
+     */
+    public function DisapprovalAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('SpicySiteBundle:Approval')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Approval entity.');
+        }
+
+        $entity->setDisapprovalDate(new \DateTime);
+        try{
+            $em->flush();
+            $this->get('session')->getFlashBag()->add('info','Video désapprouvée');
+        }
+        catch(\Exception $e)
+        {
+            $this->get('session')->getFlashBag()->add('error',"Erreur d'enregistrement");
+        }
+
+        return $this->redirect($this->generateUrl('approval'));
+    }
+    
+    public function ApprovalAction($id)
+    {
+        
     }
 }

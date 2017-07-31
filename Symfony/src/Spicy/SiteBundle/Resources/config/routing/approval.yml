@@ -28,3 +28,11 @@ approval_delete:
     path:     /{id}/delete
     defaults: { _controller: "SpicySiteBundle:Approval:delete" }
     requirements: { _method: post|delete }
+    
+approval_disapproval:
+    path:     /{id}/disapproval
+    defaults: { _controller: "SpicySiteBundle:Approval:disapproval" }
+    
+approval_approval:
+    path:     /{id}/approval
+    defaults: { _controller: "SpicySiteBundle:Approval:approval" }
