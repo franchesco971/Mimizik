@@ -17,6 +17,7 @@ services:
         class: Spicy\SiteBundle\Services\Social
     mimizik.tools:
         class: Spicy\SiteBundle\Services\Tools
+        arguments: [ @mailer ]
     mimizik.videoService:
         class: Spicy\SiteBundle\Services\VideoService
         arguments: 

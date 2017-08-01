@@ -10,6 +10,7 @@ use Spicy\SiteBundle\Form\ApprovalType;
 use Spicy\SiteBundle\Entity\Video;
 use Spicy\SiteBundle\Entity\TypeVideo;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Spicy\SiteBundle\Form\VideoType;
 
 /**
  * Approval controller.
@@ -28,8 +29,8 @@ class ApprovalController extends Controller
             throw $this->createAccessDeniedException();
         }
         
-        $em = $this->getDoctrine()->getManager();
-
+        $em = $this->getDoctrine()->getManager();      
+        
         $entities = $em->getRepository('SpicySiteBundle:Approval')->findAll();
 
         return $this->render('SpicySiteBundle:Approval:index.html.twig', array(
@@ -54,10 +55,17 @@ class ApprovalController extends Controller
 
         if ($form->isValid()) {
             try{
+                $tools = $this->container->get('mimizik.tools');
                 $em->persist($entity);
                 $em->flush();
                 
                 $this->get('session')->getFlashBag()->add('info','Video soumis à approbation');
+                
+                $tools->sendMail("<p>Bonjour Admin,</p>"
+                        . "<p>".$this->getUser()->getUsername()." a soumis la vidéo"
+                        . $tools->getArtistsNames($video->getArtistes())." - "
+                        . $video->getTitre()."</p>");
+                
                 return $this->redirect($this->generateUrl('approval_show', array('id' => $entity->getId())));
             }
             catch(UniqueConstraintViolationException $e)
@@ -258,7 +266,7 @@ class ApprovalController extends Controller
      * Displays a form to edit an existing Approval entity.
      *
      */
-    public function DisapprovalAction($id)
+    public function disapprovalAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -281,8 +289,39 @@ class ApprovalController extends Controller
         return $this->redirect($this->generateUrl('approval'));
     }
     
-    public function ApprovalAction($id)
+    public function approvalAction($id)
     {
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->get('request');
         
+        $approval= $em->getRepository('SpicySiteBundle:Approval')->find($id);
+        $video=$approval->getTitle();
+        $video->setEtat(true);
+        
+        $form= $this->createForm(new VideoType,$video);    
+            
+        if ($request->getMethod() == 'POST') {
+            $form->bind($request);
+
+            if ($form->isValid()) {  
+                $approval->setApprovalDate(new \DateTime);                
+                
+                try{
+                    $em->flush();
+                    $this->get('session')->getFlashBag()->add('info','Publication approuvé');
+                    //$_SESSION['id_video_publish']=$video->getId();
+                    
+                    //return $this->redirect($this->generateUrl('mimizik_app_fb_login'));
+                }
+                catch(\Exception $e)
+                {
+                    $this->get('session')->getFlashBag()->add('error',"Erreur d'enregistrement");
+                }                
+            }
+        }
+        
+        return $this->render('SpicySiteBundle:Approval:approval.html.twig',array(
+            'form'=>$form->createView()
+        ));
     }
 }

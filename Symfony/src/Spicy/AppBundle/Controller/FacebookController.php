@@ -114,6 +114,7 @@ class FacebookController extends Controller
                         $randTopVideo->setNextPublishDate($publishDate);
                         break;
                     }
+                    $this->get('session')->getFlashBag()->add('info','La vidéo sera publié dans 15 min');
                 }
                 
                 $em->flush();

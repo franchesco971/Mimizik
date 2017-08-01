@@ -7,7 +7,11 @@
 
 {% block body %}
 {{ parent() }}
-    <h1>Approval list</h1>
+    <a href="{{ path('spicy_admin_home_video') }}" class="btn">
+        <i class="icon-chevron-left"></i>
+        Retour à la video
+    </a>
+    <h3>Approval list</h3>
 
     <table class="records_list">
         <thead>
@@ -43,12 +47,14 @@
                     <p>
                         <a class="button dark" href="https://www.youtube.com/watch?v={{entity.title.url}}" target="_blank">Voir</a>
                     </p>
+                    {% if not entity.approvalDate or not entity.disapprovalDate %}
                     <p>
                         <a class="button dark" href="{{ path('approval_approval', { 'id': entity.id }) }}">Approuver</a>
                     </p>
                     <p>
                         <a class="button dark" href="{{ path('approval_disapproval', { 'id': entity.id }) }}">Désapprouver</a>
                     </p>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

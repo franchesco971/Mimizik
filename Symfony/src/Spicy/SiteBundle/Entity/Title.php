@@ -153,7 +153,7 @@ abstract class Title
         $this->collaborateurs = new \Doctrine\Common\Collections\ArrayCollection();
         $this->etat=true;
         $this->onTop=false;
-        $this->source='';
+        $this->source='youtube';
     }
     
     public function getNomArtistes()

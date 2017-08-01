@@ -9,6 +9,12 @@ namespace Spicy\SiteBundle\Services;
  */
 class Tools {
     
+    private $mailer;
+    
+    public function __construct(\Swift_Mailer $mailer) {
+        $this->mailer=$mailer;
+    }
+    
     public function getListId($entities) 
     {
         $ids=array();
@@ -65,4 +71,52 @@ class Tools {
         
         return $tabArtistes;
     }
+    
+    public function sendMail($message)
+    {
+        $message = \Swift_Message::newInstance()
+        ->setSubject('Soumission de vidéo mimizik')
+        ->setFrom('franchesco971@mimizik.com')
+        ->setTo('franchesco971@mimizik.com')
+        ->setBody($message);
+        
+        $this->mailer->send($message);
+    }
+    
+    public function getArtistsNames($artists,$maxNumber=100)
+    {
+        $text='';
+        $nbletter=0;
+        foreach ($artists as $key=>$artist) {
+            if($nbletter<$maxNumber)
+            {
+                $label=$artist->getLibelle();
+                $nbletter=$nbletter+strlen($label); 
+                $text=$text.$label;
+                
+                $text=$this->ponctuation($artists, $key,$text);
+            }
+        }
+
+        return $text;
+    }
+    
+    public function ponctuation($artists,$key,$text) 
+    {
+        if(count($artists)==2 && $key==0)
+        {
+            $text=$text.' &amp; ';
+        }
+        elseif (count($artists)>2 && count($artists)-$key>2) 
+        {                    
+            $text=$text.', ';
+        }
+        elseif (count($artists)-$key==2) 
+        {
+            $text=$text.' &amp; ';
+        }
+        
+        return $text;
+    }
+    
 }
