@@ -28,7 +28,7 @@ class ApprovalVideoType extends AbstractType
 //                'label'=>'On top'
 //            ))
 //            ->add('source','text')
-            ->add('tags_fb','text', array('required' => false))
+            ->add('tags_fb','text', ['label'=>'Tags facebook','required' => false])
             ->add('tags_twitter','text', array('required' => false))
             ->add('hashtags', 'entity', array(
                 'class'    => 'SpicyTagBundle:Hashtag',

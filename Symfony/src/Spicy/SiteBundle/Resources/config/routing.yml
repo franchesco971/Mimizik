@@ -71,6 +71,9 @@ spicy_site_credits:
 spicy_site_contact:
     pattern: /contact
     defaults: { _controller: SpicySiteBundle:Site:contact }
+mimizik_site_contact_approval:
+    pattern: /contact/approval
+    defaults: { _controller: SpicySiteBundle:Site:contactApproval }
 
 spicy_site_test:
     pattern: /test

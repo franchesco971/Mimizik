@@ -74,13 +74,13 @@ class Tools {
     
     public function sendMail($message)
     {
-        $message = \Swift_Message::newInstance()
+        $smessage = \Swift_Message::newInstance()
         ->setSubject('Soumission de vidéo mimizik')
         ->setFrom('franchesco971@mimizik.com')
         ->setTo('franchesco971@mimizik.com')
         ->setBody($message);
         
-        $this->mailer->send($message);
+        $this->mailer->send($smessage);
     }
     
     public function getArtistsNames($artists,$maxNumber=100)

@@ -61,10 +61,10 @@ class ApprovalController extends Controller
                 
                 $this->get('session')->getFlashBag()->add('info','Video soumis à approbation');
                 
-                $tools->sendMail("<p>Bonjour Admin,</p>"
+                /*$tools->sendMail("<p>Bonjour Admin,</p>"
                         . "<p>".$this->getUser()->getUsername()." a soumis la vidéo"
                         . $tools->getArtistsNames($video->getArtistes())." - "
-                        . $video->getTitre()."</p>");
+                        . $video->getTitre()."</p>");*/
                 
                 return $this->redirect($this->generateUrl('approval_show', array('id' => $entity->getId())));
             }
@@ -309,9 +309,9 @@ class ApprovalController extends Controller
                 try{
                     $em->flush();
                     $this->get('session')->getFlashBag()->add('info','Publication approuvé');
-                    //$_SESSION['id_video_publish']=$video->getId();
+                    $_SESSION['id_video_publish']=$video->getId();
                     
-                    //return $this->redirect($this->generateUrl('mimizik_app_fb_login'));
+                    return $this->redirect($this->generateUrl('mimizik_app_fb_login'));
                 }
                 catch(\Exception $e)
                 {
@@ -323,5 +323,30 @@ class ApprovalController extends Controller
         return $this->render('SpicySiteBundle:Approval:approval.html.twig',array(
             'form'=>$form->createView()
         ));
+    }
+    
+    public function testAction() {
+        $test='rien';
+        $em = $this->getDoctrine()->getManager(); 
+        
+        $tools = $this->container->get('mimizik.tools');
+        $video = $em->getRepository('SpicySiteBundle:Video')->find(3698);
+                
+        $this->get('session')->getFlashBag()->add('info','Video soumis à approbation');
+        
+        try{
+        $tools->sendMail("<p>Bonjour Admin,</p>"
+                . "<p>".$this->getUser()->getUsername()." a soumis la vidéo"
+                . $tools->getArtistsNames($video->getArtistes())." - "
+                . $video->getTitre()."</p>");
+        }
+        catch (\Swift_SwiftException $e)
+        {
+            //dump($e);
+//            $test=$e;
+            var_dump($e);
+        }
+        
+        return $this->render('SpicySiteBundle:Site:test.html.twig',['test'=>$test]);
     }
 }

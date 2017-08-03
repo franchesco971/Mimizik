@@ -1,11 +1,11 @@
 {% extends "SpicySiteBundle::layout.html.twig" %}
 
 {% block title %}
-{{ parent() }} : Retrouvez nous sur facebook(mimizikcom), youtube(mimizikcom) et twitter
+{{ parent() }} : Comment soumettre une vidéo sur Mimizik.com?
 {% endblock %}
 
 {% block meta_description %}
-    <meta name="Description" content="Retrouvez nous sur facebook(mimizikcom), youtube(mimizikcom) et twitter."/> 
+    <meta name="Description" content="Comment soumettre une vidéo sur Mimizik.com?"/> 
 {% endblock %}
 
 {% block body %}
@@ -13,42 +13,49 @@
     {{ parent() }}
     <div class="page-title wrapper">
         <div class="container">
-            <span><h2>Contact - Infos</h2></span>
+            <span><h2>Comment soumettre une vidéo sur Mimizik.com?</h2></span>
             <div class="clear"></div>
         </div>
     </div>
     <div class="container" id="main_container" >
         <div class="two-third column">    
             <div class="content-block">
-                <div class="block-title"><span>Le site</span></div>
+                <div class="block-title"><span>Inscription</span></div>
                 <div class="block-content">
-                    <p>Mimizik est un site spécialisé dans la promotion de vidéos clips des artistes issus des départements
-                    d'outre-mer (Guadeloupe, Martinique, Guyane, Réunion,...), de la Caraîbe (Jamaïque,
-                    Trinidad..) et plus généralement des genres musicaux qui y sont présent, créé en septembre 2013.<br/><br/> 
-                    Depuis sa création , le site attire de plus en plus de visiteurs,
-                    en quête des dernières vidéos de leurs artistes préférés, qui apprécient le design, l'accessibilité des
-                    rubriques ou encore la diversité des vidéos du site.<br/><br/>
-                    Grâce à l'interconnexion avec les réseaux sociaux, Mimizik s'assure une place priviligée pour capter
-                    les dernières nouveautés musicales et permettre des échanges entre ces visiteurs.</p>
+                    <p>Il faut s'incrire sur Mimizik en tant que contributeur<br/><br/>
+                        <img src="{{asset('images/contact/approval/inscription.png')}}"  alt="inscription" />
+                    </p>
                 </div>
             </div>
             <div class="content-block">
-                <div class="block-title"><span>Exclusivité</span></div>
+                <div class="block-title"><span>Soumission</span></div>
                 <div class="block-content">
-                    <p>Vous êtes artiste et vous rechercher un moyen de vous faire connaître ?<br/><br/>
-                    Votre vidéo peut bénéficier de l'influence de notre chaîne YouTube. Elle pourra vous garantir une
-                    plus grande visibilité, et vous permettre par la suite de créer éventuellement votre propre chaîne.</p>
+                    <p>Appuyer sur le bouton "Soumettre une vidéo"<br/><br/>
+                    <img src="{{asset('images/contact/approval/btn_approval.PNG')}}" width='580'  alt="btn_approval" /></p>
                 </div>
             </div>
             <div class="content-block">
-                <div class="block-title"><span>Collaboration</span></div>
+                <div class="block-title"><span>Formulaire</span></div>
                 <div class="block-content">
-                    <p>Mimizik vous propose des collaborations de divers types : promotion d'artistes, d'évènement (soirées, concert...).<br/><br/>
-                    Si vous pensez avoir des compétences pour nous aider à accroître l'attractivité de notre site
-                    (monteur vidéos, webmaster, graphiste...), vous pouvez également nous contacter.</p>
+                    <p>Remplir le formulaire avec les infomations de la vidéo.
+                        <i>Si le genre ou les artistes ne sont pas présents , il faut le préciser dans la description</i><br/><br/>
+                    <img src="{{asset('images/contact/approval/submit_form.PNG')}}"  alt="submit_form" /></p>
                 </div>
             </div>
             <div class="content-block">
+                <div class="block-title"><span>Règles</span></div>
+                <div class="block-content">
+                    <p>Un petit rappel des règles de Mimizik.com : 
+                        <ul>
+                            <li>Pour l'instant nous ne publions que les vidéos clip Youtube de bonne qualité.</li>
+                            <li>Les montages peuvent être acceptés à condition d'être de bonne qualité.</li>
+                            <li>Si vous ne possédez pas de chaîne Youtube nous pouvons publier la vidéo pour vous sur notre chaine.</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>  
+                
+            {#<div class="content-block">
                 <div class="block-title"><span>Publicité</span></div>
                 <div class="block-content">
                     <p>En plus de faire la promotion des artistes et de leurs créations, Mimizik fait également la place aux
@@ -68,14 +75,12 @@
                         <li>Mise en avant fb et twitter </li>
                     </ul>
                 </div>
-            </div>
+            </div>#}
         </div>
         <div class="one-third column last">
             <div class="content-block">
                 <div class="block-content">
                     <p>Pour tous renseignements, promotions et montage vidéo veuillez nous contacter:</p><br/>
-                    <p><a href="{{path('mimizik_site_contact_approval')}}" >Comment soumettre une vidéo sur Mimizik.com?</a></p><br/>
-                    <h3>Team</h3>
                     <p>Developpeur/Administrateur : <br/><a href="mailto:{{email_contact}}">Franchesco971 ({{email_contact}})</a></p>
                     <p>Graphisme : <a href="mailto:{{email_contact}}">Peach vivi</a></p>
                     <br/>
@@ -84,13 +89,12 @@
                     <p>Twitter : <a href="https://twitter.com/mimizikcom" target="_blank">mimizikcom</a></p>
                     <p>Youtube: <a href="https://www.youtube.com/user/mimizikcom" target="_blank">mimizikcom</a></p>
                     <p>S'abonner aux flux des vidéos: <a href="http://www.mimizik.com/flux/videos" target="_blank">flux</a></p>
-                    
                 </div>
             </div>
         </div>
     </div>
     
-    <div id="modal_home" class="reveal-modal modal_apercu">
+    {#<div id="modal_home" class="reveal-modal modal_apercu">
         <h1>Aperçu Habillage home</h1>
         <p><img src="{{asset('images/contact/testbackground3.png')}}"  alt="habillage home" /></p>
         <a class="close-reveal-modal">&#215;</a>
@@ -100,6 +104,6 @@
         <h1>Aperçu Habillage haut</h1>
         <p><img src="{{asset('images/contact/bg_haut.png')}}"  alt="habillage haut" /></p>
         <a class="close-reveal-modal">&#215;</a>
-    </div>
+    </div>#}
 </div>
 {%endblock%}
