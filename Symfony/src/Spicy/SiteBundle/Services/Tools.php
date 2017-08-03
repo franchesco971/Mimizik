@@ -78,7 +78,7 @@ class Tools {
         ->setSubject('Soumission de vidéo mimizik')
         ->setFrom('franchesco971@mimizik.com')
         ->setTo('franchesco971@mimizik.com')
-        ->setBody($message);
+        ->setBody($message,'text/html');
         
         $this->mailer->send($smessage);
     }

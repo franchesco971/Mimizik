@@ -61,10 +61,12 @@ class ApprovalController extends Controller
                 
                 $this->get('session')->getFlashBag()->add('info','Video soumis à approbation');
                 
-                /*$tools->sendMail("<p>Bonjour Admin,</p>"
-                        . "<p>".$this->getUser()->getUsername()." a soumis la vidéo"
-                        . $tools->getArtistsNames($video->getArtistes())." - "
-                        . $video->getTitre()."</p>");*/
+                $tools->sendMail("<p>Bonjour Admin,</p>"
+                . "<p>".$this->getUser()->getUsername()." a soumis la vidéo : "                
+                . $tools->getArtistsNames($video->getArtistes())." - "
+                . $video->getTitre()."</p>"
+                . "<p><a href='https://www.youtube.com/watch?v=".$video->getUrl()."'>Voir</a></p>"
+                . "<p><a href='".$this->generateUrl('approval_show')."'>Liste des Vidéos</a></p>");
                 
                 return $this->redirect($this->generateUrl('approval_show', array('id' => $entity->getId())));
             }
@@ -335,10 +337,18 @@ class ApprovalController extends Controller
         $this->get('session')->getFlashBag()->add('info','Video soumis à approbation');
         
         try{
-        $tools->sendMail("<p>Bonjour Admin,</p>"
-                . "<p>".$this->getUser()->getUsername()." a soumis la vidéo"
+            $tools->sendMail($this->renderView(
+                'SpicySiteBundle:Mail:Approval\admin_approval.html.twig',
+                ['user' => $this->getUser(),'video'=>$video]
+            ));
+            
+            
+            /*$tools->sendMail("<p>Bonjour Admin,</p>"
+                . "<p>".$this->getUser()->getUsername()." a soumis la vidéo : "                
                 . $tools->getArtistsNames($video->getArtistes())." - "
-                . $video->getTitre()."</p>");
+                . $video->getTitre()."</p>"
+                . "<p><a href='https://www.youtube.com/watch?v=".$video->getUrl()."'>Voir</a></p>"
+                . "<p><a href='".$this->generateUrl('approval')."'>Liste des Vidéos</a></p>");*/
         }
         catch (\Swift_SwiftException $e)
         {
@@ -347,6 +357,7 @@ class ApprovalController extends Controller
             var_dump($e);
         }
         
-        return $this->render('SpicySiteBundle:Site:test.html.twig',['test'=>$test]);
+        return $this->render('SpicySiteBundle:Mail:Approval\admin_approval.html.twig',
+                ['user' => $this->getUser(),'video'=>$video]);
     }
 }

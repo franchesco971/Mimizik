@@ -1,0 +1,11 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" xmlns:og="http://ogp.me/ns#">
+    <head>
+    </head>
+    <body>
+        <p>Bonjour Admin,</p>
+        <p>{{user.username}} a soumis la vidéo : {{video.artistes|artistsName|raw}} - {{video.titre}}</p>
+        <p><a href='https://www.youtube.com/watch?v={{video.url}}'>Voir</a></p>
+        <p><a href='{{website_name}}{{path('approval')}}' target='_blank'>Liste des Vidéos</a></p>
+    </body>
+</html>
