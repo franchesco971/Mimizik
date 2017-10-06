@@ -1,7 +1,0 @@
-parameters:
-#    spicy_tag.example.class: Spicy\TagBundle\Example
-
-services:
-#    spicy_tag.example:
-#        class: %spicy_tag.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]

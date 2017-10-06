@@ -1,5 +1,0 @@
-admin_lyrics_update:  
-    pattern:  /update/{id}
-    defaults: { _controller: SpicyLyricsBundle:Lyrics:update }
-    requirements: 
-        id: \d+
