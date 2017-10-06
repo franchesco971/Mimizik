@@ -1,5 +1,5 @@
 # Bootstrap
-/Symfony/app/bootstrap*
+/app/bootstrap*
 app/bootstrap.php.cache
 app/SymfonyRequirements.php
 
@@ -9,8 +9,8 @@ vendor/*
 */cache/*
 web/uploads/*
 web/bundles/*
-/Symfony/composer.lock
-/Symfony/web/js/compiled/*
+/composer.lock
+/web/js/compiled/*
 composer.phar
 
 #################
@@ -228,11 +228,11 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
-/Symfony/nbproject/private/
-/Symfony/vendor/
-/Symfony/app/cache/
-/Symfony/app/logs/
+/nbproject/private/
+/vendor/
+/app/cache/
+/app/logs/
 /nbproject/
-/Symfony/web/bundles/
-/Symfony/web/css/compiled/*
-/Symfony/nbproject/
+/web/bundles/
+/web/css/compiled/*
+/nbproject/
