@@ -1,0 +1,95 @@
+{% extends "SpicySiteBundle::layout_admin.html.twig" %}
+
+{% block body %}
+    <a href="{{path('spicy_admin_home')}}"><< Admin</a>
+    <h3>Videos</h3>
+    <a href="{{path('spicy_admin_add_video')}}">Ajouter une vidéo</a>
+    {{ parent() }}
+
+    <div>
+        <label>Search Video</label>
+        <select id="search_videos">
+            {% for video in selectVideos %}
+                <option value='{{video.id}}'>{{video.titre}}</option>
+            {%endfor%}
+        </select>
+    </div>
+    
+    <div id="table_videos">
+        <table border="1" class="data">
+            <tr><th>Id</th><th>Titre</th><th>Etat</th><th colspan="2"></th></tr>
+        {% for video in videos %}
+                <tr>
+                    <td>{{video.id}}</td>
+                    <td>{{video.titre}}</td>
+                    <td>{{video.etat}}</td>
+                    <td><a href="{{path('spicy_admin_update_video', {'id': video.id})}}">Modifier</a></td>
+                    <td><a href="{{path('admin_lyrics_update', {'id': video.id})}}">Paroles</a></td>
+                    <td><a href="{{path('spicy_admin_delete_video',{'id':video.id})}}">Supprimer</a></td>
+                </tr>
+        {%else%}
+                <tr colspan="5"><td>Pas de videos</td></tr>
+        {%endfor%}
+        </table>
+        <div id="Pagination"></div>
+    </div>
+    
+    <div id="modal_hashtag" class="reveal-modal">
+        <div class="content"></div>
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+    
+    <div style="display:none" id="tab_reveal">            
+        <table border="1" class="data">
+            <tr>
+                <td>123456789</td>
+                <td>azerty</td>
+                <td><a href="{{path('spicy_admin_update_video', {'id': '123456789'})}}">Modifier</a></td>
+                <td><a href="{{path('admin_lyrics_update', {'id': '123456789'})}}">Paroles</a></td>
+                <td><a href="{{path('spicy_admin_delete_video',{'id':'123456789'})}}">Supprimer</a></td>
+            </tr>
+        </table>
+    </div>
+{%endblock%}
+    
+{% block javascripts %}
+    {{parent()}}
+    <script type="text/javascript">
+        $("#search_videos").select2({
+            width: '200px'
+        });
+        
+        $(".loading").hide();
+        $("#search_videos").change(function(){
+            var libelle=$("select option:selected").html();
+            var id=$("select option:selected").attr('value');
+            
+            $('#modal_hashtag .content').html($('#tab_reveal').html());
+            $('#modal_hashtag .content').html($('#modal_hashtag .content').html().replace(/123456789/g,id));
+            $('#modal_hashtag .content').html($('#modal_hashtag .content').html().replace(/azerty/g,libelle));
+            $('#modal_hashtag').reveal();
+        });
+        
+        function initPagination() {
+            var num_entries = {{videos|length-5}}
+            // Create content inside pagination element
+            $("#Pagination").pagination(num_entries, {
+                //callback: pageselectCallback,
+                items_per_page:30, // Show only one item per page
+                link_to:"{{ path('spicy_admin_home_video')}}/__id__",
+                current_page:{{page-1}},
+                prev_text:"Prèc.",
+                next_text:"Suiv.",
+                num_edge_entries:2,
+                num_display_entries:10,
+                callback:function(){}
+            });
+         }
+
+        // When document is ready, initialize pagination
+        $(document).ready(function(){      
+            initPagination();
+        });
+    </script>
+    
+{% endblock%}

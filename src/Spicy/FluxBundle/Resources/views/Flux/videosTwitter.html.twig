@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet title="XSL_formatting" type="text/xsl" href="/shared/bsp/xsl/rss/nolsol.xsl"?>
+<rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"> 
+  <channel>
+	<title>Mimizik - Toutes les vidéos clip et la musique des antilles, de la caraïbes et de la guyane. Tout mizik la!</title>
+	<link>{{website_name}}</link>
+	<description>
+            Mimizik est un site promotion de la musique des artistes et des vidéos clip des antilles, 
+            de la caraïbes et de la guyane. Il y a tous genres musicaux (zouk, dancehall, hip-hop...) et la vidéo rétro de la semaine.
+        </description>
+	<language>fr</language>
+        <lastBuildDate>{{ "now"|date("D, d M Y H:i:s O") }}</lastBuildDate>
+	<copyright>{{website_name}}</copyright>
+	<webMaster>{{email_contact}} (franchesco971 mimizik)</webMaster>
+
+	<image>
+	  <title>Mimizik - Toutes les vidéos clip et la musique des antilles, de la caraïbes et de la guyane. Tout mizik la!</title>
+	  <url>{{website_name}}{{asset('images/logo.png')}}</url>
+	  <link>{{website_name}}</link>
+	  <width>131</width>
+	  <height>50</height>
+	</image>
+        <atom:link href="{{website_name}}{{selfLink}}" rel="self" type="application/rss+xml"/>  
+        {% for video in videos %} 
+        <item>
+            <title>{{video.artistes|artistsName|raw}} - {{video.titre}}</title>
+            <description>{{descriptions[video.id]}} --> </description>
+            <link>{{website_name}}{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}</link>
+            <guid isPermaLink="false">{{website_name}}{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}</guid>  
+            <pubDate>{{ pubDates[video.id]['pubDate']|date("D, d M Y H:i:s O") }}</pubDate>
+            <enclosure url="http://img.youtube.com/vi/{{video.url}}/0.jpg" length="5000" type="image/jpeg" />
+        </item>
+        {% endfor %}
+    </channel>
+</rss>

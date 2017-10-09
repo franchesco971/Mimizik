@@ -1,0 +1,136 @@
+{% extends "SpicySiteBundle::layout.html.twig" %}
+
+{% block title %}
+{{ parent() }} : Retrouvez toute la musique et les vidéos clip de {{artiste.libelle}}
+{% endblock %}
+
+{% block meta_description %}
+    <meta name="Description" content="Mimizik te propose toute la musique et les vidéos clip de {{artiste.libelle}}. {{artiste.description}}"/> 
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets filter='cssrewrite,?yui_css' output='css/compiled/home_artiste.css'
+        'css/select2.css'%}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    
+    <div class="page-title wrapper">
+        <div class="container">
+            <span>Artiste</span>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="content wrapper">
+        <div class="container">
+            <div class="two-third column">
+                <div>
+                    <div class="un-tier column-perso">
+                        <div class="block-content-perso">
+                            <img src="https://graph.facebook.com/{{artiste.tagFacebook}}/picture?type=large" alt="{{artiste.libelle}} sur mimizik.com" />
+                            <h4 class="release-title">{{artiste.libelle}}</h4>
+                        </div>
+                    </div>
+                    <div class="un-demi column last">
+                        <div class="content-block">
+                            <div class="block-title"><span>Description</span></div>
+                            <div class="block-content">{{artiste.description|nl2br}}</div>
+                            <div class="block-content"><p>Tags :
+                                {% for genre in genres %}
+                                    <a href="{{ path('spicy_site_genre',{'id':genre.id,'slug':genre.slug})}}">{{genre.libelle}} </a>
+                                {% endfor %}
+                                {% for hashtag in artiste.hashtags %}
+                                    <a href="{{path('mimizik_tag_show',{'tag':hashtag.libelle})}}"> #{{hashtag.libelle}}</a>
+                                {% endfor %}
+                                </p>
+                                <div class="social-links-description">
+                                    {% if fbLink!='' %}
+                                        <a title="Facebook" class="facebook" href="{{fbLink}}" target="_blank"></a>
+                                    {% endif %}
+                                    {% for twitterLink in twitterLinks %}
+                                        <a title="Twitter" class="twitter" href="{{twitterLink}}" target="_blank"></a>
+                                    {% endfor %}
+                                    {% if instaLink!='' %}
+                                        <a title="Instagram" class="instagram" href="{{instaLink}}" target="_blank"></a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-block">
+                    <div class="block-title"><span>Vidéos</span></div>
+                    <div class="block-content">
+                        <div class="featured-blog">
+                        {% for video in videos %}
+                            {% include "SpicySiteBundle:Site:video_post.html.twig" %} 
+                         {%else%}
+                            <p>Pas de vidéos de cette artiste</p>
+                         {% endfor %}
+                            <div id="Pagination" class="pagination" ></div>
+                            <ul class="pagination">
+                                {% if page==1%}
+                                    {% set nbprec=null%}
+                                    {% set nbsuiv=2%}
+                                {% elseif page==nbVideos %}
+                                    {% set nbprec=page-1%}
+                                    {% set nbsuiv=null%}
+                                {% else %}
+                                    {% set nbprec=page-1%}
+                                    {% set nbsuiv=page+1%}
+                                {% endif %}
+                                
+                                <li class="prev"><a href="{% if nbprec%}{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":nbprec})}}{% else %}#{% endif %}">précédent</a></li>                                
+                                {% set nbpages=(nbVideos/10)|round(0,'ceil')%}
+                                {% for i in 1..nbpages %}                                    
+                                    <li ><a class="{% if i==page%}current{% endif %}" href="{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":i})}}">{{i}}</a></li>
+                                {% endfor %}
+                                <li class="next"><a href="{% if nbsuiv%}{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":nbsuiv})}}{% else %}#{% endif %}">suivant</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div id="banstex468x60">
+                        {#% include "SpicySiteBundle:Ads:468x60_banstex.html.twig" %#}
+                    </div>  
+                </div>
+            </div>
+            <div class="one-third column last">
+                <div class="content-block">
+                    <div class="block-content" id="encart_droit">
+                        {% include "SpicySiteBundle:Ads:encart_droit_adsense.html.twig" %}
+                    </div>
+                </div>
+                <div class="content-block">
+                    <div class="block-content selectArtistes">
+                        {{ render(controller('SpicySiteBundle:Site:selectArtistesForward')) }}
+                    </div>
+                </div>
+                <div class="content-block">
+                    <div class="block-title"><span>Suggestions</span></div>
+                    <div class="block-content">
+                        {% for sArtiste in suggestions %}
+                            {% include "SpicySiteBundle:Site:artiste_post.html.twig" %} 
+                         {%else%}
+                            <p>Pas de suggestions</p>
+                         {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+    
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts  filter='?yui_js' output='js/compiled/artiste/index.js'
+        'js/select2.min.js' %}
+        <script type="text/javascript" src="{{ asset_url }}" ></script>
+    {% endjavascripts %} 
+    {%include "SpicySiteBundle:Site:Artiste\\_search.js.twig" %}
+{% endblock %}

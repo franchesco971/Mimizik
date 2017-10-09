@@ -1,0 +1,83 @@
+spicy_lyrics:
+    resource: "@SpicyLyricsBundle/Resources/config/routing.yml"
+    prefix:   /paroles/
+    
+mimizik_lyrics_admin:
+    resource: "@SpicyLyricsBundle/Resources/config/routing_admin.yml"
+    prefix:   /admin/paroles/
+
+spicy_itw:
+    resource: "@SpicyITWBundle/Resources/config/routing.yml"
+    prefix:   /itw/
+
+spicy_app:
+    resource: "@SpicyAppBundle/Resources/config/routing.yml"
+    prefix:   /apps/
+
+spicy_ranking:
+    resource: "@SpicyRankingBundle/Resources/config/routing.yml"
+    prefix:   /
+
+spicy_flux:
+    resource: "@SpicyFluxBundle/Resources/config/routing.yml"
+    prefix:   /flux/
+
+spicy_user:
+    resource: "@SpicyUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+spicy_site:
+    resource: "@SpicySiteBundle/Resources/config/routing.yml"
+    prefix:   /
+spicy_admin:
+    resource: "@SpicySiteBundle/Resources/config/routing_admin.yml"
+    prefix:   /admin/
+    
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+ 
+fos_user_profile:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    prefix: /profil
+ 
+fos_user_register:
+    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+    prefix: /inscription
+ 
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /reset
+ 
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /profil
+    
+mimizik_tag:
+    resource: "@SpicyTagBundle/Resources/config/routing/hashtag.yml"
+    prefix:   /hashtags/
+    
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix:   /login
+
+hwi_oauth_login:
+    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+    prefix:   /login
+    
+hwi_oauth_connect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
+    prefix:   /login
+    
+facebook_login:
+    path: /login/check-facebook
+    
+google_login:
+    pattern: /login/check-google
+    
+fos_user_group:
+    resource: "@FOSUserBundle/Resources/config/routing/group.xml"
+    prefix: /group
+    
+mimizik_approval_admin:
+    resource: "@SpicySiteBundle/Resources/config/routing/approval.yml"
+    prefix:   /approval/

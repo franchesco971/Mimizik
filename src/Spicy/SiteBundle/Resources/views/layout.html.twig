@@ -1,0 +1,12 @@
+{% extends "::layout.html.twig" %}
+
+{% block title %}
+    Mimizik
+{% endblock %}
+  
+{% block body %}
+    {# On affiche tous les messages flash dont le nom est « info » #}
+      {% for message in app.session.flashbag.get('info') %}
+        <p>{{ message }}</p>
+      {% endfor %}
+{% endblock %}

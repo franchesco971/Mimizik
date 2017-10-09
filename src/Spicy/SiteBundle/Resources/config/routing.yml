@@ -1,0 +1,117 @@
+spicy_site_approval:
+    resource: "@SpicySiteBundle/Resources/config/routing/approval.yml"
+    prefix:   /approval
+
+spicy_site_homepage:
+    pattern:  /{page}
+    defaults: { _controller: SpicySiteBundle:Site:index,page: 1 }
+    requirements: 
+        page: \d+
+mimizik_homepage_ajax:
+    pattern:  /ajax/{page}
+    defaults: { _controller: SpicySiteBundle:Site:indexSuiteAjax,page: 1 }
+    requirements: 
+        page: \d+              
+spicy_site_video_slug:
+    pattern:  /video/{id}/{slug}
+    defaults: { _controller: SpicySiteBundle:Site:show }
+    requirements: 
+        id: \d+
+spicy_site_video:
+    pattern:  /video/{id}
+    defaults: { _controller: SpicySiteBundle:Site:show }
+    requirements: 
+        id: \d+
+        
+spicy_site_artistes:
+    pattern: /artistes/{page}
+    defaults: { _controller: SpicySiteBundle:Site:indexArtiste, page: 1 }
+    requirements: 
+        page: \d+
+spicy_site_artiste_slug:
+    pattern: /artiste/{id}/{slug}/{page}
+    defaults: { _controller: SpicySiteBundle:Site:showArtiste, page: 1 }
+    requirements:
+        slug: "[a-zA-Z0-9-_]+"
+        id: \d+
+        page: \d+
+spicy_site_artiste:
+    pattern: /artiste/{id}
+    defaults: { _controller: SpicySiteBundle:Site:showArtiste }
+    requirements: 
+        id: \d+        
+mimizik_show_artiste_js:
+    pattern: /artiste/
+    defaults: { _controller: SpicySiteBundle:Site:showArtiste }
+        
+spicy_site_genres:
+    pattern: /genres/{page}
+    defaults: { _controller: SpicySiteBundle:Site:indexGenre, page: 1 }
+    requirements:
+        page: \d+
+spicy_site_genre_old:
+    pattern: /genre/{slug}-{id}
+    defaults: { _controller: SpicySiteBundle:Site:showGenre, page: 1 }
+    requirements:
+        slug: "[a-zA-Z-]+"
+        id: \d+
+spicy_site_genre:
+    pattern: /genre/{id}/{page}/{slug}
+    defaults: { _controller: SpicySiteBundle:Site:showGenre, page: 1 }
+    requirements:
+        slug: "[a-zA-Z-]+"
+        id: \d+
+        
+spicy_site_news:
+    pattern: /news
+    defaults: { _controller: SpicySiteBundle:Site:News }
+spicy_site_credits:
+    pattern: /credits
+    defaults: { _controller: SpicySiteBundle:Site:Credits }
+spicy_site_contact:
+    pattern: /contact
+    defaults: { _controller: SpicySiteBundle:Site:contact }
+
+spicy_site_test:
+    pattern: /test
+    defaults: { _controller: SpicySiteBundle:Site:Test }
+    
+spicy_site_liste_artiste:
+    pattern: /list_artiste
+    defaults: { _controller: SpicySiteBundle:Site:listArtiste }
+spicy_site_liste_alpha:
+    pattern: /list_alpha
+    defaults: { _controller: SpicySiteBundle:Site:listAlpha }
+spicy_site_alphabet:
+    pattern: /alphabet
+    defaults: { _controller: SpicySiteBundle:Site:alphabet }
+      
+spicy_site_redirect_youtube:
+    pattern: /user/mimizikcom
+    defaults: { _controller: SpicySiteBundle:Site:redirectYoutube }
+mimizik_redirect_youtube_videos:
+    pattern: /user/mimizikcom/{videos}
+    defaults: { _controller: SpicySiteBundle:Site:redirectYoutube }
+mimizik_site_redirect_youtube:
+    pattern: /channel/{url}
+    defaults: { _controller: SpicySiteBundle:Site:redirectYoutube }
+mimizik_site_redirect_youtube_videos:
+    pattern: /channel/{url}/{plus}
+    defaults: { _controller: SpicySiteBundle:Site:redirectYoutube }
+mimizik_site_redirect_feedback:
+    pattern: /plugins/feedback.php
+    defaults: { _controller: SpicySiteBundle:Site:redirectFeedback }
+    
+mimizik_tops:
+    pattern:  /tops/{page}
+    defaults: { _controller: SpicySiteBundle:Site:showTops,page: 1 }
+    
+mimizik_genres_menu:
+    pattern: /genres_menu
+    defaults: { _controller: SpicySiteBundle:Site:Genres }
+    
+mimizik_paroles_slug:
+    pattern:  /paroles/{id}/{slug}
+    defaults: { _controller: SpicySiteBundle:Site:show,referrer:'lyrics' }
+    requirements: 
+        id: \d+

@@ -1,0 +1,60 @@
+{% extends "SpicySiteBundle::layout_admin.html.twig" %}
+
+{% block body %}
+{{ parent() }}
+    <a href="{{ path('spicy_admin_home_video') }}" class="btn">
+        <i class="icon-chevron-left"></i>
+        Retour à la video
+    </a>
+    <br/><br/>    
+    <h3>Ajouter une vidéo</h3>
+    
+    <form method="post" {{ form_enctype(form) }}>
+        
+        <div class="label">
+            {{ form_label(form.url) }}
+            {{ form_errors(form.url) }}
+        </div>
+        <div class="input">
+            {{ form_widget(form.url) }}
+        </div>
+        
+        <div class="button">
+            <input type="submit" class="btn btn-primary" />
+        </div>
+    </form>
+            
+    <div id="modal_hashtag" class="reveal-modal">
+        <div class="content"></div>
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+{% endblock%}
+
+{% block javascripts %}
+    {{parent()}}
+    <script type="text/javascript">
+        $("#spicy_sitebundle_videotype_artistes").select2({
+            width: '200px'
+        });
+        
+        $("#spicy_sitebundle_videotype_hashtags").select2({
+            width: '200px'
+        });
+        
+        $(".loading").hide();
+        $("#modal_new_hashtag").click(function(){ 
+            $(".loading").show();
+            $.ajax({
+                type: "POST",
+                url: "{{ path('admin_hashtag_new_modal')}}",
+                cache: false,
+                success: function(data){
+                   $('#modal_hashtag .content').html(data);
+                   $('#modal_hashtag').reveal();
+                   $(".loading").hide();
+                }
+            });    
+            return false;
+        });
+    </script>
+{% endblock %}

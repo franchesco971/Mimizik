@@ -1,0 +1,15 @@
+<h3>Top du mois</h3>
+{% for row in txt|slice(0, 5) %}
+    <div class="top_videos">
+    {% for data in row %}
+        {% if loop.first %}
+            {%set video=data%} 
+            {% include "SpicySiteBundle:Site:video_mini.html.twig" %}
+        {% else %}
+            <div class="nbVues">{{data}}Vues</div>
+        {% endif %}
+    {%endfor%}
+    </div>
+{%else%}
+<p>pas d'info</p>
+{%endfor%}

@@ -1,0 +1,97 @@
+<?php
+
+namespace Spicy\SiteBundle\Form;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
+class ApprovalVideoType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('titre','text',[
+                'label'=>'Titre',
+                'required'=>true
+            ])
+            ->add('url','text',[
+                'label'=>'Id Youtube',
+                'required'=>true
+            ])
+            //->add('dateVideo','datetime')
+//            ->add('etat','checkbox',array(
+//                'required'=>false
+//            ))
+//            ->add('onTop','checkbox',array(
+//                'required'=>false,
+//                'label'=>'On top'
+//            ))
+//            ->add('source','text')
+            ->add('tags_fb','text', array('required' => false))
+            ->add('tags_twitter','text', array('required' => false))
+            ->add('hashtags', 'entity', array(
+                'class'    => 'SpicyTagBundle:Hashtag',
+                'property' => 'libelle',
+                'attr' => array('size' => 30),
+                'multiple' => true,
+                'required'=>false,
+                'query_builder' => function(
+                    \Doctrine\ORM\EntityRepository $er) {
+                        return $er->createQueryBuilder('h')->orderBy('h.libelle', 'ASC');
+                    }
+                )
+            )
+            ->add('description','textarea', array('required' => false))
+            ->add('artistes', 'entity', array(
+                'class'    => 'SpicySiteBundle:Artiste',
+                'property' => 'libelle',
+                'attr' => array('size' => 10),
+                'multiple' => true,
+                'required'=>false,
+                'query_builder' => function(
+                    \Doctrine\ORM\EntityRepository $er) {
+                        return $er->createQueryBuilder('a')->orderBy('a.libelle', 'ASC');
+                    }
+                )
+            )
+//            ->add('collaborateurs', 'entity', array(
+//                'class'    => 'SpicySiteBundle:Collaborateur',
+//                'property' => 'name',
+//                'attr' => array('size' => 10),
+//                'multiple' => true,
+//                'required'=>false,
+//                'query_builder' => function(
+//                    \Doctrine\ORM\EntityRepository $er) {
+//                        return $er->createQueryBuilder('c')->orderBy('c.name', 'ASC');
+//                    }
+//                )
+//            )
+            ->add('genre_musicaux', 'entity', array(
+                'class'    => 'SpicySiteBundle:GenreMusical',
+                'property' => 'libelle',
+                'attr' => array('size' =>5),
+                'multiple' => true,
+                'required'=>false)
+            )
+//            ->add('type_videos', 'entity', array(
+//                'class'    => 'SpicySiteBundle:TypeVideo',
+//                'property' => 'libelle',
+//                'attr' => array('size' => 5),
+//                'multiple' => true)
+//            )
+        ;
+    }
+
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'Spicy\SiteBundle\Entity\Video'
+        ));
+    }
+
+    public function getName()
+    {
+        return 'spicy_sitebundle_videotype';
+    }
+}

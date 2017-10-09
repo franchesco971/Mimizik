@@ -1,0 +1,177 @@
+{% extends "SpicySiteBundle::layout.html.twig" %}
+
+{% block title %}
+{{ parent() }} : Retrouvez le classement des vidéos clips
+{% endblock %}
+
+{% block meta_description %}
+    <meta name="Description" content="Mimizik te propose tout le classement des vidéos clips"/> 
+{% endblock %}
+
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets filter='cssrewrite,?yui_css' output='css/compiled/show_ranking.css'
+        '@SpicyRankingBundle/Resources/public/css/*' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
+    <style type="text/css">
+        .ranking .retour{
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        } 
+        .post .infos_video
+        {
+            width:230px;
+        }
+        .ranking .block-content
+        {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .hide-ranking td
+        {
+            padding: 0;
+        }
+        .hide-ranking table
+        {
+            margin-bottom: 20px;
+        }
+    </style> 
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    
+    <div class="page-title wrapper">
+        <div class="container">
+            {%set number=10%}
+            {% if ranking.rankingType.id == constant('MOIS',ranking.rankingType)%}
+                {%set number=10%}
+            <span>Classement du {{ranking.dateRanking|date('m/y')}}</span>
+            {% elseif ranking.rankingType.id == constant('ANNEE',ranking.rankingType)%}
+                {%set number=30%}
+            <span>Classement de {{ranking.dateRanking|date('Y')}}</span>
+            {% endif%}
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="content wrapper ranking">
+        <div class="container">
+            <div class="two-third column">
+                
+                <div class="content-block">
+                    <div class="block-title"><span>Top {{number}}</span></div>
+                    <div class="block-content">
+                        <div class="featured-blog">
+                            <div class="retour"><a class="button dark" href="{{ path('mimizik_ranking_index',{'page':1})}}"><span>Retour</span></a></div>
+                        {% for video in videos %}
+                            <div class="floatleft">
+                                {%set position=loop.index%}
+                                {% for videoRanking in video.videoRankings %}
+                                    <div class="floatleft position">
+                                        {% if videoRanking.position is not null %}
+                                            {{videoRanking.position}}
+                                        {% else%}  
+                                            {{position}}
+                                        {%endif%}
+                                        
+                                    </div>
+                                    {% if videoRanking.icon is not null %}
+                                        <div class="{{videoRanking.icon}}-icon floatleft"></div>
+                                    {% else%}    
+                                        <div class="{{video_service.getIcon(videoRanking,previousRanking,position)}}-icon floatleft"></div>
+                                    {%endif%}
+                                    <div style="visibility:hidden;">{{videoRanking.nbVu}}</div>
+                                {% endfor %}                                                         
+                            </div>
+                            {% include "SpicySiteBundle:Video:_video_ranking.html.twig" %} 
+                        {%else%}
+                            <p>Pas de vidéos de cette artiste</p>
+                        {% endfor %}
+                            <div id="Pagination" ></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div id="banstex468x60">
+                        {#% include "SpicySiteBundle:Ads:468x60_banstex.html.twig" %#}
+                    </div>  
+                </div>
+                    
+                <div class="content-block hide-ranking" style="display:none">
+                    <table>
+                        {% for video in videos %}
+                            {% set nbVideo=loop.index%}
+                            {% for videoRanking in video.videoRankings %}
+                            <tr>
+                                <td>{{nbVideo}}</td>
+                                <td>{{video.artistes|artistsNameLink(20)|raw}}</td>
+                                <td>{{video.titre}}</td>
+                                <td>&nbsp;</td>
+                                <td>
+                                    {% for genre in video.genreMusicaux %}
+                                        <a title="{{genre.libelle}}" href="{{ path('spicy_site_genre',{'id':genre.id,'slug':genre.slug})}}">{{genre.libelle}}</a>    
+                                        {% if loop.last %}
+
+                                        {% elseif loop.first %} & {% else %} , {%endif%}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for hashtag in video.hashtags %}
+                                        <a href="{{path('mimizik_tag_show',{'tag':hashtag.libelle})}}">#{{hashtag.libelle}}</a>
+                                    {% endfor %}
+                                </td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>{{videoRanking.nbVu}}</td>
+                                <td>&nbsp;</td>
+                                <td>http://www.mimizik.com{{path('spicy_site_video_slug',{'id':video.id,'slug':video.slug})}}</td>
+                                <td>https://youtu.be/{{video.url}}</td>
+                            </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </table>
+                    <table>
+                        {% for video in videos %}
+                            {% set nbVideo=loop.index%}
+                            {% for videoRanking in video.videoRankings %}
+                            <tr>
+                                <td>N°{{nbVideo}} : {{video.artistes|artistsNameLink()|raw}} - {{video.titre}}</td>
+                            </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <div class="one-third column last">
+                <div class="content-block">
+                    <div class="block-content" id="encart_droit">
+                        {% include "SpicySiteBundle:Ads:encart_droit_adsense.html.twig" %}
+                    </div>
+                </div>
+                <div class="content-block">
+                    <div class="block-content" id="side_ranking">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+    <script type="text/javascript">
+        $.ajax({
+            url: "{{ path('mimizik_ajax_ranking_side',{'type':ranking.rankingType.id})}}",
+            context: document.body
+          })
+        .done(function(html) {
+            $('#side_ranking').html(html);
+        })
+    </script>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "::layout.html.twig" %}
+
+{% block title %}
+    Mimizik
+{% endblock %}
+
+{% block stylesheets %}
+    {{parent()}}
+    <link href="{{ asset('css/form.css') }}" type="text/css" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+
+  
+{% block body %}
+      {% for message in app.session.flashbag.get('info') %}
+        <p>{{ message }}</p>
+      {% endfor %}
+      <div class="container content">
+      {% block fos_user_content %}
+      {% endblock %}  
+      </div>
+{% endblock %}

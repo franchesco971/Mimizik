@@ -1,0 +1,20 @@
+{% extends "SpicySiteBundle::layout_admin.html.twig" %}
+
+{% block body %}
+    <a href="{{path('spicy_admin_home')}}"><< admin</a>
+    <h3>Type de vidéos</h3>
+    <a href="{{path('spicy_admin_add_type_video')}}">Ajouter un type de vidéo</a>
+    {{ parent() }}
+    <table border="1" class="data">
+    {% for type in types %}
+            <tr>
+                <td>{{type.id}}</td>
+                <td>{{type.libelle}}</td>
+                <td><a href="{{path('spicy_admin_update_type_video', {'id': type.id})}}">Modifier</a></td>
+                <td><a href="{{path('spicy_admin_delete_type_video',{'id':type.id})}}">Supprimer</a></td>
+            </tr>
+    {%else%}
+            <tr colspan="4"><td>Pas de type</td></tr>
+    {%endfor%}
+    </table>
+{%endblock%}

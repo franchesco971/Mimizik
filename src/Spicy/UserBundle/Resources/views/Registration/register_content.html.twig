@@ -1,0 +1,42 @@
+<form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form-horizontal">
+    {{ form_errors(form) }}
+    <div class="form-group">
+        {{ form_label(form.username, null, {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+        {{ form_errors(form.username) }}
+        <div class="col-sm-9">
+        {{ form_widget(form.username) }}
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form_label(form.email, null, {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+        {{ form_errors(form.email) }}
+        <div class="col-sm-9">
+        {{ form_widget(form.email) }}
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form_label(form.groups, null, {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+        {{ form_errors(form.groups) }}
+        <div class="col-sm-9">
+        {{ form_widget(form.groups) }}
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form_label(form.plainPassword.first, null, {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+        {{ form_errors(form.plainPassword.first) }}
+        <div class="col-sm-9">
+        {{ form_widget(form.plainPassword.first) }}
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form_label(form.plainPassword.second, null, {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+        {{ form_errors(form.plainPassword.second) }}
+        <div class="col-sm-9">
+        {{ form_widget(form.plainPassword.second) }}
+        </div>
+    </div>
+    {{ form_rest(form) }}
+    <div>
+        <input type="submit" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" />
+    </div>
+</form>

@@ -1,0 +1,81 @@
+{% extends "SpicySiteBundle::layout_admin.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}    
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" type="text/css" />
+{% endblock %}
+
+{% block body %}
+{{ parent() }}
+    <a href="{{ path('spicy_admin_home_video') }}" class="btn">
+        <i class="icon-chevron-left"></i>
+        Retour à la video
+    </a>
+    <h3>Approval list</h3>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Artistes</th>
+                <th>Titre</th>
+                <th>Statut</th>
+                <th>Request date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            {% if entity.approvalDate %}
+                {%set class='alert-success'%}
+                {%set approvalText='Approuver'%}
+            {% elseif entity.disapprovalDate %}
+                {%set class='alert-warning'%}
+                {%set approvalText='Désapprouver'%}
+            {% else %}
+                {%set class='alert-info'%}
+                {%set approvalText='En attente'%}
+            {% endif %}
+            
+            <tr >
+                <td><a href="{{ path('approval_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.title.artistes|artistsName }}</td>
+                <td>{{ entity.title.titre }}</td>
+                <td class="{{class}}">{{approvalText}}</td>
+                <td>{{ entity.requestDate|date("Y-m-d H:i:s") }}</td>
+                <td>
+                    <p>
+                        <a class="button dark" href="https://www.youtube.com/watch?v={{entity.title.url}}" target="_blank">Voir</a>
+                    </p>
+                    {% if not entity.approvalDate or not entity.disapprovalDate %}
+                    <p>
+                        <a class="button dark" href="{{ path('approval_approval', { 'id': entity.id }) }}">Approuver</a>
+                    </p>
+                    <p>
+                        <a class="button dark" href="{{ path('approval_disapproval', { 'id': entity.id }) }}">Désapprouver</a>
+                    </p>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('approval_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js" ></script>
+    <script type="text/javascript">
+          $('.records_list').DataTable({
+              "order": [[ 4, "asc" ]]
+          });
+    </script>
+{% endblock %}
