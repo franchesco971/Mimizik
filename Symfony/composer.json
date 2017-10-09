@@ -27,7 +27,7 @@
         "symfony/twig-bundle": "2.4.*",
         "hwi/oauth-bundle": "0.4.*",
         "facebook/php-sdk-v4": "^5.5",
-        "symfony/var-dumper": "3.3.*"
+        "symfony/var-dumper": "3.3.*"        
     },
     "scripts": {
         "post-install-cmd": [

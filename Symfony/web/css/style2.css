@@ -1,14 +1,14 @@
 /* CSS Document */
 
-#body{	min-height:1000px;font-family:Arial,sans-serif;	overflow:hidden;}
+#body{	min-height:1000px;font-family:Arial,sans-serif;	/*overflow:hidden*/;}
 #header{background-color:#777;	height:150px;}
-#menu{height: 40px;}
+#menu{height: 50px;}
 
 #lastVideos
 {
     
 }
-.ribbon-slider {margin-top: 45px !important;}
+.ribbon-slider {margin-top: 20px !important;}
 #lastVideos ul{margin-bottom: -54px; margin-top: -48px;}
 #container{
     
@@ -36,8 +36,6 @@
 }
 
 /* css tiré du site */
-.ribbon-slider-container, .main-fade-slider {
-}
 .ribbon-slider-container, .main-fade-slider {
 }
 h1, h2, h3, h4, h5, h6, th, .supheader .logo, .subheader .menu a, .page-title .container > span, .content-block .block-title, .ribbon-caption-title, .featured-event .event-date, .events-list .event-date, .events-list .event-option > span, .gallery-thumbnail .caption, .video-thumbnail .caption, input[type="submit"], input[type="button"], .button {

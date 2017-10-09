@@ -54,29 +54,28 @@ class ApprovalController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            try{
+            try {
                 $tools = $this->container->get('mimizik.tools');
                 $em->persist($entity);
-                $em->flush();
+                $em->flush();                           
+                
+                $tools->sendMail($this->renderView(
+                    'SpicySiteBundle:Mail:Approval\admin_approval.html.twig',
+                    ['user' => $this->getUser(),'video'=>$video]
+                ));
                 
                 $this->get('session')->getFlashBag()->add('info','Video soumis à approbation');
                 
-                $tools->sendMail("<p>Bonjour Admin,</p>"
-                . "<p>".$this->getUser()->getUsername()." a soumis la vidéo : "                
-                . $tools->getArtistsNames($video->getArtistes())." - "
-                . $video->getTitre()."</p>"
-                . "<p><a href='https://www.youtube.com/watch?v=".$video->getUrl()."'>Voir</a></p>"
-                . "<p><a href='".$this->generateUrl('approval_show')."'>Liste des Vidéos</a></p>");
-                
                 return $this->redirect($this->generateUrl('approval_show', array('id' => $entity->getId())));
             }
-            catch(UniqueConstraintViolationException $e)
-            {
-                $this->get('session')->getFlashBag()->add('error','Video déjà soumise');
-            }
             catch(\Exception $e)
-            {
-                $this->get('session')->getFlashBag()->add('error',"Erreur d'enregistrement");
+            {                
+                if ($e instanceof UniqueConstraintViolationException) {
+                    $this->get('session')->getFlashBag()->add('error','Video déjà soumise');
+                }
+                else {
+                    $this->get('session')->getFlashBag()->add('error',"Erreur d'enregistrement");
+                }                
             }
 
             
