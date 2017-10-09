@@ -82,3 +82,7 @@
 .alert-danger .alert-link {
   color: #843534;
 }
+
+#approval_tab button{
+    padding: 5px 10px 5px 10px;
+}

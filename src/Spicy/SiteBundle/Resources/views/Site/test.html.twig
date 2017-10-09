@@ -1,12 +1,4 @@
 {% extends "::layout2.html.twig" %}
-{% block stylesheets %}
-    {#% stylesheets filter='cssrewrite,?yui_css'
-        'css/reset.css'
-        'css/test.css'%}
-        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
-    {% endstylesheets %#}
-    {{ parent() }}
-{% endblock %}
 
 {% block body %}
     
@@ -15,7 +7,7 @@
     
     <div style="width: 100%; height: 570px;">
         <div class="page">
-            <p>{{dump(test)}}</p>
+            <p>C'est un test</p>
         </div>
     </div>
 {%endblock%}
@@ -23,7 +15,7 @@
 {% block javascripts %}
     {{parent()}}
     <script type="text/javascript" src="{{asset('js/jquery.pagination.js')}}" ></script>
-    <script type="text/javascript">    
+    {#<script type="text/javascript">    
         function initPagination() {
                 // count entries inside the hidden content
                 //var num_entries = jQuery('#hiddenresult div.result').length;
@@ -54,7 +46,7 @@
                 initPagination();
                 initSlider();
             });    
-    </script>
+    </script>#}
     {#% javascripts  filter='?yui_js' output='js/compiled/home.js'
         'js/jquery.mousewheel.min.js'
         'js/jquery.ribbonSlider.js' %}

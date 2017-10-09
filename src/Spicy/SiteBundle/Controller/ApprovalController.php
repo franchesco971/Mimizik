@@ -54,27 +54,28 @@ class ApprovalController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            try{
+            try {
                 $tools = $this->container->get('mimizik.tools');
                 $em->persist($entity);
-                $em->flush();
+                $em->flush();                           
+                
+                $tools->sendMail($this->renderView(
+                    'SpicySiteBundle:Mail:Approval\admin_approval.html.twig',
+                    ['user' => $this->getUser(),'video'=>$video]
+                ));
                 
                 $this->get('session')->getFlashBag()->add('info','Video soumis à approbation');
                 
-                $tools->sendMail("<p>Bonjour Admin,</p>"
-                        . "<p>".$this->getUser()->getUsername()." a soumis la vidéo"
-                        . $tools->getArtistsNames($video->getArtistes())." - "
-                        . $video->getTitre()."</p>");
-                
                 return $this->redirect($this->generateUrl('approval_show', array('id' => $entity->getId())));
             }
-            catch(UniqueConstraintViolationException $e)
-            {
-                $this->get('session')->getFlashBag()->add('error','Video déjà soumise');
-            }
             catch(\Exception $e)
-            {
-                $this->get('session')->getFlashBag()->add('error',"Erreur d'enregistrement");
+            {                
+                if ($e instanceof UniqueConstraintViolationException) {
+                    $this->get('session')->getFlashBag()->add('error','Video déjà soumise');
+                }
+                else {
+                    $this->get('session')->getFlashBag()->add('error',"Erreur d'enregistrement");
+                }                
             }
 
             
@@ -309,9 +310,9 @@ class ApprovalController extends Controller
                 try{
                     $em->flush();
                     $this->get('session')->getFlashBag()->add('info','Publication approuvé');
-                    //$_SESSION['id_video_publish']=$video->getId();
+                    $_SESSION['id_video_publish']=$video->getId();
                     
-                    //return $this->redirect($this->generateUrl('mimizik_app_fb_login'));
+                    return $this->redirect($this->generateUrl('mimizik_app_fb_login'));
                 }
                 catch(\Exception $e)
                 {
@@ -323,5 +324,39 @@ class ApprovalController extends Controller
         return $this->render('SpicySiteBundle:Approval:approval.html.twig',array(
             'form'=>$form->createView()
         ));
+    }
+    
+    public function testAction() {
+        $test='rien';
+        $em = $this->getDoctrine()->getManager(); 
+        
+        $tools = $this->container->get('mimizik.tools');
+        $video = $em->getRepository('SpicySiteBundle:Video')->find(3698);
+                
+        $this->get('session')->getFlashBag()->add('info','Video soumis à approbation');
+        
+        try{
+            $tools->sendMail($this->renderView(
+                'SpicySiteBundle:Mail:Approval\admin_approval.html.twig',
+                ['user' => $this->getUser(),'video'=>$video]
+            ));
+            
+            
+            /*$tools->sendMail("<p>Bonjour Admin,</p>"
+                . "<p>".$this->getUser()->getUsername()." a soumis la vidéo : "                
+                . $tools->getArtistsNames($video->getArtistes())." - "
+                . $video->getTitre()."</p>"
+                . "<p><a href='https://www.youtube.com/watch?v=".$video->getUrl()."'>Voir</a></p>"
+                . "<p><a href='".$this->generateUrl('approval')."'>Liste des Vidéos</a></p>");*/
+        }
+        catch (\Swift_SwiftException $e)
+        {
+            //dump($e);
+//            $test=$e;
+            var_dump($e);
+        }
+        
+        return $this->render('SpicySiteBundle:Mail:Approval\admin_approval.html.twig',
+                ['user' => $this->getUser(),'video'=>$video]);
     }
 }

@@ -274,6 +274,11 @@ class SiteController extends Controller
         return $this->render('SpicySiteBundle:Site:contact.html.twig');
     }
     
+    public function contactApprovalAction()
+    {
+        return $this->render('SpicySiteBundle:Site:Contact\contactApproval.html.twig');
+    }
+    
     public function testAction()
     {
         $test=[];
