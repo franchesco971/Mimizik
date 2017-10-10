@@ -38,8 +38,6 @@
 /* css tiré du site */
 .ribbon-slider-container, .main-fade-slider {
 }
-.ribbon-slider-container, .main-fade-slider {
-}
 h1, h2, h3, h4, h5, h6, th, .supheader .logo, .subheader .menu a, .page-title .container > span, .content-block .block-title, .ribbon-caption-title, .featured-event .event-date, .events-list .event-date, .events-list .event-option > span, .gallery-thumbnail .caption, .video-thumbnail .caption, input[type="submit"], input[type="button"], .button {
     font-family: Oswald,Arial,Helvetica,sans-serif;
 }

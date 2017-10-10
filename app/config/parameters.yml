@@ -6,15 +6,12 @@ parameters:
     database_user:     root
     database_password: ~
 
-    mailer_transport:  mail
-    mailer_host:       mail.mimizik.com
-    mailer_user:       franchesco971@mimizik.com
-    mailer_password:   franches971
+    mailer_transport:  smtp
+    mailer_host:       'mail.mimizik.com'
+    mailer_user:       'franchesco971@mimizik.com'
+    mailer_password:   'franches971'
     mailer_port:       465
     
     locale:            fr
     secret:            ThisTokenIsNotSoSecretChangeIt
-    
-    
-    
-    
+

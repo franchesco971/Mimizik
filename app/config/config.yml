@@ -21,6 +21,8 @@ framework:
     trusted_proxies: ~
     session:         ~
     fragments:       ~
+    serializer:
+        enabled: true
 
 # Twig Configuration
 twig:
@@ -73,7 +75,7 @@ swiftmailer:
     host:      %mailer_host%
     username:  %mailer_user%
     password:  %mailer_password%
-    port: %mailer_port%
+    port: 465
     encryption: ssl
     timeout: 5
     spool:     { type: memory }
@@ -146,4 +148,20 @@ hwi_oauth:
             #prod
             client_id:           "286880270017-2l26o875etmhp41chq9hbcqnlda1mmhu.apps.googleusercontent.com"
             client_secret:       "DxnGad852KH1AxGa_4nRS4hX"
-            scope: "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"            
+            scope: "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"      
+            
+fos_rest:
+    body_converter:
+        enabled: true
+    view:
+        formats: { json: true, xml: false, rss: false }
+        view_response_listener: true
+    serializer:
+        serialize_null: true
+    format_listener:
+        rules:
+            - { path: '^/', priorities: ['json'], fallback_format: 'json' }
+        
+sensio_framework_extra:
+    view: { annotations: false }
+    request: { converters: true }

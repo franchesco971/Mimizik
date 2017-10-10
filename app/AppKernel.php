@@ -29,7 +29,8 @@ class AppKernel extends Kernel
             new Spicy\AppBundle\SpicyAppBundle(),
             new Spicy\ITWBundle\SpicyITWBundle(),
             new Spicy\LyricsBundle\SpicyLyricsBundle(),
-            new HWI\Bundle\OAuthBundle\HWIOAuthBundle()
+            new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
