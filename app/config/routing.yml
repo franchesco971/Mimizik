@@ -1,3 +1,7 @@
+mimizik_api:
+    resource: "@MimizikAPIBundle/Resources/config/routing.yml"
+    prefix:   /
+
 spicy_lyrics:
     resource: "@SpicyLyricsBundle/Resources/config/routing.yml"
     prefix:   /paroles/

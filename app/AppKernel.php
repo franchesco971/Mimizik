@@ -31,6 +31,7 @@ class AppKernel extends Kernel
             new Spicy\LyricsBundle\SpicyLyricsBundle(),
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new FOS\RestBundle\FOSRestBundle(),
+            new Mimizik\APIBundle\MimizikAPIBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
