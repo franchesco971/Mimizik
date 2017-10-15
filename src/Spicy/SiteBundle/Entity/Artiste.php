@@ -5,12 +5,14 @@ namespace Spicy\SiteBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Artiste
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Spicy\SiteBundle\Entity\ArtisteRepository")
+ * @Serializer\ExclusionPolicy("NONE")
  */
 class Artiste
 {

@@ -22,7 +22,7 @@ framework:
     session:         ~
     fragments:       ~
     serializer:
-        enabled: true
+        { enable_annotations: true }
 
 # Twig Configuration
 twig:
@@ -151,6 +151,8 @@ hwi_oauth:
             scope: "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"      
             
 fos_rest:
+    zone:
+        - { path: ^/api/* }
     body_converter:
         enabled: true
     view:
@@ -159,9 +161,11 @@ fos_rest:
     serializer:
         serialize_null: true
     format_listener:
+        enabled: true
         rules:
-            - { path: '^/', priorities: ['json'], fallback_format: 'json' }
-        
+#            - { path: '^/', priorities: ['text/html', '*/*'], fallback_format: html, prefer_extension: true }
+            - { path: '^/api/', priorities: ['json'], fallback_format: 'json' }
+                    
 sensio_framework_extra:
-    view: { annotations: false }
+    view: { annotations: true }
     request: { converters: true }

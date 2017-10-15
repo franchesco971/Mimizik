@@ -419,7 +419,7 @@ input[type="button"] {
 .search-form input[type="text"] {
 	margin:0;
 	line-height:19px;
-	height:31px;
+	height:19px;
 	padding:5px 26px 5px 10px;
 	background:#272727 url(/images/search_icon.png) right 8px no-repeat;
 	border-color:#1B1B1B;
@@ -459,7 +459,6 @@ input[type="button"] {
 .subheader .menu li.hover > a,
 .subheader .menu li a:hover {
 	color:#fff;
-    text-decoration: none;
 }
 
 .subheader .menu > ul {
@@ -1833,8 +1832,7 @@ div:hover > .ribbon-caption > .ribbon-caption-title {
 
 input[type="submit"],
 input[type="button"],
-.button,
-.button button {
+.button {
 	display:inline-block;
 	cursor:pointer;	
 	position:relative;
@@ -1858,6 +1856,7 @@ input[type="button"],
 	border:1px solid rgba(0,0,0,0.2);
 }
 
+.button span,
 input[type="submit"],
 input[type="button"] {
 	padding:0 10px;
@@ -1868,8 +1867,6 @@ input[type="button"] {
 	display:block;
 	background:url(/images/button_bg.png) 0 0 repeat-x;
 	overflow:hidden;
-        line-height:2.4em;
-        padding: 2px 0 2px 0;
  }
 
 .button.dark span {

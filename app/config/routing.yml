@@ -1,6 +1,7 @@
 mimizik_api:
-    resource: "@MimizikAPIBundle/Resources/config/routing.yml"
-    prefix:   /
+    resource: "@MimizikAPIBundle/Controller"
+    prefix:   /api/
+    type:     annotation
 
 spicy_lyrics:
     resource: "@SpicyLyricsBundle/Resources/config/routing.yml"
