@@ -5,17 +5,17 @@ namespace Mimizik\APIBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Spicy\SiteBundle\Entity\Artiste;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use FOS\RestBundle\Controller\Annotations\View;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use FOS\RestBundle\Controller\FOSRestController;
 
 /**
  * Description of ArticleController
  *
  * @author franchesco971
  */
-class ArticleController extends Controller {
+class ArticleController extends FOSRestController {
     
     /**
      * 
@@ -27,9 +27,11 @@ class ArticleController extends Controller {
      *     name = "api_mimizik_artiste_show",
      *     requirements = {"id"="\d+"}
      * )
-     * @View()
+     * @Rest\View(StatusCode = 200)
      */
     public function showAction(Artiste $artiste) {
         return $artiste;
     }
+    
+    
 }

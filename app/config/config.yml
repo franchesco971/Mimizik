@@ -165,6 +165,7 @@ fos_rest:
         rules:
 #            - { path: '^/', priorities: ['text/html', '*/*'], fallback_format: html, prefer_extension: true }
             - { path: '^/api/', priorities: ['json'], fallback_format: 'json' }
+    param_fetcher_listener: force
                     
 sensio_framework_extra:
     view: { annotations: true }
