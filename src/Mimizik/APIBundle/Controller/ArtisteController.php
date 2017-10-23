@@ -11,11 +11,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use FOS\RestBundle\Controller\FOSRestController;
 
 /**
- * Description of ArticleController
+ * Description of ArtisteController
  *
  * @author franchesco971
  */
-class ArticleController extends FOSRestController {
+class ArtisteController extends FOSRestController {
     
     /**
      * 
@@ -31,6 +31,23 @@ class ArticleController extends FOSRestController {
      */
     public function showAction(Artiste $artiste) {
         return $artiste;
+    }
+    
+    /**
+     * 
+     * @return type
+     * 
+     * @Rest\Get(
+     *     path = "/artistes",
+     *     name = "api_mimizik_artistes_list"
+     * )
+     * @Rest\View(StatusCode = 200)
+     */
+    public function getArtistesAction() {
+        
+        $manager=$this->getDoctrine()->getManager();
+        $artistes = $manager->getRepository(get_class(Artiste))->findAll();
+        return $artistes;
     }
     
     

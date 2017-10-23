@@ -57,4 +57,21 @@ class GenreController extends FOSRestController {
         return $this->view($genre, Response::HTTP_CREATED, 
                 ['Location' => $this->generateUrl('api_mimizik_genre_show', ['id' => $genre->getId(), UrlGeneratorInterface::ABSOLUTE_URL])]);
     }
+    
+    /**
+     * 
+     * @return type
+     * 
+     * @Rest\Get(
+     *     path = "/artistes",
+     *     name = "api_mimizik_genres_list"
+     * )
+     * @Rest\View(StatusCode = 200)
+     */
+    public function getGenresAction() 
+    {        
+        $manager=$this->getDoctrine()->getManager();
+        $genres = $manager->getRepository(get_class(GenreMusical))->findAll();
+        return $genres;
+    }
 }
