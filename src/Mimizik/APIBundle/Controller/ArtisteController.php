@@ -46,7 +46,7 @@ class ArtisteController extends FOSRestController {
     public function getArtistesAction() {
         
         $manager=$this->getDoctrine()->getManager();
-        $artistes = $manager->getRepository(get_class(Artiste))->findAll();
+        $artistes = $manager->getRepository('SpicySiteBundle:Artiste')->findAll();
         return $artistes;
     }
     

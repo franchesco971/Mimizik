@@ -63,7 +63,7 @@ class GenreController extends FOSRestController {
      * @return type
      * 
      * @Rest\Get(
-     *     path = "/artistes",
+     *     path = "/genres",
      *     name = "api_mimizik_genres_list"
      * )
      * @Rest\View(StatusCode = 200)
@@ -71,7 +71,7 @@ class GenreController extends FOSRestController {
     public function getGenresAction() 
     {        
         $manager=$this->getDoctrine()->getManager();
-        $genres = $manager->getRepository(get_class(GenreMusical))->findAll();
+        $genres = $manager->getRepository('SpicySiteBundle:GenreMusical')->findAll();
         return $genres;
     }
 }

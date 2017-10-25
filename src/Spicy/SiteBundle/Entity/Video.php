@@ -6,25 +6,29 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Spicy\SiteBundle\Entity\Title;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Video
  *
  * @ORM\Table(name="video")
  * @ORM\Entity(repositoryClass="Spicy\SiteBundle\Entity\VideoRepository")
+ * @Serializer\ExclusionPolicy("none")
  */
 class Video extends Title
 {
     /**
     * @ORM\ManyToMany(targetEntity="Spicy\SiteBundle\Entity\TypeVideo", cascade={"persist"})
-     * @Assert\Valid()
+    * @Assert\Valid()
+    * @Serializer\Expose
     */
     private $type_videos;
     
         
     /**
     * @ORM\OneToMany(targetEntity="Spicy\RankingBundle\Entity\VideoRanking", mappedBy="video")
-     * @Assert\Valid()
+    * @Assert\Valid()
+    * @Serializer\Exclude
     */
     private $videoRankings;
     

@@ -7,6 +7,9 @@ use Spicy\SiteBundle\Entity\Video;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 
+/**
+ * 
+ */
 class VideoController extends FOSRestController
 {
     /**
@@ -22,7 +25,8 @@ class VideoController extends FOSRestController
     public function getVideosAction()
     {
         $manager=$this->getDoctrine()->getManager();
-        $videos = $manager->getRepository(get_class(GenreMusical))->findAll();
+        $videos = $manager->getRepository('SpicySiteBundle:Video')->findAll();
+        var_dump($videos);
         return $videos;
     }
     
@@ -38,7 +42,7 @@ class VideoController extends FOSRestController
      * )
      * @Rest\View(StatusCode = 200)
      */
-    public function getVideoAction(Video $video) {
+    public function getOneVideoAction(Video $video) {
         return $video;
     }
 }

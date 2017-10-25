@@ -3,12 +3,15 @@ namespace Spicy\SiteBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation as Serializer;
+
 /**
  * @ORM\Table(name="title")
  * @ORM\Entity
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({"video" = "Video","track"="Track"})
+ * @Serializer\ExclusionPolicy("none")
  */
 abstract class Title
 {
@@ -96,6 +99,7 @@ abstract class Title
     *      inverseJoinColumns={@ORM\JoinColumn(name="hashtag_id", referencedColumnName="id")}
     *      )
     * @Assert\Valid()
+     * @Serializer\Exclude
     */
     private $hashtags;
     
@@ -106,6 +110,7 @@ abstract class Title
     *      inverseJoinColumns={@ORM\JoinColumn(name="artiste_id", referencedColumnName="id")}
     *      )
      * @Assert\Valid()
+     * @Serializer\Exclude
     */
     private $artistes;
     
@@ -116,6 +121,7 @@ abstract class Title
     *      inverseJoinColumns={@ORM\JoinColumn(name="genremusical_id", referencedColumnName="id")}
     *      )
     * @Assert\Valid()
+     * @Serializer\Exclude
     */
     private $genre_musicaux;
     
@@ -133,6 +139,7 @@ abstract class Title
     *      inverseJoinColumns={@ORM\JoinColumn(name="collaborateur_id", referencedColumnName="id")}
     *      )
      * @Assert\Valid()
+     * @Serializer\Exclude
     */
     private $collaborateurs;
     
