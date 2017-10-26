@@ -8,6 +8,7 @@ parameters:
     nbSuggestion: 10
     nbGenreAffiche: 10
     nbVideosGenreAffiche: 20
+    nbApiVideos: 10
 
 services:
     spicy_site.parseurXML:

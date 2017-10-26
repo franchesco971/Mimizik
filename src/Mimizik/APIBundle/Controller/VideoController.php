@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Spicy\SiteBundle\Entity\Video;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Mimizik\APIBundle\Representation\Videos;
 
 /**
  * 
@@ -21,13 +22,19 @@ class VideoController extends FOSRestController
      *     name = "api_mimizik_videos_list"
      * )
      * @Rest\View(StatusCode = 200)
+     * @Rest\QueryParam(
+     *     name="page",
+     *     requirements="\d+",
+     *     default="1",
+     *     description="The pagination page"
+     * )
      */
-    public function getVideosAction()
+    public function getVideosAction($page)
     {
         $manager=$this->getDoctrine()->getManager();
-        $videos = $manager->getRepository('SpicySiteBundle:Video')->findAll();
-        var_dump($videos);
-        return $videos;
+        $pager = $manager->getRepository('SpicySiteBundle:Video')->getAllByPage($this->container->getParameter('nbApiVideos'),(int)$page);
+        
+        return new Videos($pager);
     }
     
     /**
@@ -42,7 +49,7 @@ class VideoController extends FOSRestController
      * )
      * @Rest\View(StatusCode = 200)
      */
-    public function getOneVideoAction(Video $video) {
+    public function getVideoAction(Video $video) {
         return $video;
     }
 }

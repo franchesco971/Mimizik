@@ -30,7 +30,8 @@
         "facebook/php-sdk-v4": "^5.5",
         "symfony/var-dumper": "3.3.*",
         "swiftmailer/swiftmailer": "5.*",
-        "jms/serializer-bundle": "1.5.*"
+        "jms/serializer-bundle": "1.5.*",        
+        "white-october/pagerfanta-bundle": "1.0.*"
         
     },
     "scripts": {
