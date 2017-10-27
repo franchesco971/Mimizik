@@ -99,7 +99,6 @@ abstract class Title
     *      inverseJoinColumns={@ORM\JoinColumn(name="hashtag_id", referencedColumnName="id")}
     *      )
     * @Assert\Valid()
-     * @Serializer\Exclude
     */
     private $hashtags;
     
@@ -109,8 +108,7 @@ abstract class Title
     *      joinColumns={@ORM\JoinColumn(name="video_id", referencedColumnName="id")},
     *      inverseJoinColumns={@ORM\JoinColumn(name="artiste_id", referencedColumnName="id")}
     *      )
-     * @Assert\Valid()
-     * @Serializer\Exclude
+    * @Assert\Valid()
     */
     private $artistes;
     
@@ -121,7 +119,6 @@ abstract class Title
     *      inverseJoinColumns={@ORM\JoinColumn(name="genremusical_id", referencedColumnName="id")}
     *      )
     * @Assert\Valid()
-     * @Serializer\Exclude
     */
     private $genre_musicaux;
     
@@ -139,7 +136,6 @@ abstract class Title
     *      inverseJoinColumns={@ORM\JoinColumn(name="collaborateur_id", referencedColumnName="id")}
     *      )
      * @Assert\Valid()
-     * @Serializer\Exclude
     */
     private $collaborateurs;
     
