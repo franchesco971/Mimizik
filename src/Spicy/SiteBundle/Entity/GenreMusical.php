@@ -4,12 +4,21 @@ namespace Spicy\SiteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * GenreMusical
  *
  * @ORM\Table(name="Genre_musical")
  * @ORM\Entity(repositoryClass="Spicy\SiteBundle\Entity\GenreMusicalRepository")
+ * @Hateoas\Relation(
+ *      "self",
+ *      href = @Hateoas\Route(
+ *          "api_mimizik_genre_show",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *      )
+ * )
  */
 class GenreMusical
 {

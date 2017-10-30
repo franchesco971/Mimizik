@@ -7,6 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Spicy\SiteBundle\Entity\Title;
 use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * Video
@@ -14,6 +15,14 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\Table(name="video")
  * @ORM\Entity(repositoryClass="Spicy\SiteBundle\Entity\VideoRepository")
  * @Serializer\ExclusionPolicy("none")
+ * @Hateoas\Relation(
+ *      "self",
+ *      href = @Hateoas\Route(
+ *          "api_mimizik_video_show",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *      )
+ * )
  */
 class Video extends Title
 {

@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * Artiste
@@ -13,6 +14,18 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Spicy\SiteBundle\Entity\ArtisteRepository")
  * @Serializer\ExclusionPolicy("NONE")
+ * @Hateoas\Relation(
+ *      "self",
+ *      href = @Hateoas\Route(
+ *          "api_mimizik_artiste_show",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *      )
+ * )
+ * @Hateoas\Relation(
+ *     "slug",
+ *     embedded = @Hateoas\Embedded("expr(object.getSlug())")
+ * )
  */
 class Artiste
 {

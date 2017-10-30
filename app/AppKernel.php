@@ -33,7 +33,8 @@ class AppKernel extends Kernel
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new Mimizik\APIBundle\MimizikAPIBundle(),
-            new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle()
+            new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
+            new Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
