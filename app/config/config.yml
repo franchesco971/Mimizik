@@ -158,6 +158,8 @@ fos_rest:
     view:
         formats: { json: true, xml: false, rss: false }
         view_response_listener: true
+        mime_types:
+            json: ['application/json', 'application/json;version=1.0']
     serializer:
         serialize_null: true
     format_listener:
@@ -170,6 +172,12 @@ fos_rest:
 #        enabled: true
 #        codes:
 #           { Mimizik\APIBundle\Exception\RessourceNotFoundException: 404  }
+    versioning:
+        enabled: true
+        resolvers:
+            media_type: # Accept header
+                enabled: true
+                regex: '/(v|version)=(?P<version>[0-9\.]+)/'
                     
 sensio_framework_extra:
     view: { annotations: true }
