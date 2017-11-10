@@ -7,6 +7,7 @@ use Spicy\SiteBundle\Entity\Video;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Mimizik\APIBundle\Representation\Videos;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
  * 
@@ -28,6 +29,7 @@ class VideoController extends FOSRestController
      *     default="1",
      *     description="The pagination page"
      * )
+     * @Method({"GET", "OPTIONS"})
      */
     public function getVideosAction($page)
     {

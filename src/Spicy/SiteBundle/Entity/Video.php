@@ -23,6 +23,10 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *          absolute = true
  *      )
  * )
+ * @Hateoas\Relation(
+ *     "artistes_name",
+ *     embedded = @Hateoas\Embedded("expr(service('mimizik.tools').getArtistsNames(object.getArtistes()))")
+ * )
  */
 class Video extends Title
 {

@@ -12,14 +12,18 @@ security:
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
-        in_memory:
-            memory:
-                users:
-                    user:  { password: userpass, roles: [ 'ROLE_USER' ] }
-                    admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+#        in_memory:
+#            memory:
+#                users:
+#                    user:  { password: userpass, roles: [ 'ROLE_USER' ] }
+#                    admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
         
         main:
-            id: fos_user.user_provider.username        
+            id: fos_user.user_provider.username 
+        api_provider:
+            memory:
+                users:
+                    mimizik_front: { password: mimizik_api971 , roles: [ 'ROLE_USER','ROLE_API' ] }
     
     firewalls:
         dev:
@@ -48,6 +52,16 @@ security:
 #
 #            # Turn on anonymous for testings need.
 #            anonymous: ~
+        api_options:
+            pattern:  ^/api
+            methods: [OPTIONS]
+            security: false
+        api:
+            pattern:  ^/api
+            provider : api_provider
+            anonymous:       true
+            http_basic: ~
+            methods: [GET, POST]
         main:
             pattern: ^/
             provider: main
@@ -79,8 +93,9 @@ security:
                 lifetime: 31536000 # 365 days in seconds
                 path: /
                 domain: ~ # Defaults to the current domain from $_SERVER
-            
+                    
     access_control:
         - { path: ^/approval, roles: [ROLE_ADMIN,ROLE_CONTRIBUTOR] }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api, roles: ROLE_API }
