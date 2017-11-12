@@ -50,6 +50,7 @@ class VideoController extends FOSRestController
      *     requirements = {"id"="\d+"}
      * )
      * @Rest\View(StatusCode = 200)
+     * @Method({"GET", "OPTIONS"})
      */
     public function getVideoAction(Video $video) {
         return $video;
