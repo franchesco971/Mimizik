@@ -419,7 +419,8 @@ input[type="button"] {
 .search-form input[type="text"] {
 	margin:0;
 	line-height:19px;
-	height:31px;
+        height:19px;
+	/*height:31px;*/
 	padding:5px 26px 5px 10px;
 	background:#272727 url(/images/search_icon.png) right 8px no-repeat;
 	border-color:#1B1B1B;
