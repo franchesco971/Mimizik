@@ -1,0 +1,14 @@
+{# empty Twig template #}
+{% for row in txt %}
+    <p> ligne</p>
+    {% for data in row %}
+        {% if loop.first %}
+            {%set video=data%} 
+            {% include "SpicySiteBundle:Site:video_mini.html.twig" %}
+        {% else %}
+            <p>{{data}}****</p>
+        {% endif %}
+    {%endfor%}
+{%else%}
+<p>pas d'info</p>
+{%endfor%}

@@ -1,0 +1,20 @@
+{% set MOIS = constant('Spicy\\RankingBundle\\Entity\\RankingType::MOIS') %}
+{% set ANNEE = constant('Spicy\\RankingBundle\\Entity\\RankingType::ANNEE') %}
+<table border="1" class="side-ranking">
+    <tr><th>Classements</th></tr>
+{% for ranking in rankings %}         
+    <tr>
+        <td class="link">
+            <a class="button" href="{{ path('mimizik_ranking_show',{'id':ranking.id,'type_id':ranking.rankingType.id})}}"><span>
+                    Voir le classement
+                    {%if rankingType == MOIS%}
+            du {{ranking.dateRanking|date('m/y')}}
+            {% elseif rankingType == ANNEE%}
+            de {{ranking.dateRanking|date('Y')}}
+            {% endif%}
+                </span>
+           </a>
+        </td>
+    </tr>          
+{% endfor %}
+</table>

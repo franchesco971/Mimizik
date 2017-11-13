@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>Toutes les vidéos clip et la musique des antilles, de la caraïbes et de la guyane. Tout mizik la!</title>
+    <updated>{{ "now"|date("Y-m-d\\TH:i:s") }}+01:00</updated>
+    <id>http://www.mimizik.com/</id>
+    <author>
+        <name>Franchesco971</name>
+    </author>
+    <link rel="alternate" type="text/html" href="{{website_name}}"/>
+    <link rel = "self" href = "{{website_name}}{{path('spicy_site_flux_artistes')}}" />
+        
+    {% for artiste in artistes %} 
+    <entry>
+        <title type="text">{{artiste.libelle}}</title>
+        <updated>{{ artiste.dateArtiste|date("Y-m-d\\TH:i:s") }}+01:00</updated>
+        <id>{{website_name}}{{ path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}</id>
+        <link rel = "alternate" type="text/html" href = "{{website_name}}{{ path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}" />
+        <summary type="xhtml">
+            <div xmlns="http://www.w3.org/1999/xhtml">
+                <a href="{{website_name}}{{ path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">
+                    {{artiste.libelle}}
+                </a>
+                <p>{{artiste.description}}</p>
+            </div>
+        </summary>
+        
+        <author>
+            <name>Franchesco971</name>
+        </author>
+    </entry>
+    {% endfor %}
+</feed>

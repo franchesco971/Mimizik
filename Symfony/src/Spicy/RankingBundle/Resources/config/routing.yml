@@ -1,3 +1,0 @@
-mimizik_ranking:
-    resource: "@SpicyRankingBundle/Resources/config/Ranking/routing.yml"
-    prefix:   /classements

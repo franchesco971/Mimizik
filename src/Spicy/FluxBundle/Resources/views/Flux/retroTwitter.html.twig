@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>Mimizik - Toutes les vidéos clip et la musique des antilles, de la caraïbes et de la guyane. Tout mizik la!</title>
+    <description>Mimizik est un site promotion de la musique des artistes et des vidéos clip des antilles, de la caraïbes et de la guyane. Il y a tous genres musicaux (zouk, dancehall, hip-hop...) et la vidéo rétro de la semaine..</description>
+    <updated>{{ "now"|date("Y-m-d\\TH:i:s") }}+01:00</updated>
+    <id>http://www.mimizik.com/</id>
+    <author>
+        <name>Franchesco971</name>
+    </author>
+    <link rel="alternate" type="text/html" href="{{website_name}}"/>
+    <link rel = "self" href = "{{website_name}}{{path('spicy_site_flux_videos')}}" />
+        
+    {% for video in videos %} 
+    <entry>
+        <title type="text">{{video.getNomArtistes}} - {{video.titre}}</title>
+        <updated>{{ video.dateVideo|date("Y-m-d\\TH:i:s") }}+01:00</updated>
+        <id>{{website_name}}{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}</id>
+        <link rel = "alternate" type="text/html" href = "{{website_name}}{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}" />
+        <summary type="xhtml">
+            <div xmlns="http://www.w3.org/1999/xhtml">
+                <p>Rétro de la semaine {{video.getNomArtistes}} - {{video.titre}}
+                {{website_name}}{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}
+                {{video.tagTwitter}} #clip #mimizik {{video.hashtags}}
+                </p>
+            </div>
+        </summary>
+        
+        <author>
+            <name>Franchesco971</name>
+        </author>
+    </entry>
+    {% endfor %}
+</feed>

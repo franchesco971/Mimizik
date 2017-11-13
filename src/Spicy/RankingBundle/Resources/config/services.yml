@@ -1,0 +1,7 @@
+parameters:
+#    spicy_ranking.example.class: Spicy\RankingBundle\Example
+
+services:
+#    spicy_ranking.example:
+#        class: %spicy_ranking.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

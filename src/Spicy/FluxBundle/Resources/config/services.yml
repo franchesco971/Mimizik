@@ -1,0 +1,6 @@
+parameters:
+#    spicy_flux.example.class: Spicy\FluxBundle\Example
+
+services:
+    mimizik.twitter:
+        class: Spicy\FluxBundle\Services\Twitter

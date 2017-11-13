@@ -1,0 +1,32 @@
+<p onclick="retourAlpha();">Retour</p><br/>
+<div class="txt">
+{% for artiste in artistes %}
+    <p><a href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a></p>
+{%else%}
+    <p>Pas d'artistes</p>
+{% endfor %}
+    <div id="fleche">
+    
+    </div>
+    <div id="Pagination"></div>
+</div>
+<script type="text/javascript">
+    function initPagination() {
+        var num_entries = {{artistes|length}}
+        // Create content inside pagination element
+        $("#Pagination").pagination(num_entries, {
+            callback:function(){return false;},
+            items_per_page:10, // Show only one item per page
+            link_to:"__id__",
+            current_page:0,
+            prev_text:"Prèc.",
+            next_text:"Suiv.",
+            num_edge_entries:2,
+            num_display_entries:5
+        });
+     }
+     
+    initPagination();
+    initListArtiste();
+</script>
+

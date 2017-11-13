@@ -1,6 +1,0 @@
-<a>Genres musicaux</a>
-<ul class="sub-menu" >
-{% for genre in genres %}
-        <li><a title="{{genre.libelle}}" href="{{ path('spicy_site_genre',{'id':genre.id,'slug':genre.slug})}}">{{genre.libelle}}</a></li>      
-{% endfor %}
-</ul>

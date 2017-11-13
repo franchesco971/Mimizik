@@ -1,0 +1,16 @@
+{% extends "::layout.html.twig" %}
+{% block title %}
+    Une erreur {{ status_code }}
+{%endblock%}
+
+{% block body %}
+    {{ parent() }}
+    <h1>Oops! Il y a une erreur</h1>
+    <h2>Le serveur a retourné un erreur "{{ status_code }} {{ status_text }}".</h2>
+
+    <div>
+        Something is broken. Please e-mail us at {{email_contact}} and let us know
+        what you were doing when this error occurred. We will fix it as soon
+        as possible. Sorry for any inconvenience caused.
+    </div>
+{%endblock %}

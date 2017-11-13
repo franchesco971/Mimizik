@@ -1,0 +1,14 @@
+<div class="block-content">
+    <div class="title">
+        <span>Recherche un artiste : </span>
+    </div>
+    <div class="">
+        <select id="search_artistes" class="select2">
+        {% for artiste in selectArtistes %}
+            <option value='{{artiste.id}}'>{{artiste.libelle}}</option>
+        {%endfor%}
+        </select>
+    </div>
+</div>
+        
+{% include "SpicySiteBundle::_modal.html.twig" %}
