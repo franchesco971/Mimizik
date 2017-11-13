@@ -1,16 +1,14 @@
 /* CSS Document */
 
-#body{	min-height:1000px;font-family:Arial,sans-serif;	overflow:hidden;}
+#body{	min-height:1000px;font-family:Arial,sans-serif;	/*overflow:hidden;*/}
 #header{background-color:#777;	height:150px;}
-#menu{height: 40px;}
-/*#menu{height: 50px;}*/
+#menu{height: 50px;}
 
 #lastVideos
 {
     
 }
-/*.ribbon-slider {margin-top: 20px !important;}*/
-.ribbon-slider {margin-top: 45px !important;}
+.ribbon-slider {margin-top: 20px !important;}
 #lastVideos ul{margin-bottom: -54px; margin-top: -48px;}
 #container{
     
