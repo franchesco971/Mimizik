@@ -62,8 +62,7 @@ class FacebookController extends Controller
         $pageAccessToken=$facebookManager->getPageAccessToken();
         if (isset($pageAccessToken)) {
             // Si la video est active
-            if($video->getEtat())
-            {
+            if($video->getEtat()){
                 $date=new \DateTime('NOW');
                 $publishDate=$date->modify( '+15 minutes' );
                 $link=$this->generateUrl('spicy_site_video_slug',array('id'=>$video->getId(),'slug'=>$video->getSlug()),true);
@@ -77,47 +76,47 @@ class FacebookController extends Controller
                 ];
 
                 $response=  $facebookManager->postFeed($params);
-            }
             
-            //publication de videos du top
-            $randTopVideos=$videoManager->videosTop(10,1);
-            if($randTopVideos)
-            {
-                $dateDemain=new \DateTime('TOMORROW');
-                foreach ($randTopVideos as $randTopVideo) {
-                    $date=$randTopVideo->getNextPublishDate();
-                    $publishDate=$publishDate->modify('+16 hours');
-                    $link=$this->generateUrl('spicy_site_video_slug',array('id'=>$randTopVideo->getId(),'slug'=>$randTopVideo->getSlug()),true);
-                    $link = $videoManager->getCleanLink($link);
-                    
-                    $paramsTop=[
-                        'message' => $videoManager->getMessage($randTopVideo,$videoManager::TOP_VIDEO),
-                        'published'=>false,
-                        'scheduled_publish_time'=>  $publishDate->getTimestamp(),
-                        'link'=>$link
-                    ];
+            
+                //publication de videos du top
+                $randTopVideos = $videoManager->videosTop(10,1);
+                if($randTopVideos) {
+                    $dateDemain=new \DateTime('TOMORROW');
+                    foreach ($randTopVideos as $randTopVideo) {
+                        $date=$randTopVideo->getNextPublishDate();
+                        $publishDate=$publishDate->modify('+16 hours');
+                        $link=$this->generateUrl('spicy_site_video_slug',array('id'=>$randTopVideo->getId(),'slug'=>$randTopVideo->getSlug()),true);
+                        $link = $videoManager->getCleanLink($link);
 
-                    if($date)
-                    {
-                        $date=$date->format('Y-m-d');
-                        $date=new \DateTime($date);
-                        if($date!=$dateDemain)
+                        $paramsTop=[
+                            'message' => $videoManager->getMessage($randTopVideo,$videoManager::TOP_VIDEO),
+                            'published'=>false,
+                            'scheduled_publish_time'=>  $publishDate->getTimestamp(),
+                            'link'=>$link
+                        ];
+
+                        if($date)
+                        {
+                            $date=$date->format('Y-m-d');
+                            $date=new \DateTime($date);
+                            if($date!=$dateDemain)
+                            {
+                                $response=  $facebookManager->postFeed($paramsTop);
+                                $randTopVideo->setNextPublishDate($publishDate);
+                                break;
+                            }
+                        }
+                        else
                         {
                             $response=  $facebookManager->postFeed($paramsTop);
                             $randTopVideo->setNextPublishDate($publishDate);
                             break;
                         }
+                        $this->get('session')->getFlashBag()->add('info','La vidéo sera publié dans 15 min');
                     }
-                    else
-                    {
-                        $response=  $facebookManager->postFeed($paramsTop);
-                        $randTopVideo->setNextPublishDate($publishDate);
-                        break;
-                    }
-                    $this->get('session')->getFlashBag()->add('info','La vidéo sera publié dans 15 min');
+
+                    $em->flush();
                 }
-                
-                $em->flush();
             }
 
           //$graphNode = $response->getGraphNode();
