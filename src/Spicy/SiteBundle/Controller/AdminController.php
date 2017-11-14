@@ -116,32 +116,44 @@ class AdminController extends Controller
         ));
     }
     
+    /**
+     * 
+     * @param type $id
+     * @return type
+     * @throws NotFoundHttpException
+     */
     public function updateVideoAction($id)
     {       
-        $video=$this->getDoctrine()
-                ->getManager()
-                ->getRepository('SpicySiteBundle:Video')
-                ->find($id);
+        $em = $this->getDoctrine()->getManager();
+        
+        $video=$em->getRepository('SpicySiteBundle:Video')->find($id);
         
         if ($video == null) {
             throw $this->createNotFoundException('Video inexistant');
         }
         
-        $form= $this->createForm(new VideoType,$video);
+        $oldState = $video->getEtat();
+        
+        $form = $this->createForm(new VideoType,$video);
         
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-          $form->bind($request);
+            $form->bind($request);
 
-          if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($video);
-            $em->flush();
-            
-            $this->get('session')->getFlashBag()->add('info','Vidéo bien modifié');
-            
-            return $this->redirect($this->generateUrl('spicy_admin_home_video'));
-          }
+            if ($form->isValid()) {                
+                $em->persist($video);
+                $em->flush();
+
+                $this->get('session')->getFlashBag()->add('info','Vidéo bien modifié');
+
+                //Si le status de la video passe à true, on publie
+                if($oldState == false && $video->getEtat() == true) {
+                    $_SESSION['id_video_publish'] = $video->getId();
+                    return $this->redirect($this->generateUrl('mimizik_app_fb_login'));
+                } else {
+                    return $this->redirect($this->generateUrl('spicy_admin_home_video'));
+                }        
+            }
         }
         
         return $this->render('SpicySiteBundle:Admin:updateVideo.html.twig',array(
