@@ -1,6 +1,6 @@
 echo "****** Création de paramètre.sh *****"
 
-txt="parameters:\n\n"
+txt="parameters:\n"
 driver="pdo_mysql"
 
 while getopts ":-:" option
@@ -39,21 +39,23 @@ echo $OPTARG | while IFS="=" read option arg
         esac
 
         txt="$txt
-        \tdatabase_driver:\t$driver\n
-        \tdatabase_host:\t"$host"\n
-        \tdatabase_port:\t$port\n
-        \tdatabase_name:\t$name\n
-        \tdatabase_user:\t$user\n
-        \tdatabase_password:\t$password\n\n
-        \tmailer_transport:\tsmtp\n
-        \tmailer_host:\t'mail.mimizik.com'\n
-        \tmailer_user:\t'franchesco971@mimizik.com'\n
-        \tmailer_password:\t'franches971'\n
-        \tmailer_port:\t465\n\n
-        \tlocale:\tfr\n
-        \tsecret:\tThisTokenIsNotSoSecretChangeIt"
+    database_driver:    $driver
+    database_host:      $host
+    database_port:      $port
+    database_name:      $name
+    database_user:      $user
+    database_password:  $password
 
-        echo $txt > app/config/parameters.yml
+    mailer_transport:   smtp
+    mailer_host:        'mail.mimizik.com'
+    mailer_user:        'franchesco971@mimizik.com'
+    mailer_password:    'franches971'
+    mailer_port:        465
+
+    locale:             fr
+    secret:             ThisTokenIsNotSoSecretChangeIt"
+        
+        echo "$txt" > app/config/parameters.yml
     done
 done
 
