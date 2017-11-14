@@ -7,8 +7,8 @@ app/SymfonyRequirements.php
 vendor/*
 */logs/*
 */cache/*
-web/uploads/*
-web/bundles/*
+/web/uploads/*
+/web/bundles/*
 /composer.lock
 /web/js/compiled/*
 composer.phar
@@ -236,3 +236,4 @@ pip-log.txt
 /web/bundles/
 /web/css/compiled/*
 /nbproject/
+/app/config/parameters.yml
