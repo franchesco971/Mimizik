@@ -1,6 +1,6 @@
-echo "****** Création de paramètre.sh *****"
+echo "****** Creation de parametre.sh *****"
 
-txt="parameters:\n"
+txt="parameters:"
 driver="pdo_mysql"
 
 while getopts ":-:" option
@@ -39,6 +39,7 @@ echo $OPTARG | while IFS="=" read option arg
         esac
 
         txt="$txt
+
     database_driver:    $driver
     database_host:      $host
     database_port:      $port
