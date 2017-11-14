@@ -7,10 +7,12 @@ use Facebook\Facebook;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
 use Spicy\SiteBundle\Entity\Video;
+use Monolog\Logger;
 
 class FacebookManager
 {
     private $container;
+    private $logger;
     
     private $fbManager;
     
@@ -18,11 +20,11 @@ class FacebookManager
     private $pageAccessToken;
     private $pageId;
 
-    public function __construct(Container $container) {
+    public function __construct(Container $container,Logger $logger) {
         $this->container=$container;
         $this->fbManager=  $this->getFacebookObject();
         $this->pageId=$this->container->getParameter('app_fb_page_id');
-        
+        $this->logger=$logger;
         
     }
     
@@ -50,10 +52,12 @@ class FacebookManager
             } catch(FacebookResponseException $e) {
               // When Graph returns an error
                 echo 'Graph returned an error: ' . $e->getMessage();
+                $this->logger->error('Graph returned an error: ' . $e->getMessage());
                 exit;
             } catch(FacebookSDKException $e) {
               // When validation fails or other local issues
                 echo 'Facebook SDK returned an error: ' . $e->getMessage();
+                $this->logger->error('Facebook SDK returned an error: ' . $e->getMessage());
                 exit;
             } 
                         

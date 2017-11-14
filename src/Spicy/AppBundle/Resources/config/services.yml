@@ -9,3 +9,4 @@ services:
         class: Spicy\AppBundle\Services\FacebookManager
         arguments:
             container: "@service_container"
+            logger: @logger
