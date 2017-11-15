@@ -17,12 +17,12 @@ services:
         class: Spicy\SiteBundle\Services\Social
     mimizik.tools:
         class: Spicy\SiteBundle\Services\Tools
-        arguments: [ @mailer ]
+        arguments: [ "@mailer" ]
     mimizik.videoService:
         class: Spicy\SiteBundle\Services\VideoService
         arguments: 
             entityManager: "@doctrine.orm.entity_manager"
-            logger: @logger
+            logger: "@logger"
             youtubeParseur: "@mimizik.parseur.youtube"
         tags:
         - { name: monolog.logger, channel: mimizik }
@@ -32,6 +32,6 @@ services:
         class: Spicy\SiteBundle\Services\YoutubeAPI
     mimizik.twig.name.extension:
         class: Spicy\SiteBundle\Twig\NameExtension
-        arguments: [ @router ]
+        arguments: [ "@router" ]
         tags:
             - { name: twig.extension }

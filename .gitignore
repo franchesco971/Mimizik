@@ -237,3 +237,4 @@ pip-log.txt
 /web/css/compiled/*
 /nbproject/
 /app/config/parameters.yml
+/test/
