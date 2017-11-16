@@ -54,6 +54,10 @@ class AdminController extends Controller
         ));
     }
     
+    /**
+     * 
+     * @return type
+     */
     public function addVideoAction()
     {
         //$videoManager = $this->container->get('mimizik.videoService');
@@ -84,8 +88,14 @@ class AdminController extends Controller
                 $this->get('session')->getFlashBag()->add('info','Video bien ajouté');
                 $_SESSION['id_video_publish']=$video->getId();
 
-                return $this->redirect($this->generateUrl('mimizik_app_fb_login'));
-            }
+                //redirection vers facebook
+                if($video->getEtat() == true) {
+                    return $this->redirect($this->generateUrl('mimizik_app_fb_login'));
+                } else {
+                    return $this->redirect($this->generateUrl('spicy_admin_home'));                    
+                }
+                
+        }
         }
         
         return $this->render('SpicySiteBundle:Admin:addVideo.html.twig',array(
@@ -118,8 +128,8 @@ class AdminController extends Controller
     
     /**
      * 
-     * @param type $id
-     * @return type
+     * @param String $id
+     * @return view
      * @throws NotFoundHttpException
      */
     public function updateVideoAction($id)
@@ -276,6 +286,11 @@ class AdminController extends Controller
         ));
     }
     
+    /**
+     * 
+     * @param Artiste $artiste
+     * @return type
+     */
     public function deleteArtisteAction(Artiste $artiste)
     {
         $form = $this->createFormBuilder()->getForm();
