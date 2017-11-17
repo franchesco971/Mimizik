@@ -60,22 +60,16 @@ class AdminController extends Controller
      */
     public function addVideoAction()
     {
-        //$videoManager = $this->container->get('mimizik.videoService');
         $youtubeAPI = $this->container->get('mimizik.youtube.api');
-        $developerKey=$this->container->getParameter('developer_key');
         $request = $this->get('request');
         $yurl = $request->query->get('youtubeUrl');
         
-        $video=new Video;
-        
         if($yurl)//s'il y a une url youtube
         {
-            //$video=$videoManager->setYoutubeData($video,$yurl);
-            $arrayResult=$youtubeAPI->getArrayResult($yurl,$developerKey);
-            $video=$youtubeAPI->setVideoData($video,$arrayResult);
+            $video = $youtubeAPI->getByYoutubeId($yurl);
         }
         
-        $form= $this->createForm(new VideoType,$video);    
+        $form = $this->createForm(new VideoType,$video);    
             
         if ($request->getMethod() == 'POST') {
             $form->bind($request);
@@ -95,11 +89,34 @@ class AdminController extends Controller
                     return $this->redirect($this->generateUrl('spicy_admin_home'));                    
                 }
                 
-        }
+            }
         }
         
         return $this->render('SpicySiteBundle:Admin:addVideo.html.twig',array(
             'form'=>$form->createView()
+        ));
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function addAdminVideoYoutubeAction()
+    {       
+        $video = new Video;
+        
+        $request = $this->get('request');
+        $videotype = $request->request->get('spicy_sitebundle_videotype');
+        $url=$videotype['url'];
+        
+        $form = $this->createForm(new VideoType(),$video);        
+        
+        if ($request->getMethod() == 'POST') {          
+            return $this->redirect($this->generateUrl('approval_new_admin',array('youtubeUrl' => $url)));
+        }
+        
+        return $this->render('SpicySiteBundle:Admin:addVideoYoutube.html.twig',array(
+            'form' => $form->createView()
         ));
     }
     
