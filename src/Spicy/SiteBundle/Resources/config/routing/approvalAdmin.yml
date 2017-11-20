@@ -1,0 +1,12 @@
+approval_new_admin:
+    path:     /new_admin
+    defaults: { _controller: "SpicySiteBundle:Approval:newAdmin" } 
+    
+approval_create_admin:
+    path:     /create_admin
+    defaults: { _controller: "SpicySiteBundle:Approval:createAdmin" }
+    requirements: { _method: post }
+    
+approval_video_youtube:
+    pattern:  /add_admin_video_youtube
+    defaults: { _controller: SpicySiteBundle:Admin:addAdminVideoYoutube }    

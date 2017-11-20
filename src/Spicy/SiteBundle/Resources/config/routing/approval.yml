@@ -9,7 +9,7 @@ approval_show:
 approval_new:
     path:     /new
     defaults: { _controller: "SpicySiteBundle:Approval:new" }
-
+       
 approval_create:
     path:     /create
     defaults: { _controller: "SpicySiteBundle:Approval:create" }
