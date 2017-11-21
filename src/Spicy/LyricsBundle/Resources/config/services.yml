@@ -2,6 +2,11 @@ parameters:
 #    spicy_lyrics.example.class: Spicy\LyricsBundle\Example
 
 services:
-#    spicy_lyrics.example:
-#        class: %spicy_lyrics.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    mimizik.lyrics.service:
+        class: Spicy\LyricsBundle\Services\LyricsService
+    twig.lyrics.extension:
+        class: Spicy\LyricsBundle\Twig\LyricsExtension
+        arguments: ["@mimizik.lyrics.service"]
+        public: false
+        tags:
+            - { name: twig.extension }
