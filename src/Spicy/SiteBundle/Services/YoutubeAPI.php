@@ -34,7 +34,7 @@ class YoutubeAPI
             
         } catch (Exception $ex) {
             $this->logger->error($ex->getMessage());
-        }                      
+        }
         
         return $obj;
     }
@@ -55,7 +55,7 @@ class YoutubeAPI
             $arrayResult['title']=$snippet->title;
             $arrayResult['description']=$snippet->description;
             $arrayResult['channelTitle']=$snippet->channelTitle;
-        }        
+        }
         
         return $arrayResult;
     }

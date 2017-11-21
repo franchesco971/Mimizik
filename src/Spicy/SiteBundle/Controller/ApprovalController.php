@@ -72,7 +72,7 @@ class ApprovalController extends Controller
                 }
                 else {
                     $this->get('session')->getFlashBag()->add('error',"Erreur d'enregistrement");
-                }                
+                }
             }            
         }
 

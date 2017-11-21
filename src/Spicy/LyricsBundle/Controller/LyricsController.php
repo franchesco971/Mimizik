@@ -49,4 +49,32 @@ class LyricsController extends Controller
             'form'=>$form->createView()
         ]);
     }
+    
+    /**
+     * 
+     * @param Request $request
+     * @param string $id
+     * @return type
+     */
+    public function showAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $toolsManager = $this->container->get('mimizik.tools');
+        
+        $video = $em->getRepository('SpicySiteBundle:Video')->find($id);
+        
+        /** A REFAIRE ***/
+        $genres=$video->getGenreMusicaux();
+        $genreIdsList=$toolsManager->getListId($genres);
+        
+        $suggestions=$em->getRepository('SpicySiteBundle:Video')
+                ->getSuggestions($genreIdsList,$video->getId());
+        /*** ****/
+        
+        return $this->render('SpicyLyricsBundle::show.html.twig', [
+            'video' => $video,
+            'lyrics' => $em->getRepository('SpicyLyricsBundle:Lyrics')->getOrdered($video),
+            'suggestions' => $suggestions
+        ]);
+    }
 }
