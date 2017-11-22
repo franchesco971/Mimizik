@@ -95,7 +95,7 @@ class AdminController extends Controller
                     return $this->redirect($this->generateUrl('spicy_admin_home'));                    
                 }
                 
-        }
+            }
         }
         
         return $this->render('SpicySiteBundle:Admin:addVideo.html.twig',array(

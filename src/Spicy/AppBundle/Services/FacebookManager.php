@@ -34,9 +34,9 @@ class FacebookManager
             'app_id'                => $this->container->getParameter('app_fb_id'),
             'app_secret'            => $this->container->getParameter('app_fb_secret'),
             'default_graph_version' => $this->container->getParameter('app_fb_graph_version'),
-          ];
-
-        $fb = new Facebook($params);
+        ];
+        
+        $fb = new Facebook($params);     
         
         return $fb;
     }
@@ -50,20 +50,16 @@ class FacebookManager
             try {
                 $userAccessToken = $helper->getAccessToken();
             } catch(FacebookResponseException $e) {
-              // When Graph returns an error
-                echo 'Graph returned an error: ' . $e->getMessage();
-                $this->logger->error('Graph returned an error: ' . $e->getMessage());
-                exit;
+                // When Graph returns an error
+                throw new FacebookResponseException($e->getMessage());
             } catch(FacebookSDKException $e) {
-              // When validation fails or other local issues
-                echo 'Facebook SDK returned an error: ' . $e->getMessage();
-                $this->logger->error('Facebook SDK returned an error: ' . $e->getMessage());
-                exit;
+                // When validation fails or other local issues
+                throw new FacebookSDKException($e->getMessage());
             } 
                         
             $_SESSION['FB_USER_ACCESS_TOKEN']=$userAccessToken;            
         }
-        else
+        else //déjà connecté
         {
             $userAccessToken=$_SESSION['FB_USER_ACCESS_TOKEN'];
         }
@@ -81,7 +77,7 @@ class FacebookManager
             
             $_SESSION['FB_PAGE_ACCESS_TOKEN']=$pageAccessToken;
         }
-        else
+        else //déjà connecté
         {
             $pageAccessToken=$_SESSION['FB_PAGE_ACCESS_TOKEN'];
         }
@@ -95,12 +91,10 @@ class FacebookManager
             // Returns a `Facebook\FacebookResponse` object                                  
             $response = $this->fbManager->post("/$this->pageId/feed", $params, $this->pageAccessToken);
 
-        } catch(Facebook\Exceptions\FacebookResponseException $e) {
-          echo 'Graph returned an error: ' . $e->getMessage();
-          exit;
-        } catch(Facebook\Exceptions\FacebookSDKException $e) {
-          echo 'Facebook SDK returned an error: ' . $e->getMessage();
-          exit;
+        } catch(FacebookResponseException $e) {
+            throw new FacebookResponseException($e->getMessage());
+        } catch(FacebookSDKException $e) {
+            throw new FacebookResponseException($e->getMessage());
         }
         
         return $response;
@@ -108,6 +102,12 @@ class FacebookManager
     
     public function getPageAccessToken() {
         return $this->pageAccessToken;
+    }
+    
+    public function setTokens()
+    {
+        $this->setFbUserAccessToken();
+        $this->setPageAccessToken();
     }
 }
 
