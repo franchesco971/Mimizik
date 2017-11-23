@@ -21,6 +21,7 @@
                 <th>Titre</th>
                 <th>Statut</th>
                 <th>Request date</th>
+                <th>Top</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -43,6 +44,7 @@
                 <td>{{ entity.title.titre }}</td>
                 <td class="{{class}}">{{approvalText}}</td>
                 <td>{{ entity.requestDate|date("Y-m-d H:i:s") }}</td>
+                <td>{% if entity.title.onTop %} TOP {% endif %}</td>
                 <td>
                     <p>
                         <a class="button dark" href="https://www.youtube.com/watch?v={{entity.title.url}}" target="_blank">Voir</a>
