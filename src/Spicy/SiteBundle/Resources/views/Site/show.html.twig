@@ -96,11 +96,8 @@
             <div class="lyrics-block content-block" >
                 <div class="block-title"><span>Paroles</span></div>
                 <div class="block-content">
-                    <a class="button large" id="btn_lyrics">
+                    <a class="button large" id="btn_lyrics" href="{{path('mimizik_paroles_show',{'id':lavideo.id,"slug":lavideo.slug})}}">
                         <span>Voir les paroles</span>
-                    </a>
-                    <a class="button large" id="btn_print_lyrics">
-                        <span>Imprimer les paroles</span>
                     </a>
                     <div style="display:none" id="lyrics_content" > 
                         {% for paragraph in lyrics.paragraphs%}
@@ -236,34 +233,5 @@
             }            
         }
         (document,"script","twitter-wjs");
-   </script>
-   
-   <script type="text/javascript">
-        $(document).ready(function(){ 
-                       
-            $( "#btn_lyrics" ).click(function() {                
-                var span= $(this).find('span');
-                if ($("#lyrics_content").is(':visible')) {
-                    span.html('Voir les paroles');
-                } else {                   
-                    span.html('Cacher les paroles');
-                }
-                $("#lyrics_content").toggle("slow");
-            });
-            
-            if('{{referrer}}'=='lyrics')
-            {
-                $( "#btn_lyrics" ).click();
-            }
-            
-            $( "#btn_print_lyrics" ).click(function() {
-                var divToPrint=document.getElementById('lyrics_content');
-                var newWin=window.open('','Print-Window');
-                newWin.document.open();
-                newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
-                newWin.document.close();
-            });
-        });
-</script>
-       
+   </script>       
 {% endblock %}

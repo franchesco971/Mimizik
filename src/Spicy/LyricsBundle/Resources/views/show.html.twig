@@ -1,101 +1,66 @@
 {% extends "SpicySiteBundle::layout.html.twig" %}
 
 {% block title %}
-    Paroles du titre ... avec ...
+    Paroles du titre {{video.titre}} avec {{video.getNomArtistes}} - Mimizik
 {% endblock %}
 
-{% block stylesheets %}    
+{% block stylesheets %}
     {{ parent() }}
-    <style type="text/css">
-        /*#body{background: url("/images/testbg.png") no-repeat scroll 50% 0 rgba(0, 0, 0, 0);}*/
-        
-    </style> 
+    {% stylesheets filter='cssrewrite,?yui_css' output='css/compiled/lyrics/show.css'
+        'css/select2.css'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
 {% endblock %}
 
 {% block body %}
     {{ parent() }}
     <div class="page-title wrapper">
         <div class="container">
-            <span>Artiste</span>
+            <span>Paroles du titre <a href="{{path('spicy_site_video',{'id':video.id})}}">{{video.titre}}</a> avec {{video.getNomArtistes}}</span>
             <div class="clear"></div>
         </div>
     </div>
-    <div class="content wrapper">
+    <div class="content wrapper " id="lyrics-content">
         <div class="container">
             <div class="two-third column">
-                <div>
-                    <div class="un-tier column-perso">
-                        <div class="block-content-perso">
-                            <img src="https://graph.facebook.com/{{artiste.tagFacebook}}/picture?type=large" alt="{{artiste.libelle}} sur mimizik.com" />
-                            <h4 class="release-title">{{artiste.libelle}}</h4>
-                        </div>
-                    </div>
-                    <div class="un-demi column last">
-                        <div class="content-block">
-                            <div class="block-title"><span>Description</span></div>
-                            <div class="block-content">{{artiste.description|nl2br}}</div>
-                            <div class="block-content"><p>Tags :
-                                {% for genre in genres %}
-                                    <a href="{{ path('spicy_site_genre',{'id':genre.id,'slug':genre.slug})}}">{{genre.libelle}} </a>
-                                {% endfor %}
-                                {% for hashtag in artiste.hashtags %}
-                                    <a href="{{path('mimizik_tag_show',{'tag':hashtag.libelle})}}"> #{{hashtag.libelle}}</a>
-                                {% endfor %}
-                                </p>
-                                <div class="social-links-description">
-                                    {% if fbLink!='' %}
-                                        <a title="Facebook" class="facebook" href="{{fbLink}}" target="_blank"></a>
-                                    {% endif %}
-                                    {% for twitterLink in twitterLinks %}
-                                        <a title="Twitter" class="twitter" href="{{twitterLink}}" target="_blank"></a>
-                                    {% endfor %}
-                                    {% if instaLink!='' %}
-                                        <a title="Instagram" class="instagram" href="{{instaLink}}" target="_blank"></a>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content-block">
-                    <div class="block-title"><span>Vidéos</span></div>
+                <div class="lyrics-block content-block" >
+                    <div class="block-title"><span>Paroles</span></div>
                     <div class="block-content">
-                        <div class="featured-blog">
-                        {% for video in videos %}
-                            {% include "SpicySiteBundle:Site:video_post.html.twig" %} 
-                         {%else%}
-                            <p>Pas de vidéos de cette artiste</p>
-                         {% endfor %}
-                            <div id="Pagination" class="pagination" ></div>
-                            <ul class="pagination">
-                                {% if page==1%}
-                                    {% set nbprec=null%}
-                                    {% set nbsuiv=2%}
-                                {% elseif page==nbVideos %}
-                                    {% set nbprec=page-1%}
-                                    {% set nbsuiv=null%}
-                                {% else %}
-                                    {% set nbprec=page-1%}
-                                    {% set nbsuiv=page+1%}
-                                {% endif %}
-                                
-                                <li class="prev"><a href="{% if nbprec%}{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":nbprec})}}{% else %}#{% endif %}">précédent</a></li>                                
-                                {% set nbpages=(nbVideos/10)|round(0,'ceil')%}
-                                {% for i in 1..nbpages %}                                    
-                                    <li ><a class="{% if i==page%}current{% endif %}" href="{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":i})}}">{{i}}</a></li>
-                                {% endfor %}
-                                <li class="next"><a href="{% if nbsuiv%}{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":nbsuiv})}}{% else %}#{% endif %}">suivant</a></li>
-                            </ul>
+                        <a class="button large" id="btn_print_lyrics">
+                            <span>Imprimer les paroles</span>
+                        </a>
+                        <div id="lyrics_content" > 
+                            {% for paragraph in lyrics.paragraphs%}
+                                <p class="red_type">({{paragraph|paragraphType|upper}})</p>
+                                <p class="song-text">{{paragraph.contentOriginal|nl2br}}</p>
+                            {%endfor%}
                         </div>
                     </div>
-                </div>
-                <div>
-                    <div id="banstex468x60">
-                        {#% include "SpicySiteBundle:Ads:468x60_banstex.html.twig" %#}
-                    </div>  
                 </div>
             </div>
+                    
             <div class="one-third column last">
+                {#<div class="content-block">
+                    {% include "SpicySiteBundle:Site:video_post_slider.html.twig" with {'lavideo': video} %}
+                </div>#}
+                <div class="content-block">
+                    <div class="block-title"><span>Suggestions</span></div>
+                    <div class="block-content">
+                        <div class="fade-slider">
+                            <ul>
+                                {% for videoSug in suggestions %}
+                                    {% include "SpicySiteBundle:Site:video_post_slider.html.twig" with {'video': videoSug} %}
+                                {% endfor %}
+                            </ul>
+                            <div class="arrow arrow-left"></div>
+                            <div class="arrow arrow-right"></div>
+                            <input type="hidden" class="slider-pause" value="1" />
+                            <input type="hidden" class="slider-speed" value="6000" />
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
                 <div class="content-block">
                     <div class="block-content" id="encart_droit">
                         {% include "SpicySiteBundle:Ads:encart_droit_adsense.html.twig" %}
@@ -106,25 +71,25 @@
                         {{ render(controller('SpicySiteBundle:Site:selectArtistesForward')) }}
                     </div>
                 </div>
-                <div class="content-block">
-                    <div class="block-title"><span>Suggestions</span></div>
-                    <div class="block-content">
-                        {% for sArtiste in suggestions %}
-                            {% include "SpicySiteBundle:Site:artiste_post.html.twig" %} 
-                         {%else%}
-                            <p>Pas de suggestions</p>
-                         {% endfor %}
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 {% endblock %}
-    
-{% block javascripts %}
-    {{parent()}}
-    <script type="text/javascript">
-       
-    </script>
 
-{% endblock%}
+{% block javascripts %}    
+    {{parent()}}
+    <script type="text/javascript" src="{{asset('js/select2.min.js')}}" ></script>
+    {% include "SpicySiteBundle:Site:Artiste\\_search.js.twig" %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            
+            $( "#btn_print_lyrics" ).click(function() {
+                var divToPrint=document.getElementById('lyrics_content');
+                var newWin=window.open('','Print-Window');
+                newWin.document.open();
+                newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+                newWin.document.close();
+            });
+        });
+    </script>
+{% endblock %}

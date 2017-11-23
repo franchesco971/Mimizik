@@ -1,0 +1,5 @@
+services:
+    mimizik.repository.typeVideo:
+        class: Spicy\SiteBundle\Entity\TypeVideoRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments: ['SpicySiteBundle:TypeVideo']

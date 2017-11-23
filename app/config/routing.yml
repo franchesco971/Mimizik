@@ -78,6 +78,10 @@ fos_user_group:
     resource: "@FOSUserBundle/Resources/config/routing/group.xml"
     prefix: /group
     
-mimizik_approval_admin:
+mimizik_approval:
     resource: "@SpicySiteBundle/Resources/config/routing/approval.yml"
     prefix:   /approval/
+    
+mimizik_approval_admin:
+    resource: "@SpicySiteBundle/Resources/config/routing/approvalAdmin.yml"
+    prefix:   /admin/approval/ 

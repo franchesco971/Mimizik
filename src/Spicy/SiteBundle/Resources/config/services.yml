@@ -1,3 +1,6 @@
+imports:
+    - { resource: repositories.yml }
+    
 parameters:
 #    spicy_site.example.class: Spicy\SiteBundle\Example
     nbMainVideo: 5
@@ -17,12 +20,12 @@ services:
         class: Spicy\SiteBundle\Services\Social
     mimizik.tools:
         class: Spicy\SiteBundle\Services\Tools
-        arguments: [ @mailer ]
+        arguments: [ "@mailer" ]
     mimizik.videoService:
         class: Spicy\SiteBundle\Services\VideoService
         arguments: 
             entityManager: "@doctrine.orm.entity_manager"
-            logger: @logger
+            logger: "@logger"
             youtubeParseur: "@mimizik.parseur.youtube"
         tags:
         - { name: monolog.logger, channel: mimizik }
@@ -30,8 +33,12 @@ services:
         class: Spicy\SiteBundle\Services\ParseurXMLYoutube
     mimizik.youtube.api:
         class: Spicy\SiteBundle\Services\YoutubeAPI
+        arguments: ["@logger", %developer_key%]
     mimizik.twig.name.extension:
         class: Spicy\SiteBundle\Twig\NameExtension
-        arguments: [ @router ]
+        arguments: [ "@router" ]
         tags:
             - { name: twig.extension }
+    mimizik.approval.service:
+        class: Spicy\SiteBundle\Services\ApprovalService
+        arguments: ["@security.token_storage", "@mimizik.repository.typeVideo"]

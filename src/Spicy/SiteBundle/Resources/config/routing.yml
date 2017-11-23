@@ -114,7 +114,13 @@ mimizik_genres_menu:
     defaults: { _controller: SpicySiteBundle:Site:Genres }
     
 mimizik_paroles_slug:
-    pattern:  /paroles/{id}/{slug}
+    pattern:  /video/paroles/{id}/{slug}
     defaults: { _controller: SpicySiteBundle:Site:show,referrer:'lyrics' }
+    requirements: 
+        id: \d+
+        
+mimizik_paroles_show:
+    pattern: /paroles/{id}/{slug}
+    defaults: { _controller: SpicyLyricsBundle:Lyrics:show }
     requirements: 
         id: \d+
