@@ -109,12 +109,7 @@ class ApprovalController extends Controller
             try {
                 $tools = $this->container->get('mimizik.tools');
                 $em->persist($entity);
-                $em->flush();                           
-                
-                $tools->sendMail($this->renderView(
-                    'SpicySiteBundle:Mail:Approval\admin_approval.html.twig',
-                    ['user' => $this->getUser(),'video'=>$entity->getTitle()]
-                ));
+                $em->flush();
                 
                 $this->get('session')->getFlashBag()->add('info','Video soumis à approbation');
                 
@@ -187,10 +182,11 @@ class ApprovalController extends Controller
         $youtubeAPI = $this->container->get('mimizik.youtube.api');
         $yurl = $request->query->get('youtubeUrl');
         
-        if($yurl)//s'il y a une url youtube
-        {
+        //s'il y a une url youtube
+        if($yurl) {
             $video = $youtubeAPI->getByYoutubeId($yurl);
         }
+        
         $entity = $approvalService->getDefaultApproval($video);
         
         $form   = $this->createCreateForm($entity, $admin = true);
@@ -265,6 +261,7 @@ class ApprovalController extends Controller
 
         return $form;
     }
+    
     /**
      * Edits an existing Approval entity.
      *
@@ -296,6 +293,7 @@ class ApprovalController extends Controller
 //            'delete_form' => $deleteForm->createView(),
         ));
     }
+    
     /**
      * Deletes a Approval entity.
      *
@@ -369,11 +367,11 @@ class ApprovalController extends Controller
         $em = $this->getDoctrine()->getManager();
         $request = $this->get('request');
         
-        $approval= $em->getRepository('SpicySiteBundle:Approval')->find($id);
-        $video=$approval->getTitle();
+        $approval = $em->getRepository('SpicySiteBundle:Approval')->find($id);
+        $video = $approval->getTitle();
         $video->setEtat(true);
         
-        $form= $this->createForm(new VideoType,$video);    
+        $form = $this->createForm(new VideoType,$video);    
             
         if ($request->getMethod() == 'POST') {
             $form->bind($request);
@@ -384,7 +382,7 @@ class ApprovalController extends Controller
                 try{
                     $em->flush();
                     $this->get('session')->getFlashBag()->add('info','Publication approuvé');
-                    $_SESSION['id_video_publish']=$video->getId();
+                    $_SESSION['id_video_publish'] = $video->getId();
                     
                     return $this->redirect($this->generateUrl('mimizik_app_fb_login'));
                 }
@@ -396,7 +394,7 @@ class ApprovalController extends Controller
         }
         
         return $this->render('SpicySiteBundle:Approval:approval.html.twig',array(
-            'form'=>$form->createView()
+            'form' => $form->createView()
         ));
     }
     
