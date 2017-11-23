@@ -4,12 +4,12 @@
     {%if referrer=='lyrics'%}
         Paroles du titre {{lavideo.titre}} avec {{lavideo.getNomArtistes}} - Mimizik
     {%else%}
-    {{lavideo.getNomArtistes}} - {{lavideo.titre}} sur Mimizik
+        {{lavideo.getNomArtistes}} - {{lavideo.titre}} sur Mimizik
     {% endif %}
 {% endblock %}
 
 {% block meta_description %}
-    <meta name="Description" content="Vidéo clip {{lavideo.getNomArtistes}} - {{lavideo.titre}} : {{lavideo.description}}"/>
+    <meta name="Description" content="{{lavideo.description| truncate(200, true, '...')}} Vidéo clip {{lavideo.getNomArtistes}} - {{lavideo.titre}}  "/>
     <meta property="og:title" content="{{lavideo.getNomArtistes}} - {{lavideo.titre}}" />
     <meta property="og:image" content="http://img.youtube.com/vi/{{lavideo.url}}/0.jpg" />
     <meta property="og:url" content="{{website_name}}{{path('spicy_site_video_slug',{'id':lavideo.id,'slug':lavideo.slug})}}" />

@@ -4,6 +4,10 @@
     Paroles du titre {{video.titre}} avec {{video.getNomArtistes}} - Mimizik
 {% endblock %}
 
+{% block meta_description %}
+    <meta name="Description" content="{{lyrics.paragraphs[0].contentOriginal|nl2br| truncate(80, true, '...')}} Paroles {{video.getNomArtistes}} - {{video.titre}} Lyrics Mimizik"/> 
+{% endblock %}
+
 {% block stylesheets %}
     {{ parent() }}
     {% stylesheets filter='cssrewrite,?yui_css' output='css/compiled/lyrics/show.css'

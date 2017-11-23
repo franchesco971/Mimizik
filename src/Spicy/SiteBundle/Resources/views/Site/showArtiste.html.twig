@@ -5,7 +5,12 @@
 {% endblock %}
 
 {% block meta_description %}
-    <meta name="Description" content="Mimizik te propose toute la musique et les vidéos clip de {{artiste.libelle}}. {{artiste.description}}"/> 
+    {% set tags = '' %}
+    {% for hashtag in artiste.hashtags %}
+        {% set tags = tags ~ ' #' ~ hashtag.libelle%}
+    {% endfor %}
+    
+    <meta name="Description" content="{{artiste.libelle}} : {{artiste.description| truncate(100, true, '...')}} {{tags}} Artiste Mimizik vidéos clip"/> 
 {% endblock %}
 
 {% block stylesheets %}
