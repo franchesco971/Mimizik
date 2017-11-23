@@ -88,7 +88,7 @@ class PublishService
         return $this->videoservice->getCleanLink($link);
     }
     
-    public function getParams($link, $publishDate, Video $video, $type=self::NEW_VIDEO)
+    public function getParams($link, $publishDate, Video $video, $type = VideoService::NEW_VIDEO)
     {
         $paramsTop=[
             'message' => $this->videoservice->getMessage($video,$type),
