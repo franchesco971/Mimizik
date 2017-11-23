@@ -85,7 +85,7 @@ class FacebookController extends Controller
                 $publishService->instantPublish($video);         
 
                 //publication de videos du top
-                $publishService->topRamdomPublish()
+                $publishService->topRamdomPublish();
             }
             
             return $this->redirect($this->generateUrl('spicy_admin_home_video'));
