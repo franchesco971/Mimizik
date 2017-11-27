@@ -10,3 +10,12 @@ services:
         arguments:
             container: "@service_container"
             logger: "@logger"
+    mimizik.publish.service:
+        class: Spicy\AppBundle\Services\PublishService
+        arguments:
+            router: "@router"
+            videoService: "@mimizik.videoService"
+            facebookManager : "@mimizik.app.facebook.manager"
+            em: "@doctrine.orm.entity_manager"
+            session: "@session"
+            
