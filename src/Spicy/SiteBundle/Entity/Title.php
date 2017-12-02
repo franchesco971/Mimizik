@@ -95,6 +95,7 @@ abstract class Title
     *      joinColumns={@ORM\JoinColumn(name="video_id", referencedColumnName="id")},
     *      inverseJoinColumns={@ORM\JoinColumn(name="hashtag_id", referencedColumnName="id")}
     *      )
+    * @ORM\OrderBy({"libelle" = "ASC"})
     * @Assert\Valid()
     */
     private $hashtags;
@@ -105,6 +106,7 @@ abstract class Title
     *      joinColumns={@ORM\JoinColumn(name="video_id", referencedColumnName="id")},
     *      inverseJoinColumns={@ORM\JoinColumn(name="artiste_id", referencedColumnName="id")}
     *      )
+    * @ORM\OrderBy({"libelle" = "ASC"})
      * @Assert\Valid()
     */
     private $artistes;
@@ -115,6 +117,7 @@ abstract class Title
     *      joinColumns={@ORM\JoinColumn(name="video_id", referencedColumnName="id")},
     *      inverseJoinColumns={@ORM\JoinColumn(name="genremusical_id", referencedColumnName="id")}
     *      )
+    * @ORM\OrderBy({"libelle" = "ASC"}) 
     * @Assert\Valid()
     */
     private $genre_musicaux;
@@ -132,7 +135,8 @@ abstract class Title
     *      joinColumns={@ORM\JoinColumn(name="video_id", referencedColumnName="id")},
     *      inverseJoinColumns={@ORM\JoinColumn(name="collaborateur_id", referencedColumnName="id")}
     *      )
-     * @Assert\Valid()
+    * @ORM\OrderBy({"name" = "ASC"})
+    * @Assert\Valid()
     */
     private $collaborateurs;
     

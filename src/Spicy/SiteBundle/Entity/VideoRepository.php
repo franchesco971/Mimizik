@@ -7,6 +7,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use Spicy\SiteBundle\Entity\Video;
 use Spicy\RankingBundle\Entity\Ranking;
 use Spicy\RankingBundle\Entity\RankingType;
+use Doctrine\ORM\Query;
 
 /**
  * VideoRepository
@@ -362,5 +363,21 @@ class VideoRepository extends EntityRepository
         $query=$qb->getQuery();
         
         return $query->getResult();
+    }
+    
+    public function getOneForUpdate($id) {
+        $qb = $this->createQueryBuilder('v')
+                ->leftJoin('v.genre_musicaux', 'g')
+                ->leftJoin('v.hashtags', 'h')
+                ->leftJoin('v.artistes', 'a')
+                ->leftJoin('v.collaborateurs', 'c')
+                ->leftJoin('v.type_videos', 'tv')
+                ->addSelect('g','h','a','c','tv')
+                ->where('v.id=:id')
+                ->setParameter('id', $id);
+                
+        $query = $qb->getQuery()->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true);
+        
+        return $query->getOneOrNullResult();
     }
 }

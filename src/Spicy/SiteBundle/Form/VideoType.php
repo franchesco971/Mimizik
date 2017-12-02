@@ -30,10 +30,6 @@ class VideoType extends AbstractType
                 'attr' => array('size' => 30),
                 'multiple' => true,
                 'required'=>false,
-                'query_builder' => function(
-                    \Doctrine\ORM\EntityRepository $er) {
-                        return $er->createQueryBuilder('h')->orderBy('h.libelle', 'ASC');
-                    }
                 )
             )
             ->add('description','textarea', array('required' => false))
@@ -43,10 +39,6 @@ class VideoType extends AbstractType
                 'attr' => array('size' => 10),
                 'multiple' => true,
                 'required'=>false,
-                'query_builder' => function(
-                    \Doctrine\ORM\EntityRepository $er) {
-                        return $er->createQueryBuilder('a')->orderBy('a.libelle', 'ASC');
-                    }
                 )
             )
             ->add('collaborateurs', 'entity', array(
@@ -55,10 +47,6 @@ class VideoType extends AbstractType
                 'attr' => array('size' => 10),
                 'multiple' => true,
                 'required'=>false,
-                'query_builder' => function(
-                    \Doctrine\ORM\EntityRepository $er) {
-                        return $er->createQueryBuilder('c')->orderBy('c.name', 'ASC');
-                    }
                 )
             )
             ->add('genre_musicaux', 'entity', array(
