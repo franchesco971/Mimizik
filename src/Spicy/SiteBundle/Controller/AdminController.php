@@ -63,6 +63,8 @@ class AdminController extends Controller
         $request = $this->get('request');
         $yurl = $request->query->get('youtubeUrl');
         
+        $video = new Video;
+        
         if($yurl)//s'il y a une url youtube
         {
             $video = $youtubeAPI->getByYoutubeId($yurl);
@@ -71,7 +73,7 @@ class AdminController extends Controller
         $form = $this->createForm(new VideoType,$video);    
             
         if ($request->getMethod() == 'POST') {
-            $form->bind($request);
+            $form->handleRequest($request);
 
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();            

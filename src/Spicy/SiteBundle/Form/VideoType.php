@@ -32,7 +32,10 @@ class VideoType extends AbstractType
                 'required'=>false,
                 )
             )
-            ->add('description','textarea', array('required' => false))
+            ->add('description', 'textarea', [
+                'required' => false, 
+                'attr' => ['rows' => 10,'cols' => 50]
+                ])
             ->add('artistes', 'entity', array(
                 'class'    => 'SpicySiteBundle:Artiste',
                 'property' => 'libelle',

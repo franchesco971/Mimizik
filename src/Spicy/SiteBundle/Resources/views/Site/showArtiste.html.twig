@@ -1,7 +1,7 @@
 {% extends "SpicySiteBundle::layout.html.twig" %}
 
 {% block title %}
-{{ parent() }} : Retrouvez toute la musique et les vidéos clip de {{artiste.libelle}}
+{{ parent() }} : Retrouvez toute la musique et les vidéos clip de {{artiste.libelle}} {% if page>1%} (Page {{page}}) {% endif%}
 {% endblock %}
 
 {% block meta_description %}
@@ -89,12 +89,16 @@
                                     {% set nbsuiv=page+1%}
                                 {% endif %}
                                 
-                                <li class="prev"><a href="{% if nbprec%}{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":nbprec})}}{% else %}#{% endif %}">précédent</a></li>                                
+                                <li class="prev">
+                                    <a href="{% if nbprec and nbVideos>0%}{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":nbprec})}}{% else %}#{% endif %}">précédent</a>
+                                </li>                                
                                 {% set nbpages=(nbVideos/10)|round(0,'ceil')%}
                                 {% for i in 1..nbpages %}                                    
                                     <li ><a class="{% if i==page%}current{% endif %}" href="{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":i})}}">{{i}}</a></li>
                                 {% endfor %}
-                                <li class="next"><a href="{% if nbsuiv%}{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":nbsuiv})}}{% else %}#{% endif %}">suivant</a></li>
+                                <li class="next">
+                                    <a href="{% if nbsuiv and nbVideos>0%}{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":nbsuiv})}}{% else %}#{% endif %}">suivant</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
