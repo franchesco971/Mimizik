@@ -26,12 +26,12 @@ class Tools {
         return $ids;
     }
     
-    public function getAllGenresforVideoCol($videos,$getID=false) 
+    public function getAllGenresforVideoCol($videos, $getID = false) 
     {
-        $tabGenres=$tabGenresID=array();
+        $tabGenres = $tabGenresID=array();
         
         foreach ($videos as $video) {
-            $genres=  $video->getGenreMusicaux();
+            $genres = $video->getGenreMusicaux();
             foreach ($genres as $genre) 
             {
                 if(!in_array($genre, $tabGenres))
@@ -42,7 +42,7 @@ class Tools {
             }
         }
         
-        if($getID==true)
+        if($getID == true)
         {
             return $tabGenresID;
         }
