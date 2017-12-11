@@ -43,7 +43,15 @@
                     <div class="un-demi column last">
                         <div class="content-block">
                             <div class="block-title"><span>Description</span></div>
-                            <div class="block-content">{{artiste.description|nl2br}}</div>
+                            <div class="block-content">
+                                <p>
+                                    <a class="button large" id="btn_itw" href="{{path('mimizik_last_itw_show',{'id_artiste':artiste.id,'slug_artiste':artiste.slug})}}">
+                                        <span>Voir l'interview</span>
+                                    </a>
+                                </p>
+                                {{artiste.description|nl2br}}
+                                
+                            </div>
                             <div class="block-content"><p>Tags :
                                 {% for genre in genres %}
                                     <a href="{{ path('spicy_site_genre',{'id':genre.id,'slug':genre.slug})}}">{{genre.libelle}} </a>
@@ -62,6 +70,7 @@
                                     {% if instaLink!='' %}
                                         <a title="Instagram" class="instagram" href="{{instaLink}}" target="_blank"></a>
                                     {% endif %}
+                                    
                                 </div>
                             </div>
                         </div>

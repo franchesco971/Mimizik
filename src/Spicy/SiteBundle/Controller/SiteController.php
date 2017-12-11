@@ -7,11 +7,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Spicy\SiteBundle\Entity\Video;
 use Spicy\SiteBundle\Entity\TypeVideo;
 use Spicy\SiteBundle\Entity\GenreMusical;
+use Spicy\SiteBundle\Entity\Artiste;
+use Spicy\ITWBundle\Entity\Interview;
 use Spicy\SiteBundle\Form\TypeVideoType;
 use Symfony\Component\HttpFoundation\Request;
 use Facebook\Facebook;
 use Facebook\Exceptions as FacebookExceptions;
 use Spicy\LyricsBundle\Entity\Paragraph;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class SiteController extends Controller
 {
@@ -150,14 +153,14 @@ class SiteController extends Controller
         ));
     }
     
-    public function showArtisteAction($id,$page=1)
+    public function showArtisteAction($id, $page = 1)
     {
-        $nbSuggestion=$this->container->getParameter('nbSuggestion');
+        $nbSuggestion = $this->container->getParameter('nbSuggestion');
         $socialService = $this->container->get('mimizik.social');
         $toolsService = $this->container->get('mimizik.tools');
-        $videoManager=$this->getDoctrine()->getManager()->getRepository('SpicySiteBundle:Video');
+        $videoManager = $this->getDoctrine()->getManager()->getRepository('SpicySiteBundle:Video');
         
-        $artiste=$this->getDoctrine()
+        $artiste = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Artiste')
                 ->getWithTags($id);
@@ -165,45 +168,43 @@ class SiteController extends Controller
         if($artiste == null) {
             throw $this->createNotFoundException('Artiste inexistant');
         }
+
+        $videos = $videoManager->getByArtiste($id);
         
-        $videos=$videoManager
-                ->getByArtiste($id);
+        $nbVideos = count($videos);
         
-        $nbVideos=count($videos);
-        
-        if($page==1)
-        {
-            $tabVideos=array_slice($videos,0,10);
+        if($page == 1) {
+            $tabVideos = array_slice($videos,0,10);
+        } elseif ($page > 1) {
+            $nbVids = ($page*10)-10;
+            $tabVideos = array_slice($videos, $nbVids,10);
         }
-        elseif ($page>1) {
-            $nbVids=($page*10)-10;
-            $tabVideos=array_slice($videos,$nbVids,10);
-        }
-                
-        $tabGenres=$toolsService->getAllGenresforVideoCol($videos);
-        $tabGenresId=$toolsService->getAllGenresforVideoCol($videos,true);
         
-        $suggestions=$this->getDoctrine()
+        // TODO mettre suggestions dans service        
+        $tabGenres = $toolsService->getAllGenresforVideoCol($videos);
+        $tabGenresId = $toolsService->getAllGenresforVideoCol($videos,true);
+        
+        $suggestions = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
                 ->getSuggestionsArtistes($tabGenresId);        
 
-        $tabArtistes=$toolsService->getArtistesBySuggestions($suggestions,$id);
+        $tabArtistes = $toolsService->getArtistesBySuggestions($suggestions,$id);
         
-        $fbLink=$socialService->getFacebookLink($artiste);
-        $instaLink=$socialService->getInstagramLink($artiste);
-        $twitterLinks=$socialService->getArrayTwitterLink($artiste);
+        $fbLink = $socialService->getFacebookLink($artiste);
+        $instaLink = $socialService->getInstagramLink($artiste);
+        $twitterLinks = $socialService->getArrayTwitterLink($artiste);
         
         return $this->render('SpicySiteBundle:Site:showArtiste.html.twig',array(
-            'fbLink'=>$fbLink,
-            'twitterLinks'=>$twitterLinks,
-            'instaLink'=>$instaLink,
-            'videos'=>$tabVideos,
-            'artiste'=>$artiste,
-            'genres'=>$tabGenres,
-            'suggestions'=>$tabArtistes,
-            'nbVideos'=>$nbVideos,
-            'page'=>$page
+            'fbLink' => $fbLink,
+            'twitterLinks' => $twitterLinks,
+            'instaLink' => $instaLink,
+            'videos' => $tabVideos,
+            'artiste' => $artiste,
+            'genres' => $tabGenres,
+            'suggestions' => $tabArtistes,
+            'nbVideos' => $nbVideos,
+            'page' => $page
         ));
     }
     
@@ -481,15 +482,46 @@ class SiteController extends Controller
     }
     
     public function selectArtistesAction() {
-        $em=$this->getDoctrine()->getManager();
-        $selectArtistes=$em->getRepository('SpicySiteBundle:Artiste')->findAll();
+        $em = $this->getDoctrine()->getManager();
+        $selectArtistes = $em->getRepository('SpicySiteBundle:Artiste')->getHindAll();
         
         return $this->render('SpicySiteBundle:Site:Artiste\\_search.html.twig',array(
-            'selectArtistes'=>$selectArtistes
+            'selectArtistes' => $selectArtistes
         ));
     }
     
     public function selectArtistesForwardAction() {
         return $this->forward('SpicySiteBundle:Site:selectArtistes');
+    }
+    
+    /**
+     * 
+     * @param Interview $itw
+     * @return type
+     * @ParamConverter("itw", class="SpicyITWBundle:Interview")
+     */
+    public function showInterviewAction(Interview $itw) {               
+        return $this->render('SpicyITWBundle:Interview:showInterview.html.twig',[
+            'itw' => $itw  
+        ]);
+    }
+    
+    /**
+     * 
+     * @param Artiste $artiste
+     * @return type
+     * @ParamConverter("artiste", class="SpicySiteBundle:Artiste", options={"id" = "id_artiste"})
+     */
+    public function showLastInterviewAction(Artiste $artiste) {    
+        $em = $this->getDoctrine()->getManager();
+        $videoManager = $this->container->get('mimizik.videoService');
+        
+        $itw = $em->getRepository('SpicyITWBundle:Interview')->getLastByArtiste($artiste);
+        $videos = $videoManager->getLastVideos($artiste,3);
+        
+        return $this->render('SpicyITWBundle:Interview:showInterview.html.twig',[
+            'itw' => $itw,
+            'videos' => $videos
+        ]);
     }
 }

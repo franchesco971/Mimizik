@@ -22,7 +22,18 @@ class LyricsRepository extends EntityRepository
                 ->setParameter('video', $video->getId())
                 ->orderBy('p.position');
         
-        $query=$qb->getQuery();
+        $query = $qb->getQuery();
         return $query->getOneOrNullResult();
+    }
+    
+    public function getAll($nb)
+    {
+        $qb = $this->createQueryBuilder('l')
+             ->setFirstResult(0)
+             ->setMaxResults($nb)
+             ->addOrderBy('v.createdAt','DESC');
+        
+        $query = $qb->getQuery();
+        return $query->getResult();
     }
 }

@@ -153,7 +153,7 @@ class AdminController extends Controller
     {       
         $em = $this->getDoctrine()->getManager();
         
-        $video=$em->getRepository('SpicySiteBundle:Video')->find($id);
+        $video = $em->getRepository('SpicySiteBundle:Video')->find($id);
         
         if ($video == null) {
             throw $this->createNotFoundException('Video inexistant');

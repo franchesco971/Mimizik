@@ -1,0 +1,39 @@
+{% extends "SpicySiteBundle::layout_admin.html.twig" %}
+
+{% block body %}
+    <h1>Interview list</h1>
+    
+    <p><a href="{{ path('spicy_admin_home_artiste') }}">Home artiste</a></p>
+    <p><a href="{{ path('spicy_admin_home') }}">Home admin</a></p>
+    
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Createdat</th>
+                <th>Title</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('itw_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.title }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('itw_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('itw_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% endblock %}

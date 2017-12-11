@@ -156,7 +156,9 @@ class FluxController extends Controller
     
     public function fluxLyricsAction($param)
     {
-        $lyrics = $this->container->get('mimizik.repository.paroles')
+        $lyrics = $this->container->get('mimizik.repository.paroles')->getAll(10);
+        
+        
     }
 }
 
