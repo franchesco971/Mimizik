@@ -4,23 +4,34 @@ namespace Spicy\RankingBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Spicy\RankingBundle\Entity\RankingType;
+use Spicy\SiteBundle\Exception\PaginationException;
 
 class RankingController extends Controller
 {
+    /**
+     * 
+     * @param type $page
+     * @return type
+     * @throws PaginationException
+     */
     public function indexAction($page)
     {
-        $nbSuggestion=$this->container->getParameter('nbSuggestion');
+        if($page == '__id__') {
+            throw new PaginationException("Ressource introuvable");
+        }
+        
+        $nbSuggestion = $this->container->getParameter('nbSuggestion');
 
-        $rankings=$this->getDoctrine()
+        $rankings = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicyRankingBundle:Ranking')
                 ->getRankings($page,$nbSuggestion);
         
         return $this->render('SpicyRankingBundle:Ranking:index.html.twig',array(
-            'rankings'=>$rankings,
-            'nombrePage'=>ceil(count($rankings)/ $nbSuggestion),
-            'page'=>$page ,
-            'rankingType'=>  RankingType::MOIS   
+            'rankings' => $rankings,
+            'nombrePage' => ceil(count($rankings)/ $nbSuggestion),
+            'page' => $page ,
+            'rankingType' => RankingType::MOIS   
         ));
     }
     

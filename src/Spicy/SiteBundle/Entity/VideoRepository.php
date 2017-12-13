@@ -222,16 +222,10 @@ class VideoRepository extends EntityRepository
     
     public function getSuggestions($idList,$id)
     {        
-        /*$query=  $this->_em->createQuery("SELECT v
-            FROM Spicy\SiteBundle\Entity\Video v
-            INNER join Spicy\SiteBundle\Entity\GenreMusical on id=video_id
-            where genremusical_id IN :list
-            ORDER BY rand()
-            LIMIT 0 , 30");*/
-        
-        $sql=$this->createQueryBuilder('v')
+        $sql = $this->createQueryBuilder('v')
                 ->join('v.genre_musicaux', 'g')
                 ->where('g.id IN (:list)')
+                ->andWhere('v.etat=1')
                 ->andWhere('v.id <> :id')
                 ->orderBy('v.dateVideo','DESC')
                 ->setFirstResult(0)
@@ -239,8 +233,8 @@ class VideoRepository extends EntityRepository
                 
         $sql->setParameter('list', $idList);
         $sql->setParameter('id', $id);
-        $query=$sql->getQuery();
-        $result=$query->getResult();
+        $query = $sql->getQuery();
+        $result = $query->getResult();
         return $result;
     }
     

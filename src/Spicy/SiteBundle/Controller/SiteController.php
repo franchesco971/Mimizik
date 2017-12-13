@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Facebook\Facebook;
 use Facebook\Exceptions as FacebookExceptions;
 use Spicy\LyricsBundle\Entity\Paragraph;
+use Spicy\SiteBundle\Exception\PaginationException;
 
 class SiteController extends Controller
 {
@@ -464,19 +465,28 @@ class SiteController extends Controller
         return $this->redirect($href);
     }
     
+    /**
+     * 
+     * @param type $page
+     * @return type
+     */
     public function showTopsAction($page)
     {
-        $nbSuggestion=$this->container->getParameter('nbSuggestion');
+        if($page == '__id__') {
+            throw new PaginationException("Ressource introuvable");
+        }
         
-        $tops=$this->getDoctrine()
+        $nbSuggestion = $this->container->getParameter('nbSuggestion');
+        
+        $tops = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
                 ->getTops($page,$nbSuggestion);
         
         return $this->render('SpicySiteBundle:Site:tops.html.twig',array(
-            'videos'=>$tops,
-            'nombrePage'=>ceil((count($tops))/ $nbSuggestion),
-            'page'=>$page    
+            'videos' => $tops,
+            'nombrePage' => ceil((count($tops))/ $nbSuggestion),
+            'page' => $page    
         ));
     }
     
