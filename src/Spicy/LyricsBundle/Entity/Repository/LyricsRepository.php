@@ -31,7 +31,7 @@ class LyricsRepository extends EntityRepository
         $qb = $this->createQueryBuilder('l')
              ->setFirstResult(0)
              ->setMaxResults($nb)
-             ->addOrderBy('v.createdAt','DESC');
+             ->addOrderBy('l.createdAt','DESC');
         
         $query = $qb->getQuery();
         return $query->getResult();

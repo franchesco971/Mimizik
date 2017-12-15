@@ -154,11 +154,32 @@ class FluxController extends Controller
         return $datas;
     }
     
-    public function fluxLyricsAction($param)
+    /**
+     * 
+     * @return type
+     */
+    public function fluxLyricsAction()
     {
         $lyrics = $this->container->get('mimizik.repository.paroles')->getAll(10);
         
+        return $this->render('SpicyFluxBundle:Flux:fluxLyrics.html.twig',array(
+            'lyrics' => $lyrics,
+            'selfLink' => $this->generateUrl('mimizik_flux_lyrics')
+        ));
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function fluxITWAction()
+    {
+        $interviews = $this->container->get('mimizik.repository.itw')->getAll(10);
         
+        return $this->render('SpicyFluxBundle:Flux:fluxITW.html.twig',array(
+            'interviews' => $interviews,
+            'selfLink' => $this->generateUrl('spicy_site_artistes')
+        ));
     }
 }
 
