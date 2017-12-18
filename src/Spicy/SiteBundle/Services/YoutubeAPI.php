@@ -34,6 +34,7 @@ class YoutubeAPI
             
         } catch (Exception $ex) {
             $this->logger->error($ex->getMessage());
+            throw new Exception("L'api ne reponds pas");
         }
         
         return $obj;

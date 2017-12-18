@@ -63,6 +63,7 @@ class AdminController extends Controller
         $youtubeAPI = $this->container->get('mimizik.youtube.api');
         $request = $this->get('request');
         $yurl = $request->query->get('youtubeUrl');
+        $video = new Video();
         
         if($yurl)//s'il y a une url youtube
         {
