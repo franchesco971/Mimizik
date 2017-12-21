@@ -21,6 +21,8 @@
                 <tr>
                     <td>{{artiste.id}}</td>
                     <td>{{artiste.libelle}}</td>
+                    <td><a href="{{path('itw_new', {'id': artiste.id})}}">Crée une itw</a></td>
+                    <td><a href="{{path('itw_list', {'id': artiste.id})}}">Liste des itw</a></td>
                     <td><a href="{{path('spicy_admin_update_artiste', {'id': artiste.id})}}">Modifier</a></td>
                     <td><a href="{{path('spicy_admin_delete_artiste',{'id':artiste.id})}}">Supprimer</a></td>
                 </tr>

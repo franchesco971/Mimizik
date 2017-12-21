@@ -107,7 +107,7 @@ abstract class Title
     *      inverseJoinColumns={@ORM\JoinColumn(name="artiste_id", referencedColumnName="id")}
     *      )
     * @ORM\OrderBy({"libelle" = "ASC"})
-     * @Assert\Valid()
+    * @Assert\Valid()
     */
     private $artistes;
     

@@ -4,6 +4,7 @@ namespace Spicy\SiteBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\ORM\Query;
 
 /**
  * ArtisteRepository
@@ -68,5 +69,19 @@ class ArtisteRepository extends EntityRepository
         
         return $qb->getQuery()
             ->getResult();
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getHindAll()
+    {
+        $qb = $this->createQueryBuilder('a')
+                ->select('a');
+        
+        $query = $qb->getQuery()->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true);
+        
+        return $query->getResult();
     }
 }

@@ -5,6 +5,7 @@ namespace Spicy\SiteBundle\Services;
 use Doctrine\ORM\EntityManager;
 use Monolog\Logger;
 use Spicy\SiteBundle\Entity\Video;
+use Spicy\SiteBundle\Entity\Artiste;
 use Spicy\RankingBundle\Entity\Ranking;
 use Spicy\RankingBundle\Entity\RankingType;
 use Spicy\RankingBundle\Entity\VideoRanking;
@@ -43,16 +44,16 @@ class VideoService
         
         if(!in_array($_SERVER['REMOTE_ADDR'], $ipInterdites) && $valid)            
         {
-            $nbVu=0;
-            $ranking=$this->getRanking(RankingType::MOIS);
-            $yearRanking=$this->getRanking(RankingType::ANNEE);
+            $nbVu = 0;
+            $ranking = $this->getRanking(RankingType::MOIS);
+            $yearRanking = $this->getRanking(RankingType::ANNEE);
             
             $this->incrementVideoRanking($video,$ranking);
             $this->incrementVideoRanking($video,$yearRanking);
         }
     }
     
-    public function getRanking($type=  RankingType::MOIS) 
+    public function getRanking($type = RankingType::MOIS) 
     {
         $now=new \DateTime("now");
         $ranking=$this->em->getRepository('SpicyRankingBundle:Ranking')->getByDate($type);                
@@ -259,9 +260,9 @@ class VideoService
         return $videos;
     }
     
-    public function getRandVideos($videos,$nbVideos) {
+    public function getRandVideos($videos, $nbVideos) {
         shuffle($videos);
-        $videos=array_slice($videos, 0,$nbVideos);
+        $videos = array_slice($videos, 0, $nbVideos);
         return $videos;
     }
     
@@ -287,6 +288,25 @@ class VideoService
         $link = str_replace("/app_dev.php/", "/", $link);
         
         return $link;
+    }
+    
+    /**
+     * 
+     * @param Artiste $artiste
+     * @param type $nbVideos
+     * @return type
+     * @throws \Exception
+     */
+    public function getLastVideos(Artiste $artiste, $nbVideos) { //TODO déplacer dans service 
+        $videos = $this->em
+                ->getRepository('SpicySiteBundle:Video')
+                ->getLastByArtiste($nbVideos,$artiste);
+
+        if (empty($videos)) {
+            throw new \Exception ('Videos inexistant', 404);
+        }
+        
+        return $videos;
     }
 }
 

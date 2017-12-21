@@ -49,8 +49,19 @@ class Question
      * @Assert\Valid()
     */
     private $interview;
-
-
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="main", type="boolean")
+     */
+    private $main;
+    
+    public function __construct()
+    {
+        $this->main = false;
+    }
+    
     /**
      * Get id
      *
@@ -151,5 +162,29 @@ class Question
     public function getInterview()
     {
         return $this->interview;
+    }
+
+    /**
+     * Set main
+     *
+     * @param boolean $main
+     *
+     * @return Question
+     */
+    public function setMain($main)
+    {
+        $this->main = $main;
+
+        return $this;
+    }
+
+    /**
+     * Get main
+     *
+     * @return boolean
+     */
+    public function getMain()
+    {
+        return $this->main;
     }
 }

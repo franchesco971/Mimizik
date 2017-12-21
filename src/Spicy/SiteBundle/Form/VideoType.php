@@ -41,7 +41,7 @@ class VideoType extends AbstractType
                 'property' => 'libelle',
                 'attr' => array('size' => 10),
                 'multiple' => true,
-                'required'=>false,
+                'required'=>false
                 )
             )
             ->add('collaborateurs', 'entity', array(
@@ -49,7 +49,7 @@ class VideoType extends AbstractType
                 'property' => 'name',
                 'attr' => array('size' => 10),
                 'multiple' => true,
-                'required'=>false,
+                'required'=>false
                 )
             )
             ->add('genre_musicaux', 'entity', array(

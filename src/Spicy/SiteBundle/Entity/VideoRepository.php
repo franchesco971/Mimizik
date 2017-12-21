@@ -235,19 +235,20 @@ class VideoRepository extends EntityRepository
         $sql->setParameter('id', $id);
         $query = $sql->getQuery();
         $result = $query->getResult();
+        
         return $result;
     }
     
     public function getSuggestionsArtistes($idList)
     {        
         if(empty($idList))
-        $idList[]=0;
+        $idList[] = 0;
         
-        $qb=$this->createQueryBuilder('v')
+        $qb = $this->createQueryBuilder('v')
                 ->join('v.artistes', 'a')
                 ->join('v.genre_musicaux', 'g')
                 ->where('g.id in ('.implode(',', $idList).')')
-                ->andWhere('v.etat=1')                
+                ->andWhere('v.etat = 1')
                 ->setFirstResult(0)
                 ->setMaxResults(20)
                 ->addSelect('a');
@@ -373,5 +374,30 @@ class VideoRepository extends EntityRepository
         $query = $qb->getQuery()->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true);
         
         return $query->getOneOrNullResult();
+    }
+        
+    /**
+     * 
+     * @param type $nb
+     * @param Artiste $artiste
+     * @return type
+     */
+    public function getLastByArtiste($nb, Artiste $artiste)
+    {
+        $qb = $this->createQueryBuilder('v')
+            ->join('v.genre_musicaux', 'g')
+            ->join('v.artistes', 'a')
+            ->where('g.id <> :id_retro')
+            ->setParameter('id_retro', $this->retro)
+            ->andWhere('v.etat = 1') 
+            ->andWhere('a.id = :artiste')
+            ->setParameter('artiste', $artiste)
+            ->setFirstResult(0)
+            ->setMaxResults($nb)
+            ->orderBy('v.dateVideo','DESC');
+        
+        $query = $qb->getQuery();
+        
+        return $query->getResult();
     }
 }

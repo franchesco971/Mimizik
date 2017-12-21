@@ -10,7 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * Interview
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Spicy\ITWBundle\Entity\Repository\InterviewRepository")
  */
 class Interview
 {
@@ -37,7 +37,7 @@ class Interview
     private $artiste;
     
     /**
-    * @ORM\OneToMany(targetEntity="Spicy\ITWBundle\Entity\Question", mappedBy="interview")
+    * @ORM\OneToMany(targetEntity="Spicy\ITWBundle\Entity\Question", mappedBy="interview", cascade={"persist"})
     * @Assert\Valid()
     */
     private $questions;
@@ -49,7 +49,13 @@ class Interview
      * @Assert\NotBlank()
      */
     private $title;
-
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="active", type="boolean")
+     */
+    private $active;
 
     /**
      * Get id
@@ -122,7 +128,7 @@ class Interview
      */
     public function addQuestion(\Spicy\ITWBundle\Entity\Question $questions)
     {
-        $this->questions[] = $questions;
+        $this->questions[] = $questions->setInterview($this);
 
         return $this;
     }
@@ -168,5 +174,29 @@ class Interview
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     *
+     * @return Interview
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean
+     */
+    public function getActive()
+    {
+        return $this->active;
     }
 }
