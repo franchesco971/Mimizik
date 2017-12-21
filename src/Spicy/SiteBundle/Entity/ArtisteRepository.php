@@ -21,7 +21,7 @@ class ArtisteRepository extends EntityRepository
                 ->orderBy('a.libelle')
                 ->addOrderBy('a.dateArtiste');
         
-        $query=$qb->getQuery();
+        $query = $qb->getQuery()->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true);
         return new Paginator($query);
     }
     

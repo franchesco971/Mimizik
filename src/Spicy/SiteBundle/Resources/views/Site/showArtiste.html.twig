@@ -73,9 +73,11 @@
                         <div class="featured-blog">
                         {% for video in videos %}
                             {% include "SpicySiteBundle:Site:video_post.html.twig" %} 
-                         {%else%}
+                        {% else %}
                             <p>Pas de vidéos de cette artiste</p>
-                         {% endfor %}
+                        {% endfor %}
+                        
+                        {% if videos %}
                             <div id="Pagination" class="pagination" ></div>
                             <ul class="pagination">
                                 {% if page==1%}
@@ -99,7 +101,10 @@
                                 <li class="next">
                                     <a href="{% if nbsuiv and nbVideos>0%}{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":nbsuiv})}}{% else %}#{% endif %}">suivant</a>
                                 </li>
+                                
                             </ul>
+                        {% endif %} 
+                            
                         </div>
                     </div>
                 </div>
