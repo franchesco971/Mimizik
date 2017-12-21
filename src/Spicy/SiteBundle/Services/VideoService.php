@@ -52,8 +52,8 @@ class VideoService
             $this->incrementVideoRanking($video,$yearRanking);
         }
     }
-    
-    public function getRanking($type = RankingType::MOIS) 
+
+    public function getRanking($type = RankingType::MOIS)
     {
         $now=new \DateTime("now");
         $ranking=$this->em->getRepository('SpicyRankingBundle:Ranking')->getByDate($type);                
@@ -259,10 +259,11 @@ class VideoService
         
         return $videos;
     }
-    
+
     public function getRandVideos($videos, $nbVideos) {
         shuffle($videos);
         $videos = array_slice($videos, 0, $nbVideos);
+        
         return $videos;
     }
     

@@ -25,7 +25,7 @@ class Tools {
         
         return $ids;
     }
-    
+
     public function getAllGenresforVideoCol($videos, $getID = false) 
     {
         $tabGenres = $tabGenresID=array();
@@ -41,7 +41,7 @@ class Tools {
                 }
             }
         }
-        
+
         if($getID == true)
         {
             return $tabGenresID;

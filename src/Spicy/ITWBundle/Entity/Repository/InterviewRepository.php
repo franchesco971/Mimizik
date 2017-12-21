@@ -17,4 +17,20 @@ class InterviewRepository extends \Doctrine\ORM\EntityRepository
         $query = $qb->getQuery();
         return $query->getOneOrNullResult();
     }
+    
+    /**
+     * 
+     * @param type $nb
+     * @return type
+     */
+    public function getAll($nb)
+    {
+        $qb = $this->createQueryBuilder('i')
+             ->setFirstResult(0)
+             ->setMaxResults($nb)
+             ->addOrderBy('i.createdAt','DESC');
+        
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
 }

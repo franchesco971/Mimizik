@@ -3,3 +3,12 @@ services:
         class: Spicy\SiteBundle\Entity\TypeVideoRepository
         factory: ["@doctrine.orm.default_entity_manager", getRepository]
         arguments: ['SpicySiteBundle:TypeVideo']
+    mimizik.repository.paroles:
+        class: Spicy\LyricsBundle\Entity\Repository\LyricsRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments: ['SpicyLyricsBundle:Lyrics']
+    mimizik.repository.itw:
+        class: Spicy\ITWBundle\Entity\Repository\ITWRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments: ['SpicyITWBundle:Interview']    
+      

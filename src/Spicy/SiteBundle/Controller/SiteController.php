@@ -169,7 +169,7 @@ class SiteController extends Controller
         if($artiste == null) {
             throw $this->createNotFoundException('Artiste inexistant');
         }
-        
+
         $videos = $videoManager->getByArtiste($id);
         
         $nbVideos = count($videos);

@@ -4,3 +4,5 @@ parameters:
 services:
     mimizik.twitter:
         class: Spicy\FluxBundle\Services\Twitter
+    mimizik.service.flux:
+        class: Spicy\FluxBundle\Services\fluxService
