@@ -4,7 +4,6 @@ namespace Spicy\SiteBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-
 use Spicy\SiteBundle\Entity\Video;
 use Spicy\SiteBundle\Form\VideoType;
 use Spicy\SiteBundle\Form\VideoYoutubeType;
@@ -65,6 +64,8 @@ class AdminController extends Controller
         $yurl = $request->query->get('youtubeUrl');
         $video = new Video();
         
+        $video = new Video;
+        
         if($yurl)//s'il y a une url youtube
         {
             $video = $youtubeAPI->getByYoutubeId($yurl);
@@ -73,7 +74,7 @@ class AdminController extends Controller
         $form = $this->createForm(new VideoType,$video);    
             
         if ($request->getMethod() == 'POST') {
-            $form->bind($request);
+            $form->handleRequest($request);
 
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();            
@@ -125,13 +126,13 @@ class AdminController extends Controller
     {
         //$parseur = $this->container->get('mimizik.parseur.youtube');
         //$parseur->setDocument('http://gdata.youtube.com/feeds/api/videos/qPZn9qsoh8M');        
-        $video=new Video;
+        $video = new Video;
         
         $request = $this->get('request');
         $videotype=$request->request->get('spicy_sitebundle_videotype');
-        $url=$videotype['url'];
+        $url = $videotype['url'];
         
-        $form= $this->createForm(new VideoType(),$video);
+        $form = $this->createForm(new VideoType(),$video);
         
         
         if ($request->getMethod() == 'POST') {
@@ -150,11 +151,11 @@ class AdminController extends Controller
      * @return view
      * @throws NotFoundHttpException
      */
-    public function updateVideoAction($id)
+    public function updateVideoAction(Request $request, $id)
     {       
         $em = $this->getDoctrine()->getManager();
         
-        $video=$em->getRepository('SpicySiteBundle:Video')->find($id);
+        $video = $em->getRepository('SpicySiteBundle:Video')->getOneForUpdate($id);
         
         if ($video == null) {
             throw $this->createNotFoundException('Video inexistant');
@@ -162,16 +163,15 @@ class AdminController extends Controller
         
         $oldState = $video->getEtat();
         
-        $form = $this->createForm(new VideoType,$video);
+        $form = $this->createForm(new VideoType(),$video);
         
-        $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $form->bind($request);
-
+            $form->handleRequest($request);
+            
             if ($form->isValid()) {                
                 $em->persist($video);
                 $em->flush();
-
+                
                 $this->get('session')->getFlashBag()->add('info','Vidéo bien modifié');
 
                 //Si le status de la video passe à true, on publie

@@ -1,7 +1,7 @@
 {% extends "SpicySiteBundle::layout.html.twig" %}
 
 {% block title %}
-{{ parent() }} : Retrouvez toute la musique et les vidéos clip de {{artiste.libelle}}
+{{ parent() }} : Retrouvez toute la musique et les vidéos clip de {{artiste.libelle}} {% if page>1%} (Page {{page}}) {% endif%}
 {% endblock %}
 
 {% block meta_description %}
@@ -43,7 +43,17 @@
                     <div class="un-demi column last">
                         <div class="content-block">
                             <div class="block-title"><span>Description</span></div>
-                            <div class="block-content">{{artiste.description|nl2br}}</div>
+                            <div class="block-content">
+                                {% if artiste.interviews|length > 0 %}
+                                <p>
+                                    <a class="button large" id="btn_itw" href="{{path('mimizik_last_itw_show',{'id_artiste':artiste.id,'slug_artiste':artiste.slug})}}">
+                                        <span>Voir l'interview</span>
+                                    </a>
+                                </p>
+                                {% endif %}
+                                {{artiste.description|nl2br}}
+                                
+                            </div>
                             <div class="block-content"><p>Tags :
                                 {% for genre in genres %}
                                     <a href="{{ path('spicy_site_genre',{'id':genre.id,'slug':genre.slug})}}">{{genre.libelle}} </a>
@@ -62,6 +72,7 @@
                                     {% if instaLink!='' %}
                                         <a title="Instagram" class="instagram" href="{{instaLink}}" target="_blank"></a>
                                     {% endif %}
+                                    
                                 </div>
                             </div>
                         </div>
@@ -73,9 +84,11 @@
                         <div class="featured-blog">
                         {% for video in videos %}
                             {% include "SpicySiteBundle:Site:video_post.html.twig" %} 
-                         {%else%}
+                        {% else %}
                             <p>Pas de vidéos de cette artiste</p>
-                         {% endfor %}
+                        {% endfor %}
+                        
+                        {% if videos %}
                             <div id="Pagination" class="pagination" ></div>
                             <ul class="pagination">
                                 {% if page==1%}
@@ -89,13 +102,20 @@
                                     {% set nbsuiv=page+1%}
                                 {% endif %}
                                 
-                                <li class="prev"><a href="{% if nbprec%}{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":nbprec})}}{% else %}#{% endif %}">précédent</a></li>                                
+                                <li class="prev">
+                                    <a href="{% if nbprec and nbVideos>0%}{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":nbprec})}}{% else %}#{% endif %}">précédent</a>
+                                </li>                                
                                 {% set nbpages=(nbVideos/10)|round(0,'ceil')%}
                                 {% for i in 1..nbpages %}                                    
                                     <li ><a class="{% if i==page%}current{% endif %}" href="{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":i})}}">{{i}}</a></li>
                                 {% endfor %}
-                                <li class="next"><a href="{% if nbsuiv%}{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":nbsuiv})}}{% else %}#{% endif %}">suivant</a></li>
+                                <li class="next">
+                                    <a href="{% if nbsuiv and nbVideos>0%}{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":nbsuiv})}}{% else %}#{% endif %}">suivant</a>
+                                </li>
+                                
                             </ul>
+                        {% endif %} 
+                            
                         </div>
                     </div>
                 </div>

@@ -7,6 +7,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use Spicy\SiteBundle\Entity\Video;
 use Spicy\RankingBundle\Entity\Ranking;
 use Spicy\RankingBundle\Entity\RankingType;
+use Doctrine\ORM\Query;
 
 /**
  * VideoRepository
@@ -221,16 +222,10 @@ class VideoRepository extends EntityRepository
     
     public function getSuggestions($idList,$id)
     {        
-        /*$query=  $this->_em->createQuery("SELECT v
-            FROM Spicy\SiteBundle\Entity\Video v
-            INNER join Spicy\SiteBundle\Entity\GenreMusical on id=video_id
-            where genremusical_id IN :list
-            ORDER BY rand()
-            LIMIT 0 , 30");*/
-        
-        $sql=$this->createQueryBuilder('v')
+        $sql = $this->createQueryBuilder('v')
                 ->join('v.genre_musicaux', 'g')
                 ->where('g.id IN (:list)')
+                ->andWhere('v.etat=1')
                 ->andWhere('v.id <> :id')
                 ->orderBy('v.dateVideo','DESC')
                 ->setFirstResult(0)
@@ -238,21 +233,22 @@ class VideoRepository extends EntityRepository
                 
         $sql->setParameter('list', $idList);
         $sql->setParameter('id', $id);
-        $query=$sql->getQuery();
-        $result=$query->getResult();
+        $query = $sql->getQuery();
+        $result = $query->getResult();
+        
         return $result;
     }
     
     public function getSuggestionsArtistes($idList)
     {        
         if(empty($idList))
-        $idList[]=0;
+        $idList[] = 0;
         
-        $qb=$this->createQueryBuilder('v')
+        $qb = $this->createQueryBuilder('v')
                 ->join('v.artistes', 'a')
                 ->join('v.genre_musicaux', 'g')
                 ->where('g.id in ('.implode(',', $idList).')')
-                ->andWhere('v.etat=1')                
+                ->andWhere('v.etat = 1')
                 ->setFirstResult(0)
                 ->setMaxResults(20)
                 ->addSelect('a');
@@ -360,6 +356,47 @@ class VideoRepository extends EntityRepository
         }
                 
         $query=$qb->getQuery();
+        
+        return $query->getResult();
+    }
+    
+    public function getOneForUpdate($id) {
+        $qb = $this->createQueryBuilder('v')
+                ->leftJoin('v.genre_musicaux', 'g')
+                ->leftJoin('v.hashtags', 'h')
+                ->leftJoin('v.artistes', 'a')
+                ->leftJoin('v.collaborateurs', 'c')
+                ->leftJoin('v.type_videos', 'tv')
+                ->addSelect('g','h','a','c','tv')
+                ->where('v.id=:id')
+                ->setParameter('id', $id);
+                
+        $query = $qb->getQuery()->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true);
+        
+        return $query->getOneOrNullResult();
+    }
+        
+    /**
+     * 
+     * @param type $nb
+     * @param Artiste $artiste
+     * @return type
+     */
+    public function getLastByArtiste($nb, Artiste $artiste)
+    {
+        $qb = $this->createQueryBuilder('v')
+            ->join('v.genre_musicaux', 'g')
+            ->join('v.artistes', 'a')
+            ->where('g.id <> :id_retro')
+            ->setParameter('id_retro', $this->retro)
+            ->andWhere('v.etat = 1') 
+            ->andWhere('a.id = :artiste')
+            ->setParameter('artiste', $artiste)
+            ->setFirstResult(0)
+            ->setMaxResults($nb)
+            ->orderBy('v.dateVideo','DESC');
+        
+        $query = $qb->getQuery();
         
         return $query->getResult();
     }

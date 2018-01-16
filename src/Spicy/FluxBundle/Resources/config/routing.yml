@@ -22,3 +22,9 @@ mimizik_flux_videos_top:
 mimizik_flux_videos_top_twitter:
     pattern: /videos_top_twitter
     defaults: { _controller: SpicyFluxBundle:Flux:fluxVideosTopTwitter }
+mimizik_flux_lyrics:
+    pattern: /lyrics
+    defaults: { _controller: SpicyFluxBundle:Flux:fluxLyrics }
+mimizik_flux_itw:
+    pattern: /itw
+    defaults: { _controller: SpicyFluxBundle:Flux:fluxITW }

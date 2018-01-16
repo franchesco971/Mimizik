@@ -124,3 +124,15 @@ mimizik_paroles_show:
     defaults: { _controller: SpicyLyricsBundle:Lyrics:show }
     requirements: 
         id: \d+
+        
+mimizik_last_itw_show:
+    pattern: /itw/{id_artiste}/{slug_artiste}
+    defaults: { _controller: SpicySiteBundle:Site:showLastInterview }
+    requirements: 
+        id: \d+
+        
+mimizik_itw_show:
+    pattern: /itw/{id}/{slug_artiste}
+    defaults: { _controller: SpicySiteBundle:Site:showInterview }
+    requirements: 
+        id: \d+

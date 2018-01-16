@@ -362,6 +362,11 @@ class ApprovalController extends Controller
         return $this->redirect($this->generateUrl('approval'));
     }
     
+    /**
+     * 
+     * @param type $id
+     * @return type
+     */
     public function approvalAction($id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -374,10 +379,11 @@ class ApprovalController extends Controller
         $form = $this->createForm(new VideoType,$video);    
             
         if ($request->getMethod() == 'POST') {
-            $form->bind($request);
+            $form->handleRequest($request);
 
             if ($form->isValid()) {  
-                $approval->setApprovalDate(new \DateTime);                
+                $approval->setApprovalDate(new \DateTime);
+                $video->setDateVideo(new \DateTime('NOW'));                
                 
                 try{
                     $em->flush();

@@ -1,7 +1,7 @@
 {% extends "SpicySiteBundle::layout.html.twig" %}
 
 {% block title %}
-{{ parent() }} : Retrouvez toute la musique et les vidéos clip de {{tag.libelle}}
+{{ parent() }} : Retrouvez toute la musique et les vidéos clip de {{tag.libelle}} {% if page>1%} (Page {{page}}) {% endif%}
 {% endblock %}
 
 {% block meta_description %}

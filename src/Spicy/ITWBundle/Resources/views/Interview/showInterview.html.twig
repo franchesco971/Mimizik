@@ -1,0 +1,92 @@
+{% extends "SpicySiteBundle::layout.html.twig" %}
+
+{% block title %}
+    Interview de {{itw.artiste.libelle}} du {{itw.createdAt|date('Y-m-d')}} - Mimizik
+{% endblock %}
+
+{% block meta_description %}
+    <meta name="Description" content="{{itw.artiste.libelle}} : <<{{itw.title}}>> itw Mimizik"/> 
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets filter='cssrewrite,?yui_css' output='css/compiled/itw/show.css'
+        'css/select2.css'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
+    <style type="text/css">
+        #lyrics_content p {
+            overflow: hidden;
+        }
+        #lyrics_content img {
+            margin-right: 1em;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    <div class="page-title wrapper">
+        <div class="container">
+            <span>{{itw.artiste.libelle}} : "{{itw.title}}"</span>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="content wrapper " id="lyrics-content">
+        <div class="container">
+            <div class="two-third column">
+                <div class="lyrics-block content-block" >
+                    <div class="block-title"><span>Questions</span></div>
+                    <div class="block-content">
+                        <div id="lyrics_content" > 
+                            {% for question in itw.questions%}
+                                <p class="red_type"><br/><b>Mimizik : {{question.content|upper}}</b></p>
+                                <p class="song-text">
+                                    {% if loop.index==3%}
+                                    <img src="https://graph.facebook.com/{{itw.artiste.tagFacebook}}/picture?type=large" alt="{{itw.artiste.libelle}} sur mimizik.com" align="left" />
+                                    {% elseif loop.index==5%}
+                                    <img src="http://img.youtube.com/vi/{{videos[0].url}}/0.jpg" width="240" height="180" alt="{{videos[0].titre}} mimizik" align="left" />
+                                    {% elseif loop.index==7%}
+                                    <img src="http://img.youtube.com/vi/{{videos[1].url}}/0.jpg" width="240" height="180" alt="{{videos[1].titre}} mimizik" align="left" />
+                                    {% endif %}
+                                    {{itw.artiste.libelle}} : {{question.answer|nl2br}}                                
+                                </p>
+                                <p>Franchesco971</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+                    
+            <div class="one-third column last">
+                {#<div class="content-block">
+                    <div class="block-title"><span>Suggestions</span></div>
+                    <div class="block-content">
+                        {% for sArtiste in suggestions %}
+                            {% include "SpicySiteBundle:Site:artiste_post.html.twig" %} 
+                         {%else%}
+                            <p>Pas de suggestions</p>
+                         {% endfor %}
+                    </div>
+                </div>#}
+                <div class="content-block">
+                    <div class="block-content" id="encart_droit">
+                        {% include "SpicySiteBundle:Ads:encart_droit_adsense.html.twig" %}
+                    </div>
+                </div>
+                <div class="content-block">
+                    <div class="block-content selectArtistes">
+                        {{ render(controller('SpicySiteBundle:Site:selectArtistes')) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}    
+    {{parent()}}
+    <script type="text/javascript" src="{{asset('js/select2.min.js')}}" ></script>
+    {% include "SpicySiteBundle:Site:Artiste\\_search.js.twig" %}
+{% endblock %}

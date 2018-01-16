@@ -58,8 +58,7 @@ class FluxController extends Controller
         }
         
         $twitterService = $this->container->get('mimizik.twitter');
-        $arrayDescriptions=$twitterService->twitterType($videos);
-        
+        $arrayDescriptions=$twitterService->twitterType($videos);        
         
         return $this->render('SpicyFluxBundle:Flux:videosTwitter.html.twig',array(
             'videos'=>$videos,
@@ -152,6 +151,42 @@ class FluxController extends Controller
         }
         
         return $datas;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function fluxLyricsAction()
+    {
+        $lyrics = $this->container->get('mimizik.repository.paroles')->getAll(10);
+        
+        if ($lyrics == null) {
+            throw $this->createNotFoundException('Paroles inexistant');
+        }
+        
+        return $this->render('SpicyFluxBundle:Flux:fluxLyrics.html.twig',array(
+            'lyrics' => $lyrics,
+            'selfLink' => $this->generateUrl('mimizik_flux_lyrics')
+        ));
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function fluxITWAction()
+    {
+        $interviews = $this->container->get('mimizik.repository.itw')->getAll(10);
+        
+        if ($interviews == null) {
+            throw $this->createNotFoundException('ITW inexistant');
+        }
+        
+        return $this->render('SpicyFluxBundle:Flux:fluxITW.html.twig',array(
+            'interviews' => $interviews,
+            'selfLink' => $this->generateUrl('spicy_site_artistes')
+        ));
     }
 }
 

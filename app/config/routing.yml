@@ -7,8 +7,8 @@ mimizik_lyrics_admin:
     prefix:   /admin/paroles/
 
 spicy_itw:
-    resource: "@SpicyITWBundle/Resources/config/routing.yml"
-    prefix:   /itw/
+    resource: "@SpicyITWBundle/Controller"
+    type:     annotation
 
 spicy_app:
     resource: "@SpicyAppBundle/Resources/config/routing.yml"

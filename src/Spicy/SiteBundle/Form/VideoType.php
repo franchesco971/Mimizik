@@ -30,23 +30,18 @@ class VideoType extends AbstractType
                 'attr' => array('size' => 30),
                 'multiple' => true,
                 'required'=>false,
-                'query_builder' => function(
-                    \Doctrine\ORM\EntityRepository $er) {
-                        return $er->createQueryBuilder('h')->orderBy('h.libelle', 'ASC');
-                    }
                 )
             )
-            ->add('description','textarea', array('required' => false))
+            ->add('description', 'textarea', [
+                'required' => false, 
+                'attr' => ['rows' => 10,'cols' => 50]
+                ])
             ->add('artistes', 'entity', array(
                 'class'    => 'SpicySiteBundle:Artiste',
                 'property' => 'libelle',
                 'attr' => array('size' => 10),
                 'multiple' => true,
-                'required'=>false,
-                'query_builder' => function(
-                    \Doctrine\ORM\EntityRepository $er) {
-                        return $er->createQueryBuilder('a')->orderBy('a.libelle', 'ASC');
-                    }
+                'required'=>false
                 )
             )
             ->add('collaborateurs', 'entity', array(
@@ -54,11 +49,7 @@ class VideoType extends AbstractType
                 'property' => 'name',
                 'attr' => array('size' => 10),
                 'multiple' => true,
-                'required'=>false,
-                'query_builder' => function(
-                    \Doctrine\ORM\EntityRepository $er) {
-                        return $er->createQueryBuilder('c')->orderBy('c.name', 'ASC');
-                    }
+                'required'=>false
                 )
             )
             ->add('genre_musicaux', 'entity', array(

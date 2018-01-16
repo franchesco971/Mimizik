@@ -13,21 +13,21 @@ class LyricsController extends Controller
 {
     public function updateAction(Request $request,$id)
     {
-        $em=  $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         
-        $video=$em->getRepository('SpicySiteBundle:Video')->find($id);
-        $lyrics=$video->getLyrics();
+        $video = $em->getRepository('SpicySiteBundle:Video')->find($id);
+        $lyrics = $video->getLyrics();
 
         if(!$lyrics)
         {
-            $lyrics=new Lyrics();
+            $lyrics = new Lyrics();
             $video->setLyrics($lyrics);
         }
                
-        $form= $this->createForm(new LyricsType,$lyrics);
+        $form = $this->createForm(new LyricsType,$lyrics);
         if ($request->getMethod() == 'POST') {
             
-            $form->bind($request);           
+            $form->handleRequest($request);           
            
             if ($form->isValid()) { 
                 $em->persist($lyrics);
@@ -46,7 +46,7 @@ class LyricsController extends Controller
         }
         
         return $this->render('SpicyLyricsBundle:Admin:Lyrics/update.html.twig', [
-            'form'=>$form->createView()
+            'form' => $form->createView()
         ]);
     }
     

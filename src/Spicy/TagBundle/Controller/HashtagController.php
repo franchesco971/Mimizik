@@ -4,7 +4,7 @@ namespace Spicy\TagBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
+use Spicy\SiteBundle\Exception\PaginationException;
 use Spicy\TagBundle\Entity\Hashtag;
 use Spicy\SiteBundle\Entity\Artiste;
 use Spicy\SiteBundle\Entity\Video;
@@ -158,10 +158,22 @@ class HashtagController extends Controller
             'tag'      => $entity,
             'delete_form' => $deleteForm->createView(),        ));
     }
-
-    public function showTagAction($tag,$page)
+    
+    /**
+     * 
+     * @param type $tag
+     * @param type $page
+     * @return type
+     * @throws PaginationException
+     * @throws type
+     */
+    public function showTagAction($tag, $page)
     {
-        $nbSuggestion=$this->container->getParameter('nbSuggestion');
+        if($page == '__id__') {
+            throw new PaginationException("Ressource introuvable");
+        }
+        
+        $nbSuggestion = $this->container->getParameter('nbSuggestion');
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('SpicyTagBundle:Hashtag')->findOneByLibelle($tag);
@@ -170,21 +182,21 @@ class HashtagController extends Controller
             throw $this->createNotFoundException('Unable to find Hashtag entity.');
         }
         
-        $artistes=$this->getDoctrine()
+        $artistes = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Artiste')
                 ->getByTag($entity->getId());
         
-        $videos=$this->getDoctrine()
+        $videos = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('SpicySiteBundle:Video')
-                ->getByTag($entity->getId(),$page,$nbSuggestion);
+                ->getByTag($entity->getId(), $page, $nbSuggestion);
         
         return $this->render('SpicyTagBundle:Hashtag:showTag.html.twig',array(
             'tag' => $entity,
-            'artistes'=>$artistes,
-            'videos'=>$videos,
-            'page'=>$page
+            'artistes' => $artistes,
+            'videos' => $videos,
+            'page' => $page
         ));
     }
 
