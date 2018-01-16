@@ -344,10 +344,12 @@ class ApprovalController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('SpicySiteBundle:Approval')->find($id);
+        $video = $entity->getTitle();
+        $video->setEtat(false);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Approval entity.');
-        }
+        }        
 
         $entity->setDisapprovalDate(new \DateTime);
         try{

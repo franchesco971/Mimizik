@@ -7,10 +7,12 @@
 
 {% block body %}
 {{ parent() }}
-    <a href="{{ path('spicy_admin_home_video') }}" class="btn">
-        <i class="icon-chevron-left"></i>
-        Retour à la video
-    </a>
+    <p>
+        <a class="button dark" href="{{ path('spicy_admin_home') }}">Home</a>
+    </p>
+    <p>
+        <a class="button dark" href="{{ path('spicy_admin_home_video') }}">Home video</a>
+    </p>
     <h3>Approval list</h3>
 
     <table class="records_list" id='approval_tab'>
@@ -27,12 +29,12 @@
         </thead>
         <tbody>
         {% for entity in entities %}
-            {% if entity.approvalDate %}
-                {%set class='alert-success'%}
-                {%set approvalText='Approuver'%}
-            {% elseif entity.disapprovalDate %}
+            {% if entity.disapprovalDate %}
                 {%set class='alert-warning'%}
                 {%set approvalText='Désapprouver'%}
+            {% elseif entity.approvalDate %}
+                {%set class='alert-success'%}
+                {%set approvalText='Approuver'%}
             {% else %}
                 {%set class='alert-info'%}
                 {%set approvalText='En attente'%}
@@ -50,12 +52,16 @@
                         <a class="button dark" href="https://www.youtube.com/watch?v={{entity.title.url}}" target="_blank">Voir</a>
                     </p>
                     {% if not entity.approvalDate or not entity.disapprovalDate %}
+                        {% if not entity.approvalDate %}
                     <p>
                         <a class="button dark" href="{{ path('approval_approval', { 'id': entity.id }) }}">Approuver</a>
                     </p>
+                        {% endif %}
+                        {% if not entity.disapprovalDate %}
                     <p>
                         <a class="button dark" href="{{ path('approval_disapproval', { 'id': entity.id }) }}">Désapprouver</a>
                     </p>
+                        {% endif %}
                     {% endif %}
                 </td>
             </tr>
@@ -77,7 +83,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js" ></script>
     <script type="text/javascript">
           $('.records_list').DataTable({
-              "order": [[ 4, "asc" ]]
+              "order": [[ 3, "desc" ],[ 4, "asc" ]]
           });
     </script>
 {% endblock %}
