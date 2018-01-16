@@ -127,7 +127,7 @@ class VideoService
     
     public function setPositions(Ranking $ranking) 
     {        
-        $videos=$this->em->getRepository('SpicySiteBundle:Video')->getTopByMonth($ranking);        
+        $videos=$this->em->getRepository('SpicySiteBundle:Video')->getTopByDate($ranking);        
         $previousRanking=$this->em->getRepository('SpicyRankingBundle:Ranking')->getPreviousRanking($ranking);
         $this->logger->info("setPositions n-1=".$ranking->getId()." et n-2=".$previousRanking->getId());
         $position=1;
