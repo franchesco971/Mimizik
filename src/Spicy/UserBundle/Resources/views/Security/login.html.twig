@@ -1,5 +1,9 @@
 {% extends "SpicyUserBundle::layout.html.twig" %}
 
+{% block title %}
+Mimizik : Connexion
+{% endblock %}
+
 {% block fos_user_content %}
 {% if error %}
     <div>{{ error|trans({}, 'FOSUserBundle') }}</div>

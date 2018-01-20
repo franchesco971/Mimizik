@@ -1,0 +1,16 @@
+{% extends "SpicyUserBundle::layout.html.twig" %}
+
+{% block title %}
+Mimizik : Inscription
+{% endblock %}
+
+{% block fos_user_content %}
+    <div class="content-block">
+        <div class="block-title ">
+            <span>Nouveau profil</span>
+        </div>
+        <div class="block-content ">
+            {% include "FOSUserBundle:Registration:register_content.html.twig" %}
+        </div>
+</div>
+{% endblock fos_user_content %}

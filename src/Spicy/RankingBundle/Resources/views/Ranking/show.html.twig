@@ -1,14 +1,21 @@
 {% extends "SpicySiteBundle::layout.html.twig" %}
 
+{%set number = 10%}
+{% if ranking.rankingType.id == constant('MOIS',ranking.rankingType)%}
+    {%set number = 10%}
+    {%set title = "Classement des "~number~" meilleurs clips du "~ranking.dateRanking|date('m/y')%}
+{% elseif ranking.rankingType.id == constant('ANNEE',ranking.rankingType)%}
+    {%set number = 30%}
+    {%set title = "Classement des "~number~" meilleurs clips de "~ranking.dateRanking|date('Y')%}
+{% endif%}
+
 {% block title %}
-{{ parent() }} : Retrouvez le classement des vidéos clips
+{{ parent() }} : {{title}}
 {% endblock %}
 
 {% block meta_description %}
-    <meta name="Description" content="Mimizik te propose tout le classement des vidéos clips"/> 
+    <meta name="Description" content="{{title}} - Mimizik vidéos"/> 
 {% endblock %}
-
-
 
 {% block stylesheets %}
     {{ parent() }}
@@ -46,14 +53,7 @@
     
     <div class="page-title wrapper">
         <div class="container">
-            {%set number=10%}
-            {% if ranking.rankingType.id == constant('MOIS',ranking.rankingType)%}
-                {%set number=10%}
-            <span>Classement du {{ranking.dateRanking|date('m/y')}}</span>
-            {% elseif ranking.rankingType.id == constant('ANNEE',ranking.rankingType)%}
-                {%set number=30%}
-            <span>Classement de {{ranking.dateRanking|date('Y')}}</span>
-            {% endif%}
+            <span>{{title}}</span>
             <div class="clear"></div>
         </div>
     </div>
