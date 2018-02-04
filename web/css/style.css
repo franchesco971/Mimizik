@@ -360,6 +360,7 @@ input[type="button"] {
 .supheader .logo {
 	float:left;	
 	font-size:2em;
+    width: 263px;
 }
 
 .supheader .logo a {

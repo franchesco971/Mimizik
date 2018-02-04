@@ -16,6 +16,8 @@ use Facebook\Exceptions as FacebookExceptions;
 use Spicy\LyricsBundle\Entity\Paragraph;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Spicy\SiteBundle\Exception\PaginationException;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use JMS\Serializer\SerializerBuilder;
 
 class SiteController extends Controller
 {
@@ -430,18 +432,16 @@ class SiteController extends Controller
     
     public function genresAction() 
     {
-        $genres=$this->getDoctrine()
-                ->getManager()
-                ->getRepository('SpicySiteBundle:GenreMusical')
-                ->getAllGenres();
+        $serializer = SerializerBuilder::create()->build();
+        $genreRepo = $this->get('mimizik.repository.genreMusical');
+        
+        $genres = $genreRepo->getAllGenres();
         
         if ($genres == null) {
             throw $this->createNotFoundException('Genres inexistant');
         }
         
-        return $this->render('SpicySiteBundle:Site:genresMenu.html.twig',array(
-            'genres'=>$genres                
-        ));
+        return new JsonResponse($serializer->serialize($genres, 'json'), 200);
     }
     
     public function redirectYoutubeAction($url=null,$plus=null)

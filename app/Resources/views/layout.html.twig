@@ -5,12 +5,13 @@
         
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 {#        <meta name="google-signin-client_id" content="286880270017-n438moatedvbo22leu2v2u3qnsf0vlht.apps.googleusercontent.com">#}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
         {% block meta_description %}
             <meta name="Description" content="Mimizik est un site promotion de la musique des artistes et des vidéos clip des antilles, de la caraïbes et de la guyane. Il y a tous genres musicaux (zouk, dancehall, hip-hop...) antillais réunion haïti" />
             <meta property="og:title" content="Mimizik" />
             <meta property="og:type" content="website" />
             <meta property="og:image" content="{{asset('images/logo.png')}}" />
-            <meta property="og:url" content="{{website_name}}" />
+            <meta property="og:url" content="{{website_name}}" />            
         {% endblock %}
         {% block stylesheets %}
             {% stylesheets filter='cssrewrite,?yui_css' output='css/compiled/main.css'
@@ -19,6 +20,7 @@
                 'css/reveal.css'
                 'css/pagination.css'
                 'css/form.css'
+                'css/sideNav.css'
             %}
                 <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
             {% endstylesheets %}
@@ -49,7 +51,9 @@
             <div class="supheader wrapper">
                 <div class="container" id="login">
                     <div class="logo">
-                        <a href="{{path("spicy_site_homepage")}}"><img src="{{asset('images/logo100rouge.png')}}"  alt="Logo mimizik" /></a>
+                        <a href="{{path("spicy_site_homepage")}}">
+                            <img src="{{asset('images/logo100rouge.png')}}"  alt="Logo mimizik" />
+                        </a>
                         <h1 style="display:none">Mimizik</h1>
                     </div>	
                     <div class="social-links">
@@ -77,8 +81,23 @@
                     <div class="clear"></div>
                 </div>			
             </div>
+                    
+            <div id="mySidenav" class="sidenav">
+                <span href="javascript:void(0)" class="closebtn" >&times;</span>
+                <a title="Accueil Mimizik" href="{{path('spicy_site_homepage')}}">Accueil</a>
+                <a title="Liste des artistes" href="{{path('spicy_site_artistes')}}">Artistes</a>
+                <a title="Hashtags" href="{{path('mimizik_hashtag')}}">Hashtags</a>
+                <a title="Tops" href="{{path('mimizik_tops')}}">Tops</a>
+                <a title="Contact" href="{{path('spicy_site_contact')}}">Contact</a>
+                <button class="dropdown-btn">Genres >
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-container" id="sideGenreMenu">
+                </div>
+            </div>        
             <div id="menu" class="subheader">
                 <div class="container" >
+                    <span id="btnNav">&#9776; Menu</span>
                     <div class="menu" >
                         <ul id="menu-main-menu" class="menu">
                             <li><a title="Accueil Mimizik" href="{{path('spicy_site_homepage')}}">Accueil</a></li>
@@ -171,6 +190,8 @@
             'js/jquery.custom.js'
             'js/jquery.pagination.js'
             'js/jquery.reveal.js' 
+            'js/service/genreService.js'
+            'js/service/sideNavService.js'
         %}
             <script type="text/javascript" src="{{ asset_url }}" ></script>
         {% endjavascripts %}    
@@ -181,21 +202,29 @@
         <noscript>Your browser does not support JavaScript!</noscript>
         
         <script type="text/javascript">
+            var model_genre_link = "{{ path('spicy_site_genre',{'id':0,'slug':'-slug-'})}}";
+            var linkAjax = "{{ path('mimizik_genres_menu')}}";
+            var dropdown = document.getElementsByClassName("dropdown-btn");
 
             // When document is ready, initialize pagination
             $(document).ready(function(){      
-                $.ajax({
-                    url: "{{ path('mimizik_genres_menu')}}",
-                    context: document.body
-                  })
-                .done(function(html) {
-                    $('#genresMenu').html(html);
-                });
+                genreService.initGenreMenu(linkAjax, model_genre_link);
                 
                 $("#modal_connect").click(function(){ 
                     $('#global_modal').reveal();
                     return false;
                 });
+                
+                $("#menu #btnNav").click(function() {
+                    document.getElementById("mySidenav").style.width = "250px";
+                });
+                
+                $("#mySidenav .closebtn").click(function() {
+                    document.getElementById("mySidenav").style.width = "0";
+                });                
+                
+                sideNavService.init(dropdown);
+                
             });
         </script>
         <script>
@@ -228,7 +257,7 @@
           var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
         })();
 
-        var fb_login=function() {
+        var fb_login = function() {
             FB.getLoginStatus(function(response) {
                 if (response.status === 'connected') {
                     // connected
@@ -257,11 +286,11 @@
             document.location = "{{ url("hwi_oauth_service_redirect", {service: "google"}) }}";
         };#}
         
-        var google_signin=function(){
+        var google_signin = function() {
             document.location = "{{ url("hwi_oauth_service_redirect", {service: "google"}) }}";
         };
 
-        var signOut=function () {
+        var signOut = function () {
             var auth2 = gapi.auth2.getAuthInstance();
             auth2.signOut().then(function () {
               console.log('User signed out.');

@@ -10,5 +10,9 @@ services:
     mimizik.repository.itw:
         class: Spicy\ITWBundle\Entity\Repository\ITWRepository
         factory: ["@doctrine.orm.default_entity_manager", getRepository]
-        arguments: ['SpicyITWBundle:Interview']    
+        arguments: ['SpicyITWBundle:Interview']
+    mimizik.repository.genreMusical:
+        class: Spicy\ITWBundle\Entity\GenreMusicalRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments: ['SpicySiteBundle:GenreMusical']
       

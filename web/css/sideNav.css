@@ -1,0 +1,84 @@
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a, .dropdown-btn {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    border: none;
+    background: none;
+    width:100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 35px;
+    right: 50px;
+    font-size: 36px;
+    margin-left: 50px;
+    cursor: pointer;
+}
+
+.sidenav a:hover, .dropdown-btn:hover {
+    color: #f1f1f1;
+ }
+
+.active {
+    background-color: #EE3450;
+    color: white;
+  }
+
+  /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+  .dropdown-container {
+    display: none;
+    background-color: #262626;
+    padding-left: 8px;
+  }
+
+  /* Optional: Style the caret down icon */
+  .fa-caret-down {
+    float: right;
+    padding-right: 8px;
+  }
+
+/* Petit écran */ 
+@media all and (min-width: 767px) {
+    #menu #btnNav{
+        display : none;
+    }
+}
+
+@media all and (max-width: 767px) {
+    #menu #btnNav{
+        line-height: 1em;
+        font-size: 30px;
+        cursor: pointer;
+        color: white;
+    }
+}
+
+/* pc */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
