@@ -70,7 +70,7 @@
     <div id="espace_pub_home" class="container">
     </div>
     <div class="container" id="main_container" >
-        <div class="column column-videos" style="width:650px">
+        <div class="column column-videos">
             <div class="content-block">
                 <div class="block-title"><span>Vidéos récentes</span>
                 </div>
@@ -86,7 +86,7 @@
                 </div>  
             </div>
         </div>
-        <div class="column" style="width:310px">          
+        <div class="column column-right">          
             <div class="content-block widget widget-social">
                 <div class="block-title"><span>Social</span></div>
                 <div class="block-content">		
@@ -152,37 +152,49 @@
 {% block javascripts %}
     {{parent()}}
     <script type="text/javascript">
+    
+        var getVideos = function(page) {
+            var page = page+1;
+            console.log(page);
+            
+            $.ajax({
+                url: "{{ path('spicy_site_homepage')}}ajax/"+page,
+                context: document.body
+            })
+            .done(function(html) {
+                $('.column-videos #list_videos').html(html);
+            })
+            .fail(function() {
+                console.log( "error" );
+            });
+        };
         
         function initPagination() {
-            var num_entries = {{videos|length-5}}
+            var num_entries = {{videos|length-5}};
+            var page = {{page-1}};
             $("#Pagination").pagination(num_entries, {
                 items_per_page:10, // Show only one item per page
                 //link_to:"{{ path('spicy_site_homepage')}}__id__",
                 link_to:"#",
-                current_page:{{page-1}},
+                current_page: page,
                 prev_text:"Prèc.",
                 next_text:"Suiv.",
                 num_edge_entries:2,
                 num_display_entries:8,
                 callback:function(page){
-                    var page=page+1;
-                    if(page>0)
-                    {
-                        $.ajax({
-                            url: "{{ path('spicy_site_homepage')}}ajax/"+page,
-                            context: document.body
-                        })
-                        .done(function(html) {
-                          $('.column-videos #list_videos').html(html);
-                        })
-                        .fail(function() {
-                          console.log( "error" );
-                        });
-                    }                    
-                    return false;                    
+                    getVideos(page);              
+                }
+            });                
+            
+            $('#pagination-mobile').pagination(num_entries, {
+                prev_text:"Prèc.",
+                next_text:"Suiv.",
+                num_display_entries:0,
+                callback:function(page){
+                    getVideos(page);              
                 }
             });
-         }
+        }
 	
 	//Tabs
 	if($('.tabs-container').length) {	
@@ -195,18 +207,18 @@
                 tabs.find('.tabs li:first-child').addClass('current');
 
                 tabs.find('.tabs li').click(function() {
-                        //set active state to tab
-                        tabs.find('.tabs li').removeClass('current');
-                        $(this).addClass('current');
+                    //set active state to tab
+                    tabs.find('.tabs li').removeClass('current');
+                    $(this).addClass('current');
 
-                        //show current tab
-                        tabs.find('.pane').hide();
-                        tabs.find('.pane:eq('+$(this).index()+')').show();			
+                    //show current tab
+                    tabs.find('.pane').hide();
+                    tabs.find('.pane:eq('+$(this).index()+')').show();			
                 });
             });		
             $('.tabs-container .tabs a').click(function() {
-                    $(this).parent().trigger('click');
-                    return false;
+                $(this).parent().trigger('click');
+                return false;
             });
 	}
         
@@ -239,7 +251,7 @@
               })
             .done(function(html) {
                 $('#last-ranking .last').html(html);
-            })
+            });
             
         });
     </script>

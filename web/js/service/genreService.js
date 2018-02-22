@@ -26,7 +26,7 @@ var genreService = {
             $('#sideGenreMenu').html(htmlMobile);
         });
     },
-    getABalise(link, genre) {
+    getABalise : function(link, genre) {
         return '<a title="'+genre.libelle+'" href="'+link+'">'+genre.libelle+'</a>';
     }   
 };

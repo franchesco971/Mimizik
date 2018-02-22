@@ -7,27 +7,19 @@
 
 #lastVideos
 {
-    
+
 }
 /*.ribbon-slider {margin-top: 20px !important;}*/
 .ribbon-slider {margin-top: 45px !important;}
 #lastVideos ul{margin-bottom: -54px; margin-top: -48px;}
 #container{
-    
-}
 
-#main_container
-{
-    width: 1000px;
-    overflow: hidden;
-    min-height: 600px;
-    margin-top: 20px;
-}
+}    
 
 .page{width:1000px;margin: auto;}
 
 .post .image{overflow: hidden;width: 240px;height: 157px; margin-top: -23px;}
-.post .infos_video{    padding-left: 10px;width: 300px;}
+
 
 .post .infos_video .artistes,.post .infos_video .titre,.post .infos_video .description,.post .infos_video .bouton{    margin-bottom: 8px;}
 
@@ -93,9 +85,9 @@ a, h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover, .rele
 .un-tier{
     width: 190px;
 }
-.un-demi{
+/*.un-demi{
     width:420px;
-}
+}*/
 .column-perso {
     float: left;
     margin-right: 10px;
@@ -174,4 +166,48 @@ form .button{clear:left;float: left}
 
 #login .blockright{clear: right;float:right;margin-top:20px;}
 #login .blockright.message{font-size:1.3em;color:white;}
+
+/* Grand écran */ 
+@media all and (min-width: 767px) {
+    #main_container
+    {
+        width: 1000px;
+        overflow: hidden;
+        min-height: 600px;
+        margin-top: 20px;
+    }
+    
+    .column-videos
+    {
+        width:650px;
+    }
+    .post .infos_video{padding-left: 10px;width: 300px;}
+    #pagination-mobile{display: none;}
+    .un-demi {
+        width: 420px;
+    }
+}
+
+/* Petit écran */
+@media all and (max-width: 767px) {
+    #main_container
+    {
+        width: 90%;
+        overflow: hidden;
+        min-height: 600px;
+        margin-top: 20px;
+    }
+    .post .infos_video{padding-top: 5px;padding-left: 10px;width: 300px;}
+    #Pagination{display: none;}
+    #pagination-mobile .pagination{font-size: 1.3em}
+    #pagination-mobile .pagination .next{float: right; width: 95px; height: 40px;}
+    #pagination-mobile .pagination .prev{width: 95px; height: 40px;}
+    
+    .post .infos_video {
+        width: 100%;
+    }
+    .page {
+        width : 100%;
+    }
+}
 

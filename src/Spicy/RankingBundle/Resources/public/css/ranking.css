@@ -18,14 +18,7 @@
     width:32px;
     height:32px;
 }
-.ranking .post
-{
-    border-bottom: 1px solid #ebebeb;
-    margin: 0 0 1.5em -20px;
-    overflow: hidden;
-    padding: 0 0 1.5em 0;
-    width: 80%;
-}
+
 .ranking .position
 {
     font-size: 2em;
@@ -45,4 +38,26 @@
     /*width:7px;*/
     width: 32px; height: 20px;
     background-position:-53px 6px;
+}
+
+/* Grand écran */ 
+@media all and (min-width: 767px) {
+    .ranking .post
+    {
+        border-bottom: 1px solid #ebebeb;
+        margin: 0 0 1.5em -20px;
+        overflow: hidden;
+        padding: 0 0 1.5em 0;
+        width: 80%;
+    }
+}
+
+/* Petit écran */
+@media all and (max-width: 767px) {
+   .ranking .post
+    {
+        border-bottom: 1px solid #ebebeb;
+        margin: 0 0 1.5em -20px;
+        overflow: hidden;
+    }
 }

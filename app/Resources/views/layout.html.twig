@@ -74,8 +74,8 @@
                         </div>           
                             <div  class="large blockright message">Hello <a href="{{path('fos_user_profile_show')}}">{{ app.user.username }}</a>!!</div>
                     {% else %}
-                        <div  class="button dark large blockright" >
-                            <a id="modal_connect" style=""><span>Se connecter</span></a>                            
+                        <div  class="button dark large blockright" id="btn-login" >
+                            <a class="modal_connect" style=""><span>Se connecter</span></a>                            
                         </div>
                     {% endif%}
                     <div class="clear"></div>
@@ -88,12 +88,20 @@
                 <a title="Liste des artistes" href="{{path('spicy_site_artistes')}}">Artistes</a>
                 <a title="Hashtags" href="{{path('mimizik_hashtag')}}">Hashtags</a>
                 <a title="Tops" href="{{path('mimizik_tops')}}">Tops</a>
+                <button class="dropdown-btn">Classements >
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-container">
+                    <a title="Classements mensuel" href="{{path('mimizik_ranking_index')}}">Mensuel</a>
+                    <a title="Classements annuel" href="{{path('mimizik_year_ranking_index')}}">Annuel</a>
+                </div>
                 <a title="Contact" href="{{path('spicy_site_contact')}}">Contact</a>
                 <button class="dropdown-btn">Genres >
                     <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="dropdown-container" id="sideGenreMenu">
                 </div>
+                <a class="modal_connect"><span>Se connecter</span></a>
             </div>        
             <div id="menu" class="subheader">
                 <div class="container" >
@@ -164,7 +172,7 @@
                     </div>
                     <div class="divider row col-md-12"></div>
                     <div class="row">
-                        <div class="col-md-3" style=""><div class="button dark large" style="">
+                        <div class="col-md-3"><div class="button dark large">
                             <a id="btn_register" style="" href="{{path('fos_user_security_login')}}"><span>Se connecter avec Mimizik</span></a>
                         </div></div>
                     </div>
@@ -210,7 +218,7 @@
             $(document).ready(function(){      
                 genreService.initGenreMenu(linkAjax, model_genre_link);
                 
-                $("#modal_connect").click(function(){ 
+                $(".modal_connect").click(function(){ 
                     $('#global_modal').reveal();
                     return false;
                 });
