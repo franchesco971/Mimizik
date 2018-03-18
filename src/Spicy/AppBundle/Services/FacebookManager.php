@@ -48,13 +48,13 @@ class FacebookManager
             $helper = $this->fbManager->getRedirectLoginHelper();
             
             try {
-                $userAccessToken = $helper->getAccessToken();
+                $userAccessToken = $helper->getAccessToken("https://www.mimizik.com/apps/facebook/token");
             } catch(FacebookResponseException $e) {
                 // When Graph returns an error
-                throw new FacebookResponseException($e->getMessage());
+                throw new \Exception("FacebookResponseException :: ".$e->getMessage());
             } catch(FacebookSDKException $e) {
                 // When validation fails or other local issues
-                throw new FacebookSDKException($e->getMessage());
+                throw new \Exception("FacebookSDKException :: ".$e->getMessage());
             } 
                         
             $_SESSION['FB_USER_ACCESS_TOKEN']=$userAccessToken;            
@@ -92,9 +92,9 @@ class FacebookManager
             $response = $this->fbManager->post("/$this->pageId/feed", $params, $this->pageAccessToken);
 
         } catch(FacebookResponseException $e) {
-            throw new FacebookResponseException($e->getMessage());
+            throw new \Exception("FacebookResponseException :: ".$e->getMessage());
         } catch(FacebookSDKException $e) {
-            throw new FacebookResponseException($e->getMessage());
+            throw new \Exception("FacebookSDKException :: ".$e->getMessage());
         }
         
         return $response;

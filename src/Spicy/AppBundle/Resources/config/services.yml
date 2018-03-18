@@ -1,7 +1,7 @@
 parameters:
     app_fb_id: 729891760354276
     app_fb_secret: f99b1e647c6db07975a37cc287c0d91b
-    app_fb_graph_version: v2.5
+    app_fb_graph_version: v2.6
     app_fb_page_id: 105385689672394
 
 services:
