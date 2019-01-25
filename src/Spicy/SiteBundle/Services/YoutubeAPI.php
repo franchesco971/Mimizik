@@ -22,6 +22,12 @@ class YoutubeAPI
     public function getJSONResponse($videoId) 
     {
         $url = "https://www.googleapis.com/youtube/v3/videos?id=$videoId&key=".$this->developerKey."&part=snippet,topicDetails";
+        
+        
+        return $this->getJSONObject($url);
+    }
+    
+    public function getJSONObject($url) {
         $obj = null;
         
         try {
