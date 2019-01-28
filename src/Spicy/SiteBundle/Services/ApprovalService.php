@@ -22,10 +22,14 @@ class ApprovalService
     
     private $typeVideoRepository;
     
-    public function __construct($tokenStorage,$typeVideoRepository )
+    public function __construct($tokenStorage, $typeVideoRepository ,$userRepository)
     {
         $this->typeVideoRepository = $typeVideoRepository;
-        $this->user = $tokenStorage->getToken()->getUser();
+        if ($tokenStorage->getToken()) {
+            $this->user = $tokenStorage->getToken()->getUser();
+        } else {
+            $this->user = $userRepository->findOneBy(['username' => 'franchesco971']);
+        }
     }
     
     /**

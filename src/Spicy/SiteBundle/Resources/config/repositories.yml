@@ -15,4 +15,8 @@ services:
         class: Spicy\ITWBundle\Entity\GenreMusicalRepository
         factory: ["@doctrine.orm.default_entity_manager", getRepository]
         arguments: ['SpicySiteBundle:GenreMusical']
+    mimizik.repository.user:
+        class: Spicy\UserBundle\Entity\UserRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments: ['SpicyUserBundle:User']
       
