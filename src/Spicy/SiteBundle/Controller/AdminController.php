@@ -64,8 +64,6 @@ class AdminController extends Controller
         $yurl = $request->query->get('youtubeUrl');
         $video = new Video();
         
-        $video = new Video;
-        
         if($yurl)//s'il y a une url youtube
         {
             $video = $youtubeAPI->getByYoutubeId($yurl);
@@ -85,11 +83,11 @@ class AdminController extends Controller
                 $_SESSION['id_video_publish']=$video->getId();
 
                 //redirection vers facebook
-                if($video->getEtat() == true) {
-                    return $this->redirect($this->generateUrl('mimizik_app_fb_login'));
-                } else {
+               // if($video->getEtat() == true) {
+               //     return $this->redirect($this->generateUrl('mimizik_app_fb_login'));
+               // } else {
                     return $this->redirect($this->generateUrl('spicy_admin_home'));                    
-                }
+               // }
                 
             }
         }
@@ -175,12 +173,12 @@ class AdminController extends Controller
                 $this->get('session')->getFlashBag()->add('info','Vidéo bien modifié');
 
                 //Si le status de la video passe à true, on publie
-                if($oldState == false && $video->getEtat() == true) {
-                    $_SESSION['id_video_publish'] = $video->getId();
-                    return $this->redirect($this->generateUrl('mimizik_app_fb_login'));
-                } else {
+                //if($oldState == false && $video->getEtat() == true) {
+                //    $_SESSION['id_video_publish'] = $video->getId();
+               //     return $this->redirect($this->generateUrl('mimizik_app_fb_login'));
+               // } else {
                     return $this->redirect($this->generateUrl('spicy_admin_home_video'));
-                }        
+                //}        
             }
         }
         

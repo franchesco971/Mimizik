@@ -392,7 +392,8 @@ class ApprovalController extends Controller
                     $this->get('session')->getFlashBag()->add('info','Publication approuvé');
                     $_SESSION['id_video_publish'] = $video->getId();
                     
-                    return $this->redirect($this->generateUrl('mimizik_app_fb_login'));
+                    //return $this->redirect($this->generateUrl('mimizik_app_fb_login'));
+                    return $this->redirect($this->generateUrl('approval'));
                 }
                 catch(\Exception $e)
                 {
