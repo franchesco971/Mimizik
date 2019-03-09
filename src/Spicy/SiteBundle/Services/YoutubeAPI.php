@@ -110,10 +110,12 @@ class YoutubeAPI
         return $video;
     }
     
-    public function getVideos() {
-        
+    public function getVideos() 
+    {        
         $nextPageToken = $nbPage = null;
         $page = 0;
+        $this->logger->info('YOUTUBEAPI : getVideos');
+        print ('******|***** YOUTUBEAPI : getVideos *****|****');
         
         do {
             $subscriptionsURL = $this->baseURL . "subscriptions?part=snippet%2CcontentDetails&channelId=UCygqmomnv_HLr-Df0LlxsiQ&key=" . $this->developerKey;
@@ -128,7 +130,13 @@ class YoutubeAPI
 
                 $nbPage = $this->getNbPage($subscriptions, $nbPage);
                 
-                $this->fetchSubscriptions($subscriptions);
+                try{
+                    $this->fetchSubscriptions($subscriptions);
+                } catch (Exception $ex) {
+                    $this->logger->error('YOUTUBEAPI : fetchSubscriptions ->'.$ex->getMessage());
+                    throw new Exception("fetchSubscriptions eoor");
+                }
+                
             }
             
             $page++;
@@ -143,39 +151,51 @@ class YoutubeAPI
         return $this->errorMessages;
     }
     
-    private function fetchSubscriptions($subscriptions = null) {                  
-
-        foreach ($subscriptions->items as $channelItem) {
-            $channelId = $channelItem->snippet->resourceId->channelId;
-            $totalItemCount = $channelItem->contentDetails->totalItemCount;
-            $channel = $this->em->getRepository('SpicyAppBundle:Channel')->findOneBy(['channelId' => $channelId]);
-
-            if (!$channel) {
-                $channel = new Channel();
-                $channel->setTitle($channelItem->snippet->title)
-                        ->setChannelId($channelId);
+    private function fetchSubscriptions($subscriptions = null) 
+    {                
+        if(is_array($subscriptions->items)) {
+            foreach ($subscriptions->items as $channelItem) {
+                $channelId = $channelItem->snippet->resourceId->channelId;
+                $totalItemCount = $channelItem->contentDetails->totalItemCount;
+                $channel = $this->em->getRepository('SpicyAppBundle:Channel')->findOneBy(['channelId' => $channelId]);
+    
+                if (!$channel) {
+                    $channel = new Channel();
+                    $channel->setTitle($channelItem->snippet->title)
+                            ->setChannelId($channelId);
+                    
+                    $this->nbNewChannels++;
+                }
                 
-                $this->nbNewChannels++;
+                if($channel->getTotalItemCount() != $totalItemCount) { // si le total a changé
+                    $channel->setTotalItemCount($totalItemCount);
+    
+                    $searchURL = $this->baseURL . "search?part=snippet&channelId=".$channelId.
+                            "&maxResults=10&order=date&publishedAfter=2018-11-01T00%3A00%3A00Z&key=". $this->developerKey;
+    
+                    $videos = $this->getJSONObject($searchURL);
+    
+                    try{
+                        $this->searchVideos($videos);
+                    } catch (Exception $ex) {
+                        $this->logger->error('YOUTUBEAPI : searchVideos ->'.$ex->getMessage());
+                        throw new Exception("fetchSubscriptions 181 error");
+                    }
+                }
+                
+                $this->em->persist($channel);
             }
-            
-            if($channel->getTotalItemCount() != $totalItemCount) { // si le total a changé
-                $channel->setTotalItemCount($totalItemCount);
-
-                $searchURL = $this->baseURL . "search?part=snippet&channelId=".$channelId.
-                        "&maxResults=10&order=date&publishedAfter=2018-11-01T00%3A00%3A00Z&key=". $this->developerKey;
-
-                $videos = $this->getJSONObject($searchURL);
-
-                $this->searchVideos($videos);
-            }
-            
-            $this->em->persist($channel);
-        }        
+        } else {
+            print('YOUTUBEAPI : !isset $subscriptions->items ->'.$ex->getMessage());
+            $this->logger->error('YOUTUBEAPI : !isset $subscriptions->items ->'.$ex->getMessage());
+            throw new Exception("fetchSubscriptions 189 error");
+        } 
+                
     }
     
-    private function searchVideos($videos) {               
-
-        if($videos) {
+    private function searchVideos($videos) 
+    {              
+        if(is_array($videos->items)) {
             foreach ($videos->items as $videoItem) {
                 if ($videoItem->id->kind == "youtube#video") {
                     $videoId = $videoItem->id->videoId;
@@ -183,7 +203,11 @@ class YoutubeAPI
                     $this->getVideoData($videoId);                    
                 }
             }
-        }        
+        } else {
+            print('YOUTUBEAPI : !isset $videos->items ->'.$ex->getMessage());
+            $this->logger->error('YOUTUBEAPI : !isset $videos->items ->'.$ex->getMessage());
+            throw new Exception("searchVideos error");
+        }         
     }
     
     private function getVideoData($videoId) {        
