@@ -1,6 +1,9 @@
 spicy_site_flux_videos:
     pattern: /videos
     defaults: { _controller: SpicyFluxBundle:Flux:fluxVideos }
+mimizik_flux_videos_json:
+    pattern: /videos_json
+    defaults: { _controller: SpicyFluxBundle:Flux:fluxVideosJson }    
 spicy_site_flux_videos_twitter:
     pattern: /videos_twitter
     defaults: { _controller: SpicyFluxBundle:Flux:fluxVideosTwitter }

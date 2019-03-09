@@ -3,6 +3,8 @@
 namespace Spicy\FluxBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class FluxController extends Controller
 {
@@ -27,8 +29,8 @@ class FluxController extends Controller
     {        
         return $this->render('SpicyFluxBundle:Flux:fluxIndex.html.twig');
     }
-    
-    public function fluxVideosAction()
+
+    public function getVideos()
     {
         $videos=$this->getDoctrine()
                 ->getManager()
@@ -38,12 +40,38 @@ class FluxController extends Controller
         if ($videos == null) {
             throw $this->createNotFoundException('Video inexistant');
         }
-                
-        return $this->render('SpicyFluxBundle:Flux:fluxVideos.html.twig',array(
-            'videos'=>$videos,
-            'selfLink'=>$this->generateUrl('spicy_site_flux_videos'),
-            'pubDates'=>  $this->getTabData($videos)                
-        ));
+
+        return $videos;
+    }
+    
+    public function fluxVideosAction()
+    {
+        $videos = $this->getVideos();
+
+        $response = new Response($this->renderView('SpicyFluxBundle:Flux:fluxVideos.html.twig', array(
+            'videos' => $videos,
+            'selfLink' => $this->generateUrl('spicy_site_flux_videos'),
+            'pubDates' => $this->getTabData($videos)            
+        )),200
+        );
+    
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+    
+        return $response;
+    }
+
+    public function fluxVideosJsonAction()
+    {
+        $videos=$this->getDoctrine()
+                ->getManager()
+                ->getRepository('SpicySiteBundle:Video')->getAvecArtistesFlux(50);
+
+        $response = new Response(json_encode((array) $videos), 200);
+    
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Content-Type', 'application/json');
+    
+        return $response;
     }
     
     public function fluxVideosTwitterAction()

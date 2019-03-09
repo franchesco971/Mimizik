@@ -335,7 +335,7 @@ class VideoRepository extends EntityRepository
                 
         $query=$qb->getQuery();
         
-        return $query->getResult();
+        return $query->getResult(Query::HYDRATE_ARRAY);
     }
     
     public function getFlux($nbOccurrences,$top=false)
@@ -399,5 +399,5 @@ class VideoRepository extends EntityRepository
         $query = $qb->getQuery();
         
         return $query->getResult();
-    }
+    }       
 }
