@@ -63,7 +63,7 @@
                         <a title="Google+" class="google" href="https://plus.google.com/+Mimizik" target="_blank"></a>
                         <a title="Flux" class="rss" href="http://www.mimizik.com/flux/videos" target="_blank"></a>
                     </div><!--/ social links-->
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {% if app.user is not null and is_granted('IS_AUTHENTICATED_FULLY') %}
                         {% if is_granted('ROLE_CONTRIBUTOR') or is_granted('ROLE_ADMIN')%}
                             <div  class="button dark large blockright">
                                 <a id="btn_approval" href="{{path('approval_new')}}"><span>Soumettre une vidéo</span></a>

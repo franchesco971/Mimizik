@@ -104,6 +104,12 @@ mimizik_site_redirect_youtube_videos:
 mimizik_site_redirect_feedback:
     pattern: /plugins/feedback.php
     defaults: { _controller: SpicySiteBundle:Site:redirectFeedback }
+mimizik_redirect_wp:
+    pattern: /wp-login.php
+    defaults: { _controller: SpicySiteBundle:Site:redirectDefault }
+mimizik_redirect_hashta:
+    pattern: /hashta
+    defaults: { _controller: SpicySiteBundle:Site:redirectDefault }    
     
 mimizik_tops:
     pattern:  /tops/{page}

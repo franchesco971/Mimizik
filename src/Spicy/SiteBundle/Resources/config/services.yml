@@ -34,6 +34,8 @@ services:
     mimizik.youtube.api:
         class: Spicy\SiteBundle\Services\YoutubeAPI
         arguments: ["@logger", %developer_key%, "@doctrine.orm.entity_manager", "@mimizik.approval.service"]
+        tags:
+        - { name: monolog.logger, channel: mimizik }
     mimizik.twig.name.extension:
         class: Spicy\SiteBundle\Twig\NameExtension
         arguments: [ "@router" ]

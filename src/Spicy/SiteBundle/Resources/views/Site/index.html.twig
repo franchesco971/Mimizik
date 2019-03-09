@@ -155,7 +155,6 @@
     
         var getVideos = function(page) {
             var page = page+1;
-            console.log(page);
             
             $.ajax({
                 url: "{{ path('spicy_site_homepage')}}ajax/"+page,

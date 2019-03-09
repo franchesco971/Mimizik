@@ -158,6 +158,10 @@ class SiteController extends Controller
     
     public function showArtisteAction($id, $page = 1)
     {
+        if($page == '__id__' || $page == -1) {
+            $page = 1;
+        }
+        
         $nbSuggestion = $this->container->getParameter('nbSuggestion');
         $socialService = $this->container->get('mimizik.social');
         $toolsService = $this->container->get('mimizik.tools');
@@ -456,6 +460,11 @@ class SiteController extends Controller
         }
        
         return $this->redirect($url);
+    }
+
+    public function redirectDefaultAction()
+    {
+        return $this->redirect($this->generateUrl('mimizik_ranking_index',array('page' => 1)));
     }
     
     public function redirectFeedbackAction(Request $request)
