@@ -12,6 +12,7 @@ vendor/*
 /composer.lock
 /web/js/compiled/*
 composer.phar
+/.history/*
 
 #################
 ## Eclipse

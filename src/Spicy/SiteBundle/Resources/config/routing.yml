@@ -142,3 +142,9 @@ mimizik_itw_show:
     defaults: { _controller: SpicySiteBundle:Site:showInterview }
     requirements: 
         id: \d+
+
+mimizik_video_json:
+    pattern:  /video/json/{id}
+    defaults: { _controller: SpicySiteBundle:Site:videoJson }
+    requirements: 
+        id: \d+        

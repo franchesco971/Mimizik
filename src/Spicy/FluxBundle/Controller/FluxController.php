@@ -60,13 +60,22 @@ class FluxController extends Controller
         return $response;
     }
 
-    public function fluxVideosJsonAction()
+    public function fluxVideosJsonAction($page = 1)
     {
-        $videos=$this->getDoctrine()
-                ->getManager()
-                ->getRepository('SpicySiteBundle:Video')->getAvecArtistesFlux(50);
+        $tabVideos = [];
+        $videoRepo =  $this->getDoctrine()
+        ->getManager()
+        ->getRepository('SpicySiteBundle:Video');
 
-        $response = new Response(json_encode((array) $videos), 200);
+        $videos = $videoRepo->getSuiteJson($page, 10);
+
+        foreach ($videos as $key => $video) {
+            if ($video) {
+                $tabVideos[] = $video;
+            }            
+        }
+
+        $response = new Response(json_encode((array) $tabVideos), 200);
     
         $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->headers->set('Content-Type', 'application/json');

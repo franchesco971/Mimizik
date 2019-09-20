@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManager;
 use Spicy\SiteBundle\Services\ApprovalService;
 
 /**
- * 
+ *  cd /home/mimizikc/public_html && /usr/local/bin/php /home/mimizikc/public_html/app/console mimizik:check-youtube
  */
 class YoutubeAPI
 {
@@ -168,7 +168,7 @@ class YoutubeAPI
                 }
                 
                 if($channel->getTotalItemCount() != $totalItemCount) { // si le total a changé
-                    $channel->setTotalItemCount($totalItemCount);
+                    $channel->setTotalItemCount($totalItemCount); 
     
                     $searchURL = $this->baseURL . "search?part=snippet&channelId=".$channelId.
                             "&maxResults=10&order=date&publishedAfter=2018-11-01T00%3A00%3A00Z&key=". $this->developerKey;

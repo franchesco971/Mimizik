@@ -29,6 +29,23 @@ class VideoRepository extends EntityRepository
  
         return $qb->getQuery()->getOneOrNullResult();
     }
+
+    public function getJson($id)
+    {
+        $qb = $this->createQueryBuilder('v')
+            ->join('v.artistes', 'a')
+            ->join('v.genre_musicaux', 'g')
+            ->where('v.id=:id')
+            ->setParameter('id', $id)
+            ->andWhere('v.etat=1')
+            ->andWhere('g.id<> :id_retro')
+            ->setParameter('id_retro', $this->retro)
+            ->addSelect('a')
+            ->addSelect('g')
+            ;
+ 
+        return $qb->getQuery()->getOneOrNullResult(Query::HYDRATE_ARRAY);
+    }
     
     public function getAvecArtistes($nbOccurrences,$top=false)
     {
@@ -80,7 +97,58 @@ class VideoRepository extends EntityRepository
         //return $query->getResult();
     }
     
-    public function getSuite($page,$nbOccurrences,$videoIdsList)
+    public function getSuite($page, $nbOccurrences, $videoIdsList = [])
+    {
+        $query = $this->getSuiteRequest($page, $nbOccurrences, $videoIdsList);
+        
+        return new Paginator($query, true);
+    }
+
+    public function getSuiteJson($page, $nbOccurrences, $videoIdsList = [])
+    {
+        /*$query = $this->getIds($page, $nbOccurrences, $videoIdsList);
+        
+        return $query->getResult();*/
+        $query = $this->getSuiteRequest($page, $nbOccurrences, $videoIdsList)->getQuery();
+
+        $query->setHydrationMode(Query::HYDRATE_ARRAY);
+
+        return new Paginator($query, true);
+        
+    }
+
+    public function getSuiteRequest($page, $nbOccurrences, $videoIdsList)
+    {
+        if( $page < 1 )
+        {
+            throw $this->createNotFoundException('Page inexistante (page = '.$page.')');
+        }        
+        
+        $qb = $this->createQueryBuilder('v')
+             ->join('v.artistes', 'a')  
+             ->join('v.genre_musicaux', 'g')
+             ->where('g.id<> :id_retro')
+             ->setParameter('id_retro', $this->retro)
+             ->andWhere('v.etat=1')
+            ->setFirstResult(($page-1)*$nbOccurrences)
+            ->setMaxResults($nbOccurrences)
+            ->addSelect('a')
+            ->orderBy('v.dateVideo','DESC')
+            ;
+        
+        if (count($videoIdsList)) {
+            $qb->andWhere('v.id NOT IN (:list)')
+            ->setParameter('list', $videoIdsList);
+        }
+
+        /*$query = $qb->getQuery();
+
+        return $query;*/
+
+        return $qb;
+    }
+
+    public function getIds($page, $nbOccurrences, $videoIdsList = [])
     {
         if( $page < 1 )
         {
@@ -88,19 +156,16 @@ class VideoRepository extends EntityRepository
         }
         
         $qb = $this->createQueryBuilder('v')
-             ->join('v.genre_musicaux', 'g')
-             ->where('g.id<> :id_retro')
-             ->setParameter('id_retro', $this->retro)
-             ->andWhere('v.etat=1')
-             ->andWhere('v.id NOT IN (:list)')
-            ->setParameter('list', $videoIdsList)
+            //->join('v.artistes', 'a')
+            ->andWhere('v.etat=1')           
             ->setFirstResult(($page-1)*$nbOccurrences)
             ->setMaxResults($nbOccurrences)
             ->orderBy('v.dateVideo','DESC')
             ;
-        $query=$qb->getQuery();
-        
-        return new Paginator($query);
+
+        $query = $qb->getQuery();
+
+        return $query;
     }
     
     public function getSuiteAjax($videoIdsList)
@@ -312,7 +377,7 @@ class VideoRepository extends EntityRepository
         return new Paginator($query);
     }
     
-    public function getAvecArtistesFlux($nbOccurrences,$top=false)
+    public function getAvecArtistesFlux($nbOccurrences, $top=false)
     {
         $qb = $this->createQueryBuilder('v')
             ->join('v.artistes', 'a')

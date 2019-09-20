@@ -18,6 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Spicy\SiteBundle\Exception\PaginationException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use JMS\Serializer\SerializerBuilder;
+use Symfony\Component\HttpFoundation\Response;
 
 class SiteController extends Controller
 {
@@ -543,5 +544,19 @@ class SiteController extends Controller
             'itw' => $itw,
             'videos' => $videos
         ]);
+    }
+    
+    public function videoJsonAction($id)
+    {
+        $video = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('SpicySiteBundle:Video')->getJson($id);
+
+        $response = new Response(json_encode($video), 200);
+    
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Content-Type', 'application/json');
+    
+        return $response;
     }
 }
