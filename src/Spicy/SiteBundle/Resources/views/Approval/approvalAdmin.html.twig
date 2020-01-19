@@ -14,7 +14,7 @@
     <br/><br/>
     <h3>Soumettre une vidéo</h3>
     
-    <form action="{{ path('approval_create_admin') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_start(form, {'method': 'POST', 'action': path('approval_create_admin')}) }}
         {{ form_errors(form) }}
         <div class="label">
             {{ form_label(form.title.titre) }}&nbsp;&#42; 
@@ -138,7 +138,7 @@
             {{ form_rest(form) }}
             </span>
         </div>
-    </form>
+    {{ form_end(form) }}
             
     <div id="modal_hashtag" class="reveal-modal">
         <div class="content"></div>
@@ -149,7 +149,7 @@
 {% block javascripts %}
     {{parent()}}
     <script type="text/javascript">
-        $("#spicy_sitebundle_approval_admin_title_artistes,#spicy_sitebundle_approval_admin_title_hashtags,#spicy_sitebundle_approval_admin_title_collaborateurs").select2({
+        $("#approval_admin_title_artistes,#approval_admin_title_hashtags,#approval_admin_title_collaborateurs").select2({
             width: '200px'
         });
         

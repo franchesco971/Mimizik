@@ -1,5 +1,5 @@
 <?php 
-namespace Spicy\RankingBundle\DataFixtures\ORM\Genre;
+namespace Spicy\SiteBundle\DataFixtures\ORM\Genre;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;

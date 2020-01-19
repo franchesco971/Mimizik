@@ -4,11 +4,11 @@ namespace Spicy\TagBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Spicy\SiteBundle\Exception\PaginationException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Spicy\TagBundle\Entity\Hashtag;
-use Spicy\SiteBundle\Entity\Artiste;
-use Spicy\SiteBundle\Entity\Video;
 use Spicy\TagBundle\Form\HashtagType;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
  * Hashtag controller.
@@ -35,40 +35,43 @@ class HashtagController extends Controller
      * Creates a new Hashtag entity.
      *
      */
-    public function createAction(Request $request)
+    // public function createAction(Request $request)
+    // {
+    //     $entity  = new Hashtag();
+    //     $form = $this->createForm(HashtagType::class, $entity);
+    //     $form->handleRequest($request);
+
+    //     if ($form->isValid()) {
+    //         $em = $this->getDoctrine()->getManager();
+    //         $em->persist($entity);
+    //         $em->flush();
+
+    //         return $this->redirect($this->generateUrl('admin_hashtag_show', array('id' => $entity->getId())));
+    //     }
+
+    //     return $this->render('SpicyTagBundle:Hashtag:new.html.twig', array(
+    //         'entity' => $entity,
+    //         'form'   => $form->createView(),
+    //     ));
+    // }
+
+    public function create_modalAction(EntityManagerInterface $em, Request $request)
     {
         $entity  = new Hashtag();
-        $form = $this->createForm(new HashtagType(), $entity);
-        $form->bind($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('admin_hashtag_show', array('id' => $entity->getId())));
-        }
-
-        return $this->render('SpicyTagBundle:Hashtag:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
-    }
-
-    public function create_modalAction(Request $request)
-    {
-        $entity  = new Hashtag();
-        $refererUrl = $this->getRequest()->headers->get("referer");
-        $form = $this->createForm(new HashtagType(), $entity);
-        $form->bind($request);
+        $refererUrl = $request->headers->get("referer");
+        $form = $this->createForm(HashtagType::class, $entity);
+        $form->handleRequest($request);        
                         
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
             
+            if(!$refererUrl) {
+                throw new \Exception("test");
+            }
+
             return $this->redirect($refererUrl);
-        }
+        }       
         
         $this->get('session')->getFlashBag()->add(
             'notice',
@@ -77,26 +80,25 @@ class HashtagController extends Controller
         
         return $this->redirect($refererUrl);
     }
-    
-    public function create_modal_updateAction(Request $request,$id)
+
+    public function create_modal_updateAction(Request $request, EntityManagerInterface $em, $id)
     {
         $entity  = new Hashtag();
-        $form = $this->createForm(new HashtagType(), $entity);
-        $form->bind($request);
-        
+        $form = $this->createForm(HashtagType::class, $entity);
+        $form->handleRequest($request);
+
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
             return $this->redirect($this->generateUrl('spicy_admin_update_artiste', array('id' => $id)));
         }
-        
+
         $this->get('session')->getFlashBag()->add(
             'notice',
             'Erreur dans la creation du tag'
         );
-        
+
         return $this->redirect($this->generateUrl('spicy_admin_update_artiste', array('id' => $id)));
     }
 
@@ -104,21 +106,21 @@ class HashtagController extends Controller
      * Displays a form to create a new Hashtag entity.
      *
      */
-    public function newAction()
-    {
-        $entity = new Hashtag();
-        $form   = $this->createForm(new HashtagType(), $entity);
+    // public function newAction()
+    // {
+    //     $entity = new Hashtag();
+    //     $form   = $this->createForm(HashtagType::class, $entity);
 
-        return $this->render('SpicyTagBundle:Hashtag:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
-    }
+    //     return $this->render('SpicyTagBundle:Hashtag:new.html.twig', array(
+    //         'entity' => $entity,
+    //         'form'   => $form->createView(),
+    //     ));
+    // }
     
     public function new_modalAction()
     {
         $entity = new Hashtag();
-        $form   = $this->createForm(new HashtagType(), $entity);
+        $form   = $this->createForm(HashtagType::class, $entity);
 
         return $this->render('SpicyTagBundle:Hashtag:new_modal.html.twig',array(
             'entity' => $entity,
@@ -129,7 +131,7 @@ class HashtagController extends Controller
     public function new_modal_updateAction($id)
     {
         $entity = new Hashtag();
-        $form   = $this->createForm(new HashtagType(), $entity);
+        $form   = $this->createForm(HashtagType::class, $entity);
 
         return $this->render('SpicyTagBundle:Hashtag:new_modal_update.html.twig',array(
             'entity' => $entity,
@@ -142,39 +144,39 @@ class HashtagController extends Controller
      * Finds and displays a Hashtag entity.
      *
      */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
+    // public function showAction($id)
+    // {
+    //     $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SpicyTagBundle:Hashtag')->find($id);
+    //     $entity = $em->getRepository('SpicyTagBundle:Hashtag')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Hashtag entity.');
-        }
+    //     if (!$entity) {
+    //         throw $this->createNotFoundException('Unable to find Hashtag entity.');
+    //     }
 
-        $deleteForm = $this->createDeleteForm($id);
+    //     $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('SpicyTagBundle:Hashtag:show.html.twig', array(
-            'tag'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
-    }
+    //     return $this->render('SpicyTagBundle:Hashtag:show.html.twig', array(
+    //         'tag'      => $entity,
+    //         'delete_form' => $deleteForm->createView(),
+    //     ));
+    // }
     
     /**
      * 
      * @param type $tag
      * @param type $page
      * @return type
-     * @throws PaginationException
+     * @throws BadRequestHttpException
      * @throws type
      */
-    public function showTagAction($tag, $page)
+    public function showTagAction(EntityManagerInterface $em, $tag, $page)
     {
         if($page == '__id__') {
-            throw new PaginationException("Ressource introuvable");
+            throw $this->createNotFoundException('Unable to find Hashtag entity.');
         }
         
         $nbSuggestion = $this->container->getParameter('nbSuggestion');
-        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('SpicyTagBundle:Hashtag')->findOneByLibelle($tag);
 
@@ -182,13 +184,11 @@ class HashtagController extends Controller
             throw $this->createNotFoundException('Unable to find Hashtag entity.');
         }
         
-        $artistes = $this->getDoctrine()
-                ->getManager()
+        $artistes = $em
                 ->getRepository('SpicySiteBundle:Artiste')
                 ->getByTag($entity->getId());
         
-        $videos = $this->getDoctrine()
-                ->getManager()
+        $videos = $em
                 ->getRepository('SpicySiteBundle:Video')
                 ->getByTag($entity->getId(), $page, $nbSuggestion);
         
@@ -204,69 +204,68 @@ class HashtagController extends Controller
      * Displays a form to edit an existing Hashtag entity.
      *
      */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
+    // public function editAction($id)
+    // {
+    //     $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SpicyTagBundle:Hashtag')->find($id);
+    //     $entity = $em->getRepository('SpicyTagBundle:Hashtag')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Hashtag entity.');
-        }
+    //     if (!$entity) {
+    //         throw $this->createNotFoundException('Unable to find Hashtag entity.');
+    //     }
 
-        $editForm = $this->createForm(new HashtagType(), $entity);
-        $deleteForm = $this->createDeleteForm($id);
+    //     $editForm = $this->createForm(HashtagType::class, $entity);
+    //     $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('SpicyTagBundle:Hashtag:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
+    //     return $this->render('SpicyTagBundle:Hashtag:edit.html.twig', array(
+    //         'entity'      => $entity,
+    //         'edit_form'   => $editForm->createView(),
+    //         'delete_form' => $deleteForm->createView(),
+    //     ));
+    // }
 
-    /**
-     * Edits an existing Hashtag entity.
-     *
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
+    // /**
+    //  * Edits an existing Hashtag entity.
+    //  *
+    //  */
+    // public function updateAction(Request $request, $id)
+    // {
+    //     $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SpicyTagBundle:Hashtag')->find($id);
+    //     $entity = $em->getRepository('SpicyTagBundle:Hashtag')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Hashtag entity.');
-        }
+    //     if (!$entity) {
+    //         throw $this->createNotFoundException('Unable to find Hashtag entity.');
+    //     }
 
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new HashtagType(), $entity);
-        $editForm->bind($request);
+    //     $deleteForm = $this->createDeleteForm($id);
+    //     $editForm = $this->createForm(HashtagType::class, $entity);
+    //     $editForm->handleRequest($request);
 
-        if ($editForm->isValid()) {
-            $em->persist($entity);
-            $em->flush();
+    //     if ($editForm->isValid()) {
+    //         $em->persist($entity);
+    //         $em->flush();
 
-            return $this->redirect($this->generateUrl('admin_hashtag_edit', array('id' => $id)));
-        }
+    //         return $this->redirect($this->generateUrl('admin_hashtag_edit', array('id' => $id)));
+    //     }
 
-        return $this->render('SpicyTagBundle:Hashtag:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
+    //     return $this->render('SpicyTagBundle:Hashtag:edit.html.twig', array(
+    //         'entity'      => $entity,
+    //         'edit_form'   => $editForm->createView(),
+    //         'delete_form' => $deleteForm->createView(),
+    //     ));
+    // }
 
     /**
      * Deletes a Hashtag entity.
      *
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(EntityManagerInterface $em, Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('SpicyTagBundle:Hashtag')->find($id);
 
             if (!$entity) {
@@ -290,7 +289,7 @@ class HashtagController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->getForm()
         ;
     }

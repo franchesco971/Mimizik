@@ -3,8 +3,8 @@
 {% block body %}
 {{ parent() }}
     <h3>Modification</h3>
-    
-    <form action="{{ path('approval_update', {'id': entity.id}) }}" method="post" {{ form_enctype(form) }}>
+
+    {{ form_start(form, {'method': 'POST', 'action': path('approval_update', {'id': entity.id})}) }}
         <input name="_method" value="PUT" type="hidden">
         {{ form_errors(form) }}
         <div class="label">
@@ -77,7 +77,7 @@
             {{ form_rest(form) }}
             </span>
         </div>
-    </form>
+    {{ form_end(form) }}
 
         {#<ul class="record_actions">
     <li>

@@ -30,7 +30,7 @@
 {% block body %}
 {{ parent() }}
     <h3>Ajouter des paroles</h3>
-    <form method="post" {{ form_enctype(form) }}>
+    {{ form_start(form, {'method': 'POST'}) }}
         {{ form_widget(form) }}
         <div class="button">
             <a href="#" id="add_paragraph" class="button"><span>Ajouter des paragraphes</span></a>
@@ -39,8 +39,7 @@
             <input type="submit" class="btn btn-primary" />
             {{ form_rest(form) }}
         </div>
-    </form>
-    
+    {{ form_end(form) }}    
     
 {% endblock%}
 

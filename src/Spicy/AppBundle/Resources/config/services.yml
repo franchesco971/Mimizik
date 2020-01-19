@@ -5,17 +5,10 @@ parameters:
     app_fb_page_id: 105385689672394
 
 services:
-    mimizik.app.facebook.manager:
-        class: Spicy\AppBundle\Services\FacebookManager
-        arguments:
-            container: "@service_container"
-            logger: "@logger"
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false    
     mimizik.publish.service:
         class: Spicy\AppBundle\Services\PublishService
-        arguments:
-            router: "@router"
-            videoService: "@mimizik.videoService"
-            facebookManager : "@mimizik.app.facebook.manager"
-            em: "@doctrine.orm.entity_manager"
-            session: "@session"
             

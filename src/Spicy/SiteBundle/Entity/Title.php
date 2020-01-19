@@ -1,8 +1,11 @@
 <?php
 namespace Spicy\SiteBundle\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+
 /**
  * @ORM\Table(name="title")
  * @ORM\Entity
@@ -151,37 +154,41 @@ abstract class Title
      */
     public function __construct()
     {
-        $this->dateVideo=new \DateTime;
-        $this->artistes = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->genre_musicaux = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->collaborateurs = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->etat=true;
-        $this->onTop=false;
-        $this->source='youtube';
+        $this->dateVideo = new \DateTime;
+        $this->artistes = new ArrayCollection();
+        $this->genre_musicaux = new ArrayCollection();
+        $this->collaborateurs = new ArrayCollection();
+        $this->etat = true;
+        $this->onTop = false;
+        $this->source = 'youtube';
     }
-    
-    public function getNomArtistes()
+     
+    /**
+     * getNomArtistes
+     *
+     * @return string
+     */
+    public function getNomArtistes(): string
     {
-        $noms='';
+        $noms = '';
+        $count = count($this->artistes);
         
-        if(count($this->artistes))
-        {
-            foreach ($this->artistes as $key => $artiste) 
-            {
-                $noms=$noms.$artiste->getLibelle();
-                
-                if($key==count($this->artistes)-2)
-                {
-                    $noms=$noms.' & ';
-                }                
-                elseif($key!=count($this->artistes)-1)
-                {
-                    $noms=$noms.', ';
-                }
-            }
+        if (!$count) {
+            return 'Inconnu';
         }
-        else{
-            $noms='Inconnu';
+
+        foreach ($this->artistes as $key => $artiste) 
+        {
+            $noms = $noms . $artiste->getLibelle();
+            
+            if ($key == $count-2)
+            {
+                $noms = $noms.' & ';
+            }                
+            elseif($key != $count-1)
+            {
+                $noms = $noms.', ';
+            }
         }
         
         return $noms;

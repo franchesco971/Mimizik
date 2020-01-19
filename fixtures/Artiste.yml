@@ -1,0 +1,7 @@
+Spicy\SiteBundle\Entity\Artiste:
+    artiste_{1..10}:
+        libelle: '<current()>'
+        description: ''
+        slug: '<current()>'  
+        hashtags: ['@hashtag_*']
+        tag_twitter: <randomElement(["", "tag"])>

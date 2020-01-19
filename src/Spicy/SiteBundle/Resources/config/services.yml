@@ -11,8 +11,16 @@ parameters:
     nbSuggestion: 10
     nbGenreAffiche: 10
     nbVideosGenreAffiche: 20
+    # developer_key: 10
 
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+    
+    # Spicy\SiteBundle\Services\YoutubeAPI:
+    #     $developerKey: '%developer_key%'
     spicy_site.parseurXML:
         class: Spicy\SiteBundle\ParseurXML\ParseurNews
         arguments: ["http://www.reggaefrance.com/news.xml"]
@@ -21,26 +29,44 @@ services:
     mimizik.tools:
         class: Spicy\SiteBundle\Services\Tools
         arguments: [ "@mailer" ]
-    mimizik.videoService:
-        class: Spicy\SiteBundle\Services\VideoService
-        arguments: 
-            entityManager: "@doctrine.orm.entity_manager"
-            logger: "@logger"
-            youtubeParseur: "@mimizik.parseur.youtube"
-        tags:
-        - { name: monolog.logger, channel: mimizik }
-    mimizik.parseur.youtube:
-        class: Spicy\SiteBundle\Services\ParseurXMLYoutube
-    mimizik.youtube.api:
-        class: Spicy\SiteBundle\Services\YoutubeAPI
-        arguments: ["@logger", %developer_key%, "@doctrine.orm.entity_manager", "@mimizik.approval.service"]
-        tags:
-        - { name: monolog.logger, channel: mimizik }
-    mimizik.twig.name.extension:
-        class: Spicy\SiteBundle\Twig\NameExtension
-        arguments: [ "@router" ]
-        tags:
-            - { name: twig.extension }
-    mimizik.approval.service:
-        class: Spicy\SiteBundle\Services\ApprovalService
-        arguments: ["@security.token_storage", "@mimizik.repository.typeVideo", "@mimizik.repository.user"]
+    # mimizik.videoService:
+    #     class: Spicy\SiteBundle\Services\VideoService
+    #     arguments: 
+    #         entityManager: "@doctrine.orm.entity_manager"
+    #         logger: "@logger"
+    #         youtubeParseur: "@mimizik.parseur.youtube"
+    #     tags:
+    #     - { name: monolog.logger, channel: mimizik }
+    # mimizik.parseur.youtube:
+    #     class: Spicy\SiteBundle\Services\ParseurXMLYoutube
+
+    # Spicy\SiteBundle\Services\YoutubeAPI:
+    #     $developerKey: '%developer_key%'
+        # argument:
+        #     # for any $logger argument, pass this specific service
+        #     $developerKey: '%developer_key%'
+
+    # Spicy\SiteBundle\Twig\NameExtension:
+    #     # arguments: ["@router"]
+    #     # scope: request
+    #     tags:
+    #         - { name: twig.extension }
+    # mimizik.approval.service:
+    #     class: Spicy\SiteBundle\Services\ApprovalService
+        
+    # SiteBundle\:
+    #     resource: '../../src/Spicy/SiteBundle/*'
+    #     # you can exclude directories or files
+    #     # but if a service is unused, it's removed anyway
+    #     exclude: '../../src/Spicy/SiteBundle/{Entity,Repository}'    
+    # SiteBundle\Controller\:
+    #     resource: '../../src/Spicy/SiteBundle/Controller/*'
+    #     public: true
+    #     tags: ['controller.service_arguments']
+    
+    # Spicy\SiteBundle\Repository\:
+    #     resource: '../../src/Spicy/SiteBundle/Repository/*'
+    # Spicy\SiteBundle\Repository\VideoRepository: ~
+    # Spicy\SiteBundle\Repository\LyricsRepository: ~
+    # Spicy\UserBundle\Repository\UserRepository: ~
+    # Spicy\SiteBundle\Repository\ProductBenchmarkRepository: ~

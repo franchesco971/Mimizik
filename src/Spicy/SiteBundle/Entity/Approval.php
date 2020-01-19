@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Approval
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Spicy\SiteBundle\Entity\ApprovalRepository")
+ * @ORM\Entity()
  */
 class Approval
 {

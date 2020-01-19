@@ -3,8 +3,8 @@
 {% block body %}
 {{ parent() }}
     <h3>Ajouter un genre musical</h3>
-    <form method="post" {{ form_enctype(form) }}>
+    {{ form_start(form, {'method': 'POST'}) }}
         {{ form_widget(form) }}
         <input type="submit" class="btn btn-primary" />
-    </form>
+    {{ form_end(form) }}
 {% endblock%}

@@ -9,7 +9,7 @@
     <br/><br/>    
     <h3>Ajouter une vidéo</h3>
     
-    <form method="post" {{ form_enctype(form) }}>
+    {{ form_start(form, {'method': 'POST'}) }}
         <div class="label">
             {{ form_label(form.titre) }}
             {{ form_errors(form.titre) }}
@@ -129,7 +129,7 @@
             <input type="submit" class="btn btn-primary" />
             {{ form_rest(form) }}
         </div>
-    </form>
+    {{ form_end(form) }}
             
     <div id="modal_hashtag" class="reveal-modal">
         <div class="content"></div>
@@ -140,7 +140,7 @@
 {% block javascripts %}
     {{parent()}}
     <script type="text/javascript">
-        $("#spicy_sitebundle_videotype_artistes,#spicy_sitebundle_videotype_hashtags,#spicy_sitebundle_videotype_collaborateurs").select2({
+        $("#video_artistes,#video_hashtags,#video_collaborateurs").select2({
             width: '200px'
         });
         

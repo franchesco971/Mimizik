@@ -37,6 +37,6 @@ approval_approval:
     path:     /{id}/approval
     defaults: { _controller: "SpicySiteBundle:Approval:approval" }
     
-approval_test:
-    path:     /test
-    defaults: { _controller: "SpicySiteBundle:Approval:test" }
+# approval_test:
+#     path:     /test
+#     defaults: { _controller: "SpicySiteBundle:Approval:test" }

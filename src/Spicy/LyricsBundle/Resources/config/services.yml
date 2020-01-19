@@ -4,9 +4,9 @@ parameters:
 services:
     mimizik.lyrics.service:
         class: Spicy\LyricsBundle\Services\LyricsService
-    twig.lyrics.extension:
-        class: Spicy\LyricsBundle\Twig\LyricsExtension
-        arguments: ["@mimizik.lyrics.service"]
-        public: false
-        tags:
-            - { name: twig.extension }
+    # twig.lyrics.extension:
+    #     class: Spicy\LyricsBundle\Twig\LyricsExtension
+    #     arguments: ["@mimizik.lyrics.service"]
+    #     public: false
+    #     tags:
+    #         - { name: twig.extension }

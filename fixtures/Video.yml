@@ -1,0 +1,38 @@
+Spicy\SiteBundle\Entity\Video:
+    video_{1..19}:
+        source: '<current()>'
+        slug: '<current()>'
+        onTop: <boolean()> 
+        etat: true  
+        url: 'url_<current()>'  
+        titre: '<current()>' 
+        genre_musicaux: ['@genre_<randomElement([Dancehall, HP, Zouk])>']
+        lyrics: '@lyrics_*'
+        artistes: ['@artiste_*']
+        type_videos: ['@typevideotop', '@typevideo_*']
+        hashtags: ['@hashtag_*']
+        collaborateurs: ['@collaborateur_*']
+        tags_twitter: <randomElement(["", "tag"])>
+    video_retro:
+        source: 'retro'
+        slug: 'retro'
+        onTop: <boolean()> 
+        etat: true  
+        url: 'retro'  
+        titre: 'retro' 
+        genre_musicaux: ['@genre_Retro']
+        lyrics: '@lyrics_*'
+        artistes: ['@artiste_*']
+        type_videos: ['@typevideo_*']
+        hashtags: ['@hashtag_*']
+    video_no_lyrics:
+        source: 'retro'
+        slug: 'retro'
+        onTop: <boolean()> 
+        etat: true  
+        url: 'retro'  
+        titre: 'retro' 
+        genre_musicaux: ['@genre_<randomElement([Dancehall, HP, Zouk])>']
+        artistes: ['@artiste_*']
+        type_videos: ['@typevideo_*']
+        hashtags: ['@hashtag_*']

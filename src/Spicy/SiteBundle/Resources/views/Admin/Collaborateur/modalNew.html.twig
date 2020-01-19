@@ -3,19 +3,11 @@
 {% block body -%}
     <h1>Hashtag creation</h1>
 
-    <form action="{{ path('admin_collaborateur_create_modal') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_start(form, {'method': 'POST', 'action': path('admin_collaborateur_create_modal')}) }}
         {{ form_widget(form) }}
         <p>
             <button type="submit">Create</button>
         </p>
-    </form>
-
-        <!--<ul class="record_actions">
-    <li>
-        <a href="{{ path('admin_hashtag') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>-->
+    {{ form_end(form) }}
 {% endblock %}
 

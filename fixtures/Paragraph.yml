@@ -1,0 +1,6 @@
+Spicy\LyricsBundle\Entity\Paragraph:
+    paragraph_{1..10}:
+        paragraph_type: <numberBetween(1, 4)>
+        content_original: '<current()>'  
+        position: <numberBetween(1, 5)>
+        lyrics: '@lyrics_*'

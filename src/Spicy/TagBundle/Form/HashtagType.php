@@ -2,24 +2,27 @@
 
 namespace Spicy\TagBundle\Form;
 
+use Spicy\TagBundle\Entity\Hashtag;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class HashtagType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('libelle','text')
-            ->add('dateTag','datetime')
+            ->add('libelle', TextType::class)
+            ->add('dateTag', DateTimeType::class)
         ;
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Spicy\TagBundle\Entity\Hashtag'
+            'data_class' => Hashtag::class
         ));
     }
 

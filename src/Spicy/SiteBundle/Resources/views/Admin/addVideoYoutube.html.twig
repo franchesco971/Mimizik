@@ -9,7 +9,7 @@
     <br/><br/>    
     <h3>Ajouter une vidéo</h3>
     
-    <form method="post" {{ form_enctype(form) }}>
+    {{ form_start(form, {'method': 'POST'}) }}
         
         <div class="label">
             {{ form_label(form.url) }}
@@ -22,5 +22,5 @@
         <div class="button">
             <input type="submit" class="btn btn-primary" />
         </div>
-    </form>
+    {{ form_end(form) }}
 {% endblock%}

@@ -1,0 +1,5 @@
+Spicy\RankingBundle\Entity\VideoRanking:
+    videoranking_{1..20}:
+        nbVu: <numberBetween()>
+        ranking: '@ranking_<numberBetween(1,5)>'
+        video: '@video_*'

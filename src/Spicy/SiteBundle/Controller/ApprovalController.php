@@ -4,13 +4,17 @@ namespace Spicy\SiteBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Spicy\SiteBundle\Entity\Approval;
 use Spicy\SiteBundle\Form\ApprovalType;
 use Spicy\SiteBundle\Form\ApprovalAdminType;
-use Spicy\SiteBundle\Entity\Video;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Spicy\SiteBundle\Form\VideoType;
+use Doctrine\ORM\EntityManagerInterface;
+use Spicy\SiteBundle\Services\ApprovalService;
+use Spicy\SiteBundle\Services\Tools;
+use Spicy\SiteBundle\Services\YoutubeAPI;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Approval controller.
@@ -23,13 +27,11 @@ class ApprovalController extends Controller
      * Lists all Approval entities.
      *
      */
-    public function indexAction()
+    public function indexAction(EntityManagerInterface $em)
     {
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             throw $this->createAccessDeniedException();
-        }
-        
-        $em = $this->getDoctrine()->getManager();      
+        }     
         
         $entities = $em->getRepository('SpicySiteBundle:Approval')->findAll();
 
@@ -41,10 +43,8 @@ class ApprovalController extends Controller
      * Creates a new Approval entity.
      *
      */
-    public function createAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $approvalService = $this->get('mimizik.approval.service');        
+    public function createAction(Request $request, ApprovalService $approvalService, EntityManagerInterface $em, Tools $tools)
+    {      
         $entity = $approvalService->getDefaultApproval();
         
         $form = $this->createCreateForm($entity);
@@ -52,13 +52,12 @@ class ApprovalController extends Controller
 
         if ($form->isValid()) {
             try {
-                $tools = $this->container->get('mimizik.tools');
                 $em->persist($entity);
                 $em->flush();                           
                 
                 $tools->sendMail($this->renderView(
                     'SpicySiteBundle:Mail:Approval\admin_approval.html.twig',
-                    ['user' => $this->getUser(),'video'=>$entity->getVideo()]
+                    ['user' => $this->getUser(),'video'=>$entity->getTitle()]
                 ));
                 
                 $this->get('session')->getFlashBag()->add('info','Video soumis à approbation');
@@ -87,11 +86,8 @@ class ApprovalController extends Controller
      * @param Request $request
      * @return type
      */
-    public function createAdminAction(Request $request)
+    public function createAdminAction(ApprovalService $approvalService, YoutubeAPI $youtubeAPI, EntityManagerInterface $em, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $approvalService = $this->get('mimizik.approval.service');
-        $youtubeAPI = $this->container->get('mimizik.youtube.api');
         $yurl = $request->query->get('youtubeUrl');
         $video = null;
         
@@ -107,7 +103,6 @@ class ApprovalController extends Controller
 
         if ($form->isValid()) {
             try {
-                $tools = $this->container->get('mimizik.tools');
                 $em->persist($entity);
                 $em->flush();
                 
@@ -142,10 +137,10 @@ class ApprovalController extends Controller
     private function createCreateForm(Approval $entity, $admin = false)
     {
         if($admin) {
-            $type = new ApprovalAdminType();
+            $type = ApprovalAdminType::class;
             $url = 'approval_new_admin';
         } else {
-            $type = new ApprovalType();
+            $type = ApprovalType::class;
             $url = 'approval_create';
         }
         
@@ -154,7 +149,7 @@ class ApprovalController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', SubmitType::class, array('label' => 'Create'));
 
         return $form;
     }
@@ -163,9 +158,8 @@ class ApprovalController extends Controller
      * Displays a form to create a new Approval entity.
      *
      */
-    public function newAction()
+    public function newAction(ApprovalService $approvalService)
     {
-        $approvalService = $this->get('mimizik.approval.service');
         $entity = $approvalService->getDefaultApproval();
         
         $form   = $this->createCreateForm($entity);
@@ -175,36 +169,44 @@ class ApprovalController extends Controller
             'form'   => $form->createView(),
         ));
     }
-    
-    public function newAdminAction(Request $request)
-    {
-        $approvalService = $this->get('mimizik.approval.service');
-        $youtubeAPI = $this->container->get('mimizik.youtube.api');
-        $yurl = $request->query->get('youtubeUrl');
-        
-        //s'il y a une url youtube
-        if($yurl) {
-            $video = $youtubeAPI->getByYoutubeId($yurl);
-        }
-        
-        $entity = $approvalService->getDefaultApproval($video);
-        
-        $form   = $this->createCreateForm($entity, $admin = true);
 
-        return $this->render('SpicySiteBundle:Approval:approvalAdmin.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
+    /**
+     * @param ApprovalService
+     * @param YoutubeAPI
+     * @param Request
+     * 
+     * @return Response
+     */
+    public function newAdminAction(ApprovalService $approvalService, YoutubeAPI $youtubeAPI, Request $request)
+    {
+        $yurl = $request->query->get('youtubeUrl');
+
+        //s'il y a une url youtube
+        if ($yurl) {
+            $video = $youtubeAPI->getByYoutubeId($yurl);
+
+            if ($video) {
+                $entity = $approvalService->getDefaultApproval($video);
+                $form   = $this->createCreateForm($entity, true);
+
+                return $this->render('SpicySiteBundle:Approval:approvalAdmin.html.twig', array(
+                    'entity' => $entity,
+                    'form'   => $form->createView(),
+                ));
+            }
+        }
+
+        $this->get('session')->getFlashBag()->add('warning', 'YoutubeUrl vide');
+
+        return $this->redirect($this->generateUrl('spicy_admin_home'));
     }
 
     /**
      * Finds and displays a Approval entity.
      *
      */
-    public function showAction($id)
+    public function showAction(EntityManagerInterface $em, $id)
     {
-        $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('SpicySiteBundle:Approval')->find($id);
 
         if (!$entity) {
@@ -223,10 +225,8 @@ class ApprovalController extends Controller
      * Displays a form to edit an existing Approval entity.
      *
      */
-    public function editAction($id)
+    public function editAction(EntityManagerInterface $em, $id)
     {
-        $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('SpicySiteBundle:Approval')->find($id);
 
         if (!$entity) {
@@ -252,12 +252,12 @@ class ApprovalController extends Controller
     */
     private function createEditForm(Approval $entity)
     {
-        $form = $this->createForm(new ApprovalType(), $entity, array(
+        $form = $this->createForm(ApprovalType::class, $entity, array(
             'action' => $this->generateUrl('approval_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', SubmitType::class, array('label' => 'Update'));
 
         return $form;
     }
@@ -266,10 +266,8 @@ class ApprovalController extends Controller
      * Edits an existing Approval entity.
      *
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, EntityManagerInterface $em, $id)
     {
-        $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('SpicySiteBundle:Approval')->find($id);
 
         if (!$entity) {
@@ -298,13 +296,12 @@ class ApprovalController extends Controller
      * Deletes a Approval entity.
      *
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request, EntityManagerInterface $em, $id)
     {
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('SpicySiteBundle:Approval')->find($id);
 
             if (!$entity) {
@@ -330,7 +327,7 @@ class ApprovalController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('approval_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', SubmitType::class, array('label' => 'Delete'))
             ->getForm()
         ;
     }
@@ -339,10 +336,8 @@ class ApprovalController extends Controller
      * Displays a form to edit an existing Approval entity.
      *
      */
-    public function disapprovalAction($id)
+    public function disapprovalAction($id, EntityManagerInterface $em)
     {
-        $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('SpicySiteBundle:Approval')->find($id);
         $video = $entity->getTitle();
         $video->setEtat(false);
@@ -369,16 +364,13 @@ class ApprovalController extends Controller
      * @param type $id
      * @return type
      */
-    public function approvalAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $request = $this->get('request');
-        
+    public function approvalAction(Request $request, EntityManagerInterface $em, $id)
+    {        
         $approval = $em->getRepository('SpicySiteBundle:Approval')->find($id);
         $video = $approval->getTitle();
         $video->setEtat(true);
         
-        $form = $this->createForm(new VideoType,$video);    
+        $form = $this->createForm(VideoType::class,$video);    
             
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -405,39 +397,5 @@ class ApprovalController extends Controller
         return $this->render('SpicySiteBundle:Approval:approval.html.twig',array(
             'form' => $form->createView()
         ));
-    }
-    
-    public function testAction() {
-        $test='rien';
-        $em = $this->getDoctrine()->getManager(); 
-        
-        $tools = $this->container->get('mimizik.tools');
-        $video = $em->getRepository('SpicySiteBundle:Video')->find(3698);
-                
-        $this->get('session')->getFlashBag()->add('info','Video soumis à approbation');
-        
-        try{
-            $tools->sendMail($this->renderView(
-                'SpicySiteBundle:Mail:Approval\admin_approval.html.twig',
-                ['user' => $this->getUser(),'video'=>$video]
-            ));
-            
-            
-            /*$tools->sendMail("<p>Bonjour Admin,</p>"
-                . "<p>".$this->getUser()->getUsername()." a soumis la vidéo : "                
-                . $tools->getArtistsNames($video->getArtistes())." - "
-                . $video->getTitre()."</p>"
-                . "<p><a href='https://www.youtube.com/watch?v=".$video->getUrl()."'>Voir</a></p>"
-                . "<p><a href='".$this->generateUrl('approval')."'>Liste des Vidéos</a></p>");*/
-        }
-        catch (\Swift_SwiftException $e)
-        {
-            //dump($e);
-//            $test=$e;
-            var_dump($e);
-        }
-        
-        return $this->render('SpicySiteBundle:Mail:Approval\admin_approval.html.twig',
-                ['user' => $this->getUser(),'video'=>$video]);
     }
 }

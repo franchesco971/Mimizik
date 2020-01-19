@@ -2,194 +2,171 @@
 
 namespace Spicy\FluxBundle\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Spicy\FluxBundle\Services\Twitter;
+use Spicy\ITWBundle\Entity\Interview;
+use Spicy\SiteBundle\Entity\Video;
+use Spicy\SiteBundle\Services\VideoService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 class FluxController extends Controller
 {
-    public function fluxArtistesAction()
+    public function fluxArtistesAction(EntityManagerInterface $em)
     {
-        $artistes=$this->getDoctrine()
-                ->getManager()
-                ->getRepository('SpicySiteBundle:Artiste')
-                ->getFlux();
-        
-        if ($artistes == null) {
-            throw $this->createNotFoundException('Artiste inexistant');
-        }
-        
-        return $this->render('SpicyFluxBundle:Flux:fluxArtistes.html.twig',array(
-            'artistes'=>$artistes,
-            'selfLink'=>$this->generateUrl('spicy_site_flux_artistes')                
+        $artistes = $em->getRepository('SpicySiteBundle:Artiste')->getFlux();
+
+        return $this->render('SpicyFluxBundle:Flux:fluxArtistes.html.twig', array(
+            'artistes' => $artistes,
+            'selfLink' => $this->generateUrl('spicy_site_flux_artistes')
         ));
     }
-    
+
     public function fluxIndexAction()
-    {        
+    {
         return $this->render('SpicyFluxBundle:Flux:fluxIndex.html.twig');
     }
 
-    public function getVideos()
+    public function getVideos(EntityManagerInterface $em)
     {
-        $videos=$this->getDoctrine()
-                ->getManager()
-                ->getRepository('SpicySiteBundle:Video')
-                ->getAvecArtistes(30);
-        
+        $videos = $em->getRepository(Video::class)->getAvecArtistes(30);
+
         if ($videos == null) {
             throw $this->createNotFoundException('Video inexistant');
         }
 
         return $videos;
     }
-    
-    public function fluxVideosAction()
-    {
-        $videos = $this->getVideos();
 
-        $response = new Response($this->renderView('SpicyFluxBundle:Flux:fluxVideos.html.twig', array(
-            'videos' => $videos,
-            'selfLink' => $this->generateUrl('spicy_site_flux_videos'),
-            'pubDates' => $this->getTabData($videos)            
-        )),200
+    public function fluxVideosAction(EntityManagerInterface $em)
+    {
+        $videos = $this->getVideos($em);
+
+        $response = new Response(
+            $this->renderView('SpicyFluxBundle:Flux:fluxVideos.html.twig', array(
+                'videos' => $videos,
+                'selfLink' => $this->generateUrl('spicy_site_flux_videos'),
+                'pubDates' => $this->getTabData($videos)
+            )),
+            200
         );
-    
+
         $response->headers->set('Access-Control-Allow-Origin', '*');
-    
+
         return $response;
     }
 
-    public function fluxVideosJsonAction($page = 1)
+    public function fluxVideosJsonAction(EntityManagerInterface $em, $page = 1)
     {
         $tabVideos = [];
-        $videoRepo =  $this->getDoctrine()
-        ->getManager()
-        ->getRepository('SpicySiteBundle:Video');
+        $videoRepo =  $em->getRepository(Video::class);
 
         $videos = $videoRepo->getSuiteJson($page, 10);
 
-        foreach ($videos as $key => $video) {
+        foreach ($videos as $video) {
             if ($video) {
                 $tabVideos[] = $video;
-            }            
+            }
         }
 
         $response = new Response(json_encode((array) $tabVideos), 200);
-    
+
         $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->headers->set('Content-Type', 'application/json');
-    
+
         return $response;
     }
-    
-    public function fluxVideosTwitterAction()
+
+    public function fluxVideosTwitterAction(EntityManagerInterface $em, Twitter $twitterService)
     {
-        $videos=$this->getDoctrine()
-                ->getManager()
-                ->getRepository('SpicySiteBundle:Video')
-                ->getAvecArtistes(30);
-        
+        $videos = $em->getRepository('SpicySiteBundle:Video')->getAvecArtistes(30);
+
         if ($videos == null) {
             throw $this->createNotFoundException('Video inexistant');
         }
-        
-        $twitterService = $this->container->get('mimizik.twitter');
-        $arrayDescriptions=$twitterService->twitterType($videos);        
-        
-        return $this->render('SpicyFluxBundle:Flux:videosTwitter.html.twig',array(
-            'videos'=>$videos,
-            'descriptions'=>$arrayDescriptions,
-            'selfLink'=>$this->generateUrl('spicy_site_flux_videos_twitter'),
-            'pubDates'=>  $this->getTabData($videos)
+
+        $arrayDescriptions = $twitterService->twitterType($videos);
+
+        return $this->render('SpicyFluxBundle:Flux:videosTwitter.html.twig', array(
+            'videos' => $videos,
+            'descriptions' => $arrayDescriptions,
+            'selfLink' => $this->generateUrl('spicy_site_flux_videos_twitter'),
+            'pubDates' =>  $this->getTabData($videos)
         ));
     }
-    
-    public function fluxRetroAction()
+
+    public function fluxRetroAction(EntityManagerInterface $em)
     {
-        $videos=$this->getDoctrine()
-                ->getManager()
-                ->getRepository('SpicySiteBundle:Video')
-                ->getAllRetro(50);
-        
+        $videos = $em->getRepository('SpicySiteBundle:Video')->getAllRetro(50);
+
         if ($videos == null) {
             throw $this->createNotFoundException('Video inexistant');
         }
-        
-        return $this->render('SpicyFluxBundle:Flux:fluxVideos.html.twig',array(
-            'videos'=>$videos,
-            'selfLink'=>$this->generateUrl('spicy_site_flux_retro')  ,
-            'pubDates'=>  $this->getTabData($videos)             
+
+        return $this->render('SpicyFluxBundle:Flux:fluxVideos.html.twig', array(
+            'videos' => $videos,
+            'selfLink' => $this->generateUrl('spicy_site_flux_retro'),
+            'pubDates' =>  $this->getTabData($videos)
         ));
     }
-    
-    public function fluxRetroTwitterAction()
+
+    public function fluxRetroTwitterAction(EntityManagerInterface $em, Twitter $twitterService)
     {
-        $videos=$this->getDoctrine()
-                ->getManager()
-                ->getRepository('SpicySiteBundle:Video')
-                ->getAllRetro(50);
-        
+        $videos = $em->getRepository('SpicySiteBundle:Video')->getAllRetro(50);
+
         if ($videos == null) {
             throw $this->createNotFoundException('Video inexistant');
         }
-        
-        $twitterService = $this->container->get('mimizik.twitter');
-        $arrayDescriptions=$twitterService->twitterType($videos);
-        
-        return $this->render('SpicyFluxBundle:Flux:videosTwitter.html.twig',array(
-            'videos'=>$videos,
-            'descriptions'=>$arrayDescriptions,
-            'selfLink'=>$this->generateUrl('spicy_site_flux_retro_twitter'),
-            'pubDates'=>  $this->getTabData($videos)
+
+        $arrayDescriptions = $twitterService->twitterType($videos);
+
+        return $this->render('SpicyFluxBundle:Flux:videosTwitter.html.twig', array(
+            'videos' => $videos,
+            'descriptions' => $arrayDescriptions,
+            'selfLink' => $this->generateUrl('spicy_site_flux_retro_twitter'),
+            'pubDates' =>  $this->getTabData($videos)
         ));
     }
-    
-    public function fluxVideosTopAction()
+
+    public function fluxVideosTopAction(VideoService $videoService)
     {
-        $videoService = $this->container->get('mimizik.videoService');
-        $videos=$videoService->videosTop(5,2);
-        
-        //return $this->render('SpicySiteBundle:Site:test.html.twig',array(        
-        return $this->render('SpicyFluxBundle:Flux:fluxVideos.html.twig',array(
-            'videos'=>$videos,
-            'selfLink'=>$this->generateUrl('mimizik_flux_videos_top'),
-            'pubDates'=>  $this->getTabData($videos,true)
+        $videos = $videoService->videosTop(5, 2);
+
+        return $this->render('SpicyFluxBundle:Flux:fluxVideos.html.twig', array(
+            'videos' => $videos,
+            'selfLink' => $this->generateUrl('mimizik_flux_videos_top'),
+            'pubDates' =>  $this->getTabData($videos, true)
         ));
     }
-    
-    public function fluxVideosTopTwitterAction()
+
+    public function fluxVideosTopTwitterAction(VideoService $videoService, Twitter $twitterService)
     {
-        $videos=$this->videosTop();
-        $twitterService = $this->container->get('mimizik.twitter');
-        $arrayDescriptions=$twitterService->twitterType($videos);
-                
-        return $this->render('SpicyFluxBundle:Flux:videosTwitter.html.twig',array(
-            'videos'=>$videos,
-            'descriptions'=>$arrayDescriptions,
-            'selfLink'=>$this->generateUrl('mimizik_flux_videos_top_twitter'),
-            'pubDates'=>  $this->getTabData($videos,true)
+        $videos = $videoService->videosTop(5, 2);
+        $arrayDescriptions = $twitterService->twitterType($videos);
+
+        return $this->render('SpicyFluxBundle:Flux:videosTwitter.html.twig', array(
+            'videos' => $videos,
+            'descriptions' => $arrayDescriptions,
+            'selfLink' => $this->generateUrl('mimizik_flux_videos_top_twitter'),
+            'pubDates' =>  $this->getTabData($videos, true)
         ));
     }
-    
-    public function getTabData($videos,$top=false) 
+
+    public function getTabData($videos, $top = false)
     {
-        $datas=array();
+        $datas = [];
         foreach ($videos as $video) {
-            if($top)
-            {
-                $pubDate=new \DateTime('NOW');
+            if ($top) {
+                $pubDate = new \DateTime('NOW');
+            } else {
+                $pubDate = $video->getDateVideo();
             }
-            else
-            {
-                $pubDate=$video->getDateVideo();
-            }
-            $datas[$video->getId()]=array('pubDate'=>$pubDate);
+            $datas[$video->getId()] = array('pubDate' => $pubDate);
         }
-        
+
         return $datas;
     }
-    
+
     /**
      * 
      * @return type
@@ -197,34 +174,32 @@ class FluxController extends Controller
     public function fluxLyricsAction()
     {
         $lyrics = $this->container->get('mimizik.repository.paroles')->getAll(10);
-        
+
         if ($lyrics == null) {
             throw $this->createNotFoundException('Paroles inexistant');
         }
-        
-        return $this->render('SpicyFluxBundle:Flux:fluxLyrics.html.twig',array(
+
+        return $this->render('SpicyFluxBundle:Flux:fluxLyrics.html.twig', array(
             'lyrics' => $lyrics,
             'selfLink' => $this->generateUrl('mimizik_flux_lyrics')
         ));
     }
-    
+
     /**
      * 
      * @return type
      */
-    public function fluxITWAction()
+    public function fluxITWAction(EntityManagerInterface $em)
     {
-        $interviews = $this->container->get('mimizik.repository.itw')->getAll(10);
-        
+        $interviews = $em->getRepository(Interview::class)->getAll(10);
+
         if ($interviews == null) {
             throw $this->createNotFoundException('ITW inexistant');
         }
-        
-        return $this->render('SpicyFluxBundle:Flux:fluxITW.html.twig',array(
+
+        return $this->render('SpicyFluxBundle:Flux:fluxITW.html.twig', array(
             'interviews' => $interviews,
             'selfLink' => $this->generateUrl('spicy_site_artistes')
         ));
     }
 }
-
-

@@ -1,0 +1,10 @@
+Spicy\RankingBundle\Entity\RankingType:
+    ranking_type_jour:
+        id: 1
+        name: 'JOUR'
+    ranking_type_mois:
+        id: 2
+        name: 'MOIS'
+    ranking_type_annee:
+        id: 3
+        name: 'ANNEE'

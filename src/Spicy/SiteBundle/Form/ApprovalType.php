@@ -2,9 +2,11 @@
 
 namespace Spicy\SiteBundle\Form;
 
+use Spicy\SiteBundle\Entity\Approval;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Valid;
 
 class ApprovalType extends AbstractType
 {
@@ -17,19 +19,20 @@ class ApprovalType extends AbstractType
         $builder
 //            ->add('approvalDate')
 //            ->add('disapprovalDate')
-            ->add('title',new ApprovalVideoType())
+            ->add('title', ApprovalVideoType::class, array(
+                'constraints' => new Valid(),
+            ))
 //            ->add('user')
         ;
     }
     
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Spicy\SiteBundle\Entity\Approval',
-            'cascade_validation' => true
+            'data_class' => Approval::class
         ));
     }
 

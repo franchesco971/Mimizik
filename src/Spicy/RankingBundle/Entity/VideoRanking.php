@@ -83,9 +83,9 @@ class VideoRanking
     /**
      * Get position
      *
-     * @return integer 
+     * @return integer|null
      */
-    public function getPosition()
+    public function getPosition() 
     {
         return $this->position;
     }

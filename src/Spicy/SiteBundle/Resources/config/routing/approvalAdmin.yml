@@ -8,5 +8,5 @@ approval_create_admin:
     requirements: { _method: post }
     
 approval_video_youtube:
-    pattern:  /add_admin_video_youtube
+    path:  /add_admin_video_youtube
     defaults: { _controller: SpicySiteBundle:Admin:addAdminVideoYoutube }    

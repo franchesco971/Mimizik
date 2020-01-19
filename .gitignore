@@ -21,7 +21,6 @@ composer.phar
 *.pydevproject
 .project
 .metadata
-bin/
 tmp/
 *.tmp
 *.bak
@@ -239,3 +238,4 @@ pip-log.txt
 /nbproject/
 /app/config/parameters.yml
 /test/
+/.vscode/

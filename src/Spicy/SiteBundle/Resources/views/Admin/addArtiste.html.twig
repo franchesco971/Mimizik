@@ -8,7 +8,7 @@
 
     <h3>Ajouter un artiste</h3>
     
-    <form method="post" {{ form_enctype(form) }}>
+    {{ form_start(form, {'method': 'POST'}) }}
         {{ form_errors(form) }}
         <div class="label">
             {{ form_label(form.libelle) }}
@@ -72,7 +72,7 @@
             <input type="submit" class="btn btn-primary" />
             {{ form_rest(form) }}
         </div>
-    </form>
+    {{ form_end(form) }}
             
     <div id="modal_hashtag" class="reveal-modal">
         <div class="content"></div>
@@ -83,7 +83,7 @@
 {% block javascripts %}
     {{parent()}}        
     <script type="text/javascript">
-        $("#spicy_sitebundle_artistetype_hashtags").select2({
+        $("#artiste_hashtags").select2({
             width: '100px'
         });
         

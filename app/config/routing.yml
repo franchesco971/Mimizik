@@ -1,10 +1,14 @@
-spicy_lyrics:
-    resource: "@SpicyLyricsBundle/Resources/config/routing.yml"
-    prefix:   /paroles/
+# spicy_lyrics:
+#     resource: "@SpicyLyricsBundle/Resources/config/routing.yml"
+#     prefix:   /paroles/
     
+# mimizik_lyrics_admin:
+#     resource: "@SpicyLyricsBundle/Resources/config/routing_admin.yml"
+#     prefix:   /admin/paroles/
+
 mimizik_lyrics_admin:
-    resource: "@SpicyLyricsBundle/Resources/config/routing_admin.yml"
-    prefix:   /admin/paroles/
+    resource: "@SpicyLyricsBundle/Controller"
+    type:     annotation
 
 spicy_itw:
     resource: "@SpicyITWBundle/Controller"
@@ -22,16 +26,18 @@ spicy_flux:
     resource: "@SpicyFluxBundle/Resources/config/routing.yml"
     prefix:   /flux/
 
-spicy_user:
-    resource: "@SpicyUserBundle/Resources/config/routing.yml"
-    prefix:   /
-
 spicy_site:
     resource: "@SpicySiteBundle/Resources/config/routing.yml"
     prefix:   /
+
 spicy_admin:
     resource: "@SpicySiteBundle/Resources/config/routing_admin.yml"
     prefix:   /admin/
+
+mimizik_user_admin:
+    resource: "@SpicyUserBundle/Controller"
+    type:     annotation    
+    prefix:   /inscription/
     
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
@@ -40,9 +46,9 @@ fos_user_profile:
     resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
     prefix: /profil
  
-fos_user_register:
-    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
-    prefix: /inscription
+# fos_user_register:
+#     resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+#     prefix: /inscription
  
 fos_user_resetting:
     resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
@@ -72,7 +78,7 @@ facebook_login:
     path: /login/check-facebook
     
 google_login:
-    pattern: /login/check-google
+    path: /login/check-google
     
 fos_user_group:
     resource: "@FOSUserBundle/Resources/config/routing/group.xml"

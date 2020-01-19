@@ -2,37 +2,32 @@
 
 namespace Spicy\SiteBundle\Form;
 
+use Spicy\SiteBundle\Entity\Video;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class ApprovalVideoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('titre','text',[
+            ->add('titre', TextType::class,[
                 'label'=>'Titre',
                 'required'=>true
             ])
-            ->add('url','text',[
+            ->add('url', TextType::class,[
                 'label'=>'Id Youtube',
                 'required'=>true
             ])
-            //->add('dateVideo','datetime')
-//            ->add('etat','checkbox',array(
-//                'required'=>false
-//            ))
-//            ->add('onTop','checkbox',array(
-//                'required'=>false,
-//                'label'=>'On top'
-//            ))
-//            ->add('source','text')
-            ->add('tags_fb','text', ['label'=>'Tags facebook','required' => false])
-            ->add('tags_twitter','text', array('required' => false))
-            ->add('hashtags', 'entity', array(
+            ->add('tags_fb', TextType::class, ['label'=>'Tags facebook','required' => false])
+            ->add('tags_twitter', TextType::class, array('required' => false))
+            ->add('hashtags', EntityType::class, array(
                 'class'    => 'SpicyTagBundle:Hashtag',
-                'property' => 'libelle',
+                'choice_label' => 'libelle',
                 'attr' => array('size' => 30),
                 'multiple' => true,
                 'required'=>false,
@@ -42,10 +37,10 @@ class ApprovalVideoType extends AbstractType
                     }
                 )
             )
-            ->add('description','textarea', array('required' => false))
-            ->add('artistes', 'entity', array(
+            ->add('description', TextareaType::class, array('required' => false))
+            ->add('artistes', EntityType::class, array(
                 'class'    => 'SpicySiteBundle:Artiste',
-                'property' => 'libelle',
+                'choice_label' => 'libelle',
                 'attr' => array('size' => 10),
                 'multiple' => true,
                 'required'=>false,
@@ -55,38 +50,20 @@ class ApprovalVideoType extends AbstractType
                     }
                 )
             )
-//            ->add('collaborateurs', 'entity', array(
-//                'class'    => 'SpicySiteBundle:Collaborateur',
-//                'property' => 'name',
-//                'attr' => array('size' => 10),
-//                'multiple' => true,
-//                'required'=>false,
-//                'query_builder' => function(
-//                    \Doctrine\ORM\EntityRepository $er) {
-//                        return $er->createQueryBuilder('c')->orderBy('c.name', 'ASC');
-//                    }
-//                )
-//            )
-            ->add('genre_musicaux', 'entity', array(
+            ->add('genre_musicaux', EntityType::class, array(
                 'class'    => 'SpicySiteBundle:GenreMusical',
-                'property' => 'libelle',
+                'choice_label' => 'libelle',
                 'attr' => array('size' =>5),
                 'multiple' => true,
                 'required'=>false)
             )
-//            ->add('type_videos', 'entity', array(
-//                'class'    => 'SpicySiteBundle:TypeVideo',
-//                'property' => 'libelle',
-//                'attr' => array('size' => 5),
-//                'multiple' => true)
-//            )
         ;
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Spicy\SiteBundle\Entity\Video'
+            'data_class' => Video::class
         ));
     }
 

@@ -1,0 +1,7 @@
+Spicy\UserBundle\Entity\Group:
+    group_{1..5}:
+        __construct: { name: 'group_<current()>', roles: ['ROLE_ADMIN'] }
+        # __construct: false
+        # name: '<name()>'
+        # roles: ['ROLE_USER']
+        

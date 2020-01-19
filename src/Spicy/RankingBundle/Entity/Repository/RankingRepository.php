@@ -82,27 +82,28 @@ class RankingRepository extends EntityRepository
         
         return $qb->getQuery()->getOneOrNullResult();
     }
-    
-    public function getByDate($type=  RankingType::MOIS) 
+
+    public function getByDate($type = RankingType::MOIS)
     {
-        $now=new \DateTime("now");
-        
+        $now = new \DateTime("now");
+
         $qb = $this->createQueryBuilder('r')
-                ->leftJoin('r.rankingType', 'rt')
-                ->leftJoin('r.videoRankings', 'vr')
-                ->leftJoin('vr.video', 'v')
-                ->leftJoin('v.genre_musicaux', 'g', 'WITH', 'g.id<> :id_retro')
-                ->leftJoin('v.type_videos', 't', 'WITH', 't.id<> :id_type')
-                ->where('r.startRanking<:now')
-                ->andWhere('r.endRanking>:now')
-                ->andWhere('rt.id=:type')
-                ->addOrderBy('r.dateRanking','DESC')
-                ->addOrderBy('vr.nbVu','DESC')
-                ->setParameter('id_retro', 2)
-                ->setParameter('id_type', 1)
-                ->setParameter('now', $now)
-                ->setParameter('type', $type);
-        
+            ->leftJoin('r.rankingType', 'rt')
+            ->leftJoin('r.videoRankings', 'vr')
+            ->leftJoin('vr.video', 'v')
+            ->leftJoin('v.genre_musicaux', 'g', 'WITH', 'g.id<> :id_retro')
+            ->leftJoin('v.type_videos', 't', 'WITH', 't.id<> :id_type')
+            ->where('r.startRanking<:now')
+            ->andWhere('r.endRanking>:now')
+            ->andWhere('rt.id=:type')
+            ->addOrderBy('r.dateRanking', 'DESC')
+            ->addOrderBy('vr.nbVu', 'DESC')
+            ->setParameter('id_retro', 2)
+            ->setParameter('id_type', 1)
+            ->setParameter('now', $now)
+            ->setParameter('type', $type)
+            ->setMaxResults(1);
+
         return $qb->getQuery()->getOneOrNullResult();
     }
     

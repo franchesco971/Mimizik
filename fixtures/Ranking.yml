@@ -1,0 +1,6 @@
+Spicy\RankingBundle\Entity\Ranking:
+    ranking_{1..5}:
+        startRanking: <dateTime()>
+        endRanking: <dateTime()>
+        dateRanking: <dateTime()>  
+        rankingType: '@ranking_type_*'

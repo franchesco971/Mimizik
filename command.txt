@@ -1,0 +1,151 @@
+.\bin\simple-phpunit -c .\app\phpunit.xml --coverage-html test
+
+.\bin\simple-phpunit -c .\app\phpunit.xml --coverage-html test --group wrong
+
+.\bin\simple-phpunit -c .\app\phpunit.xml --group wrong
+
+.\bin\simple-phpunit -c .\app\phpunit.xml  --list-groups func site
+
+php bin/console doctrine:schema:drop --force -e test
+php bin/console doctrine:schema:create -e test
+php bin/console hautelook:fixtures:load -e test -v --no-interaction
+
+php bin/console doctrine:schema:drop --force -e test && php bin/console doctrine:schema:create -e test && php bin/console hautelook:fixtures:load -e test -v --no-interaction
+
+/admin/paroles/update/{id}                  
+/admin/itw/                     // NOPE             
+/admin/itw/list/{id}                        
+/admin/itw/{id}                             
+/admin/itw/new/{id}                         
+/admin/itw/{id}                             
+/admin/itw/{id}/edit                        
+/admin/itw/{id}                             
+/admin/itw/{id}
+/admin/                                     
+/admin/video/{page}                         
+/admin/add_video                            
+/admin/update_video/{id}                    
+/admin/delete_video/{id}                    
+/admin/artiste/{page}                       
+/admin/add_artiste                          
+/admin/update_artiste/{id}                  
+/admin/delete_artiste/{id}                  
+/admin/type_video                           
+/admin/genre_musical                        
+/admin/add_genre_musical                    
+/admin/update_genre_musical/{id}            
+/admin/delete_genre_musical/{id}            
+/admin/add_type_video                       
+/admin/update_type_video/{id}               
+/admin/delete_type_video/{id}               
+/admin/csv                                  
+/admin/hashtags                             
+/admin/hashtag/new_modal                    
+/admin/hashtag/new_modal_update/{id}        
+/admin/hashtag/create_modal                 
+/admin/hashtag/create_modal_update/{id}     
+/admin/hashtag/edit/{id}                    
+/admin/hashtag/delete/{id}    //NOPE                
+/admin/add_video_youtube                    
+/admin/collaborateur/new_modal              
+/admin/collaborateur/create_modal           
+/admin/test/fb   
+/admin/approval/new_admin                   
+/admin/approval/create_admin                
+/admin/approval/add_admin_video_youtube     
+
+/classements/show/{type_id}/{id}            
+/classements/last                           
+/classements/month/{page}                   
+/classements/year/{page}                    
+/classements/side/{type}    
+
+/flux/videos                                
+/flux/videos_twitter                        
+/flux/retro                                 
+/flux/retro_twitter                         
+/flux/artistes                              
+/flux/index                                 
+/flux/videos_top                            
+/flux/videos_top_twitter                    
+/flux/lyrics                                
+/flux/itw                                   
+/flux/videos_json/{page}    
+
+/approval/                                  
+/approval/{id}/show                         
+/approval/new                               
+/approval/create                            
+/approval/{id}/edit                         
+/approval/{id}/update                       
+/approval/{id}/delete                       
+/approval/{id}/disapproval                  
+/approval/{id}/approval                     
+/approval/test 
+
+/{page}                                     
+/ajax/{page}                                
+/video/{id}/{slug}                          
+/video/{id}                                 
+/artistes/{page}                            
+/artiste/{id}/{slug}/{page}                 
+/artiste/{id}                               
+/artiste/                                   
+/genres/{page}                              
+/genre/{slug}-{id}                          
+/genre/{id}/{page}/{slug} 
+/news                                       
+/credits                                    
+/contact                                    
+/contact/approval                           
+/test                                       
+/list_artiste                               
+/list_alpha                                 
+/alphabet                                   
+/user/mimizikcom                            
+/user/mimizikcom/{videos}                   
+/channel/{url}                              
+/channel/{url}/{plus}                       
+/plugins/feedback.php
+/wp-login.php                               
+/hashta
+/tops/{page}                                
+/genres_menu                                
+/video/paroles/{id}/{slug}                  
+/paroles/{id}/{slug}                        
+/itw/{id_artiste}/{slug_artiste}            
+/itw/{id}/{slug_artiste}                    
+/video/json/{id}                                                   
+/login                                      
+/login_check                                
+/logout                                     
+/profil/                                    
+/profil/edit
+/inscription/                               
+/inscription/check-email                 
+/inscription/confirm/{token}   // NOPE             
+/inscription/confirmed 
+/reset/request                              
+/reset/send-email           // NOPE                
+/reset/check-email           // NOPE               
+/reset/reset/{token}        // NOPE     
+/profil/change-password   
+/hashtags/                                  
+/hashtags/{tag}/{page}    
+
+                      
+/login/{service}                            
+/login/                                     
+/login/service/{service}                    
+/login/registration/{key}                   
+/login/check-facebook                       
+/login/check-google                         
+/group/list                                 
+/group/new                                  
+/group/{groupName}                          
+/group/{groupName}/edit                     
+/group/{groupName}/delete                
+                         
+/apps/facebook/token                        
+/apps/facebook/login                        
+/apps/facebook/test  

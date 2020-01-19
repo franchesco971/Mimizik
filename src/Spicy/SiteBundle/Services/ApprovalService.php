@@ -10,6 +10,10 @@ namespace Spicy\SiteBundle\Services;
 
 use Spicy\SiteBundle\Entity\Approval;
 use Spicy\SiteBundle\Entity\Video;
+use Symfony\Component\Security\Core\Security;
+use Doctrine\ORM\EntityManagerInterface;
+use Spicy\SiteBundle\Entity\TypeVideo;
+use Spicy\UserBundle\Entity\User;
 
 /**
  * Description of ApprovalService
@@ -19,31 +23,32 @@ use Spicy\SiteBundle\Entity\Video;
 class ApprovalService
 {
     private $user;
-    
-    private $typeVideoRepository;
-    
-    public function __construct($tokenStorage, $typeVideoRepository ,$userRepository)
+
+    private $em;
+
+    public function __construct(Security $security, EntityManagerInterface $em)
     {
-        $this->typeVideoRepository = $typeVideoRepository;
-        if ($tokenStorage->getToken()) {
-            $this->user = $tokenStorage->getToken()->getUser();
+        $this->em = $em;
+        $user = $security->getUser();
+        if ($user) {
+            $this->user = $user;
         } else {
-            $this->user = $userRepository->findOneBy(['username' => 'franchesco971']);
+            $this->user = $em->getRepository(User::class)->findOneBy(['username' => 'franchesco971']);
         }
     }
-    
+
     /**
      * 
      * @return Approval
      */
-    public function getDefaultApproval(Video $video=null)
+    public function getDefaultApproval(Video $video = null)
     {
         $approval = new Approval();
-        $video = ($video) ? $video : new Video();
-        $typeClip = $this->typeVideoRepository->findOneBy(['libelle' => 'Clip']);
+        $video = $video ?? new Video();
+        $typeClip = $this->em->getRepository(TypeVideo::class)->findOneBy(['libelle' => 'Clip']);
         $video->addTypeVideo($typeClip)->setEtat(false);
         $approval->setTitle($video)->setUser($this->user);
-        
+
         return $approval;
     }
 }
