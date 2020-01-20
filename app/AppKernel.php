@@ -17,7 +17,6 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Spicy\SiteBundle\SpicySiteBundle(),            
-            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Spicy\UserBundle\SpicyUserBundle(),
             new Spicy\FluxBundle\SpicyFluxBundle(),

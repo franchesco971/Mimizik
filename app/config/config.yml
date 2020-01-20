@@ -1,10 +1,10 @@
 imports:
+    - { resource: website_parameters.yml }
     - { resource: security.yml }
     # - { resource: security_test.yml }
     - { resource: parameters.yml }
-    # - { resource: parameters_test.yml }
-    - { resource: services.yml }
-    - { resource: website_parameters.yml }
+    # - { resource: parameters_test.yml }    
+    - { resource: services.yml }    
     - { resource: doctrine_migrations.yml }
 
 framework:
@@ -80,14 +80,14 @@ doctrine:
                 # make sure vendor library location is correct
                 dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
 
-stof_doctrine_extensions:
-    default_locale: fr
-    translation_fallback: true
-    orm:
-        default:
-            tree: true
-            timestampable: true
-            sluggable: true
+# stof_doctrine_extensions:
+#     default_locale: fr
+#     translation_fallback: true
+#     orm:
+#         default:
+#             tree: true
+#             timestampable: true
+#             sluggable: true
 
 # web_profiler:
 #     toolbar: true
@@ -109,12 +109,6 @@ fos_user:
     from_email: 
         address: "mimizikcom@gmail.com"
         sender_name: mimizik    
-
-hautelook_alice:
-    fixtures_path: 'fixtures' # Path to which to look for fixtures relative to the project directory or the bundle path. May be a string or an array of strings.
-    root_dirs:
-        - '%kernel.root_dir%'
-        - '%kernel.project_dir%'
 
 hwi_oauth:
     connect:
