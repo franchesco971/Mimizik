@@ -4,22 +4,17 @@ namespace Spicy\FluxBundle\Services;
 
 use Spicy\SiteBundle\Entity\Video;
 
-class Twitter
-{
-    private $titre;
-    
-    const MAX_TYPES=117; //130-13
-
+class Twitter extends FluxService
+{    
     public function twitterType($videos)
-    {
-        $description = '';
+    {       
         $descriptions = array();
 
         foreach ($videos as $video) {
-            $this->titre = $video->getNomArtistes() . ' - ' . $video->getTitre() . ': ';
-            $nbTypeTitre =  strlen($this->titre);
+            $description = '';
+            $nbTypeTitre =  strlen($this->getTitle($video));
 
-            if ($nbTypeTitre < self::MAX_TYPES) {
+            if ($nbTypeTitre < self::MAX_TYPES_TWITTER) {
                 $description = $this->getDescriptionTwitterTag($video, $nbTypeTitre);
                 $description = $this->getDescriptionHashtag($video, $nbTypeTitre, $description);
             }
@@ -28,21 +23,6 @@ class Twitter
         }
 
         return $descriptions;
-    }
-
-    public function getArrayHashtags(Video $video)
-    {
-        $tabHashtags = $video->getHashtags();
-
-        foreach ($video->getArtistes() as $artiste) {
-            foreach ($artiste->getHashtags() as $hashtag) {
-                if (!$tabHashtags->contains($hashtag)) {
-                    $tabHashtags->add($hashtag);
-                }
-            }
-        }
-
-        return $tabHashtags->toArray();
     }
 
     /**
@@ -87,34 +67,14 @@ class Twitter
         $arrayTwitterTags = array_merge($arrayTwitterCollabs, $arrayTwitterTags);
         foreach ($arrayTwitterTags as $twitterTag) {
             $nbTotalTypes = $nbTotalTypes + $nbTypeTwitterTag;
-            if ($nbTotalTypes < self::MAX_TYPES) {
+            if ($nbTotalTypes < self::MAX_TYPES_TWITTER) {
                 $nbTypeTwitterTag = $nbTypeTwitterTag + strlen($twitterTag);
                 $description = $description . '@' . $twitterTag . ' ';
             }
         }
 
         return $description;
-    }
-
-    public function getDescriptionHashtag($video, $nbTitreTypes, $description)
-    {
-        $nbTypeHashtag = 0;
-
-        if (strlen($description . ' #clip #mimizik ') <  self::MAX_TYPES) {
-            $description = $description . ' #clip #mimizik ';
-            $nbTotalTypes = $nbTitreTypes + strlen($description);
-
-            $arrayHastags = $this->getArrayHashtags($video);
-            foreach ($arrayHastags as $hashtag) {
-                $nbTotalTypes = $nbTotalTypes + $nbTypeHashtag;
-                if ($nbTotalTypes < self::MAX_TYPES) {
-                    $nbTypeHashtag = $nbTypeHashtag + strlen($hashtag->getLibelle());
-                    $description = $description . '#' . $hashtag->getLibelle() . ' ';
-                }
-            }
-        }
-        return $description;
-    }
+    }    
 
     public function getArrayTwitterCollabs(Video $video)
     {

@@ -3,8 +3,10 @@
 namespace Spicy\FluxBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Spicy\FluxBundle\Services\FluxService;
 use Spicy\FluxBundle\Services\Twitter;
 use Spicy\ITWBundle\Entity\Interview;
+use Spicy\SiteBundle\Entity\Artiste;
 use Spicy\SiteBundle\Entity\Video;
 use Spicy\SiteBundle\Services\VideoService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -14,7 +16,7 @@ class FluxController extends Controller
 {
     public function fluxArtistesAction(EntityManagerInterface $em)
     {
-        $artistes = $em->getRepository('SpicySiteBundle:Artiste')->getFlux();
+        $artistes = $em->getRepository(Artiste::class)->getFlux();
 
         return $this->render('SpicyFluxBundle:Flux:fluxArtistes.html.twig', array(
             'artistes' => $artistes,
@@ -200,6 +202,31 @@ class FluxController extends Controller
         return $this->render('SpicyFluxBundle:Flux:fluxITW.html.twig', array(
             'interviews' => $interviews,
             'selfLink' => $this->generateUrl('spicy_site_artistes')
+        ));
+    }
+
+    /**
+     * fluxVideosContentStudioAction
+     *
+     * @param EntityManagerInterface $em
+     * @param Twitter $twitterService
+     * @return void
+     */
+    public function fluxVideosContentStudioAction(EntityManagerInterface $em, FluxService $fluxService)
+    {
+        $videos = $em->getRepository(Video::class)->getFlux(20, true);
+
+        if ($videos == null) {
+            throw $this->createNotFoundException('Video inexistant');
+        }
+
+        $descriptionTab = $fluxService->fluxType($videos);
+
+        return $this->render('SpicyFluxBundle:Flux:ContentStudio\videos.html.twig', array(
+            'videos' => $videos,
+            'descriptionTab' => $descriptionTab,
+            'selfLink' => $this->generateUrl('spicy_site_flux_videos_twitter'),
+            'pubDates' =>  $this->getTabData($videos)
         ));
     }
 }

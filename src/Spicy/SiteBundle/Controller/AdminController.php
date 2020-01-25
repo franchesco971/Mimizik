@@ -17,6 +17,7 @@ use Spicy\SiteBundle\Entity\Collaborateur;
 use Spicy\SiteBundle\Form\CollaborateurType;
 use Spicy\SiteBundle\Services\YoutubeAPI;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Spicy\AppBundle\Services\FacebookManager;
 
 class AdminController extends Controller
@@ -62,7 +63,7 @@ class AdminController extends Controller
      * @param EntityManagerInterface $em
      * @return void
      */
-    public function addVideoAction(Request $request, YoutubeAPI $youtubeAPI, EntityManagerInterface $em)
+    public function addVideoAction(Request $request, YoutubeAPI $youtubeAPI, EntityManagerInterface $em, LoggerInterface $logger)
     {
         $yurl = $request->query->get('youtubeUrl');
         $video = new Video();
@@ -77,10 +78,18 @@ class AdminController extends Controller
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
 
-            if ($form->isValid()) {
-                $em->persist($video);
-                $em->flush();
+            if ($form->isValid()) {                
 
+                try {
+                    $em->persist($video);
+                    $em->flush();
+                } catch (\Throwable $th) {
+                    $logger->error("[addVideoAction] : ". get_class($th) . " -> " . $th->getMessage());
+                    $this->get('session')->getFlashBag()->add('error', get_class($th));
+                    return $this->redirect($this->generateUrl('spicy_admin_home'));
+                }
+
+                $logger->info("[addVideoAction] : Video bien ajouté", ['id' => $video->getId()]);
                 $this->get('session')->getFlashBag()->add('info', 'Video bien ajouté');
                 $_SESSION['id_video_publish'] = $video->getId();
 

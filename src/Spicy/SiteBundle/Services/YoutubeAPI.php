@@ -42,7 +42,7 @@ class YoutubeAPI
      */
     public function getJSONResponse($videoId)
     {
-        $url = $this->baseURL . "videos?id=$videoId&key=" . $this->developerKey . "&part=snippet,topicDetails%2CcontentDetails";
+        $url = $this->baseURL . "videos?id=$videoId&key=" . $this->developerKey . "&part=snippet%2CtopicDetails%2CcontentDetails";
 
         return $this->getJSONObject($url);
     }
@@ -66,8 +66,8 @@ class YoutubeAPI
 
             $obj = json_decode($json, true);
         } catch (\Exception $ex) {
-            $this->logger->error($ex->getMessage());
-            throw new \Exception("L'api ne reponds pas");
+            $this->logger->error("L'api ne reponds pas : " . $ex->getMessage(), ['url' => $url]);
+            throw new \Exception("L'api ne reponds pas : $url -> " . $ex->getMessage()); 
         }
 
         return $obj;
@@ -280,14 +280,13 @@ class YoutubeAPI
         $video = $this->em->getRepository(Video::class)->findOneBy(['url' => $url]);
 
         if ($video) {
-            $this->logger->info('Video already exist', ['url' => $url]);
+            $this->logger->info('[createApproval] Video already exist', ['url' => $url]);
             return;
         }
 
         $snippet = $videoJson['items'][0]['snippet'];
 
-        $video = new Video();
-        $video->setUrl($url)
+        $video = (new Video())->setUrl($url)
             ->setDescription(htmlspecialchars(utf8_decode($snippet['description'])))
             ->setTitre(htmlspecialchars(utf8_decode($snippet['title'])))
             ->setSource($snippet['channelTitle']);

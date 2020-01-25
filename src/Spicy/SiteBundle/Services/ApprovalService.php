@@ -14,6 +14,7 @@ use Symfony\Component\Security\Core\Security;
 use Doctrine\ORM\EntityManagerInterface;
 use Spicy\SiteBundle\Entity\TypeVideo;
 use Spicy\UserBundle\Entity\User;
+use FOS\UserBundle\Model\UserInterface;
 
 /**
  * Description of ApprovalService
@@ -29,12 +30,23 @@ class ApprovalService
     public function __construct(Security $security, EntityManagerInterface $em)
     {
         $this->em = $em;
-        $user = $security->getUser();
-        if ($user) {
-            $this->user = $user;
-        } else {
-            $this->user = $em->getRepository(User::class)->findOneBy(['username' => 'franchesco971']);
+        $this->user = $this->getUser($security->getUser());        
+    }
+
+    /**
+     * getUser
+     *
+     * @param UserInterface|null $user
+     * @return UserInterface|null
+     */
+    public function getUser($user)
+    {
+        if (!$user) 
+        {
+            return $this->em->getRepository(User::class)->findOneBy(['username' => 'franchesco971']);
         }
+
+        return $user;
     }
 
     /**

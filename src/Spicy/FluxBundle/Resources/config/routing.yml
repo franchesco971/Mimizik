@@ -33,3 +33,7 @@ mimizik_flux_videos_json_page:
     defaults: { _controller: SpicyFluxBundle:Flux:fluxVideosJson, page: 1 }
     requirements: 
         id: \d+
+        
+mimizik_flux_videos_content_studio:
+    path: /videos_content_studio
+    defaults: { _controller: SpicyFluxBundle:Flux:fluxVideosContentStudio }  

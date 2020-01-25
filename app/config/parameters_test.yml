@@ -13,3 +13,8 @@ parameters:
 
     locale:            fr
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    facebook.api.key.dev : 1559467677396676
+    facebook.api.key.prod : 729891760354276
+    google.api.key.dev : "286880270017-dp68ot4u62kk6j7imaiok22agfq90qrf.apps.googleusercontent.com"
+    google.api.key.prod : "286880270017-2l26o875etmhp41chq9hbcqnlda1mmhu.apps.googleusercontent.com"

@@ -15,6 +15,7 @@ class CollaborateurType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('twitter', TextType::class)
+            ->add('instagram', TextType::class)
         ;
     }
 
