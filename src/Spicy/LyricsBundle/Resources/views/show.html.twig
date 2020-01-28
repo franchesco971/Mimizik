@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block meta_description %}
-    <meta name="Description" content="{{lyrics.paragraphs[0].contentOriginal|nl2br| truncate(80, true, '...')}} Paroles {{video.getNomArtistes}} - {{video.titre}} Lyrics Mimizik"/> 
+    <meta name="Description" content="{{lyrics.paragraphs[0].contentOriginal|raw| truncate(80, true, '...')}} Paroles {{video.getNomArtistes}} - {{video.titre}} Lyrics Mimizik"/> 
 {% endblock %}
 
 {% block stylesheets %}
