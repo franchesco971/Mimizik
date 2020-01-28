@@ -185,12 +185,16 @@ class YoutubeAPI
      */
     private function fetchSubscriptions($subscriptions = null)
     {
-        if (!is_array($subscriptions['items'])) {
+        $items = $subscriptions['items'];
+        $nbchannel = 0;
+        $maxChannels = 70;
+        
+        if (!is_array($items)) {
             $this->logger->error('[fetchSubscriptions] : No items');
             throw new \Exception('[fetchSubscriptions] : No items');
         }
 
-        foreach ($subscriptions['items'] as $channelItem) {
+        foreach ($items as $channelItem) {
             $channelId = $channelItem['snippet']['resourceId']['channelId'];
             $totalItemCount = $channelItem['contentDetails']['totalItemCount'];
             $channel = $this->em->getRepository(Channel::class)->findOneBy(['channelId' => $channelId]);
@@ -202,8 +206,11 @@ class YoutubeAPI
 
                 $this->nbNewChannels++;
             }
-
-            if ($channel->getTotalItemCount() != $totalItemCount) { // si le total a changé
+            
+            if (
+                $channel->getTotalItemCount() != $totalItemCount && 
+                $nbchannel < $maxChannels
+            ) { // si le total a changé
                 $channel->setTotalItemCount($totalItemCount);
 
                 $searchURL = $this->baseURL . "search?part=snippet&channelId=" . $channelId .
@@ -217,6 +224,8 @@ class YoutubeAPI
                     $this->logger->error('[fetchSubscriptions] : ' . $ex->getMessage());
                     throw new \Exception('[fetchSubscriptions] : ' . $ex->getMessage());
                 }
+
+                $nbchannel++;
             }
 
             $this->em->persist($channel);
