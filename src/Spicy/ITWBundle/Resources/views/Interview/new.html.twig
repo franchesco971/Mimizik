@@ -1,7 +1,7 @@
 {% extends "SpicySiteBundle::layout_admin.html.twig" %}
 {% use "::bootstrap_3_horizontal_layout.html.twig" %}
 
-{% form_theme form _self %}
+{# {% form_theme form _self %} #}
 
 {% block spicy_itwbundle_question_widget %}
     <div class="question_widget">
@@ -30,7 +30,7 @@
 {% block body %}
 {{ parent() }}
     <h3>Ajouter des Interviews</h3>
-    <form method="post" {{ form_enctype(form) }} action="{{path('itw_create',{'id':artiste.id})}}">
+    {{ form_start(form, {'method': 'POST', 'action': path('itw_create',{'id':artiste.id})}) }}
         {{ form_widget(form) }}
         <div class="button">
             <a href="#" id="add_question" class="button"><span>Ajouter des questions</span></a>
@@ -39,8 +39,7 @@
             <input type="submit" class="btn btn-primary" />
             {{ form_rest(form) }}
         </div>
-    </form>
-    
+    {{ form_end(form) }}    
     
 {% endblock%}
 

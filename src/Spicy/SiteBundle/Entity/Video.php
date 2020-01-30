@@ -11,7 +11,7 @@ use Spicy\SiteBundle\Entity\Title;
  * Video
  *
  * @ORM\Table(name="video")
- * @ORM\Entity(repositoryClass="Spicy\SiteBundle\Entity\VideoRepository")
+ * @ORM\Entity(repositoryClass="Spicy\SiteBundle\Repository\VideoRepository")
  */
 class Video extends Title
 {

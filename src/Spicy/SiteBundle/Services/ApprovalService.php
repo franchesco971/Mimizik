@@ -10,6 +10,11 @@ namespace Spicy\SiteBundle\Services;
 
 use Spicy\SiteBundle\Entity\Approval;
 use Spicy\SiteBundle\Entity\Video;
+use Symfony\Component\Security\Core\Security;
+use Doctrine\ORM\EntityManagerInterface;
+use Spicy\SiteBundle\Entity\TypeVideo;
+use Spicy\UserBundle\Entity\User;
+use FOS\UserBundle\Model\UserInterface;
 
 /**
  * Description of ApprovalService
@@ -19,31 +24,43 @@ use Spicy\SiteBundle\Entity\Video;
 class ApprovalService
 {
     private $user;
-    
-    private $typeVideoRepository;
-    
-    public function __construct($tokenStorage, $typeVideoRepository ,$userRepository)
+
+    private $em;
+
+    public function __construct(Security $security, EntityManagerInterface $em)
     {
-        $this->typeVideoRepository = $typeVideoRepository;
-        if ($tokenStorage->getToken()) {
-            $this->user = $tokenStorage->getToken()->getUser();
-        } else {
-            $this->user = $userRepository->findOneBy(['username' => 'franchesco971']);
-        }
+        $this->em = $em;
+        $this->user = $this->getUser($security->getUser());        
     }
-    
+
+    /**
+     * getUser
+     *
+     * @param UserInterface|null $user
+     * @return UserInterface|null
+     */
+    public function getUser($user)
+    {
+        if (!$user) 
+        {
+            return $this->em->getRepository(User::class)->findOneBy(['username' => 'franchesco971']);
+        }
+
+        return $user;
+    }
+
     /**
      * 
      * @return Approval
      */
-    public function getDefaultApproval(Video $video=null)
+    public function getDefaultApproval(Video $video = null)
     {
         $approval = new Approval();
-        $video = ($video) ? $video : new Video();
-        $typeClip = $this->typeVideoRepository->findOneBy(['libelle' => 'Clip']);
+        $video = $video ?? new Video();
+        $typeClip = $this->em->getRepository(TypeVideo::class)->findOneBy(['libelle' => 'Clip']);
         $video->addTypeVideo($typeClip)->setEtat(false);
         $approval->setTitle($video)->setUser($this->user);
-        
+
         return $approval;
     }
 }

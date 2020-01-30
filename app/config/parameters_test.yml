@@ -1,0 +1,20 @@
+parameters:
+    database_driver:   pdo_mysql
+    database_host:     127.0.0.1
+    database_port:     ~
+    database_name:     mimizik_test
+    database_user:     root
+    database_password: ~
+
+    mailer_transport:  smtp
+    mailer_host:       127.0.0.1
+    mailer_user:       ~
+    mailer_password:   ~
+
+    locale:            fr
+    secret:            ThisTokenIsNotSoSecretChangeIt
+
+    facebook.api.key.dev : 1559467677396676
+    facebook.api.key.prod : 729891760354276
+    google.api.key.dev : "286880270017-dp68ot4u62kk6j7imaiok22agfq90qrf.apps.googleusercontent.com"
+    google.api.key.prod : "286880270017-2l26o875etmhp41chq9hbcqnlda1mmhu.apps.googleusercontent.com"

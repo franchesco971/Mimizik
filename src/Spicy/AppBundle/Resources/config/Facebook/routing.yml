@@ -1,11 +1,11 @@
 mimizik_app_fb_token:
-    pattern:  /token
+    path:  /token
     defaults: { _controller: SpicyAppBundle:Facebook:token }
     
 mimizik_app_fb_login:
-    pattern:  /login
+    path:  /login
     defaults: { _controller: SpicyAppBundle:Facebook:login }
     
 mimizik_app_fb_test:
-    pattern:  /test
+    path:  /test
     defaults: { _controller: SpicyAppBundle:Facebook:test }

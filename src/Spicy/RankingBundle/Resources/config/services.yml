@@ -1,7 +1,12 @@
 parameters:
 #    spicy_ranking.example.class: Spicy\RankingBundle\Example
+    nbSuggestion: '10'
 
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true  
 #    spicy_ranking.example:
 #        class: %spicy_ranking.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]

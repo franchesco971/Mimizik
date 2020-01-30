@@ -2,19 +2,30 @@
 
 namespace Spicy\SiteBundle\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Monolog\Logger;
+use Psr\Log\LoggerInterface;
+use Spicy\SiteBundle\Services\YoutubeAPI;
 
 /**
  * Description of youtubeCommand
  *
  * @author franchesco971
  */
-class YoutubeCommand extends ContainerAwareCommand {
+class YoutubeCommand extends ContainerAwareCommand 
+{
+    private $youtubeAPI;
+
+    private $logger;
     
+    public function __construct($name = null, YoutubeAPI $youtubeAPI, LoggerInterface $logger)
+    {
+        parent::__construct($name);
+        $this->logger = $logger;
+        $this->youtubeAPI = $youtubeAPI;
+    }
+
     protected function configure()
     {
         $this
@@ -32,18 +43,16 @@ class YoutubeCommand extends ContainerAwareCommand {
     
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $youtubeAPI = $this->getContainer()->get('mimizik.youtube.api');
-
-        $messages = $youtubeAPI->getVideos();   
+        $messages = $this->youtubeAPI->getVideos();   
         
         if(is_array($messages)) {
             foreach ($messages as $message) {
                 $output->writeln($message);
             }
         } else {
-            throw new Exception("check-youtube error");
-        }
-            
+            $this->logger->error("[YoutubeCommand] check-youtube error");
+            throw new \Exception("[YoutubeCommand] check-youtube error");
+        }            
 
         $output->writeln('Check finish');
     }

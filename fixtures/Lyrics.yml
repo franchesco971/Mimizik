@@ -1,0 +1,2 @@
+Spicy\LyricsBundle\Entity\Lyrics:
+    lyrics_{1..10}:

@@ -1,13 +1,13 @@
-<?php 
+<?php
 
-namespace Spicy\RankingBundle\DataFixtures\ORM\Group;
+namespace Spicy\SiteBundle\DataFixtures\ORM\Groups;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Spicy\UserBundle\Entity\Group;
 
 class LoadGroups implements FixtureInterface
-{    
+{
     /**
      * {@inheritDoc}
      */

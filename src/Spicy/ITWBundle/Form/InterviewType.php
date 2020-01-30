@@ -2,11 +2,14 @@
 
 namespace Spicy\ITWBundle\Form;
 
+use Spicy\ITWBundle\Entity\Interview;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Spicy\ITWBundle\Form\QuestionType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class InterviewType extends AbstractType
 {
@@ -16,26 +19,25 @@ class InterviewType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('title', 'text')
-                ->add('active', 'checkbox',[
-                    'required'=>false
-                ])
-                ->add('questions','collection',[
-                'label'=>null,
-                'type'   => new QuestionType,
+        $builder->add('title', TextType::class)
+            ->add('active', CheckboxType::class, [
+                'required' => false
+            ])
+            ->add('questions', CollectionType::class, [
+                'label' => null,
+                'entry_type'   => QuestionType::class,
                 'allow_add'    => true,
                 'allow_delete' => true
-            ])
-        ;
+            ]);
     }
-    
+
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Spicy\ITWBundle\Entity\Interview'
+            'data_class' => Interview::class
         ));
     }
 

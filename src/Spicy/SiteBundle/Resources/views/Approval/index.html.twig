@@ -24,6 +24,7 @@
                 <th>Statut</th>
                 <th>Request date</th>
                 <th>Top</th>
+                <th>User</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -47,9 +48,14 @@
                 <td class="{{class}}">{{approvalText}}</td>
                 <td>{{ entity.requestDate|date("Y-m-d H:i:s") }}</td>
                 <td>{% if entity.title.onTop %} TOP {% endif %}</td>
+                <td>{{ entity.user.username }}</td>
                 <td>
                     <p>
-                        <a class="button dark" href="https://www.youtube.com/watch?v={{entity.title.url}}" target="_blank">Voir</a>
+                        <a class="button dark" href="https://www.youtube.com/watch?v={{entity.title.url}}" target="_blank">Voir youtube</a>
+                    </p>
+
+                    <p>
+                        <a class="button dark" href="{{ path('approval_show', { 'id': entity.id }) }}">Voir</a>
                     </p>
                     {% if not entity.approvalDate or not entity.disapprovalDate %}
                         {% if not entity.approvalDate %}
@@ -76,14 +82,36 @@
             </a>
         </li>
     </ul>
+    <div id="Pagination"></div>
 {% endblock %}
 
 {% block javascripts %}
     {{parent()}}
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js" ></script>
     <script type="text/javascript">
-          $('.records_list').DataTable({
-              "order": [[ 3, "desc" ],[ 4, "asc" ]]
-          });
+        var initPagination = function() {
+            var num_entries = {{entities|length}};
+            var page = {{page-1}};
+            $("#Pagination").pagination(num_entries, {
+                items_per_page: 100, 
+                link_to:"{{ path('approval')}}/__id__",
+                current_page: page,
+                prev_text:"Prèc.",
+                next_text:"Suiv.",
+                num_edge_entries:2,
+                num_display_entries:8,
+                callback:function(){return true;}
+            }); 
+        };
+
+        $(document).ready(function(){
+            $('.records_list').DataTable({
+                "order": [[ 3, "desc" ],[ 4, "desc" ]],
+                "iDisplayLength": 100,
+                "paging": false
+            });
+
+            initPagination();
+        });
     </script>
 {% endblock %}

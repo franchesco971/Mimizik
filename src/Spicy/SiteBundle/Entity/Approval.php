@@ -3,12 +3,13 @@
 namespace Spicy\SiteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\UserInterface;
 
 /**
  * Approval
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Spicy\SiteBundle\Entity\ApprovalRepository")
+ * @ORM\Entity(repositoryClass="Spicy\SiteBundle\Repository\ApprovalRepository")
  */
 class Approval
 {
@@ -147,7 +148,7 @@ class Approval
      *
      * @return Approval
      */
-    public function setUser(\Spicy\UserBundle\Entity\User $user)
+    public function setUser(UserInterface $user)
     {
         $this->user = $user;
 

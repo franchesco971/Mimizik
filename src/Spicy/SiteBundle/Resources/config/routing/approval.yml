@@ -1,6 +1,8 @@
 approval:
-    path:     /
-    defaults: { _controller: "SpicySiteBundle:Approval:index" }
+    path:     /{page}
+    defaults: { _controller: "SpicySiteBundle:Approval:index", page: 1}
+    requirements: 
+        page: \d+
 
 approval_show:
     path:     /{id}/show
@@ -37,6 +39,6 @@ approval_approval:
     path:     /{id}/approval
     defaults: { _controller: "SpicySiteBundle:Approval:approval" }
     
-approval_test:
-    path:     /test
-    defaults: { _controller: "SpicySiteBundle:Approval:test" }
+# approval_test:
+#     path:     /test
+#     defaults: { _controller: "SpicySiteBundle:Approval:test" }

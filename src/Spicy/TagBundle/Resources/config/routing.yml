@@ -1,4 +1,0 @@
-mimizik_tag_homepage:
-    pattern:  /
-    defaults: { _controller: SpicyTagBundle:Tag:index }
-

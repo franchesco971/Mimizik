@@ -1,0 +1,6 @@
+Spicy\ITWBundle\Entity\Question:
+    question_{1..10}:
+        answer: '<sentence()>'
+        content: '<sentence()>'  
+        position: <numberBetween(1, 5)>
+        interview: '@interview_*'

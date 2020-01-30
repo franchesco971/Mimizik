@@ -1,7 +1,7 @@
 {% extends "SpicySiteBundle::layout_admin.html.twig" %}
 {% use "::bootstrap_3_horizontal_layout.html.twig" %}
 
-{% form_theme edit_form _self %}
+{# {% form_theme edit_form _self %} #}
 
 {% block spicy_itwbundle_question_widget %}
     <div class="question_widget formatted-form">
@@ -29,7 +29,6 @@
 
 {% block body %}
     <h3>Modifier des Interviews</h3>
-{#    <form method="PUT" {{ form_enctype(edit_form) }} action="{{path('itw_update',{'id':entity.id})}}">#}
     {{ form_start(edit_form, {'action': path('itw_update',{'id':entity.id}), 'method': 'PUT'}) }}    
         {{ form_widget(edit_form) }}
         <div class="button">
@@ -120,4 +119,4 @@
     }
   });
 </script>
-{% endblock%}
+{% endblock %}

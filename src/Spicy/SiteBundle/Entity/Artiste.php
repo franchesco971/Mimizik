@@ -10,7 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * Artiste
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Spicy\SiteBundle\Entity\ArtisteRepository")
+ * @ORM\Entity(repositoryClass="Spicy\SiteBundle\Repository\ArtisteRepository")
  */
 class Artiste
 {

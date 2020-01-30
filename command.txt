@@ -1,0 +1,21 @@
+.\bin\simple-phpunit -c .\app\phpunit.xml --coverage-html test
+
+.\bin\simple-phpunit -c .\app\phpunit.xml --coverage-html test --group wrong
+
+.\bin\simple-phpunit -c .\app\phpunit.xml --group wrong
+
+.\bin\simple-phpunit -c .\app\phpunit.xml  --list-groups func site
+
+*** init db ***
+php bin/console doctrine:schema:drop --force -e test
+php bin/console doctrine:schema:create -e test
+php bin/console hautelook:fixtures:load -e test -v --no-interaction
+
+php bin/console doctrine:schema:drop --force -e test && php bin/console doctrine:schema:create -e test && php bin/console hautelook:fixtures:load -e test -v --no-interaction
+
+*** Migrations ***
+php bin/console doctrine:migrations:diff
+php bin/console doctrine:migrations:migrate
+
+*** composer update sur le serveur ***
+php -d xdebug.profiler_enable=0 -d memory_limit=-1 composer.phar update

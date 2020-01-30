@@ -5,5 +5,3 @@ parameters:
     nbArtisteAfficheAdmin: 30
     nbVideoAfficheAdmin: 30
     developer_key: AIzaSyC8pNw1O9dsx8X1YKVpjHTcuEyx5pB3M44
-    denied_ips:
-        ['46.218.242.177','82.229.222.236','127.0.0.1']

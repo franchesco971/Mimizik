@@ -35,6 +35,12 @@ class Collaborateur
      */
     private $twitter;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="instagram", type="string", length=255)
+     */
+    private $instagram;
 
     /**
      * Get id
@@ -90,5 +96,28 @@ class Collaborateur
     public function getTwitter()
     {
         return $this->twitter;
+    }
+
+    /**
+     * Set instagram
+     *
+     * @param string $instagram
+     * @return Collaborateur
+     */
+    public function setInstagram($instagram)
+    {
+        $this->instagram = $instagram;
+    
+        return $this;
+    }
+
+    /**
+     * Get twitter
+     *
+     * @return string 
+     */
+    public function getInstagram()
+    {
+        return $this->instagram;
     }
 }

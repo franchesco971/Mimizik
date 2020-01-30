@@ -13,16 +13,16 @@ class LoadRankingTypeData implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $type=array(1=>'JOUR',2=>'MOIS',3=>'ANNEE');
-        
+        $type = array(1 => 'JOUR', 2 => 'MOIS', 3 => 'ANNEE');
+
         foreach ($type as $key => $value) {
-            $type=new RankingType();
+            $type = new RankingType();
             $type->setId($key);
             $type->setName($value);
-            
+
             $manager->persist($type);
         }
-        
+
         $manager->flush();
     }
 }

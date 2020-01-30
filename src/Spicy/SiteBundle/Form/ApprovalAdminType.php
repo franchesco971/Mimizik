@@ -8,9 +8,11 @@
 
 namespace Spicy\SiteBundle\Form;
 
+use Spicy\SiteBundle\Entity\Approval;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Valid;
 
 /**
  * Description of ApprovalAdminType
@@ -26,18 +28,19 @@ class ApprovalAdminType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title',new VideoType())
+            ->add('title', VideoType::class, array(
+                'constraints' => new Valid()
+            ))
         ;
     }
     
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Spicy\SiteBundle\Entity\Approval',
-            'cascade_validation' => true
+            'data_class' => Approval::class
         ));
     }
 

@@ -12,9 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class RankingType
 {
-    const JOUR=1;
-    const MOIS=2;
-    const ANNEE=3;
+    const JOUR = 1;
+    const MOIS = 2;
+    const ANNEE = 3;
+
     /**
      * @var integer
      *
@@ -41,12 +42,12 @@ class RankingType
     {
         return $this->id;
     }
-    
+
     public function setId($id)
     {
-        $this->id=$id;
-        
-        return $this;        
+        $this->id = $id;
+
+        return $this;
     }
 
     /**

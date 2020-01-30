@@ -1,0 +1,7 @@
+Spicy\SiteBundle\Entity\TypeVideo:
+    typevideo_{1..4}:
+        libelle: 'typevideo_<current()>'
+    typevideo_5:
+        libelle: 'Clip'
+    typevideotop:
+        libelle: 'Top'

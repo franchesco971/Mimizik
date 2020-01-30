@@ -3,12 +3,12 @@
 {% block body -%}
     <h1>Hashtag creation</h1>
 
-    <form action="{{ path('hashtag_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_start(form, {'method': 'POST', 'action': path('hashtag_create')}) }}
         {{ form_widget(form) }}
         <p>
             <button type="submit">Create</button>
         </p>
-    </form>
+    {{ form_end(form) }}
 
         <ul class="record_actions">
     <li>

@@ -2,24 +2,27 @@
 
 namespace Spicy\SiteBundle\Form;
 
+use Spicy\SiteBundle\Entity\TypeVideo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class TypeVideoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('libelle','text')
-            ->add('dateTypeVideo','datetime')
+            ->add('libelle', TextType::class)
+            ->add('dateTypeVideo', DateTimeType::class)
         ;
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Spicy\SiteBundle\Entity\TypeVideo'
+            'data_class' => TypeVideo::class
         ));
     }
 

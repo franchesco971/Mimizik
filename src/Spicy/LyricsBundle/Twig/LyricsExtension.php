@@ -4,18 +4,15 @@ namespace Spicy\LyricsBundle\Twig;
 
 use Spicy\LyricsBundle\Services\LyricsService;
 use Spicy\LyricsBundle\Entity\Paragraph;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
 /**
  * Description of LyricsExtension
  *
  * @author franciscopol
  */
-class LyricsExtension extends \Twig_Extension
+class LyricsExtension extends AbstractExtension
 {
     private $lyricsService;
     
@@ -26,9 +23,9 @@ class LyricsExtension extends \Twig_Extension
     
     public function getFilters()
     {
-        return array(
-            new \Twig_SimpleFilter('paragraphType', array($this, 'paragraphTypeFilter')),
-        );
+        return [
+            new TwigFilter('paragraphType', [$this, 'paragraphTypeFilter']),
+        ];
     }
     
     public function paragraphTypeFilter(Paragraph $paragraph)

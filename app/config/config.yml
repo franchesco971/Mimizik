@@ -1,16 +1,18 @@
 imports:
-    - { resource: parameters.yml }
-    - { resource: security.yml }
     - { resource: website_parameters.yml }
-    - { resource: services.yml }
+    - { resource: security.yml }
+    # - { resource: security_test.yml }
+    - { resource: parameters.yml }
+    # - { resource: parameters_test.yml }    
+    - { resource: services.yml }    
+    - { resource: doctrine_migrations.yml }
 
 framework:
-    #esi:             ~
-    translator:      { fallback: %locale% }
-    secret:          %secret%
+    translator:      { fallback: "%locale%" }
+    secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
-        strict_requirements: %kernel.debug%
+        strict_requirements: "%kernel.debug%"
     form:            ~
     csrf_protection: ~
     validation:      { enable_annotations: true }
@@ -21,101 +23,89 @@ framework:
     trusted_proxies: ~
     session:         ~
     fragments:       ~
+    # router:
+    #     resource: "%kernel.root_dir%/config/routing_dev.yml"
+    #     strict_requirements: "%kernel.debug%"
+    profiler: 
+        enabled: true
+    serializer:
+        enabled: true
+        enable_annotations: true        
 
-# Twig Configuration
 twig:
-    debug:            %kernel.debug%
-    strict_variables: %kernel.debug%
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
     globals:
         website_name: "%website_name%"
         domaine_name: "%domaine_name%"
         email_contact: "%email_contact%"
-        video_service: "@mimizik.videoService"
+        video_service: '@Spicy\SiteBundle\Services\VideoService'
 
 # Assetic Configuration
 assetic:
-    debug:          %kernel.debug%
+    debug:          "%kernel.debug%"
     use_controller: false
     bundles:        [ SpicySiteBundle,SpicyTagBundle,SpicyRankingBundle,SpicyAppBundle, SpicyLyricsBundle, SpicyITWBundle]
     java: "C:\\Program Files (x86)\\Java\\jre1.8.0_131\\bin\\java.exe"
     filters:
         cssrewrite: ~
-        #closure:
-        #    jar: %kernel.root_dir%/Resources/java/compiler.jar
-        #yui_css:
-        #    jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
         yui_js:
-            jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
         yui_css:
-            jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
 
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   %database_driver%
-        host:     %database_host%
-        port:     %database_port%
-        dbname:   %database_name%
-        user:     %database_user%
-        password: %database_password%
+        driver:   "%database_driver%"
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
         charset:  UTF8
         # if using pdo_sqlite as your database driver, add the path in parameters.yml
         # e.g. database_path: %kernel.root_dir%/data/data.db3
         # path:     %database_path%
 
     orm:
-        auto_generate_proxy_classes: %kernel.debug%
+        auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
+        # default_entity_manager: default
 
-# Swiftmailer Configuration
-swiftmailer:
-    transport: smtp
-    host:      %mailer_host%
-    username:  %mailer_user%
-    password:  %mailer_password%
-    port: 465
-    encryption: ssl
-    timeout: 5
-    spool:     { type: memory }
-    
 stof_doctrine_extensions:
+    default_locale: fr
+    translation_fallback: true
     orm:
         default:
+            tree: true
+            timestampable: true
             sluggable: true
-            
+
+# web_profiler:
+#     toolbar: true
+#     intercept_redirects: true
+
+swiftmailer:
+    disable_delivery: true
+
 fos_user:
     db_driver: orm
     firewall_name: main
     user_class: Spicy\UserBundle\Entity\User
     registration:
         form:
-            type: mimizik_user_registration
-            handler: mimizik.form.handler.registration
+            type: Spicy\UserBundle\Form\Type\RegistrationFormType
+            # handler: mimizik.form.handler.registration
     group:
         group_class: Spicy\AppBundle\Entity\Group
-           
-monolog:
-    handlers:
-        ranking:
-            type: stream
-            path: "%kernel.logs_dir%/%kernel.environment%.ranking.log"
-            level: debug
-            channels: mimizik            
-            
-#hwi_oauth:
-#    firewall_names:        [secured_area]
-#    resource_owners:
-#        facebook:
-#            type:          facebook
-#            client_id:     1559467677396676
-#            client_secret: 21670bef195b9f6323bc74607e0aa6ba
-#            scope:         "email"
-#            options:
-#                display: popup #dialog is optimized for popup window
+    from_email: 
+        address: "mimizikcom@gmail.com"
+        sender_name: mimizik    
 
 hwi_oauth:
     connect:
-        account_connector: mimizik.user_provider.service
+        account_connector: Spicy\UserBundle\Security\UserProvider
     firewall_names:
         - 'main' # name of security firewall configured to work with HWIOAuthBundle
     fosub:
@@ -126,11 +116,11 @@ hwi_oauth:
     resource_owners:
         facebook:
             type:                facebook
-#            #dev
-#            client_id:           1559467677396676
-#            client_secret:       21670bef195b9f6323bc74607e0aa6ba
+            #dev
+            # client_id:           "%facebook.api.key.dev%"
+            # client_secret:       21670bef195b9f6323bc74607e0aa6ba
             #prod
-            client_id:           729891760354276
+            client_id:           "%facebook.api.key.prod%"
             client_secret:       f99b1e647c6db07975a37cc287c0d91b
             scope:               "email"
             response_type :      'key'
@@ -140,10 +130,13 @@ hwi_oauth:
                 
         google:
             type:                google            
-            ##dev
-            #client_id:           "286880270017-dp68ot4u62kk6j7imaiok22agfq90qrf.apps.googleusercontent.com"
-            #client_secret:       "5FQ7hoCvwka-zf9e3rQrPla5"
+            #dev
+            # client_id:           "%google.api.key.dev%"
+            # client_secret:       "5FQ7hoCvwka-zf9e3rQrPla5"
             #prod
-            client_id:           "286880270017-2l26o875etmhp41chq9hbcqnlda1mmhu.apps.googleusercontent.com"
+            client_id:           "%google.api.key.prod%"
             client_secret:       "DxnGad852KH1AxGa_4nRS4hX"
-            scope: "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"            
+            scope: "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile" 
+
+assetic:
+    use_controller: true

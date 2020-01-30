@@ -1,14 +1,107 @@
+parameters:
+    nbSuggestion: '10'    
+    fbPageID: 105385689672394    
+    fbParams:  
+        app_id: 729891760354276      
+        app_secret: f99b1e647c6db07975a37cc287c0d91b
+        default_graph_version: v2.12 
+    properties:
+        facebook: 
+            'facebookId'
+        google: 
+            'googleId'
+    denied_ips:
+        ['46.218.242.177','82.229.222.236','127.0.0.1']
+
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true    
+      
     twig.extension.text:
        class: Twig_Extensions_Extension_Text
        tags:
            - { name: twig.extension }
-    mimizik.form.registration:
-        class: Spicy\UserBundle\Form\Type\RegistrationFormType
-        arguments: [%fos_user.model.user.class%]
-        tags:
-            - { name: form.type, alias: mimizik_user_registration }
-    mimizik.form.handler.registration:
-        class: Spicy\UserBundle\Form\Handler\RegistrationFormHandler
-        arguments: ["@fos_user.registration.form", "@request", "@fos_user.user_manager", "@fos_user.mailer", "@fos_user.util.token_generator"]
-        scope: request
+
+    # mimizik.form.registration:
+    #     class: Spicy\UserBundle\Form\Type\RegistrationFormType
+    #     arguments: [%fos_user.model.user.class%]
+    #     tags:
+    #         - { name: form.type, alias: mimizik_user_registration }
+
+    
+
+    Spicy\AppBundle\:
+        resource: '../../src/Spicy/AppBundle/*'
+        # you can exclude directories or files
+        # but if a service is unused, it's removed anyway
+        exclude: '../../src/Spicy/AppBundle/{Entity,Repository,Tests}'
+
+    Spicy\RankingBundle\:
+        resource: '../../src/Spicy/RankingBundle/*'
+        # you can exclude directories or files
+        # but if a service is unused, it's removed anyway
+        exclude: '../../src/Spicy/RankingBundle/{Entity,Repository,Tests}'
+
+    Spicy\SiteBundle\:
+        resource: '../../src/Spicy/SiteBundle/*'
+        # you can exclude directories or files
+        # but if a service is unused, it's removed anyway
+        exclude: '../../src/Spicy/SiteBundle/{Entity,Repository,Tests}'
+
+    Spicy\TagBundle\:
+        resource: '../../src/Spicy/TagBundle/*'
+        # you can exclude directories or files
+        # but if a service is unused, it's removed anyway
+        exclude: '../../src/Spicy/TagBundle/{Entity,Repository,Tests}'
+        
+    Spicy\ITWBundle\:
+        resource: '../../src/Spicy/ITWBundle/*'
+        # you can exclude directories or files
+        # but if a service is unused, it's removed anyway
+        exclude: '../../src/Spicy/ITWBundle/{Entity,Repository,Tests}'    
+
+    Spicy\RankingBundle\Controller\RankingController:
+    #     public: true
+        arguments:
+    #         # for any $logger argument, pass this specific service
+            $nbSuggestion: '%nbSuggestion%'
+
+    Spicy\SiteBundle\Services\YoutubeAPI:
+        # public: true
+        # argument:
+        #     # for any $logger argument, pass this specific service
+        #     $developerKey: '%developer_key%'
+        arguments:
+            $developerKey: '%developer_key%'
+
+    # mimizik.videoService:
+    #     class: Spicy\SiteBundle\Services\VideoService
+    Spicy\SiteBundle\Services\VideoService:
+        arguments:
+            $deniedIps: '%denied_ips%'
+
+    Spicy\FluxBundle\:
+        resource: '../../src/Spicy/FluxBundle/*'
+        exclude: '../../src/Spicy/FluxBundle/{Entity,Repository,Tests}'
+
+    Spicy\AppBundle\Services\FacebookManager:
+        arguments:
+            $fbParams: '%fbParams%'
+            $fbPageID: '%fbPageID%'
+
+    Spicy\LyricsBundle\:
+        resource: '../../src/Spicy/LyricsBundle/*'
+        exclude: '../../src/Spicy/LyricsBundle/{Entity,Repository,Tests}'    
+
+    Spicy\UserBundle\:
+        resource: '../../src/Spicy/UserBundle/*'
+        exclude: '../../src/Spicy/UserBundle/{Entity,Repository,Tests,Controller}'
+
+    # Spicy\UserBundle\Security\UserProvider:
+    #     arguments: 
+    #         $userManager: "@fos_user.user_manager"
+    #         $properties: '%properties%'    
+
+    

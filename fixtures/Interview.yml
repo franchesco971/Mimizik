@@ -1,0 +1,6 @@
+Spicy\ITWBundle\Entity\Interview:
+    interview_{1..10}:
+        active: '<boolean()>'
+        title: '<current()>'  
+        createdAt: <dateTime()>
+        artiste: '@artiste_*'

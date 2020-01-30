@@ -17,15 +17,10 @@ use Spicy\LyricsBundle\Entity\Paragraph;
  */
 class LyricsService
 {
-    public function __construct()
-    {
-        
-    }
-    
     public function getParagrphType($paragraphType)
     {
-        $paragraphTypes=[Paragraph::INTRO=>'Intro', Paragraph::COUPLET=>'Couplet',  Paragraph::REFRAIN=>'Refrain',  Paragraph::OUTRO=>'Outro'];
-        
+        $paragraphTypes = [Paragraph::INTRO => 'Intro', Paragraph::COUPLET => 'Couplet',  Paragraph::REFRAIN => 'Refrain',  Paragraph::OUTRO => 'Outro'];
+
         return $paragraphTypes[$paragraphType];
     }
 }

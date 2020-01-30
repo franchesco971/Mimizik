@@ -1,0 +1,5 @@
+Spicy\SiteBundle\Entity\GenreMusical:
+    genre_{Dancehall, Retro, HP, Zouk}:
+        libelle: '<current()>'
+        dateGenreMusical: <dateTime()>
+        slug: '<current()>'  

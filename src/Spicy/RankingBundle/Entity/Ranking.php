@@ -192,7 +192,7 @@ class Ranking
     /**
      * Get videoRankings
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return VideoRanking[]
      */
     public function getVideoRankings()
     {

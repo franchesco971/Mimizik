@@ -3,16 +3,17 @@
 
 namespace Spicy\UserBundle\Controller;
 
-use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Security\Core\Exception\AccountStatusException;
-use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Controller\RegistrationController as BaseController;
-use Spicy\UserBundle\Form\Type\RegistrationFormType;
+use FOS\UserBundle\Event\FilterUserResponseEvent;
+use FOS\UserBundle\Event\FormEvent;
+use FOS\UserBundle\Event\GetResponseUserEvent;
+use FOS\UserBundle\FOSUserEvents;
+use FOS\UserBundle\Model\UserInterface;
 use Spicy\UserBundle\Entity\User as MimizikUser;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Controller managing the registration
@@ -20,41 +21,89 @@ use Spicy\UserBundle\Entity\User as MimizikUser;
  */
 class RegistrationController extends BaseController
 {
-    public function registerAction()
+    public function __construct()
     {
-//        $form = $this->container->get('mimizik.form.registration');
-//        $form = $this->container->get('form.factory')->create(new RegistrationFormType(get_class(new MimizikUser())), new MimizikUser(), []);
-        $form = $this->container->get('fos_user.registration.form');
-        $formHandler = $this->container->get('fos_user.registration.form.handler');
-//        $formHandler = $this->container->get('mimizik.form.handler.registration');
-        $confirmationEnabled = $this->container->getParameter('fos_user.registration.confirmation.enabled');
+    }
+    
+    /**
+     * @Route("/", name="fos_user_registration_register")
+     */
+    public function registerAction(Request $request)
+    {
+        /** @var $formFactory FactoryInterface */
+        $formFactory = $this->get('fos_user.registration.form.factory');
+        /** @var $userManager UserManagerInterface */
+        $userManager = $this->get('fos_user.user_manager');
+        /** @var $dispatcher EventDispatcherInterface */
+        $dispatcher = $this->get('event_dispatcher');
 
-        $process = $formHandler->process($confirmationEnabled);
-        if ($process) {
-            $user = $form->getData();
+        $user = new MimizikUser();
+        $user->setEnabled(true);
 
-            $authUser = false;
-            if ($confirmationEnabled) {
-                $this->container->get('session')->set('fos_user_send_confirmation_email/email', $user->getEmail());
-                $route = 'fos_user_registration_check_email';
-            } else {
-                $authUser = true;
-                $route = 'fos_user_registration_confirmed';
-            }
+        $event = new GetResponseUserEvent($user, $request);
+        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, $event);
 
-            $this->setFlash('fos_user_success', 'registration.flash.user_created');
-            $url = $this->container->get('router')->generate($route);
-            $response = new RedirectResponse($url);
-
-            if ($authUser) {
-                $this->authenticateUser($user, $response);
-            }
-
-            return $response;
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
         }
 
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.'.$this->getEngine(), array(
+        $form = $formFactory->createForm();
+        $form->setData($user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $event = new FormEvent($form, $request);
+                $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
+
+                $userManager->updateUser($user);
+
+                /*****************************************************
+                 * Add new functionality (e.g. log the registration) *
+                 *****************************************************/
+                $this->container->get('logger')->info(
+                    sprintf("New user registration: %s", $user)
+                );
+
+                if (null === $response = $event->getResponse()) {
+                    $url = $this->generateUrl('fos_user_registration_confirmed');
+                    $response = new RedirectResponse($url);
+                }
+
+                $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
+
+                return $response;
+            }
+
+            $event = new FormEvent($form, $request);
+            $dispatcher->dispatch(FOSUserEvents::REGISTRATION_FAILURE, $event);
+
+            if (null !== $response = $event->getResponse()) {
+                return $response;
+            }
+        }
+
+        return $this->render('SpicyUserBundle:Registration:register.html.twig', array(
             'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * Tell the user his account is now confirmed.
+     * @Route("/confirmed", name="fos_user_registration_confirmed")
+     */
+    public function confirmedAction(Request $request)
+    {
+        $user = $this->getUser();
+
+        if (!is_object($user) || !($user instanceof UserInterface)) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
+
+        return $this->render('SpicyUserBundle:Registration:confirmed.html.twig', array(
+            'user' => $user,
+            'targetUrl' => null
         ));
     }
 }

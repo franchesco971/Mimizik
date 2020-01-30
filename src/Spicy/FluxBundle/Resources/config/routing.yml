@@ -1,35 +1,39 @@
 spicy_site_flux_videos:
-    pattern: /videos
+    path: /videos
     defaults: { _controller: SpicyFluxBundle:Flux:fluxVideos }    
 spicy_site_flux_videos_twitter:
-    pattern: /videos_twitter
+    path: /videos_twitter
     defaults: { _controller: SpicyFluxBundle:Flux:fluxVideosTwitter }
 spicy_site_flux_retro:
-    pattern: /retro
+    path: /retro
     defaults: { _controller: SpicyFluxBundle:Flux:fluxRetro }
 spicy_site_flux_retro_twitter:
-    pattern: /retro_twitter
+    path: /retro_twitter
     defaults: { _controller: SpicyFluxBundle:Flux:fluxRetroTwitter }
 spicy_site_flux_artistes:
-    pattern: /artistes
+    path: /artistes
     defaults: { _controller: SpicyFluxBundle:Flux:fluxArtistes }
 spicy_site_flux_index:
-    pattern: /index
+    path: /index
     defaults: { _controller: SpicyFluxBundle:Flux:fluxIndex }
 mimizik_flux_videos_top:
-    pattern: /videos_top
+    path: /videos_top
     defaults: { _controller: SpicyFluxBundle:Flux:fluxVideosTop }
 mimizik_flux_videos_top_twitter:
-    pattern: /videos_top_twitter
+    path: /videos_top_twitter
     defaults: { _controller: SpicyFluxBundle:Flux:fluxVideosTopTwitter }
 mimizik_flux_lyrics:
-    pattern: /lyrics
+    path: /lyrics
     defaults: { _controller: SpicyFluxBundle:Flux:fluxLyrics }
 mimizik_flux_itw:
-    pattern: /itw
+    path: /itw
     defaults: { _controller: SpicyFluxBundle:Flux:fluxITW }
 mimizik_flux_videos_json_page:
-    pattern: /videos_json/{page}
-    defaults: { _controller: SpicyFluxBundle:Flux:fluxVideosJson }
+    path: /videos_json/{page}
+    defaults: { _controller: SpicyFluxBundle:Flux:fluxVideosJson, page: 1 }
     requirements: 
         id: \d+
+        
+mimizik_flux_videos_content_studio:
+    path: /videos_content_studio
+    defaults: { _controller: SpicyFluxBundle:Flux:fluxVideosContentStudio }  

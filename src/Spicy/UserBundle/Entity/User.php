@@ -3,17 +3,15 @@
 namespace Spicy\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use FOS\UserBundle\Entity\User as BaseUser;
+use FOS\UserBundle\Model\User as BaseUser;
 use FOS\UserBundle\Model\GroupInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
-use Spicy\UserBundle\Entity\Group;
 
 /**
  * User
  *
  * @ORM\Table(name="User")
- * @ORM\Entity(repositoryClass="Spicy\UserBundle\Entity\UserRepository")
+ * @ORM\Entity()
  */
 class User extends BaseUser
 {

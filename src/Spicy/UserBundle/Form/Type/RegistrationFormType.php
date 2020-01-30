@@ -13,45 +13,42 @@ namespace Spicy\UserBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use FOS\UserBundle\Form\Type\RegistrationFormType as baseType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Spicy\UserBundle\Entity\Group;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Spicy\UserBundle\Entity\User as MimizikUser;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class RegistrationFormType extends AbstractType
 {
-    private $class;
-
-    /**
-     * @param string $class The User class name
-     */
-    public function __construct($class)
-    {
-        $this->class = $class;
-    }
-    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('groups', 'entity', array(
-                'class'    => 'SpicyUserBundle:Group',
-                'property' => 'name',
-                'multiple' => false,
-                'required'=>true
-                )
-            )
-        ;
-    } 
-   
-    
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => $this->class,
-            'intention'  => 'registration',
-        ));
+            ->add('email', EmailType::class)
+            ->add('username', TextType::class)
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'first_options'  => ['label' => 'Password'],
+                'second_options' => ['label' => 'Repeat Password'],
+            ])
+            ->add('groups', EntityType::class,
+                [
+                    'class'    => Group::class,
+                    'choice_label' => 'name',
+                    'multiple' => false,
+                    'required' => true
+                ]
+            );
     }
-    
-    public function getParent() {
-        return 'fos_user_registration';
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => MimizikUser::class,
+        ]);
     }
 
     public function getName()

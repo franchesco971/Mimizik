@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * GenreMusical
  *
  * @ORM\Table(name="Genre_musical")
- * @ORM\Entity(repositoryClass="Spicy\SiteBundle\Entity\GenreMusicalRepository")
+ * @ORM\Entity(repositoryClass="Spicy\SiteBundle\Repository\GenreMusicalRepository")
  */
 class GenreMusical
 {

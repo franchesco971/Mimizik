@@ -1,0 +1,8 @@
+Spicy\UserBundle\Entity\User:
+    user_{1..5}:
+        username: 'user_<current()>'
+        email: '<email()>'
+        groups: ['@group_*']
+        password: 'user_<current()>'
+        roles: ['ROLE_ADMIN']
+        enabled: true

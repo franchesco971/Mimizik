@@ -20,9 +20,9 @@
 
 {% block body %}
 {{ parent() }}
-    <h3>Soumettre une vidéo</h3>
+    <h3>Soumettre une vidéo</h3> 
     
-    <form action="{{ path('approval_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_start(form, {'method': 'POST', 'action': path('approval_create')}) }}
         {{ form_errors(form) }}
         <div class="label">
             {{ form_label(form.title.titre) }}&nbsp;&#42; 
@@ -146,7 +146,7 @@
             {{ form_rest(form) }}
             </span>
         </div>
-    </form>
+    {{ form_end(form) }}
             
     <div id="modal_hashtag" class="reveal-modal">
         <div class="content"></div>
