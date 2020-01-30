@@ -9,7 +9,7 @@ use FOS\UserBundle\Model\UserInterface;
  * Approval
  *
  * @ORM\Table()
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Spicy\SiteBundle\Repository\ApprovalRepository")
  */
 class Approval
 {

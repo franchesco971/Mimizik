@@ -2,6 +2,7 @@
 
 namespace Spicy\SiteBundle\Controller;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -61,6 +62,8 @@ class AdminController extends Controller
      * @param Request $request
      * @param YoutubeAPI $youtubeAPI
      * @param EntityManagerInterface $em
+     * @throws UniqueConstraintViolationException
+     * @throws Exception
      * @return void
      */
     public function addVideoAction(Request $request, YoutubeAPI $youtubeAPI, EntityManagerInterface $em, LoggerInterface $logger)
@@ -83,9 +86,13 @@ class AdminController extends Controller
                 try {
                     $em->persist($video);
                     $em->flush();
+                } catch (UniqueConstraintViolationException $ex) {
+                    $logger->error("[addVideoAction] : Video existante -> " . $ex->getMessage(), ['url' => $yurl]);
+                    $this->get('session')->getFlashBag()->add('error', 'Video existante');
+                    return $this->redirect($this->generateUrl('spicy_admin_home'));
                 } catch (\Throwable $th) {
-                    $logger->error("[addVideoAction] : ". get_class($th) . " -> " . $th->getMessage());
-                    $this->get('session')->getFlashBag()->add('error', get_class($th));
+                    $logger->error("[addVideoAction] : Erreur enregistrement video -> " . $th->getMessage());
+                    $this->get('session')->getFlashBag()->add('error', 'Erreur enregistrement video');
                     return $this->redirect($this->generateUrl('spicy_admin_home'));
                 }
 
@@ -93,12 +100,7 @@ class AdminController extends Controller
                 $this->get('session')->getFlashBag()->add('info', 'Video bien ajouté');
                 $_SESSION['id_video_publish'] = $video->getId();
 
-                //redirection vers facebook
-                // if($video->getEtat() == true) {
-                //     return $this->redirect($this->generateUrl('mimizik_app_fb_login'));
-                // } else {
                 return $this->redirect($this->generateUrl('spicy_admin_home'));
-                // }
 
             }
         }
@@ -189,7 +191,7 @@ class AdminController extends Controller
         ));
     }
 
-    public function deleteVideoAction(Request $request, Video $video)
+    public function deleteVideoAction(Request $request, Video $video, EntityManagerInterface $em)
     {
         $form = $this->createFormBuilder()->getForm();
 
@@ -197,7 +199,6 @@ class AdminController extends Controller
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
                 $em->remove($video);
                 $em->flush();
 
