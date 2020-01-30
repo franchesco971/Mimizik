@@ -27,16 +27,20 @@ class ApprovalController extends Controller
      * Lists all Approval entities.
      *
      */
-    public function indexAction(EntityManagerInterface $em)
+    public function indexAction(EntityManagerInterface $em, $page = 1)
     {
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             throw $this->createAccessDeniedException();
         }     
         
-        $entities = $em->getRepository('SpicySiteBundle:Approval')->findAll();
+        $entities = $em->getRepository(Approval::class)->getAll($page, 100);
+
+        // $length = $em->getRepository(Approval::class)->getCount();
 
         return $this->render('SpicySiteBundle:Approval:index.html.twig', array(
             'entities' => $entities,
+            "page" => $page,
+            // "length" => $length
         ));
     }
     /**
@@ -91,7 +95,7 @@ class ApprovalController extends Controller
         $yurl = $request->query->get('youtubeUrl');
         $video = null;
         
-        if($yurl)//s'il y a une url youtube
+        if ($yurl)//s'il y a une url youtube
         {
             $video = $youtubeAPI->getByYoutubeId($yurl);
         }       
@@ -371,31 +375,36 @@ class ApprovalController extends Controller
         $video->setEtat(true);
         
         $form = $this->createForm(VideoType::class,$video);    
+        $formView = $form->createView();
             
-        if ($request->getMethod() == 'POST') {
-            $form->handleRequest($request);
-
-            if ($form->isValid()) {  
-                $approval->setApprovalDate(new \DateTime);
-                $video->setDateVideo(new \DateTime('NOW'));                
-                
-                try{
-                    $em->flush();
-                    $this->get('session')->getFlashBag()->add('info','Publication approuvé');
-                    $_SESSION['id_video_publish'] = $video->getId();
-                    
-                    //return $this->redirect($this->generateUrl('mimizik_app_fb_login'));
-                    return $this->redirect($this->generateUrl('approval'));
-                }
-                catch(\Exception $e)
-                {
-                    $this->get('session')->getFlashBag()->add('error',"Erreur d'enregistrement");
-                }                
-            }
+        if ($request->getMethod() != 'POST') {
+            return $this->render('SpicySiteBundle:Approval:approval.html.twig', [
+                'form' => $formView
+            ]);
         }
-        
-        return $this->render('SpicySiteBundle:Approval:approval.html.twig',array(
-            'form' => $form->createView()
-        ));
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {  
+            $approval->setApprovalDate(new \DateTime);
+            $video->setDateVideo(new \DateTime('NOW'));                
+            
+            try{
+                $em->flush();
+                $this->get('session')->getFlashBag()->add('info', 'Publication approuvé');
+                $_SESSION['id_video_publish'] = $video->getId();
+                
+                //return $this->redirect($this->generateUrl('mimizik_app_fb_login'));
+                return $this->redirect($this->generateUrl('approval'));
+            }
+            catch(\Exception $e)
+            {
+                $this->get('session')->getFlashBag()->add('error',"Erreur d'enregistrement");
+            }                
+        }
+
+        return $this->render('SpicySiteBundle:Approval:approval.html.twig', [
+            'form' => $formView
+        ]);
     }
 }

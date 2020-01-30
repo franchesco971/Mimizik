@@ -8,9 +8,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
         {% block meta_description %}
             <meta name="Description" content="Mimizik est un site promotion de la musique des artistes et des vidéos clip des antilles, de la caraïbes et de la guyane. Il y a tous genres musicaux (zouk, dancehall, hip-hop...) antillais réunion haïti" />
+            <meta property="og:description" content="Mimizik est un site promotion de la musique des artistes et des vidéos clip des antilles, de la caraïbes et de la guyane. Il y a tous genres musicaux (zouk, dancehall, hip-hop...) antillais réunion haïti" />
             <meta property="og:title" content="Mimizik" />
             <meta property="og:type" content="website" />
-            <meta property="og:image" content="{{asset('images/logo.png')}}" />
+            <meta property="og:image" content="{{website_name}}{{asset('images/logo.png')}}" />
             <meta property="og:url" content="{{website_name}}" />            
         {% endblock %}
         {% block stylesheets %}
@@ -161,19 +162,19 @@
                 <div class="block-content connection">
                     <div class="row">
                         <div class="col-md-3">
-                            <a href="#" id="google_signin_link"><img src="{{asset('images/login_google_480.png')}}"></a>
+                            <a href="#" id="google_signin_link"><img src="{{asset('images/login_google_480.png')}}" alt="login google"></a>
                         </div>
                     </div>
                     <div class="divider row col-md-12"></div>
                     <div class="row">
                         <div class="col-md-3">
-                            <a href="#" id="fb_signin_link"><img src="{{asset('images/login_fb_480.png')}}"></a>
+                            <a href="#" id="fb_signin_link"><img src="{{asset('images/login_fb_480.png')}}" alt="login facebook"></a>
                         </div>
                     </div>
                     <div class="divider row col-md-12"></div>
                     <div class="row">
                         <div class="col-md-3"><div class="button dark large">
-                            <a id="btn_register" style="" href="{{path('fos_user_security_login')}}"><span>Se connecter avec Mimizik</span></a>
+                            <a id="btn_register" href="{{path('fos_user_security_login')}}"><span>Se connecter avec Mimizik</span></a>
                         </div></div>
                     </div>
                     <div class="divider row col-md-12"></div>

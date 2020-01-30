@@ -187,7 +187,7 @@ class YoutubeAPI
     {
         $items = $subscriptions['items'];
         $nbchannel = 0;
-        $maxChannels = 70;
+        $maxChannels = 60;
         
         if (!is_array($items)) {
             $this->logger->error('[fetchSubscriptions] : No items');

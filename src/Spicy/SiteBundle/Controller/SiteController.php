@@ -18,7 +18,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Spicy\LyricsBundle\Entity\Lyrics;
 use Spicy\RankingBundle\Entity\VideoRanking;
 use Spicy\SiteBundle\Entity\Video;
-use Spicy\SiteBundle\ParseurXML\ParseurXML;
 use Spicy\SiteBundle\Services\Social;
 use Spicy\SiteBundle\Services\Tools;
 
