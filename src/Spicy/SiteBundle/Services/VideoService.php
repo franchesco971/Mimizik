@@ -39,7 +39,7 @@ class VideoService
     public function increment(Video $video)
     {
         if ($this->isRetro($video)) {
-            $this->logger->info("[increment] This is a retro video : ".$video->getId());
+            $this->logger->info("[increment] This is a retro video ", ['id' => $video->getId()]);
             return;
         }
         
@@ -48,7 +48,7 @@ class VideoService
         $enable = isset($_SERVER['REMOTE_ADDR']) ? !in_array($_SERVER['REMOTE_ADDR'], $ipInterdites) : false;
 
         if (!$enable) {
-            $this->logger->error("[increment] Unauthorized IP : ".$_SERVER['REMOTE_ADDR']);
+            $this->logger->error("[increment] Unauthorized IP ", ['REMOTE_ADDR' => $_SERVER['REMOTE_ADDR']]);
             return;
         }
 
@@ -303,17 +303,20 @@ class VideoService
         $videoRanking = $this->em->getRepository(VideoRanking::class)
             ->getOne($video, $ranking);
 
-        /** base vide ***/
-        if (!$videoRanking) {
+        if ($videoRanking) {
+            $nbVu = $videoRanking->getNbVu() + 1;
+            $videoRanking->setNbVu($nbVu);
+        } else {
             $videoRanking =  $this->createVideoRanking($ranking, $video);
-            return;
-        }
-
-        $nbVu = $videoRanking->getNbVu() + 1;
-        $videoRanking->setNbVu($nbVu);
-        
-        $this->em->persist($videoRanking);
+            $this->em->persist($videoRanking);
+        }                
+       
         $this->em->flush();
+
+        $this->logger->info("[incrementVideoRanking] Increment vidéo", [
+            'video id' => $video->getId(),
+            'ranking id' => $ranking->getId(),
+        ]);
     }
 
     public function videosTop($nbVideosTop, $nbResult)

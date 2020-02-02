@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Spicy\RankingBundle\Entity\RankingType;
 use Spicy\SiteBundle\Services\VideoService;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class RankingController extends Controller
@@ -65,7 +66,6 @@ class RankingController extends Controller
 
         $videos = $em->getRepository('SpicySiteBundle:Video')->getTopByDate($ranking, 3);
 
-
         return $this->render('SpicyRankingBundle:Ranking:showLast.html.twig', array(
             'ranking' => $ranking,
             'previousRanking' => $previousRanking,
@@ -73,12 +73,16 @@ class RankingController extends Controller
         ));
     }
 
-    public function showAction(EntityManagerInterface $em, $id, $type_id)
+    public function showAction(EntityManagerInterface $em, LoggerInterface $logger, $id, $type_id)
     {
         $ranking = $em->getRepository('SpicyRankingBundle:Ranking')->getOne($id);
 
-        if (!$ranking) //mauvais id
+        if (!$ranking)
         {
+            $logger->error('Classement indisponible', [
+                'ranking id' => $id,
+                'Ranking type id' => $type_id,
+            ]);
             throw new \Exception('Classement indisponible');
         }
 
