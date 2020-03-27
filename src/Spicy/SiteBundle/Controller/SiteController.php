@@ -15,6 +15,7 @@ use Spicy\SiteBundle\Services\VideoService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Spicy\LyricsBundle\Entity\Lyrics;
 use Spicy\RankingBundle\Entity\VideoRanking;
 use Spicy\SiteBundle\Entity\Video;
@@ -88,9 +89,21 @@ class SiteController extends Controller
         ));
     }
 
-    public function showAction(VideoService $videoManager, Tools $toolsManager, EntityManagerInterface $em, Social $socialService, $id, $referrer = 'video')
+    /**
+     * Undocumented function
+     *
+     * @param VideoService $videoManager
+     * @param Tools $toolsManager
+     * @param EntityManagerInterface $em
+     * @param Social $socialService
+     * @param int $id
+     * @param string $referrer
+     * @return Response
+     */
+    public function showAction(VideoService $videoManager, Tools $toolsManager, EntityManagerInterface $em, Social $socialService, LoggerInterface $logger, $id, $referrer = 'video')
     {
-        $video = $em->getRepository(Video::class)->getOneAvecArtistes($id);
+        $videoRepo = $em->getRepository(Video::class);
+        $video = $videoRepo->getOneAvecArtistes($id);
 
         if ($video == null) {
             throw $this->createNotFoundException('Video inexistant');
@@ -99,14 +112,24 @@ class SiteController extends Controller
         $genres = $video->getGenreMusicaux();
         $genreIdsList = $toolsManager->getListId($genres);
 
-        $suggestions = $em->getRepository(Video::class)
-            ->getSuggestions($genreIdsList, $video->getId());
+        $suggestions = $videoRepo->getSuggestions($genreIdsList, $video->getId());
 
         $tags = $socialService->getHashtags($video);
         $videoManager->increment($video);
 
         $nbVuTotal = $em->getRepository(VideoRanking::class)->getCountForVideo($video);
+        
+        if ($nbVuTotal == null) {
+            $logger->warning("No count for video", ["id" => $video->getId()]);
+            throw new \Exception("No count for video");
+        }
+
         $currentVideoRanking = $em->getRepository(VideoRanking::class)->getOneOfLastRanking($video);
+
+        if ($currentVideoRanking == null) {
+            $logger->warning("No last ranking", ["id" => $video->getId()]);
+            throw new \Exception("No last ranking");
+        }
 
         $paragraphType = [Paragraph::INTRO => 'Intro', Paragraph::COUPLET => 'Couplet',  Paragraph::REFRAIN => 'Refrain',  Paragraph::OUTRO => 'Outro'];
 
