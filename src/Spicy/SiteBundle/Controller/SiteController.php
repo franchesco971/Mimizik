@@ -167,6 +167,16 @@ class SiteController extends Controller
         ));
     }
 
+    /**
+     * show Artiste
+     *
+     * @param EntityManagerInterface $em
+     * @param Tools $toolsService
+     * @param Social $socialService
+     * @param integer $id
+     * @param integer $page
+     * @return Response
+     */
     public function showArtisteAction(EntityManagerInterface $em, Tools $toolsService, Social $socialService, $id, $page = 1)
     {
         if ($page == '__id__' || $page == -1) {
@@ -182,10 +192,10 @@ class SiteController extends Controller
         $videos = $em->getRepository(Video::class)->getByArtiste($id);
 
         $nbVideos = count($videos);
+        $tabVideos = array_slice($videos, 0, 10);
 
-        if ($page == 1) {
-            $tabVideos = array_slice($videos, 0, 10);
-        } elseif ($page > 1) {
+        // Si la page est supérieur à 1
+        if ($page > 1) {
             $nbVids = ($page * 10) - 10;
             $tabVideos = array_slice($videos, $nbVids, 10);
         }
@@ -212,7 +222,8 @@ class SiteController extends Controller
             'genres' => $tabGenres,
             'suggestions' => $tabArtistes,
             'nbVideos' => $nbVideos,
-            'page' => $page
+            'page' => $page,
+            'profilPic' => $toolsService->getProfilPic($artiste)
         ]);
     }
 

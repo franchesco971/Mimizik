@@ -2,6 +2,9 @@
 
 namespace Spicy\SiteBundle\Services;
 
+use Psr\Log\LoggerInterface;
+use Spicy\SiteBundle\Entity\Artiste;
+
 /**
  * Description of Tools
  *
@@ -11,9 +14,10 @@ class Tools {
     
     private $mailer;
 
-    public function __construct(\Swift_Mailer $mailer)
+    public function __construct(\Swift_Mailer $mailer, LoggerInterface $logger)
     {
         $this->mailer = $mailer;
+        $this->logger = $logger;
     }
 
     public function getListId($entities)
@@ -102,4 +106,25 @@ class Tools {
         return $text;
     }
     
+    /**
+     *  get Profil Picture
+     *
+     * @param Artiste $artiste
+     * @return string
+     */
+    public function getProfilPic(Artiste $artiste)
+    {
+        $profilPic = "/images/user-male2.png";
+        
+        if ($artiste->getTagFacebook()) {
+            $fbLink = "https://graph.facebook.com/".$artiste->getTagFacebook()."/picture?type=large";
+        
+            $responseAr = get_headers($fbLink);
+            if ($responseAr[0] != "HTTP/1.1 404 Not Found") {
+                $profilPic = $fbLink;
+            }
+        }        
+        
+        return $profilPic;
+    }
 }

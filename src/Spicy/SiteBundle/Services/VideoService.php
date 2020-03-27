@@ -299,9 +299,26 @@ class VideoService
      * @return void
      */
     public function incrementVideoRanking(Video $video, Ranking $ranking)
-    {
-        $videoRanking = $this->em->getRepository(VideoRanking::class)
+    {        
+        try {
+            $videoRanking = $this->em->getRepository(VideoRanking::class)
             ->getOne($video, $ranking);
+        } catch (\Throwable $th) {
+            $this->logger->warning("[incrementVideoRanking] Ranking error", [
+                "video" => $video->getId(),
+                "ranking" => $ranking->getId(),
+                "message" => $th->getMessage()
+            ]);
+            
+            throw new \Exception("[incrementVideoRanking] Ranking error");
+        }
+        
+        if ($videoRanking == null) {
+            $this->logger->info("[incrementVideoRanking] No ranking", [
+                "video" => $video->getId(),
+                "ranking" => $ranking->getId()
+            ]);
+        }
 
         if ($videoRanking) {
             $nbVu = $videoRanking->getNbVu() + 1;
