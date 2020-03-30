@@ -26,13 +26,14 @@
             <title>{{video.artistes|artistsName|raw}} - {{video.titre}}</title>
             <description>
               {{video.artistes|artistsName|raw}} - {{video.titre}}<br/>
+              Le lien du dernier clip est dans la bio.⬆️<br/>
               {{descriptionTab[video.id]['description']|truncate(100, true, '...')}} <br/>
               {{descriptionTab[video.id]['tags']}} <br/>              
             </description>
             <link>{{website_name}}{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}</link>
             <guid isPermaLink="false">{{website_name}}{{path('spicy_site_video_slug',{"id":video.id,"slug":video.slug})}}</guid>  
             <pubDate>{{ pubDates[video.id]['pubDate']|date("D, d M Y H:i:s O") }}</pubDate>
-            <enclosure url="http://img.youtube.com/vi/{{video.url}}/0.jpg" length="5000" type="image/jpeg" />
+            <enclosure url="http://img.youtube.com/vi/{{video.url}}/maxresdefault.jpg" length="5000" type="image/jpeg" />
         </item>
         {% endfor %}
     </channel>
