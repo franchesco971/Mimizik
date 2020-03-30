@@ -29,10 +29,10 @@ class ParagraphType extends AbstractType
             ])
             ->add('paragraph_type', ChoiceType::class, [
                 'choices' => [
-                    Paragraph::INTRO => 'Intro',
-                    Paragraph::COUPLET => 'Couplet',
-                    Paragraph::REFRAIN => 'Refrain',
-                    Paragraph::OUTRO => 'Outro'
+                    'Intro' => Paragraph::INTRO,
+                    'Couplet' => Paragraph::COUPLET,
+                    'Refrain' => Paragraph::REFRAIN,
+                    'Outro' => Paragraph::OUTRO
                 ]
             ]);
     }

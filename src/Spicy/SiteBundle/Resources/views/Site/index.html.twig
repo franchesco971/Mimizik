@@ -1,7 +1,7 @@
 {% extends "SpicySiteBundle::layout.html.twig" %}
 
 {% block title %}
-    {{parent()}} - Toutes les vidéos clip et la musique des antilles, de la caraïbes et de la guyane. Tout mizik la!
+    {{parent()}} - La musique des antilles et de la guyane. Tout mizik la!
     {% if page>1 %}
       Page {{page}}
     {% endif %}
@@ -59,8 +59,8 @@
                 <div class="search-form three-fourth floatleft">
                     <form>
                         <fieldset>
-                            <label>Cherche ton artiste ou ta vidéo :</label>
-                            <input type="text" title="Recherche sur le site" value="Recherche sur le site" />
+                            <label for="recherche_artiste_video">Cherche ton artiste ou ta vidéo :</label>
+                            <input id="recherche_artiste_video" type="text" title="Recherche sur le site" value="Recherche sur le site" />
                         </fieldset>
                     </form>
                 </div>
