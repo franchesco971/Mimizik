@@ -1,17 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" xmlns:og="http://ogp.me/ns#">
     <head>
-        <title>{% block title %}Mimizik - Toutes les vidéos clip et la musique des antilles, de la caraïbes et de la guyane. Tout mizik la!{% endblock %}</title>
+        <title>{% block title %}Mimizik - La musique des antilles et de la guyane. Tout mizik la!{% endblock %}</title>
         
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 {#        <meta name="google-signin-client_id" content="286880270017-n438moatedvbo22leu2v2u3qnsf0vlht.apps.googleusercontent.com">#}
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
         {% block meta_description %}
-            <meta name="Description" content="Mimizik est un site promotion de la musique des artistes et des vidéos clip des antilles, de la caraïbes et de la guyane. Il y a tous genres musicaux (zouk, dancehall, hip-hop...) antillais réunion haïti" />
+            <meta name="Description" content="Mimizik est un site promotion de la musique des artistes et des vidéos clip des antilles, de la caraïbes et de la guyane. Zouk, dancehall, hip-hop antillais réunion haïti" />
             <meta property="og:description" content="Mimizik est un site promotion de la musique des artistes et des vidéos clip des antilles, de la caraïbes et de la guyane. Il y a tous genres musicaux (zouk, dancehall, hip-hop...) antillais réunion haïti" />
             <meta property="og:title" content="Mimizik" />
             <meta property="og:type" content="website" />
-            <meta property="og:image" content="{{website_name}}{{asset('images/logo.png')}}" />
+            <meta property="og:image" content="{{website_name}}{{asset('images/logo_orange1024.gif')}}" />
             <meta property="og:url" content="{{website_name}}" />            
         {% endblock %}
         {% block stylesheets %}
@@ -49,19 +49,19 @@
     
     <body>
         <div class="header">
-            <div class="supheader wrapper">
+            <div class="supheader wrapper" itemscope itemtype="http://schema.org/Organization">
                 <div class="container" id="login">
                     <div class="logo">
-                        <a href="{{path("spicy_site_homepage")}}">
-                            <img src="{{asset('images/logo100rouge.png')}}"  alt="Logo mimizik" />
+                        <a itemprop="url" href="{{path("spicy_site_homepage")}}">
+                            <img src="{{asset('images/logo100rouge.png')}}" alt="Logo mimizik" />
                         </a>
-                        <h1 style="display:none">Mimizik</h1>
+                        <h1 itemprop="name" style="display:none">Mimizik</h1>
                     </div>	
                     <div class="social-links">
-                        <a title="Facebook" class="facebook" href="https://www.facebook.com/mimizikcom" target="_blank"></a>								
-                        <a title="Youtube" class="youtube" href="https://www.youtube.com/user/mimizikcom" target="_blank"></a>
-                        <a title="Twitter" class="twitter" href="https://twitter.com/mimizikcom" target="_blank"></a>
-                        <a title="Google+" class="google" href="https://plus.google.com/+Mimizik" target="_blank"></a>
+                        <a itemprop="sameAs" title="Facebook" class="facebook" href="https://www.facebook.com/mimizikcom" target="_blank"></a>								
+                        <a itemprop="sameAs" title="Youtube" class="youtube" href="https://www.youtube.com/user/mimizikcom" target="_blank"></a>
+                        <a itemprop="sameAs" title="Twitter" class="twitter" href="https://www.twitter.com/mimizikcom" target="_blank"></a>
+                        <a itemprop="sameAs" title="Instagram" class="google" href="https://www.instagram.com/mimizikcom" target="_blank"></a>
                         <a title="Flux" class="rss" href="http://www.mimizik.com/flux/videos" target="_blank"></a>
                     </div><!--/ social links-->
                     {% if app.user is not null %}
@@ -76,7 +76,7 @@
                             <div  class="large blockright message">Hello <a href="{{path('fos_user_profile_show')}}">{{ app.user.username }}</a>!!</div>
                     {% else %}
                         <div  class="button dark large blockright" id="btn-login" >
-                            <a class="modal_connect" style=""><span>Se connecter</span></a>                            
+                            <a class="modal_connect"><span>Se connecter</span></a>                            
                         </div>
                     {% endif%}
                     <div class="clear"></div>
@@ -174,7 +174,7 @@
                     <div class="divider row col-md-12"></div>
                     <div class="row">
                         <div class="col-md-3"><div class="button dark large">
-                            <a id="btn_register" href="{{path('fos_user_security_login')}}"><span>Se connecter avec Mimizik</span></a>
+                            <a class="btn_register" href="{{path('fos_user_security_login')}}"><span>Se connecter avec Mimizik</span></a>
                         </div></div>
                     </div>
                     <div class="divider row col-md-12"></div>
@@ -185,7 +185,7 @@
             <div class="content-block">
                 <div class="block-title"><span>Inscription</span></div>
                 <div class="block-content registration">
-                    <div class="button dark large" style=""><a id="btn_register" style="" href="{{path('fos_user_registration_register')}}"><span>S'inscrire</span></a></div>
+                    <div class="button dark large"><a class="btn_register" href="{{path('fos_user_registration_register')}}"><span>S'inscrire</span></a></div>
                 </div>
             </div>
         </div>
