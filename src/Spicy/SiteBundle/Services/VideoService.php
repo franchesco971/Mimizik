@@ -31,8 +31,7 @@ class VideoService
     }
 
     /**
-     * Undocumented function
-     * @TODO déplacer dans service
+     * Increment view number on a video
      * @param Video $video
      * @return void
      */
@@ -309,7 +308,7 @@ class VideoService
                 "ranking" => $ranking->getId(),
                 "message" => $th->getMessage()
             ]);
-            
+
             throw new \Exception("[incrementVideoRanking] Ranking error");
         }
         

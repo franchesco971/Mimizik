@@ -28,31 +28,12 @@
     {{ parent() }}
     {% stylesheets filter='cssrewrite,?yui_css' output='css/compiled/video/show.css'
         'css/select2.css'
+        '@SpicySiteBundle/Resources/public/css/show.css'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
     {% endstylesheets %}
     <link rel="image_src" type="image/jpeg" href="http://img.youtube.com/vi/{{lavideo.url}}/0.jpg" />
     <link rel="video_src" href="http://www.youtube.com/v/{{lavideo.url}}?version=3&autohide=1"/>
-    <style type="text/css">
-        .twitter-like{
-            display: inline-block;
-        }
-        #video-content #description span
-        {
-            margin-right: 10px;
-        }
-        .song-text {
-            color: #505050;
-            font-family: pt_sansregular,arial,helvetica,sans-serif;
-            font-size: 15px;
-            line-height: 30px;
-        }
-        .red_type
-        {
-            color: #ee3450;
-        }
-        
-    </style>
 {% endblock %}  
     
 {% block body %}
@@ -64,13 +45,19 @@
         </div>
     </div>
     <div class="content wrapper " id="video-content">
-        <div class="container">
-            <div class="content-block" itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
+        <div class="container" itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
+            <div class="content-block" >
                 <div class="block-title">
-                    <h2 itemprop="name">
+                    <h2>
                         <span class="artisteVideo">
                         {% for artiste in lavideo.artistes %}
-                            <a title="{{artiste.libelle}}" href="{{path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a>    
+                            <a title="{{artiste.libelle}}" href="{{path('spicy_site_artiste_slug', {'id':artiste.id, 'slug':artiste.slug})}}" 
+                            itemprop="actor" itemscope itemtype="http://schema.org/Person">
+                                <meta itemprop="name" content="{{artiste.libelle}}" />
+                                <meta itemprop="sameAs" content="{{website_name}}{{path('spicy_site_artiste_slug', {'id':artiste.id, 'slug':artiste.slug})}}" />
+                                <meta itemprop="url" content="{{website_name}}{{path('spicy_site_artiste_slug', {'id':artiste.id, 'slug':artiste.slug})}}" />
+                                {{artiste.libelle}}
+                            </a>    
                             {% if loop.length==2 and loop.first %}
                             &amp;
                             {% elseif loop.length>2 and loop.revindex>2 %}
@@ -87,8 +74,10 @@
                     <meta itemprop="thumbnailUrl" content="http://img.youtube.com/vi/{{lavideo.url}}/0.jpg" />
                     <meta itemprop="contentURL" content="http://www.youtube.com/v/{{lavideo.url}}" />
                     <meta itemprop="embedURL" content="http://www.youtube.com/embed/{{lavideo.url}}" />
+                    <meta itemprop="url" content="{{website_name}}{{path('spicy_site_video_slug', {'id': lavideo.id, 'slug': lavideo.slug})}}" />
                     <meta itemprop="description" content="{{lavideo.description|nl2br}}" />
                     <meta itemprop="uploadDate" content="{{lavideo.dateVideo|date('Y-m-d\\TH:i:sP')}}" />
+                    <meta itemprop="name" content="{{lavideo.artistes|artistsName(20)|raw}} - {{lavideo.titre}}" />
                     {% set autoplay=0 %}
                     <iframe width="100%" height="506" src="http://www.youtube.com/embed/{{lavideo.url}}?autoplay={{autoplay}}" frameborder="0" allowfullscreen></iframe>
                 </div>
@@ -97,15 +86,9 @@
             <div class="lyrics-block content-block" >
                 <div class="block-title"><span>Paroles</span></div>
                 <div class="block-content">
-                    <a class="button large" id="btn_lyrics" href="{{path('mimizik_paroles_show',{'id':lavideo.id,"slug":lavideo.slug})}}">
+                    <a class="button large" id="btn_lyrics" href="{{path('mimizik_paroles_show', {'id':lavideo.id, 'slug':lavideo.slug})}}">
                         <span>Voir les paroles</span>
                     </a>
-                    <div style="display:none" id="lyrics_content" > 
-                        {% for paragraph in lyrics.paragraphs%}
-                            <p class="red_type">({{paragraphType[paragraph.paragraphType]|upper}})</p>
-                            <p class="song-text">{{paragraph.contentOriginal|nl2br}}</p>
-                        {%endfor%}
-                    </div>
                 </div>
             </div>
             {%endif%}
@@ -114,12 +97,13 @@
                     <div class="block-title"><span>Description</span></div>
                     <div class="block-content">                        
                         <p>{{lavideo.description|nl2br}}</p>
-                        <p ><b class="titre">Artistes: </b>
+                        <p><b class="titre">Artistes: </b>
                             {{lavideo.artistes|artistsNameLink|raw}}
                         </p>
                         <p><b class="titre">Genres: </b>
                         {% for genre in lavideo.genreMusicaux %}
-                            <a title="{{genre.libelle}}" href="{{ path('spicy_site_genre',{'id':genre.id,'slug':genre.slug})}}">{{genre.libelle}}</a>    
+                            <meta itemprop="genre" content="{{website_name}}{{ path('spicy_site_genre', {'id': genre.id, 'slug': genre.slug})}}" />
+                            <a title="{{genre.libelle}}" href="{{ path('spicy_site_genre', {'id': genre.id, 'slug': genre.slug})}}">{{genre.libelle}}</a>    
                             {% if loop.last %}
 
                             {% elseif loop.first %} & {% else %} , {%endif%}

@@ -12,17 +12,10 @@
     {{ parent() }}
     {% stylesheets filter='cssrewrite,?yui_css' output='css/compiled/itw/show.css'
         'css/select2.css'
+        '@SpicySiteBundle/Resources/public/css/showITW.css'
     %}
     <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
     {% endstylesheets %}
-    <style type="text/css">
-        #lyrics_content p {
-            overflow: hidden;
-        }
-        #lyrics_content img {
-            margin-right: 1em;
-        }
-    </style>
 {% endblock %}
 
 {% block body %}
@@ -39,7 +32,7 @@
                 <div class="lyrics-block content-block" >
                     <div class="block-title"><span>Questions</span></div>
                     <div class="block-content">
-                        <div id="lyrics_content" > 
+                        <div id="itw_content" > 
                             {% for question in itw.questions%}
                                 <p class="red_type"><br/><b>Mimizik : {{question.content|upper}}</b></p>
                                 <p class="song-text">

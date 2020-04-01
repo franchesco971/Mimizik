@@ -1,0 +1,10 @@
+.selectArtistes{
+    padding-bottom: 10px;
+}
+.selectArtistes .title
+{
+    padding-right: 10px;
+    font-weight: bold;
+    height: 28px;
+    line-height: 28px;
+}

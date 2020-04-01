@@ -16,7 +16,9 @@
 {% block stylesheets %}
     {{ parent() }}
     {% stylesheets filter='cssrewrite,?yui_css' output='css/compiled/home_artiste.css'
-        'css/select2.css'%}
+        'css/select2.css'
+        '@SpicySiteBundle/Resources/public/css/artiste.css'
+    %}
         <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
     {% endstylesheets %}
 {% endblock %}
@@ -33,11 +35,13 @@
     <div class="content wrapper">
         <div class="container">
             <div class="two-third column">
-                <div>
+                <div itemprop="artist" itemscope itemtype="http://schema.org/Person">
+                    <meta itemprop="url" content="{{website_name}}{{ path('spicy_site_artiste_slug', {'id': artiste.id, 'slug': artiste.slug})}}" />
                     <div class="un-tier column-perso">
                         <div class="block-content-perso">
+                            <meta itemprop="image" content="{{profilPic}}" />
                             <img src="{{profilPic}}" alt="{{artiste.libelle}} sur mimizik.com" />
-                            <h4 class="release-title">{{artiste.libelle}}</h4>
+                            <h4 class="release-title" itemprop="name">{{artiste.libelle}}</h4>
                         </div>
                     </div>
                     <div class="un-demi column last">
@@ -51,8 +55,7 @@
                                     </a>
                                 </p>
                                 {% endif %}
-                                {{artiste.description|nl2br}}
-                                
+                                <span itemprop="description">{{artiste.description|nl2br}}</span>                              
                             </div>
                             <div class="block-content"><p>Tags :
                                 {% for genre in genres %}
@@ -64,12 +67,15 @@
                                 </p>
                                 <div class="social-links-description">
                                     {% if fbLink!='' %}
-                                        <a title="Facebook" class="facebook" href="{{fbLink}}" target="_blank"></a>
+                                        <meta itemprop="sameAs" content="{{fbLink}}" />
+                                        <a title="Facebook" class="facebook" href="{{fbLink}}" target="_blank" ></a>
                                     {% endif %}
                                     {% for twitterLink in twitterLinks %}
+                                        <meta itemprop="sameAs" content="{{twitterLink}}" />
                                         <a title="Twitter" class="twitter" href="{{twitterLink}}" target="_blank"></a>
                                     {% endfor %}
                                     {% if instaLink!='' %}
+                                        <meta itemprop="sameAs" content="{{instaLink}}" />
                                         <a title="Instagram" class="instagram" href="{{instaLink}}" target="_blank"></a>
                                     {% endif %}
                                     

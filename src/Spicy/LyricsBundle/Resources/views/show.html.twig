@@ -12,6 +12,7 @@
     {{ parent() }}
     {% stylesheets filter='cssrewrite,?yui_css' output='css/compiled/lyrics/show.css'
         'css/select2.css'
+        '@SpicyLyricsBundle/Resources/css/lyrics.css'
     %}
     <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
     {% endstylesheets %}
@@ -25,16 +26,19 @@
             <div class="clear"></div>
         </div>
     </div>
-    <div class="content wrapper " id="lyrics-content">
+    <div class="content wrapper" id="lyrics-content">
         <div class="container">
             <div class="two-third column">
-                <div class="lyrics-block content-block" >
+                <div class="lyrics-block content-block">
                     <div class="block-title"><span>Paroles</span></div>
-                    <div class="block-content">
+                    <div class="block-content" itemscope="lyrics" itemtype="https://schema.org/CreativeWork">
+                        <a class="button large" id="btn_video" href="{{path('spicy_site_video_slug', {'id': video.id, 'slug': video.slug})}}">
+                            <span>Voir la vidéo</span>
+                        </a>
                         <a class="button large" id="btn_print_lyrics">
                             <span>Imprimer les paroles</span>
                         </a>
-                        <div id="lyrics_content" > 
+                        <div id="lyrics_content" itemprop="text"> 
                             {% for paragraph in lyrics.paragraphs%}
                                 <p class="red_type">({{paragraph|paragraphType|upper}})</p>
                                 <p class="song-text">{{paragraph.contentOriginal|nl2br}}</p>
@@ -89,7 +93,7 @@
             
             $( "#btn_print_lyrics" ).click(function() {
                 var divToPrint=document.getElementById('lyrics_content');
-                var newWin=window.open('','Print-Window');
+                var newWin = window.open('','Print-Window');
                 newWin.document.open();
                 newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
                 newWin.document.close();

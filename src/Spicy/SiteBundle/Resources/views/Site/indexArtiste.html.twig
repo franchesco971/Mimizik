@@ -11,21 +11,11 @@
 {% block stylesheets %}
     {{ parent() }}
     {% stylesheets filter='cssrewrite,?yui_css' output='css/compiled/home_artiste.css'
-        'css/select2.css'%}
+        'css/select2.css'
+        '@SpicySiteBundle/Resources/public/css/artiste.css'
+    %}
         <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
     {% endstylesheets %}
-    <style type="text/css">
-        .selectArtistes{
-            padding-bottom: 10px;
-        }
-        .selectArtistes .title
-        {
-            padding-right: 10px;
-            font-weight: bold;
-            height: 28px;
-            line-height: 28px;
-        }
-    </style>
 {% endblock %}
     
 {% block body %}
@@ -44,7 +34,7 @@
                         <table>
                             {% for artiste in artistes %}
                                 <tr>
-                                    <td><a href="{{ path('spicy_site_artiste_slug',{'id':artiste.id,"slug":artiste.slug})}}">{{artiste.libelle}}</a></td>
+                                    <td><a href="{{ path('spicy_site_artiste_slug', {'id': artiste.id, 'slug': artiste.slug})}}">{{artiste.libelle}}</a></td>
                                     <td>{{artiste.description| truncate(20, true, '...')}}</td>
                                 </tr>
                             {%else%}
@@ -102,8 +92,7 @@
 
     // When document is ready, initialize pagination
     $(document).ready(function(){      
-        initPagination();       
-        
+        initPagination();             
     });
 </script>
     
