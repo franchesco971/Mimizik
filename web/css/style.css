@@ -368,6 +368,25 @@ input[type="button"] {
 }
 
 /*---------------------------- Social Links --------------------------*/
+#mySidenav .social-links a{
+	width:24px;
+	height:25px;
+	background-image: url(/images/social_icons.png);
+	background-repeat: no-repeat;	
+	padding: 0 0 0 10px;
+	float: left;
+}
+
+#mySidenav .social-links div{
+	padding-top: 20px;
+	padding-left: 16px;
+	color: white;
+}
+
+#mySidenav .social-links a.facebook { background-position: 0 -25px; }
+#mySidenav .social-links a.youtube { background-position: -68px -25px; }
+#mySidenav .social-links a.google { background-position: -170px -25px; }
+#mySidenav .social-links a.twitter { background-position: -306px -25px; }
 
 .supheader .social-links {
 	float:right;
@@ -380,7 +399,7 @@ input[type="button"] {
 	float:right;
 	margin-left:10px;
 	width:24px;
-	height:25px;
+	height:25px;	
 	background:url(/images/social_icons.png) 0 0 no-repeat;
 }
 
@@ -2722,7 +2741,8 @@ input[type="button"],
         display: none;
     }
     body>.header {
-        position:fixed;
+		position:fixed;
+		width: 100%;
     }
     #login {
         padding-bottom: 0px;
@@ -2734,5 +2754,17 @@ input[type="button"],
     .contact img {
         width: 100%;
         height: 100%;        
+	}
+	#login .social-links{
+        display: none;
+    }
+
+    #menu{
+        padding-top: 10px;
+    }
+
+    .supheader .logo{
+        float: none;
+        width: 100%;
     }
 }

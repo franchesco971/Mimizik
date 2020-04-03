@@ -67,6 +67,10 @@
     {
         width:280px;margin-left: 20px;
     } 
+
+    #lastVideos_mob {
+        display: none;
+    }
 }    
 /*// Petit écran  */
 @media all and (max-width: 767px) {
@@ -78,4 +82,8 @@
         width: 100%;
         margin-left: 0px;
     }
+
+    #lastVideos {
+        display: none;
+    }    
 }

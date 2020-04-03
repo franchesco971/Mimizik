@@ -16,10 +16,6 @@
     %}
         <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
     {% endstylesheets %}
-    <style type="text/css">
-        /*#body{background: url("/images/testbg.png") no-repeat scroll 50% 0 rgba(0, 0, 0, 0);}*/
-        
-    </style> 
 {% endblock %}
 
 {% block body %}
@@ -36,6 +32,22 @@
         </div>
         <a class="arrow arrow-left" href="#"></a>
         <a class="arrow arrow-right" href="#"></a>
+    </div>
+
+    <div id="lastVideos_mob" class="container">        
+        <div class="column column-videos">
+            <div class="content-block">
+                <div class="block-title"><span>Top vidéos</span>
+                </div>
+                <div class="block-content">
+                    <div class="featured-blog">
+                        {% for video in videos %}  
+                            {% include "SpicySiteBundle:Site:video_post.html.twig" %}
+                        {% endfor %}                       
+                    </div>
+                </div>    
+            </div>
+        </div>
     </div>
     
     <div id="recherche" class="content-block">
