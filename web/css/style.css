@@ -369,18 +369,23 @@ input[type="button"] {
 
 /*---------------------------- Social Links --------------------------*/
 #mySidenav .social-links a{
+	color: white;
+}
+#mySidenav .social-links a:first-of-type{
 	width:24px;
 	height:25px;
 	background-image: url(/images/social_icons.png);
 	background-repeat: no-repeat;	
 	padding: 0 0 0 10px;
 	float: left;
+	color: white;
 }
 
 #mySidenav .social-links div{
 	padding-top: 20px;
 	padding-left: 16px;
 	color: white;
+	clear: both;
 }
 
 #mySidenav .social-links a.facebook { background-position: 0 -25px; }
@@ -653,7 +658,6 @@ input[type="button"] {
 .content-block .block-title > span {
 	float:left;
 	padding:1em 16px 0.7em 16px;
-	white-space:nowrap;
 }
 
 .content-block .block-content {
@@ -2713,7 +2717,8 @@ input[type="button"],
 /* Petit écran */ 
 @media all and (max-width: 767px) {
     #body {
-        padding-top: 138px;
+		padding-top: 138px;
+		/* padding-top: 200px; */
     }
     .container {
         width: 90%;

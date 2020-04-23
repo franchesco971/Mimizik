@@ -199,7 +199,7 @@ jQuery(document).ready(function($) {
 				tabs.find('.pane:eq('+$(this).index()+')').show();			
 			});
 		});		
-		$('.tabs-container .tabs a').click(function() {
+		$('.tabs-container .a_tabs').click(function() {
 			$(this).parent().trigger('click');
 			return false;
 		});

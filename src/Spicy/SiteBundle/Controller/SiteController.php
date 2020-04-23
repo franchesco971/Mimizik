@@ -128,7 +128,7 @@ class SiteController extends Controller
 
         if ($currentVideoRanking == null) {
             $logger->warning("No last ranking", ["id" => $video->getId()]);
-            throw new \Exception("No last ranking");
+            // throw new \Exception("No last ranking");
         }
 
         $paragraphType = [Paragraph::INTRO => 'Intro', Paragraph::COUPLET => 'Couplet',  Paragraph::REFRAIN => 'Refrain',  Paragraph::OUTRO => 'Outro'];
@@ -137,7 +137,7 @@ class SiteController extends Controller
             'lavideo' => $video,
             'suggestions' => $suggestions,
             'tags' => $tags,
-            'nbVuTotal' => $nbVuTotal['total'],
+            'nbVuTotal' => $nbVuTotal['total'] ?? 0,
             'lyrics' => $em->getRepository(Lyrics::class)->getOrdered($video),
             'paragraphType' => $paragraphType,
             'referrer' => $referrer,
@@ -540,6 +540,12 @@ class SiteController extends Controller
         ]);
     }
     
+    /**
+     * videoJsonAction
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function videoJsonAction($id)
     {
         $video = $this->getDoctrine()
@@ -552,5 +558,32 @@ class SiteController extends Controller
         $response->headers->set('Content-Type', 'application/json');
     
         return $response;
+    }
+
+    /**
+     * search
+     *
+     * @param EntityManagerInterface $em
+     * @param string $term
+     * @return Response
+     */
+    public function searchAction(EntityManagerInterface $em, string $term = '')
+    {
+        $termLength = strlen(urldecode($term));
+        $artists = $videos = [];
+        $count = 0;
+
+        if ($termLength > 2) {
+            $artists = $em->getRepository(Artiste::class)->getSearchedArtist($term, false);
+            $videos = $em->getRepository(Video::class)->getSearchedVideo($term, false);       
+            $count = count($artists) + count($videos); 
+        }                     
+
+        return $this->render('SpicySiteBundle:Site:Search\result.html.twig', [
+            'term' => $term,
+            'artists' => $artists,
+            'videos' => $videos,
+            'count' => $count
+        ]);
     }
 }

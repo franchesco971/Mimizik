@@ -448,4 +448,36 @@ class VideoRepository extends EntityRepository
 
         return $query->getResult();
     }
+
+    /**
+     * get Searched Video
+     *
+     * @param string $term
+     * @param boolean $json
+     * @param integer $maxResults
+     * @param integer $page
+     * @return mixed
+     */
+    public function getSearchedVideo(string $term, $json = true, int $maxResults = 10, $page = 1)
+    {
+        $qb = $this->createQueryBuilder('v')
+            ->join('v.artistes', 'a')
+            ->join('v.genre_musicaux', 'g')
+            ->where('UPPER(v.titre) like UPPER(:term)')
+            ->orWhere('UPPER(v.description) like UPPER(:term)')
+            ->setParameter('term', "%$term%")
+            ->andWhere('v.etat=1')
+            ->andWhere('g.id<> :id_retro')
+            ->setParameter('id_retro', $this->retro)
+            ->setMaxResults($maxResults)
+            ->addSelect('a');
+
+        $query = $qb->getQuery();
+
+        if ($json) {
+            return $query->getResult(Query::HYDRATE_ARRAY);
+        }
+
+        return $query->getResult();
+    }
 }

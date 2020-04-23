@@ -1,0 +1,5 @@
+mimizik_artist_search:
+    path:  /search
+    defaults: { _controller: SpicySiteBundle:Artist:searchArtist }
+    requirements: 
+        _method: post

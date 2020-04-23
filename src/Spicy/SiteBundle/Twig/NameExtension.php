@@ -6,14 +6,17 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Spicy\SiteBundle\Entity\Artiste;
+use Spicy\SiteBundle\Services\Tools;
 
 class NameExtension extends AbstractExtension
 {
     private $router;
+    private $toolService;
 
-    public function __construct(UrlGeneratorInterface $router)
+    public function __construct(UrlGeneratorInterface $router, Tools $toolService)
     {
         $this->router = $router;
+        $this->toolService = $toolService;
     }
 
     public function getFilters()
@@ -21,6 +24,7 @@ class NameExtension extends AbstractExtension
         return array(
             new TwigFilter('artistsName', array($this, 'artistsNameFilter')),
             new TwigFilter('artistsNameLink', array($this, 'artistsNameLinkFilter')),
+            new TwigFilter('artistProfil', array($this, 'artistProfilFilter')),
         );
     }
 
@@ -92,5 +96,16 @@ class NameExtension extends AbstractExtension
     public function getName()
     {
         return 'name.extension';
+    }
+
+    /**
+     * artist Profil Filter
+     *
+     * @param Artiste $artist
+     * @return string
+     */
+    public function artistProfilFilter(Artiste $artist)
+    {
+        return $this->toolService->getProfilPic($artist);
     }
 }

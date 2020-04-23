@@ -26,8 +26,32 @@ var genreService = {
             $('#sideGenreMenu').html(htmlMobile);
         });
     },
+    initGenreMenuBoot : function(linkAjax, linkGenre)
+    {
+        $.ajax({
+            url: linkAjax,
+            context: document.body
+        })
+        .done(function(data) {
+            var genres = JSON.parse(data);
+            var html = '';
+            var htmlMobile = '';
+
+            $.each(genres, function( key, genre ) {
+                var link = genreService.getModalLink(linkGenre, genre);
+                html = html + genreService.getABaliseBoot(link, genre);
+                htmlMobile = htmlMobile + genreService.getABalise(link, genre);
+            });
+
+            $('#dropdownMenu .dropdown-menu').append(html);
+            $('#sideGenreMenu').html(htmlMobile);
+        });
+    },
     getABalise : function(link, genre) {
         return '<a title="'+genre.libelle+'" href="'+link+'">'+genre.libelle+'</a>';
+    },
+    getABaliseBoot : function(link, genre) {
+        return '<a class="dropdown-item" title="'+genre.libelle+'" href="'+link+'">'+genre.libelle+'</a>';
     }   
 };
 

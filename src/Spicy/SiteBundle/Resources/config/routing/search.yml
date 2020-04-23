@@ -1,0 +1,5 @@
+mimizik_search_index:
+    path:  /{term}
+    defaults: { _controller: SpicySiteBundle:Site:search, term: "" }
+    requirements:
+        slug: "[a-zA-Z-]+"

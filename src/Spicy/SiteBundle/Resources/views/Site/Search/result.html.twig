@@ -1,0 +1,211 @@
+{% extends "::layout_bootstrap.html.twig" %}
+
+{% block title %}
+{{ parent() }} : Sur Mimizik recherche des artistes et des vidéos clip des antilles, de la caraïbes et de la guyane.
+{% endblock %}
+
+{% block stylesheets %} 
+    {{ parent() }}
+{% endblock %}
+
+{% block body %} 
+<div id="searchBar" class="dflex justify-content-center pt-3">
+    <div class="input-group largeur">
+        <input type="text" class="form-control" placeholder="Cherche ton artiste ou ta vidéo">
+        <div class="input-group-append">
+            <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#search_modal">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+    </div>
+</div>
+<div id="searchResult" class="p-3">
+    <h2><span class="red">{{count}} résultats</span> <span class="font-weight-light">Affinez la recherche</span></h2>
+    <div class="row">
+        <div class="dflex flex-column result-col">
+            <!-- <div class="row"> -->
+            <h3 class="ml-3">Artistes</h3>
+            {% for artist in artists %}
+                <div class="card mb-3 mr-3 ml-3">
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                            <a href="{{ path('spicy_site_artiste_slug', {'id': artist.id, 'slug': artist.slug})}}">
+                                <img src="{{ artist|artistProfil }}" class="card-img" alt="{{artist.libelle}}">
+                            </a>
+                        </div>
+                        <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a class="red" href="{{ path('spicy_site_artiste_slug', {'id': artist.id, 'slug': artist.slug})}}">{{artist.libelle}}</a>
+                            </h5>
+                            <p class="card-text">{{artist.description| truncate(80, true, '...')}}</p>
+                            <p class="card-text"><small class="text-muted">{{artist.dateArtiste|date('d/m/y')}}</small></p>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <!-- </div> -->
+        </div>
+
+        <div class="dflex flex-column result-col">
+            <h3 class="ml-3">Vidéos</h3>
+            {% for video in videos %}
+                <div class="card mb-3 mr-3 ml-3">
+                    <div class="row no-gutters">
+                        <div class="col-md-4"><a href="{{path('spicy_site_video_slug', {'id': video.id, 'slug': video.slug})}}">
+                            <img src="http://img.youtube.com/vi/{{video.url}}/0.jpg" class="card-img" alt="{{video.artistes|artistsName(20)|raw}} - {{video.titre}}">
+                        </a></div>
+                        <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><a class="caption" href="{{path('spicy_site_video_slug', {'id':video.id, 'slug': video.slug})}}">
+                                <span><span class="red">{{video.artistes|artistsName(20)|raw}}</span> - {{video.titre}} </span>
+                            </a></h5>
+                            <p class="card-text">{{video.description| truncate(120, true, '...')}}</p>
+                            <p class="card-text"><small class="text-muted">{{video.dateVideo|date('d/m/y')}}</small></p>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+
+    <!-- <div class="row">
+         <div class="d-flex w-50 flex-column">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Précédent</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Suivant</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="d-flex w-50 flex-column">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Précédent</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Suivant</a>
+                    </li>
+                </ul>
+            </nav>
+        </div> 
+    </div>-->
+</div>
+    
+{% endblock %}
+
+{% block footer %} 
+    {{ parent() }}
+{% endblock %}
+
+{% block modals %} 
+    {{ parent() }}
+
+    <!-- Modal -->
+    <div class="modal fade" id="search_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div id="searchBar_modal" class="dflex justify-content-center pt-3 modal-body">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Cherche ton artiste ou ta vidéo" autofocus>
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary modal_connect" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                        <div id="search_result" class="container" >
+                            <div class="error_lenght">Tapez plus de 3 caractères</div>
+                            <div class="search_loading">
+                                <img class="loading_img" src="{{asset('images/search/loading.gif')}}"  alt="loading" />
+                            </div>
+                            <div class="dflex flex-row bd-highlight mb-3">
+                                <div class="results">
+                                    <h3>Artistes</h3>
+                                    <div class="artistResult"></div>
+                                </div>
+                                <div class="results">
+                                    <h3>Videos</h3>
+                                    <div class="videoResult"></div>
+                                </div>
+                            </div>
+                            <div class="plus"><a class="plusLink red" href="{{ path('mimizik_search_index') }}">Plus de résultats</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts  filter='?yui_js' output='js/compiled/searchResult.js'
+        'js/service/searchService.js'
+    %}
+        <script type="text/javascript" src="{{ asset_url }}" ></script>
+    {% endjavascripts %}
+    <script type="text/javascript"> 
+        $(document).ready(function(){ 
+            var homepath = "{{ path('spicy_site_homepage') }}";
+            var artistSearchPath = "{{ path('mimizik_artist_search')}}";
+            var videoSearchPath = "{{ path('mimizik_video_search')}}";
+            var searchPath = "{{ path('mimizik_search_index') }}";
+
+            /** init menu */
+            $('.dropdownItem').mouseover(function() {
+                $(this).find('.dropdown-menu').dropdown('show');
+            });
+
+            $('.dropdownItem').mouseout(function() {
+                $(this).find('.dropdown-menu').dropdown('hide');
+            });
+
+            $('#searchBar_modal .search_loading').hide();
+            $('#search_result').hide();
+            
+            var formControl = $('#searchBar_modal .form-control');
+            var homeFormControl = $('#searchBar .form-control');
+            homeFormControl.attr("placeholder", "Cherche ton artiste ou ta vidéo");
+            formControl.attr("placeholder", "Cherche ton artiste ou ta vidéo");
+
+            homeFormControl.focusin(function() {
+                $('#search_modal').modal("show");                
+            });
+
+            formControl.on('input', function(){
+                var term = $(this).val();
+                $('#search_result').show();
+                $('#search_result .artistResult').html('');
+                $('#search_result .videoResult').html('');
+
+                if (term.length > 2) {
+                    // change the link
+                    $('#search_result .plusLink').attr("href", searchPath + '/' + encodeURI(term));
+                    // search artists and videos
+                    searchService.getSearchArtists(artistSearchPath, homepath, encodeURI(term));
+                    searchService.getSearchVideos(videoSearchPath, homepath, encodeURI(term));
+                    $('#searchBar_modal .error_lenght').hide();
+                } else {
+                    $('#searchBar_modal .error_lenght').show();
+                }
+            });
+        });
+    </script>
+{% endblock %}

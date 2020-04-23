@@ -25,9 +25,8 @@
                         {% for video in videos %}         
                             {% include "SpicySiteBundle:Site:video_post.html.twig" %}          
                         {% endfor %}
-                        <div id="Pagination" >
-
-                        </div>                        
+                        <div id="Pagination"></div>
+                        <div id="pagination-mobile"></div>                        
                     </div>
                 </div>    
             </div>
@@ -53,7 +52,7 @@
     
     <script type="text/javascript">
         function initPagination() {
-            var num_entries = {{videos|length}}
+            var num_entries = {{videos|length}};
             // Create content inside pagination element
             $("#Pagination").pagination(num_entries, {
                 //callback: pageselectCallback,
@@ -64,6 +63,14 @@
                 next_text:"Suiv.",
                 num_edge_entries:2,
                 num_display_entries:8,
+                callback:function(){}
+            });
+
+            $('#pagination-mobile').pagination(num_entries, {
+                link_to:"{{ path('spicy_site_genre',{'id':genre.id,'slug':genre.slug,'page':'__id__'})}}",
+                prev_text:"Prèc.",
+                next_text:"Suiv.",
+                num_display_entries:0,
                 callback:function(){}
             });
          }

@@ -1,0 +1,5 @@
+mimizik_video_search:
+    path:  /search
+    defaults: { _controller: SpicySiteBundle:Video:searchVideo}
+    requirements: 
+        _method: post

@@ -83,4 +83,31 @@ class ArtisteRepository extends EntityRepository
         
         return $query->getResult();
     }
+
+    /**
+     * get Searched Artist
+     *
+     * @param string $term
+     * @param boolean $json
+     * @param integer $maxResults
+     * @param integer $page
+     * @return mixed
+     */
+    public function getSearchedArtist(string $term, $json = true, int $maxResults = 10, $page = 1)
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->where('UPPER(a.libelle) like UPPER(:term)')
+            ->setParameter('term', '%' . $term . '%')
+            ->setMaxResults($maxResults)
+            ->orderBy('a.libelle')
+            ->addOrderBy('a.dateArtiste');
+
+        $query = $qb->getQuery();
+
+        if ($json) {
+            return $query->getResult(Query::HYDRATE_ARRAY);
+        }
+
+        return $query->getResult();
+    }
 }

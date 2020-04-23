@@ -1,0 +1,48 @@
+php_flag magic_quotes_gpc Off
+
+# MOD_DEFLATE COMPRESSION
+SetOutputFilter DEFLATE
+AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/x-javascript application/x-httpd-php
+#Pour les navigateurs incompatibles
+BrowserMatch ^Mozilla/4 gzip-only-text/html
+BrowserMatch ^Mozilla/4\.0[678] no-gzip
+BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+BrowserMatch \bMSI[E] !no-gzip !gzip-only-text/html
+#ne pas mettre en cache si ces fichiers le sont déjà
+SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip
+#les proxies doivent donner le bon contenu
+Header append Vary User-Agent env=!dont-vary
+
+<IfModule mod_rewrite.c>
+    DirectoryIndex index.php
+    Options -Indexes
+    RewriteEngine On
+
+    RewriteCond %{HTTP_HOST} ^mimizik.com$
+    RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+    RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+    RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+    RewriteRule ^(.*) http://www.mimizik.com/$1 [QSA,L,R=301]
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+    RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+    RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+    RewriteRule ^(.*)$ app.php [QSA,L]
+</IfModule>
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 month"
+    ExpiresByType image/x-icon "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+</IfModule>
+
+<IfModule mod_php5.c>
+    php_value memory_limit 1024M
+    php_value max_execution_time 180
+</IfModule>

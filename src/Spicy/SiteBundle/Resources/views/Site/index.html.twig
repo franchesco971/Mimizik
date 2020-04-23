@@ -34,6 +34,12 @@
         <a class="arrow arrow-right" href="#"></a>
     </div>
 
+    <div id="searchBar_mini" class="wrapper">
+        <div class="container">
+                <img class="modal_open" src="{{asset('images/search/home_search_mini.png')}}"  alt="recherche" />
+        </div>
+    </div>
+
     <div id="lastVideos_mob" class="container">        
         <div class="column column-videos">
             <div class="content-block">
@@ -50,35 +56,45 @@
         </div>
     </div>
     
-    <div id="recherche" class="content-block">
-        <div class="page" >
-            <div class="wrapper" >
-                <div style="visibility: hidden" class="search-hidden">
-                    <script type="text/javascript">
-                        (function() {
-                          var cx = '002998674673804737708:kp1nwfez6i8';
-                          var gcse = document.createElement('script');
-                          gcse.type = 'text/javascript';
-                          gcse.async = true;
-                          gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
-                              '//www.google.com/cse/cse.js?cx=' + cx;
-                          var s = document.getElementsByTagName('script')[0];
-                          s.parentNode.insertBefore(gcse, s);
-                        })();
-                    </script>
-                    <gcse:search gaQueryParameter="q"></gcse:search>
-                </div>
-                <div class="search-form three-fourth floatleft">
-                    <form>
-                        <fieldset>
-                            <label for="recherche_artiste_video">Cherche ton artiste ou ta vidéo :</label>
-                            <input id="recherche_artiste_video" type="text" title="Recherche sur le site" value="Recherche sur le site" />
-                        </fieldset>
-                    </form>
-                </div>
-            </div>
+    <div id="searchBar" class="container-block">
+        <div class="container default">
+            <img class="modal_open" src="{{asset('images/search/home_search.png')}}" alt="recherche" />
         </div>
     </div>
+
+    
+    <div id="search_modal" class="reveal-modal">
+        <div id="searchBar_modal">
+            <div class="input-group container">
+                <input type="text" class="form-control" placeholder="Cherche ton artiste ou ta vidéo">
+                <!-- <div class="input-group-append">
+                    <button class="btn btn-secondary modal_connect" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div> -->
+                <div id="search_result" class="container" >
+                    <div class="error_lenght">Tapez plus de 3 caractères</div>
+                    <div class="search_loading">
+                        <img class="loading_img" src="{{asset('images/search/loading.gif')}}"  alt="loading" />
+                    </div>
+                    <div class="results">
+                        <h3>Artistes</h3>
+                        <div class="artistResult"></div>
+                    </div>
+                    <div class="results">
+                        <h3>Videos</h3>
+                        <div class="videoResult"></div>
+                    </div>
+                    <div class="plus"><a class="plusLink" href="{{ path('mimizik_search_index') }}">Plus de résultats</a></div>
+                </div>
+            </div>
+
+
+        </div>
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+
+
     <div id="espace_pub_home" class="container">
     </div>
     <div class="container" id="main_container" >
@@ -105,28 +121,33 @@
                     <div class="social-widget tabs-container">
                         <div class="tabs">
                             <ul>					
-                                <li class="current"><a href="#" title="Facebook" class="facebook"></a></li>
-                                <li><a href="#" title="Twitter" class="twitter"></a></li>
-                                <li><a href="#" title="YouTube" class="youtube"></a></li>
+                                <li class="current"><a href="#" title="Facebook" class="facebook a_tabs"></a></li>
+                                <li><a href="#" title="Twitter" class="twitter a_tabs"></a></li>
+                                <li><a href="#" title="YouTube" class="youtube a_tabs"></a></li>
                             </ul>
                         </div>	
                         <div class="clear"></div>
                         <div class="panes">
                             <div class="pane facebook" style="display: block;">
-                                <script type="text/javascript">(function(d, s, id) {
-                                  var js, fjs = d.getElementsByTagName(s)[0];
-                                  if (d.getElementById(id)) return;
-                                  js = d.createElement(s); js.id = id;
-                                  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&appId=729891760354276&version=v2.0";
-                                  fjs.parentNode.insertBefore(js, fjs);
-                                }(document, 'script', 'facebook-jssdk'));</script>
-                                <div class="fb-like-box" data-href="http://www.facebook.com/mimizikcom" data-width="260" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="true"></div>
+                                <script type="text/javascript">
+                                    (function(d, s, id) {
+                                        var js, fjs = d.getElementsByTagName(s)[0];
+                                        if (d.getElementById(id)) return;
+                                        js = d.createElement(s); js.id = id;
+                                        js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&appId=729891760354276&version=v2.0";
+                                        fjs.parentNode.insertBefore(js, fjs);
+                                    }(document, 'script', 'facebook-jssdk'));
+                                </script>
+                                <div class="fb-like-box" data-href="http://www.facebook.com/mimizikcom" data-width="260" data-colorscheme="light" 
+                                data-show-faces="true" data-header="false" data-stream="false" data-show-border="true"></div>
                             </div>
                             <div id="widget-tweets" class="pane twitter">
-                               <a class="twitter-timeline" height="300"  href="https://twitter.com/mimizikcom"  data-widget-id="389191778881912833">Tweets de @mimizikcom</a>
+                                <a class="twitter-timeline" height="300" href="https://twitter.com/mimizikcom" data-widget-id="389191778881912833">Tweets de @mimizikcom</a>
+                                <input type="hidden" value="10" class="tweets-number" />
+                                <input type="hidden" value="mimizikcom" class="twitter-username" />
                             </div>
                             <div class="pane youtube">
-                                    <iframe style="overflow: hidden; height: 105px; width: 100%; border: 0;" src="http://www.youtube.com/subscribe_widget?p=mimizikcom" id="fr"></iframe>
+                                <iframe style="overflow: hidden; height: 105px; width: 100%; border: 0;" src="http://www.youtube.com/subscribe_widget?p=mimizikcom" id="fr"></iframe>
                             </div>
                         </div>
                     </div>
@@ -163,114 +184,68 @@
     
 {% block javascripts %}
     {{parent()}}
-    <script type="text/javascript">
-    
-        var getVideos = function(page) {
-            var page = page+1;
-            
-            $.ajax({
-                url: "{{ path('spicy_site_homepage')}}ajax/"+page,
-                context: document.body
-            })
-            .done(function(html) {
-                $('.column-videos #list_videos').html(html);
-            })
-            .fail(function() {
-                console.log( "error" );
-            });
-        };
-        
-        function initPagination() {
-            var num_entries = {{videos|length-5}};
-            var page = {{page-1}};
-            $("#Pagination").pagination(num_entries, {
-                items_per_page:10, // Show only one item per page
-                //link_to:"{{ path('spicy_site_homepage')}}__id__",
-                link_to:"#",
-                current_page: page,
-                prev_text:"Prèc.",
-                next_text:"Suiv.",
-                num_edge_entries:2,
-                num_display_entries:8,
-                callback:function(page){
-                    getVideos(page);              
-                }
-            });                
-            
-            $('#pagination-mobile').pagination(num_entries, {
-                prev_text:"Prèc.",
-                next_text:"Suiv.",
-                num_display_entries:0,
-                callback:function(page){
-                    getVideos(page);              
-                }
-            });
-        };
-	
-	//Tabs
-	if($('.tabs-container').length) {	
-            $('.tabs-container').each(function() {
-
-                var tabs=$(this);
-
-                //show first pane
-                tabs.find('.panes .pane:first-child').show();
-                tabs.find('.tabs li:first-child').addClass('current');
-
-                tabs.find('.tabs li').click(function() {
-                    //set active state to tab
-                    tabs.find('.tabs li').removeClass('current');
-                    $(this).addClass('current');
-
-                    //show current tab
-                    tabs.find('.pane').hide();
-                    tabs.find('.pane:eq('+$(this).index()+')').show();			
-                });
-            });		
-            $('.tabs-container .tabs a').click(function() {
-                $(this).parent().trigger('click');
-                return false;
-            });
-	}
-        
+    <script type="text/javascript" src="{{asset('js/jquery.ribbonSlider.js')}}" ></script>
+    {% javascripts  filter='?yui_js' output='js/compiled/index.js'
+        '@SpicySiteBundle/Resources/public/js/home.js'
+        'js/service/searchService.js'
+        'js/jquery.mousewheel.min.js'
+    %}
+        <script type="text/javascript" src="{{ asset_url }}" ></script>
+    {% endjavascripts %}
+    <script type="text/javascript"> 
         $(document).ready(function(){ 
-            //initSlider();
-            initPagination();
-            
-            $('#recherche .search-form form').submit(function() {
-                //$('#recherche .search-hidden').show();
-                var val_search=$(this).find('input[type="text"]').val();
-                
-                var hidden_form=$('#recherche .search-hidden form');
-                var hidden_input=hidden_form.find('.gsc-input input');
-                var hidden_button=hidden_form.find('.gsc-search-button input');
-                hidden_input.val(val_search);
-                
-                hidden_button.click();
-                //setTimeout(1000);
-                //$('#recherche .search-hidden').hide();
-                return false;
-            });
-            
-            $('#recherche .search-form input[type="text"]').focus(function() {
-                 $(this).val('');
-            });
+            var homeAjaxPath = "{{ path('spicy_site_homepage')}}ajax/";
+            var num_entries = "{{videos|length-5}}";
+            var page = "{{page-1}}";
+            var homepath = "{{ path('spicy_site_homepage') }}";
+            var artistSearchPath = "{{ path('mimizik_artist_search')}}";
+            var videoSearchPath = "{{ path('mimizik_video_search')}}";
+            var searchPath = "{{ path('mimizik_search_index') }}";
+
+            initPagination(homeAjaxPath, num_entries, page);
             
             $.ajax({
                 url: "{{ path('mimizik_ranking_last_show')}}",
                 context: document.body
-              })
+            })
             .done(function(html) {
                 $('#last-ranking .last').html(html);
-            });
+            });   
             
+            $(".modal_open").click(function() {
+                $('#search_modal').reveal();
+                return false;
+            });
+
+            $('#searchBar_modal .search_loading').hide();
+            $('#search_result').hide();
+            var formControl = $('#searchBar_modal .form-control');
+            formControl.attr("placeholder", "Cherche ton artiste ou ta vidéo");
+
+            formControl.on('input', function(){
+                var term = $(this).val();
+                $('#search_result').show();
+                $('#search_result .artistResult').html('');
+                $('#search_result .videoResult').html('');
+
+                if (term.length > 2) {
+                    $('#search_result .plusLink').attr("href", searchPath + '/' + encodeURI(term));
+                    searchService.getSearchArtists(artistSearchPath, homepath, encodeURI(term));
+                    searchService.getSearchVideos(videoSearchPath, homepath, encodeURI(term));
+                    $('#searchBar_modal .error_lenght').hide();
+                } else {
+                    $('#searchBar_modal .error_lenght').show();
+                }
+            });
         });
     </script>
-    <script type="text/javascript" src="{{asset('js/jquery.ribbonSlider.js')}}" ></script>
-    {#% javascripts  filter='?yui_js' output='js/compiled/home.js'
-        'js/jquery.mousewheel.min.js'
-        'js/jquery.ribbonSlider.js' %}
-        <script type="text/javascript" src="{{ asset_url }}" ></script>
-    {% endjavascripts %#}
-    <script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    
+    <script type="text/javascript">
+        !function(d,s,id){
+            var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
+            if(!d.getElementById(id)){
+                js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);
+            }
+        }(document,"script","twitter-wjs");
+    </script>
 {% endblock%}

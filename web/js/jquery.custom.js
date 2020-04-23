@@ -173,9 +173,14 @@ jQuery(document).ready(function($) {
 	//Social Widget
 	if($('.social-widget').length) {
 		if($('.social-widget .pane.twitter').length) {
-			$.getJSON('http://api.twitter.com/1/statuses/user_timeline/'+$('.pane.twitter input.twitter-username').val()+'.json?count='+parseInt($('.pane.twitter input.tweets-number').val())+'&callback=?', function(tweets) {
-				$('.social-widget .pane.twitter').html(loadTweets(tweets));
-			});
+			/*console.log($('.pane.twitter input.tweets-number').val());
+			$.getJSON(
+				'http://api.twitter.com/1.1/statuses/user_timeline/'+$('.pane.twitter input.twitter-username').val()+'.json?count='
+				+parseInt($('.pane.twitter input.tweets-number').val())+'&callback=?', 
+				function(tweets) {
+					$('.social-widget .pane.twitter').html(loadTweets(tweets));
+				}
+			);*/
 		}
 	}
 	
@@ -199,7 +204,7 @@ jQuery(document).ready(function($) {
 				tabs.find('.pane:eq('+$(this).index()+')').show();			
 			});
 		});		
-		$('.tabs-container .tabs a').click(function() {
+		$('.tabs-container .a_tabs').click(function() {
 			$(this).parent().trigger('click');
 			return false;
 		});

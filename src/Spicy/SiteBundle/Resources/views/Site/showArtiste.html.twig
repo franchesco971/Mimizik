@@ -97,26 +97,26 @@
                         {% if videos %}
                             <div id="Pagination" class="pagination" ></div>
                             <ul class="pagination">
-                                {% if page==1%}
-                                    {% set nbprec=null%}
-                                    {% set nbsuiv=2%}
-                                {% elseif page==nbVideos %}
-                                    {% set nbprec=page-1%}
-                                    {% set nbsuiv=null%}
+                                {% if page == 1%}
+                                    {% set nbprec = null%}
+                                    {% set nbsuiv = 2%}
+                                {% elseif page == nbVideos %}
+                                    {% set nbprec = page-1%}
+                                    {% set nbsuiv = null%}
                                 {% else %}
-                                    {% set nbprec=page-1%}
-                                    {% set nbsuiv=page+1%}
+                                    {% set nbprec = page-1%}
+                                    {% set nbsuiv = page+1%}
                                 {% endif %}
                                 
                                 <li class="prev">
-                                    <a href="{% if nbprec and nbVideos>0%}{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":nbprec})}}{% else %}#{% endif %}">précédent</a>
+                                    <a href="{% if nbprec and nbVideos>0 %}{{path('spicy_site_artiste_slug', {'id':artiste.id, 'slug':artiste.slug, 'page':nbprec})}}{% else %}#{% endif %}">précédent</a>
                                 </li>                                
                                 {% set nbpages=(nbVideos/10)|round(0,'ceil')%}
                                 {% for i in 1..nbpages %}                                    
-                                    <li ><a class="{% if i==page%}current{% endif %}" href="{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":i})}}">{{i}}</a></li>
+                                    <li ><a class="{% if i==page %}current{% endif %}" href="{{path('spicy_site_artiste_slug', {'id':artiste.id, 'slug':artiste.slug, 'page':i})}}">{{i}}</a></li>
                                 {% endfor %}
                                 <li class="next">
-                                    <a href="{% if nbsuiv and nbVideos>0%}{{path('spicy_site_artiste_slug',{"id":artiste.id,"slug":artiste.slug,"page":nbsuiv})}}{% else %}#{% endif %}">suivant</a>
+                                    <a href="{% if nbsuiv and nbVideos>0 %}{{path('spicy_site_artiste_slug', {'id':artiste.id, 'slug':artiste.slug, 'page':nbsuiv})}}{% else %}#{% endif %}">suivant</a>
                                 </li>
                                 
                             </ul>

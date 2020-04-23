@@ -1,0 +1,341 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" xmlns:og="http://ogp.me/ns#">
+
+<head>
+    <title>{% block title %}Mimizik - La musique des antilles et de la guyane. Tout mizik la!{% endblock %}</title>
+
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    {% block meta_description %}
+    <meta name="Description"
+        content="Mimizik est un site promotion de la musique des artistes et des vidéos clip des antilles, de la caraïbes et de la guyane. Zouk, dancehall, hip-hop antillais réunion haïti" />
+    <meta property="og:description"
+        content="Mimizik est un site promotion de la musique des artistes et des vidéos clip des antilles, de la caraïbes et de la guyane. Zouk, dancehall, hip-hop antillais réunion haïti" />
+    <meta property="og:title" content="Mimizik" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="{{website_name}}{{asset('images/logo_orange1024.gif')}}" />
+    <meta property="og:url" content="{{website_name}}" />
+    {% endblock %}
+    {% block stylesheets %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    {% stylesheets filter='cssrewrite,?yui_css' output='css/compiled/mainBootstrap.css'
+                'css/bootstrap/newStyle.css'
+                'css/bootstrap/sideNav.css'
+            %}
+    <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
+    {% endblock %}
+
+    <link rel="icon" type="image/png" href="{{asset('images/video.png')}}" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/icone.gif')}}" />
+    <link rel="alternate" type="application/rss+xml" title="videos"
+        href="{{website_name}}{{path('spicy_site_flux_videos')}}" />
+    <!-- analytics -->
+    <script>
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-42850691-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+</head>
+
+<body>
+    <div id="header">
+        {% block header %}
+        <div class="dflex header" id="header-top">
+            <div class="dflex flex-row" itemscope itemtype="http://schema.org/Organization">
+                <div id="logo">
+                    <a itemprop="url" href="{{path('spicy_site_homepage')}}">
+                        <img src="{{asset('images/logo100rouge.png')}}" alt="Logo mimizik" />
+                    </a>
+                    <h1 itemprop="name" style="display:none">Mimizik</h1>
+                </div>
+                <div class="dflex flex-column justify-content-end" id="headers-buttons">
+                    <div class="social-links dflex flex-row mb-3">
+                        <a title="Flux" class="rss ml-auto" href="http://www.mimizik.com/flux/videos"
+                            target="_blank"></a>
+                        <a itemprop="sameAs" title="Instagram" class="google"
+                            href="https://www.instagram.com/mimizikcom" target="_blank"></a>
+                        <a itemprop="sameAs" title="Twitter" class="twitter" href="https://twitter.com/mimizikcom"
+                            target="_blank"></a>
+                        <a itemprop="sameAs" title="Youtube" class="youtube"
+                            href="https://www.youtube.com/user/mimizikcom" target="_blank"></a>
+                        <a itemprop="sameAs" title="Facebook" class="facebook"
+                            href="https://www.facebook.com/mimizikcom" target="_blank"></a>
+                    </div>
+                    {% if app.user is not null %}
+                    {% if (is_granted('ROLE_CONTRIBUTOR') or is_granted('ROLE_ADMIN')) and is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <a class="button btn btn-sm dark large mb-3" role="button" href="{{path('approval_new')}}">SOUMETTRE
+                        UNE VIDEO</a>
+                    {% endif%}
+                    <a class="button btn btn-sm dark large mb-3" role="button"
+                        href="{{path('fos_user_security_logout')}}">SE DECONNECTER</a>
+                    <div class="message text-right">Hello <b class="text-danger"><a
+                                href="{{path('fos_user_profile_show')}}">{{ app.user.username }}</a></b> !!</div>
+                    {% else %}
+                    <a class="button btn btn-sm dark large mb-3 modal_connect" role="button" href="#"
+                        data-toggle="modal" data-target="#global_modal">SE CONNECTER</a>
+                    {% endif%}
+                </div>
+            </div>
+        </div>
+
+        <div id="mySidenav" class="sidenav">
+            <span href="javascript:void(0)" class="closebtn">&times;</span>
+            <a title="Accueil Mimizik" href="{{path('spicy_site_homepage')}}">Accueil</a>
+            <a title="Liste des artistes" href="{{path('spicy_site_artistes')}}">Artistes</a>
+            <a title="Hashtags" href="{{path('mimizik_hashtag')}}">Hashtags</a>
+            <a title="Tops" href="{{path('mimizik_tops')}}">Tops</a>
+            <button class="dropdown-btn">Classements
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                <a title="Classements mensuel" href="{{path('mimizik_ranking_index')}}">Mensuel</a>
+                <a title="Classements annuel" href="{{path('mimizik_year_ranking_index')}}">Annuel</a>
+            </div>
+            <a title="Contact" href="{{path('spicy_site_contact')}}">Contact</a>
+            <button class="dropdown-btn">Genres
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container" id="sideGenreMenu">
+            </div>
+            <a class="modal_connect" data-toggle="modal" data-target="#global_modal"><span>Se connecter</span></a>
+            <div class="social-links dflex flex-column">
+                <div class="dflex">
+                    <a title="Facebook"  href="https://www.facebook.com/mimizikcom" target="_blank" class="facebook"></a>
+                    <a title="Facebook"  href="https://www.facebook.com/mimizikcom" target="_blank">Facebook</a>
+                </div>
+                <div class="dflex">
+                    <a title="Youtube" class="youtube" href="https://www.youtube.com/user/mimizikcom" target="_blank"></a>
+                    <a title="Youtube" href="https://www.youtube.com/user/mimizikcom" target="_blank">Youtube</a>
+                </div>
+                <div class="dflex">
+                    <a title="Twitter" class="twitter" href="https://www.twitter.com/mimizikcom" target="_blank"></a>
+                    <a title="Twitter" href="https://www.twitter.com/mimizikcom" target="_blank">Twitter</a>
+                </div>
+                <div class="dflex">
+                    <a title="Instagram" class="google" href="https://www.instagram.com/mimizikcom" target="_blank"></a>
+                    <a title="Instagram" href="https://www.instagram.com/mimizikcom" target="_blank">Instagram</a>
+                </div>
+            </div>
+        </div>
+        <div class="dflex header" id="header-menu">
+            <span id="btnNav">☰ Menu</span>
+            <ul class="list-group list-group-horizontal largeur">
+                <li class="list-group-item"><a href="{{path('spicy_site_homepage')}}">ACCUEIL</a></li>
+                <li class="list-group-item"><a href="{{path('spicy_site_artistes')}}">ARTISTES</a></li>
+                <li class="list-group-item dropdownItem dropdown" id="dropdownMenu">
+                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">GENRES MUSICAUX</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <!-- menu links -->
+                    </div>
+                </li>
+                <li class="list-group-item"><a href="{{path('mimizik_hashtag')}}">HASHTAGS</a></li>
+                <li class="list-group-item"><a href="{{path('mimizik_tops')}}">TOPS</a></li>
+                <li class="list-group-item dropdownItem dropdown" id="ddRanking">
+                    <button class="btn dropdown-toggle" type="button" id="ddRankingButton" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">CLASSEMENT</button>
+                    <div class="dropdown-menu" aria-labelledby="ddRanking">
+                        <a class="dropdown-item" title="Classements mensuel"
+                            href="{{path('mimizik_ranking_index')}}">Mensuel</a>
+                        <a class="dropdown-item" title="Classements annuel"
+                            href="{{path('mimizik_year_ranking_index')}}">Annuel</a>
+                    </div>
+                </li>
+                <li class="list-group-item"><a href="{{path('spicy_site_contact')}}">CONTACT</a></li>
+            </ul>
+        </div>
+        {% endblock %}
+    </div>
+    <div id="body">
+        {% block body %}
+        {% endblock %}
+    </div>
+    <div class="footer wrapper" id="footer">
+        {% block footer %}
+        <div class="background dflex bd-highlight">
+            <div class="mr-auto p-1 bd-highlight copyright">Mimizik &copy; {{ "now"|date("Y") }}</div>
+            <div class="p-1 bd-highlight"><a title="Accueil Mimizik" href="{{path('spicy_site_homepage')}}">Accueil</a>
+            </div>
+            <div class="p-1 bd-highlight"><a title="Liste des artistes"
+                    href="{{path('spicy_site_artistes')}}">Artistes</a></div>
+            <div class="p-1 bd-highlight"><a title="Genres musicaux" href="{{path('spicy_site_genres')}}">Genres
+                    musicaux</a></div>
+            <div class="p-1 bd-highlight"><a title="Hashtags" href="{{path('mimizik_hashtag')}}">Hashtags</a></div>
+            <div class="p-1 bd-highlight"><a title="Tops" href="{{path('mimizik_tops')}}">Tops</a></div>
+            <div class="p-1 bd-highlight"><a title="Classements"
+                    href="{{path('mimizik_ranking_index')}}">Classements</a></div>
+            <div class="p-1 bd-highlight"><a title="Contact" href="{{path('spicy_site_contact')}}">Contact</a></div>
+        </div>
+        {% endblock %}
+    </div>
+
+    <div id="fb-root"></div>
+
+    {% block modals %}
+    <div class="modal fade" id="global_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Connectez-vous</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body connection">
+                    <div class="card">
+                        <div class="card-header">
+                            Tu as déjà un compte
+                        </div>
+                        <div class="card-body">
+                            <div><a href="#" id="google_signin_link"><img src="{{asset('images/login_google_480.png')}}"
+                                        alt="login google"></a></div>
+                            <div><a href="#" id="fb_signin_link"><img src="{{asset('images/login_fb_480.png')}}"
+                                        alt="login facebook"></a></div>
+                            <div><a class="btn_register btn btn-dark" href="{{path('fos_user_security_login')}}">Se
+                                    connecter avec Mimizik</a></div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            Inscription
+                        </div>
+                        <div class="card-body">
+                            <div><a class="btn_register btn btn-dark"
+                                    href="{{path('fos_user_registration_register')}}">S'inscrire</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <!-- <button type="button" class="btn btn-primary">Send message</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    {% javascripts  filter='?yui_js' output='js/compiled/mainBootstrap.js'
+            'js/jquery.pagination.js'
+            'js/service/genreService.js'
+            'js/service/sideNavService.js'
+        %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <noscript>Your browser does not support JavaScript!</noscript>
+
+    <script type="text/javascript">
+        var model_genre_link = "{{ path('spicy_site_genre',{'id':0,'slug':'-slug-'})}}";
+        var linkAjax = "{{ path('mimizik_genres_menu')}}";
+        var dropdown = document.getElementsByClassName("dropdown-btn");
+
+        // When document is ready, initialize pagination
+        $(document).ready(function () {
+            genreService.initGenreMenuBoot(linkAjax, model_genre_link);
+
+            $("#header-menu #btnNav").click(function () {
+                $("#mySidenav").css("width", "75%");
+            });
+
+            $("#mySidenav .closebtn").click(function () {
+                $("#mySidenav").css("width", "0");
+            });
+
+            sideNavService.init(dropdown);
+        });
+    </script>
+    <script>
+        window.fbAsyncInit = function () {
+            // init the FB JS SDK
+            FB.init({
+                appId: '729891760354276',
+                //appId      : '1559467677396676', //dev                     // App ID from the app dashboard
+                //channelUrl : '//yourdomain.com/channel.html',      // Channel file for x-domain comms
+                status: true,                                 // Check Facebook Login status
+                xfbml: true,                                 // Look for social plugins on the page
+                version: 'v2.12'
+            });
+        };
+
+        // Load the SDK asynchronously
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/all.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        //google
+        window.___gcfg = { lang: 'fr' };
+        (function () {
+            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+            po.src = 'https://apis.google.com/js/plusone.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+
+        var fb_login = function () {
+            FB.getLoginStatus(function (response) {
+                if (response.status === 'connected') {
+                    // connected
+                    alert('Already connected, redirect to login page to create token.');
+                    document.location = "{{ url('hwi_oauth_service_redirect', {service: 'facebook'}) }}";
+                } else {
+                    // not_authorized
+                    FB.login(function (response) {
+                        if (response.authResponse) {
+                            document.location = "{{ url('hwi_oauth_service_redirect', {service: 'facebook'}) }}";
+                        } else {
+                            alert('Cancelled.');
+                        }
+                    }, { scope: 'email' });
+                }
+            });
+        };
+
+        var google_signin = function () {
+            document.location = "{{ url('hwi_oauth_service_redirect', {service: 'google'}) }}";
+        };
+
+        var signOut = function () {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                console.log('User signed out.');
+            });
+        };
+
+        $("#google_signin_link").on("click", function () {
+            google_signin();
+        });
+
+        $("#fb_signin_link").on("click", function () {
+            fb_login();
+        });
+
+    </script>
+    {% endblock %}
+
+</body>
+
+</html>

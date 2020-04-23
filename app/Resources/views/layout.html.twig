@@ -23,8 +23,8 @@
                 'css/form.css'
                 'css/sideNav.css'
             %}
-                <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
-            {% endstylesheets %}
+            <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+        {% endstylesheets %}
         {% endblock %}
         <!-- Latest compiled and minified CSS -->
 {#        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">#}
@@ -49,6 +49,7 @@
     
     <body>
         <div class="header">
+            {% block header %}
             <div class="supheader wrapper" itemscope itemtype="http://schema.org/Organization">
                 <div class="container" id="login">
                     <div class="logo">
@@ -104,10 +105,22 @@
                 </div>
                 <a class="modal_connect"><span>Se connecter</span></a>
                 <div class="social-links">                    
-                    <div><a title="Facebook" class="facebook" href="https://www.facebook.com/mimizikcom" target="_blank"></a> Facebook</div>								
-                    <div><a title="Youtube" class="youtube" href="https://www.youtube.com/user/mimizikcom" target="_blank"></a> Youtube</div>
-                    <div><a title="Twitter" class="twitter" href="https://www.twitter.com/mimizikcom" target="_blank"></a> Twitter</div>
-                    <div><a title="Instagram" class="google" href="https://www.instagram.com/mimizikcom" target="_blank"></a> Instagram</div>
+                    <div>
+                        <a title="Facebook" class="facebook" href="https://www.facebook.com/mimizikcom" target="_blank"></a>
+                        <a title="Facebook" href="https://www.facebook.com/mimizikcom" target="_blank">Facebook</a>
+                    </div>								
+                    <div>
+                        <a title="Youtube" class="youtube" href="https://www.youtube.com/user/mimizikcom" target="_blank"></a>
+                        <a title="Youtube" href="https://www.youtube.com/user/mimizikcom" target="_blank">Youtube</a> 
+                    </div>
+                    <div>
+                        <a title="Twitter" class="twitter" href="https://www.twitter.com/mimizikcom" target="_blank"></a>
+                        <a title="Twitter" href="https://www.twitter.com/mimizikcom" target="_blank">Twitter</a> 
+                    </div>
+                    <div>
+                        <a title="Instagram" class="google" href="https://www.instagram.com/mimizikcom" target="_blank"></a>
+                        <a title="Instagram" href="https://www.instagram.com/mimizikcom" target="_blank">Instagram</a>
+                    </div>
                 </div>                
             </div>        
             <div id="menu" class="subheader">
@@ -133,12 +146,14 @@
                     </div>
                 </div>
             </div>
+            {% endblock %}
         </div>
         <div id="body">                    
           	{% block body %}
-                {% endblock %}
+            {% endblock %}
         </div>
         <div class="footer wrapper">
+            {% block footer %}
             <div class="background">
                 <div class="container">				
                     <div class="menu">
@@ -156,47 +171,48 @@
                     <div class="clear"></div>
                 </div>
             </div>
-	</div>
-    
-    <div id="fb-root"></div>
-    <div id="global_modal" class="reveal-modal">
-        <div class="content">
-            <div class="content-block">
-                <div class="block-title ">
-                    <span class="aligncenter">Connectez-vous</span>
-                </div>
-                <div class="block-content connection">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <a href="#" id="google_signin_link"><img src="{{asset('images/login_google_480.png')}}" alt="login google"></a>
+            {% endblock %}
+        </div>
+        
+        <div id="fb-root"></div>
+        <div id="global_modal" class="reveal-modal">
+            <div class="content">
+                <div class="content-block">
+                    <div class="block-title ">
+                        <span class="aligncenter">Connectez-vous</span>
+                    </div>
+                    <div class="block-content connection">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <a href="#" id="google_signin_link"><img src="{{asset('images/login_google_480.png')}}" alt="login google"></a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="divider row col-md-12"></div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <a href="#" id="fb_signin_link"><img src="{{asset('images/login_fb_480.png')}}" alt="login facebook"></a>
+                        <div class="divider row col-md-12"></div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <a href="#" id="fb_signin_link"><img src="{{asset('images/login_fb_480.png')}}" alt="login facebook"></a>
+                            </div>
                         </div>
+                        <div class="divider row col-md-12"></div>
+                        <div class="row">
+                            <div class="col-md-3"><div class="button dark large">
+                                <a class="btn_register" href="{{path('fos_user_security_login')}}"><span>Se connecter avec Mimizik</span></a>
+                            </div></div>
+                        </div>
+                        <div class="divider row col-md-12"></div>
                     </div>
-                    <div class="divider row col-md-12"></div>
-                    <div class="row">
-                        <div class="col-md-3"><div class="button dark large">
-                            <a class="btn_register" href="{{path('fos_user_security_login')}}"><span>Se connecter avec Mimizik</span></a>
-                        </div></div>
-                    </div>
-                    <div class="divider row col-md-12"></div>
+                    
                 </div>
                 
-            </div>
-            
-            <div class="content-block">
-                <div class="block-title"><span>Inscription</span></div>
-                <div class="block-content registration">
-                    <div class="button dark large"><a class="btn_register" href="{{path('fos_user_registration_register')}}"><span>S'inscrire</span></a></div>
+                <div class="content-block">
+                    <div class="block-title"><span>Inscription</span></div>
+                    <div class="block-content registration">
+                        <div class="button dark large"><a class="btn_register" href="{{path('fos_user_registration_register')}}"><span>S'inscrire</span></a></div>
+                    </div>
                 </div>
             </div>
+            <a class="close-reveal-modal">&#215;</a>
         </div>
-        <a class="close-reveal-modal">&#215;</a>
-    </div>
     {% block javascripts %}
         <script type="text/javascript" src="{{asset('js/jquery-2.1.1.min.js')}}" ></script>
         {% javascripts  filter='?yui_js' output='js/compiled/main.js'
@@ -277,12 +293,12 @@
                 if (response.status === 'connected') {
                     // connected
                     alert('Already connected, redirect to login page to create token.');
-                    document.location = "{{ url("hwi_oauth_service_redirect", {service: "facebook"}) }}";
+                    document.location = "{{ url('hwi_oauth_service_redirect', {service: 'facebook'}) }}";
                 } else {
                     // not_authorized
                     FB.login(function(response) {
                         if (response.authResponse) {
-                            document.location = "{{ url("hwi_oauth_service_redirect", {service: "facebook"}) }}";
+                            document.location = "{{ url('hwi_oauth_service_redirect', {service: 'facebook'}) }}";
                         } else {
                             alert('Cancelled.');
                         }
@@ -291,18 +307,8 @@
             });
         };
         
-        {#var onSignIn=function (googleUser) {
-            var profile = googleUser.getBasicProfile();
-            console.log(profile);
-            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-            console.log('Name: ' + profile.getName());
-            console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-            document.location = "{{ url("hwi_oauth_service_redirect", {service: "google"}) }}";
-        };#}
-        
         var google_signin = function() {
-            document.location = "{{ url("hwi_oauth_service_redirect", {service: "google"}) }}";
+            document.location = "{{ url('hwi_oauth_service_redirect', {service: 'google'}) }}";
         };
 
         var signOut = function () {

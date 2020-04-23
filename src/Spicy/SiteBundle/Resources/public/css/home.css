@@ -36,26 +36,78 @@
     width: 25px; height: 20px;
     background-position:-45px 3px;
 }
+/** Search  */
 
-#recherche
-{
-    background-color: white;overflow: hidden;
-    background: rgba(0, 0, 0, 0) url("/images/bg_black_70.png") repeat scroll 0 0;
+#searchBar{
+    overflow: hidden;
+    background-color: #666666;
+}
+
+#searchBar_mini {
+    background-color: #666666;
+    margin-bottom: 2em;
+}
+
+#searchBar_mini img{
+    cursor: pointer;
+}
+
+#searchBar_modal {
+    overflow: hidden;
+    background: white url(/images/bg_black_70.png) repeat scroll 0 0;
     padding-bottom: 20px;
-}
-#recherche .search-hidden
-{
-    height: 10px;visibility: hidden;
+    padding-top: 1rem;
 }
 
-#recherche .search-form label
-{
-    color: #fff;font-size: 1.8em;
+#searchBar img{
+    cursor: pointer;
 }
-/*#recherche .search-form input[type="text"]
-    {
-        width:280px;margin-left: 20px;
-    } */
+
+/**** reveal */
+
+#search_modal.reveal-modal {
+    width: 100%;
+    background: rgba(0, 0, 0, 0) url(/images/bg_black_70.png) repeat scroll 0 0;
+    top:0;
+    padding:34px 0 34px 0;
+    left:0;
+    margin-left: 0;
+}
+
+#search_result{
+    background-color: white;
+    overflow: hidden;
+    padding: 0.3em;
+    font-size: 1em;
+}
+
+#search_result h3{
+    background-color: #383838;
+    color: white;
+    text-transform: uppercase;
+    padding: 1em;
+}
+#search_result .resultLine{
+    margin-bottom: 2em;
+}
+
+#search_result .resultLine button{
+    background-color: red;
+    color: white;
+    text-transform: uppercase;
+    padding: 0.2em;
+    margin-left: 0.6em;
+    border: 0;
+    cursor: pointer;
+}
+#search_result .resultLine a{
+    color: black;
+}
+
+#searchBar_modal .form-control{
+    padding-left: 0;
+    padding-right: 0;
+}
 
 /*// Grand écran  */
 @media all and (min-width: 767px) {
@@ -71,6 +123,18 @@
     #lastVideos_mob {
         display: none;
     }
+
+    /* Search */
+    #searchBar .container{
+        width: 958px;
+    } 
+    #searchBar_mini{
+        display: none;
+    }  
+    #search_result .results{
+        float: left;
+        width: 50%;
+    }
 }    
 /*// Petit écran  */
 @media all and (max-width: 767px) {
@@ -85,5 +149,24 @@
 
     #lastVideos {
         display: none;
-    }    
+    }  
+    #lastVideos_mob {
+        position:relative;
+        overflow:hidden; 
+    } 
+    /* Search */
+    #searchBar_mini .container{
+        width: 90%;
+        text-align: center;
+    }
+    #searchBar_mini img{
+        width: 100%;
+    }
+    #searchBar{
+        display: none;
+    }
+    #search_result .results{
+        float: none;
+        width: 100%;
+    }
 }
